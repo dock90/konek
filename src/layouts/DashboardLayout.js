@@ -1,11 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// components
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 const DashboardLayout = () => (
   <Router>
     <div>
-      <h1>Ill be the header</h1>
-      <h1>Ill be the sidebar</h1>
+      <Header />
+      <Navbar />
       <h1>Ill be the body</h1>
     </div>
   </Router>

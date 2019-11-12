@@ -8,7 +8,9 @@ import DashboardLayout from './layouts/DashboardLayout';
 const AppWrapper = styled.div`
   margin: 0;
   padding: 0;
+  font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
+
 const authToken = false;
 
 const App = () => (

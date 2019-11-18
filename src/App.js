@@ -11,7 +11,7 @@ const AppWrapper = styled.div`
   font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
 
-const authToken = false;
+const authToken = true;
 
 const App = () => (
   <AppWrapper>{authToken ? <DashboardLayout /> : <AuthLayout />}</AppWrapper>

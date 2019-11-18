@@ -18,7 +18,7 @@ const Layout = styled.div`
   align-items: flex-end;
   height: 100vh;
   background: #bbbbbb;
-  background: url('https://bitbucket.org/equipter/crm_fe/raw/1304d057ec04ee6cfa940132c45b7a5ce52f39d0/src/img/bg.jpg');
+  background: url('https://bitbucket.org/equipter/crm_fe/raw/3c90c8527e78130223c998a4c1db3e0f8d971544/src/img/bg.png');
 `;
 
 const Branding = styled.div`

@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // material
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 // components
 import { H1 } from '../../components/Typography';
+import { StyledButton } from '../../components/StyledButton';
 import { StyledTextField } from '../../components/StyledTextField';
+
 // styles
 const Layout = styled.div`
   display: flex;
@@ -18,7 +21,7 @@ const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 250px;
+  width: 350px;
 `;
 
 const Login = () => (
@@ -37,7 +40,16 @@ const Login = () => (
         margin="normal"
         variant="outlined"
       />
-      <Button variant="contained">Login</Button>
+      <StyledButton variant="contained">Login</StyledButton>
+      <Divider style={{ marginBottom: 15 }} />
+      <Link
+        to="/auth/signup"
+        style={{
+          textDecoration: 'none',
+        }}
+      >
+        Need an account?
+      </Link>
     </LoginWrapper>
   </Layout>
 );

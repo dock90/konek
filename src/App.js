@@ -1,12 +1,20 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <Button variant="contained" color="primary">
-      Hello World
-    </Button>
-  );
-}
+// layout components
+import AuthLayout from './layouts/AuthLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+
+const AppWrapper = styled.div`
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+`;
+
+const authToken = true;
+
+const App = () => (
+  <AppWrapper>{authToken ? <DashboardLayout /> : <AuthLayout />}</AppWrapper>
+);
 
 export default App;

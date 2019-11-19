@@ -14,7 +14,13 @@ const AppWrapper = styled.div`
 const authToken = false;
 
 const App = () => (
-  <AppWrapper>{authToken ? <DashboardLayout /> : <AuthLayout />}</AppWrapper>
+  <AppWrapper>
+    {authToken ? (
+      <DashboardLayout authToken={authToken} />
+    ) : (
+      <AuthLayout authToken={authToken} />
+    )}
+  </AppWrapper>
 );
 
 export default App;

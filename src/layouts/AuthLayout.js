@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 import styled from 'styled-components';
 // material
 import Grid from '@material-ui/core/Grid';
@@ -42,11 +47,13 @@ const AuthLayout = () => (
         </Layout>
       </Grid>
       <Grid item xs={6}>
-        <Route exact path="/" render={() => <Redirect to="/auth/login" />} />
-        <Route exact path="/auth/signup" component={Signup} />
-        <Route exact path="/auth/login" component={Login} />
-        <Route exact path="/auth/reset" component={ResetPass} />
-        <Route exact path="/auth/confirm" component={SignupConfirm} />
+        <Switch>
+          <Route path="/auth/signup" component={Signup} />
+          <Route path="/auth/login" component={Login} />
+          <Route path="/auth/reset" component={ResetPass} />
+          <Route path="/auth/confirm" component={SignupConfirm} />
+          <Route render={() => <Redirect to="/auth/login" />} />
+        </Switch>
       </Grid>
     </Grid>
   </Router>

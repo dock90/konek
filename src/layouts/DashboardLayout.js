@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 
 // components
 import Header from '../components/Header';
@@ -17,14 +22,16 @@ const DashboardLayout = () => (
     <div>
       <Header />
       <Navbar />
-      <Route exact path="/" render={() => <Redirect to="/timeline" />} />
-      <Route exact path="/timeline" component={TimelineContainer} />
-      <Route exact path="/contacts" component={ContactsContainer} />
-      <Route exact path="/messages" component={MessagesContainer} />
-      <Route exact path="/groups" component={GroupsContainer} />
-      <Route exact path="/events" component={EventsContainer} />
-      <Route exact path="/profile" component={ProfileContainer} />
-      <Route exact path="/calendar" component={CalendarContainer} />
+      <Switch>
+        <Route path="/timeline" component={TimelineContainer} />
+        <Route path="/contacts" component={ContactsContainer} />
+        <Route path="/messages" component={MessagesContainer} />
+        <Route path="/groups" component={GroupsContainer} />
+        <Route path="/events" component={EventsContainer} />
+        <Route path="/profile" component={ProfileContainer} />
+        <Route path="/calendar" component={CalendarContainer} />
+        <Route render={() => <Redirect to="/timeline" />} />
+      </Switch>
     </div>
   </Router>
 );

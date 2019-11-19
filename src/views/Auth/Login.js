@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // material
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 // components
 import { H1 } from '../../components/Typography';
@@ -43,12 +42,12 @@ const Login = () => (
       <StyledButton variant="contained">Login</StyledButton>
       <Divider style={{ marginBottom: 15 }} />
       <Link
-        to="/auth/signup"
+        to="/auth/reset"
         style={{
           textDecoration: 'none',
         }}
       >
-        Need an account?
+        Forgot password?
       </Link>
     </LoginWrapper>
   </Layout>

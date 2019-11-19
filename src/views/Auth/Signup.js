@@ -28,7 +28,7 @@ const SignupWrapper = styled.div`
 
 const Signup = () => {
   const [state, setState] = React.useState({
-    acceptedTerms: true,
+    acceptedTerms: false,
   });
 
   const handleChange = name => event => {

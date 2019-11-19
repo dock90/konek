@@ -23,6 +23,11 @@ const LoginWrapper = styled.div`
   width: 350px;
 `;
 
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Login = () => (
   <Layout>
     <LoginWrapper>
@@ -41,14 +46,24 @@ const Login = () => (
       />
       <StyledButton variant="contained">Login</StyledButton>
       <Divider style={{ marginBottom: 15 }} />
-      <Link
-        to="/auth/reset"
-        style={{
-          textDecoration: 'none',
-        }}
-      >
-        Forgot password?
-      </Link>
+      <Actions>
+        <Link
+          to="/auth/signup"
+          style={{
+            textDecoration: 'none',
+          }}
+        >
+          Need an account?
+        </Link>
+        <Link
+          to="/auth/reset"
+          style={{
+            textDecoration: 'none',
+          }}
+        >
+          Forgot password?
+        </Link>
+      </Actions>
     </LoginWrapper>
   </Layout>
 );

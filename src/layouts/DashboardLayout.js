@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 // components
 import Header from '../components/Header';
@@ -18,22 +13,20 @@ import ProfileContainer from '../views/Profile/ProfileContainer';
 import TimelineContainer from '../views/Timeline/TimelineContainer';
 
 const DashboardLayout = () => (
-  <Router>
-    <div>
-      <Header />
-      <Navbar />
-      <Switch>
-        <Route path="/timeline" component={TimelineContainer} />
-        <Route path="/contacts" component={ContactsContainer} />
-        <Route path="/messages" component={MessagesContainer} />
-        <Route path="/groups" component={GroupsContainer} />
-        <Route path="/events" component={EventsContainer} />
-        <Route path="/profile" component={ProfileContainer} />
-        <Route path="/calendar" component={CalendarContainer} />
-        <Route render={() => <Redirect to="/timeline" />} />
-      </Switch>
-    </div>
-  </Router>
+  <>
+    <Header />
+    <Navbar />
+    <Switch>
+      <Route path="/timeline" component={TimelineContainer} />
+      <Route path="/contacts" component={ContactsContainer} />
+      <Route path="/messages" component={MessagesContainer} />
+      <Route path="/groups" component={GroupsContainer} />
+      <Route path="/events" component={EventsContainer} />
+      <Route path="/profile" component={ProfileContainer} />
+      <Route path="/calendar" component={CalendarContainer} />
+      <Route render={() => <Redirect to="/timeline" />} />
+    </Switch>
+  </>
 );
 
 export default DashboardLayout;

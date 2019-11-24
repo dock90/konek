@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Divider from '@material-ui/core/Divider';
@@ -24,12 +25,17 @@ const LoginWrapper = styled.div`
   width: 350px;
 `;
 
+const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Actions = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const Login = () => {
+const Login = ({ history }) => {
   const [state, setState] = React.useState({
     email: '',
     password: '',
@@ -39,11 +45,15 @@ const Login = () => {
     setState({ ...state, [name]: event.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = event => {
+    event.preventDefault();
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then(authUser => {
-        console.log('Action Login: Auth User: ', authUser.user);
+        // TODO: remove temp store user id in localstorage to immitate login
+        console.log('Login Success');
+        localStorage.setItem('AUTH_TOKEN', authUser.user.uid);
+        history.push(`/timeline`);
       })
       .catch(error => console.log('Error Loggin In: ', error));
     // TODO: setup login mutation
@@ -55,25 +65,27 @@ const Login = () => {
     <Layout>
       <LoginWrapper>
         <H1>Login</H1>
-        <StyledTextField
-          id="outlined-basic"
-          label="Email"
-          margin="normal"
-          variant="outlined"
-          value={state.email}
-          onChange={handleChange('email')}
-        />
-        <StyledTextField
-          id="outlined-basic"
-          label="Password"
-          margin="normal"
-          variant="outlined"
-          value={state.password}
-          onChange={handleChange('password')}
-        />
-        <StyledButton variant="contained" onClick={handleSubmit}>
-          Login
-        </StyledButton>
+        <FormWrapper onSubmit={event => handleSubmit(event)}>
+          <StyledTextField
+            id="outlined-basic"
+            label="Email"
+            margin="normal"
+            variant="outlined"
+            value={state.email}
+            onChange={handleChange('email')}
+          />
+          <StyledTextField
+            id="outlined-basic"
+            label="Password"
+            margin="normal"
+            variant="outlined"
+            value={state.password}
+            onChange={handleChange('password')}
+          />
+          <StyledButton variant="contained" type="submit">
+            Login
+          </StyledButton>
+        </FormWrapper>
         <Divider style={{ marginBottom: 15 }} />
         <Actions>
           <Link
@@ -96,6 +108,10 @@ const Login = () => {
       </LoginWrapper>
     </Layout>
   );
+};
+
+Login.propTypes = {
+  history: PropTypes.object.isRequired,
 };
 
 export default Login;

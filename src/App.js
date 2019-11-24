@@ -12,7 +12,8 @@ const AppWrapper = styled.div`
 `;
 
 // TODO: subscribe to backend for auth changes
-const authToken = false;
+// TODO: remove temp localStorage test
+const authToken = localStorage.getItem('AUTH_TOKEN');
 
 const App = () => (
   <AppWrapper>

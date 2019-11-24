@@ -1,5 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const Navbar = () => <h1>Im the navbar - OOOH</h1>;
+// styles
+const Layout = styled.div`
+  display: flex;
+  background: #ffffff;
+  width: 240px;
+`;
+
+const Navbar = () => (
+  <Layout>
+    <h1>Navbar</h1>
+  </Layout>
+);
 
 export default Navbar;

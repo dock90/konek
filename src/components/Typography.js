@@ -15,7 +15,12 @@ const H3 = styled.h3`
   margin-bottom: 28px;
 `;
 
-const H4 = styled.h4``;
+const H4 = styled.h4`
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+`;
+
 const H5 = styled.h5`
   font-size: 16px;
   font-weight: normal;

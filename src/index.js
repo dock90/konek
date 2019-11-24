@@ -17,8 +17,8 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
 });
 
-const authLink = setContext(async (_, { headers }) => {
-  const token = await auth.currentUser.getIdToken(true);
+const authLink = setContext((_, { headers }) => {
+  const token = `some-token`;
   console.log('Token: ', token);
   return {
     headers: {

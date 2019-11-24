@@ -42,10 +42,10 @@ const AuthLayout = () => (
     </Grid>
     <Grid item xs={6}>
       <Switch>
-        <Route path="/auth/signup" component={Signup} />
-        <Route path="/auth/login" component={Login} />
-        <Route path="/auth/reset" component={ResetPass} />
-        <Route path="/auth/confirm" component={SignupConfirm} />
+        <Route exact path="/auth/signup" component={Signup} />
+        <Route exact path="/auth/login" component={Login} />
+        <Route exact path="/auth/reset" component={ResetPass} />
+        <Route exact path="/auth/confirm" component={SignupConfirm} />
         <Route render={() => <Redirect to="/auth/login" />} />
       </Switch>
     </Grid>

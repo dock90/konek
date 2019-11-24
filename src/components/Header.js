@@ -2,9 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 // material
 import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
+import IconButton from '@material-ui/core/IconButton';
+import InputIcon from '@material-ui/icons/Input';
+import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 
 // components
 import { H4 } from './Typography';
+import SearchInput from './SearchInput';
+import { BaseButton } from './StyledButton';
 
 // styles
 const Layout = styled.div`
@@ -18,6 +24,7 @@ const Layout = styled.div`
 const Branding = styled.div`
   display: flex;
   align-items: center;
+  margin-left: 22px;
 `;
 
 const Actions = styled.div`
@@ -26,21 +33,45 @@ const Actions = styled.div`
   align-items: center;
 `;
 
-const Header = () => (
-  <Layout>
-    <Branding>
-      <Avatar
-        alt="CRM Beta Logo"
-        src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/logo.png"
-      />
-      <H4>CRM Beta</H4>
-    </Branding>
-    <Actions>
-      <p>Searchbar</p>
-      <p>Notifications</p>
-      <button>SIGN OUT</button>
-    </Actions>
-  </Layout>
-);
+const Header = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('AUTH_TOKEN');
+  };
+
+  const notifications = ['Notification One'];
+
+  return (
+    <Layout>
+      <Branding>
+        <Avatar
+          alt="CRM Beta Logo"
+          src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/logo.png"
+        />
+        <H4 color="#ffffff" pLeft="0.5rem">
+          CRM Beta
+        </H4>
+      </Branding>
+      <Actions>
+        <SearchInput />
+        <IconButton
+          color="inherit"
+          // onClick={handleNotificationsOpen}
+          // ref={notificationsRef}
+        >
+          <Badge
+            // badgeContent={notifications.length}
+            variant="dot"
+          >
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <BaseButton color="inherit" onClick={handleLogout}>
+          <InputIcon />
+          Sign out
+        </BaseButton>
+      </Actions>
+    </Layout>
+  );
+};
 
 export default Header;

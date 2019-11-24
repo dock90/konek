@@ -35,7 +35,7 @@ const Actions = styled.div`
   justify-content: space-between;
 `;
 
-const Login = ({ history }) => {
+const Login = () => {
   const [state, setState] = React.useState({
     email: '',
     password: '',
@@ -53,7 +53,6 @@ const Login = ({ history }) => {
         // TODO: remove temp store user id in localstorage to immitate login
         console.log('Login Success');
         localStorage.setItem('AUTH_TOKEN', authUser.user.uid);
-        history.push(`/timeline`);
       })
       .catch(error => console.log('Error Loggin In: ', error));
     // TODO: setup login mutation

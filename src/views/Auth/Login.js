@@ -43,8 +43,7 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then(authUser => {
-        console.log('Auth User: ', authUser.token);
-        console.log('Auth: ', auth);
+        console.log('Action Login: Auth User: ', authUser.user);
       })
       .catch(error => console.log('Error Loggin In: ', error));
     // TODO: setup login mutation

@@ -18,7 +18,7 @@ const Layout = styled.div`
   align-items: flex-end;
   height: 100vh;
   background: #bbbbbb;
-  background: url('https://bitbucket.org/equipter/crm_fe/raw/3c90c8527e78130223c998a4c1db3e0f8d971544/src/img/bg.png');
+  background: url('https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png');
 `;
 
 const Branding = styled.div`

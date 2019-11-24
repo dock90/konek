@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 // material
@@ -27,7 +28,7 @@ const SignupWrapper = styled.div`
   width: 350px;
 `;
 
-const Signup = () => {
+const Signup = ({ history }) => {
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',
@@ -45,6 +46,8 @@ const Signup = () => {
   };
 
   const handleSubmit = () => {
+    // TODO: better email validation
+    // TODO: better password validation
     const email = state.email.length > 0;
     const password = state.password.length > 0;
     email && password
@@ -52,6 +55,7 @@ const Signup = () => {
           .createUserWithEmailAndPassword(state.email, state.password)
           .then(authUser => {
             console.log('authUser Data: ', authUser);
+            history.push(`/auth/confirm`);
           })
           .catch(error => {
             console.log('Signup Error: ', error);
@@ -128,6 +132,10 @@ const Signup = () => {
       </SignupWrapper>
     </Layout>
   );
+};
+
+Signup.propTypes = {
+  history: PropTypes.object.isRequired,
 };
 
 export default Signup;

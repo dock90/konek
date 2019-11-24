@@ -6,7 +6,9 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
 import * as serviceWorker from './serviceWorker';
+import { auth } from './firebase';
 import App from './App';
 
 // link to graphql endpoint
@@ -15,9 +17,20 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
 });
 
+const authLink = setContext(async (_, { headers }) => {
+  const token = await auth.currentUser.getIdToken(true);
+  console.log('Token: ', token);
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 // initiate apollo client
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

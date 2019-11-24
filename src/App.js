@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { auth } from './firebase';
 
 // layout components
 import AuthLayout from './layouts/AuthLayout';
@@ -11,7 +12,9 @@ const AppWrapper = styled.div`
   font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
 
-const authToken = false;
+const authToken = auth;
+
+console.log('Auth: ', auth);
 
 const App = () => (
   <AppWrapper>

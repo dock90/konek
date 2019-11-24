@@ -6,6 +6,7 @@ import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
 import InputIcon from '@material-ui/icons/Input';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
+import { auth } from '../firebase';
 
 // components
 import { H4 } from './Typography';
@@ -35,10 +36,16 @@ const Actions = styled.div`
 
 const Header = () => {
   const handleLogout = () => {
-    localStorage.removeItem('AUTH_TOKEN');
+    auth
+      .signOut()
+      .then(() => {
+        console.log('User Signed Out');
+        localStorage.removeItem('AUTH_TOKEN');
+      })
+      .catch(error => {
+        console.log('There was an error signing out: ', error);
+      });
   };
-
-  const notifications = ['Notification One'];
 
   return (
     <Layout>
@@ -53,15 +60,8 @@ const Header = () => {
       </Branding>
       <Actions>
         <SearchInput />
-        <IconButton
-          color="inherit"
-          // onClick={handleNotificationsOpen}
-          // ref={notificationsRef}
-        >
-          <Badge
-            // badgeContent={notifications.length}
-            variant="dot"
-          >
+        <IconButton color="inherit">
+          <Badge variant="dot">
             <NotificationsIcon />
           </Badge>
         </IconButton>

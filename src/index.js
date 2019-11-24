@@ -8,7 +8,6 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import * as serviceWorker from './serviceWorker';
-import { auth } from './firebase';
 import App from './App';
 
 // link to graphql endpoint

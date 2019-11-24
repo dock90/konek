@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Divider from '@material-ui/core/Divider';
 import { auth } from '../../firebase';
-// material
 // components
 import { H1 } from '../../components/Typography';
 import { StyledButton } from '../../components/StyledButton';
@@ -35,7 +33,7 @@ const Actions = styled.div`
   justify-content: space-between;
 `;
 
-const Login = () => {
+const Login = ({ history }) => {
   const [state, setState] = React.useState({
     email: '',
     password: '',
@@ -107,10 +105,6 @@ const Login = () => {
       </LoginWrapper>
     </Layout>
   );
-};
-
-Login.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default Login;

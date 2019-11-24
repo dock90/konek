@@ -16,13 +16,7 @@ const AppWrapper = styled.div`
 const authToken = localStorage.getItem('AUTH_TOKEN');
 
 const App = () => (
-  <AppWrapper>
-    {authToken ? (
-      <DashboardLayout authToken={authToken} />
-    ) : (
-      <AuthLayout authToken={authToken} />
-    )}
-  </AppWrapper>
+  <AppWrapper>{authToken ? <DashboardLayout /> : <AuthLayout />}</AppWrapper>
 );
 
 export default App;

@@ -15,11 +15,10 @@ import { BaseButton } from './StyledButton';
 
 // styles
 const Layout = styled.div`
+  grid-area: header;
   display: flex;
-  flex: 1 100%;
   justify-content: space-between;
   background: #bbbbbb;
-  height: 64px;
 `;
 
 const Branding = styled.div`

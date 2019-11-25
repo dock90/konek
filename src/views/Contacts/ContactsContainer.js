@@ -1,5 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const ContactsContainer = () => <h1>I AM THE Contacts LIST</h1>;
+// styles
+const Layout = styled.div`
+  grid-area: main;
+  background: #f4f6f8;
+`;
+
+const ContactsContainer = () => (
+  <Layout>
+    <h1>CONTACTS</h1>
+  </Layout>
+);
 
 export default ContactsContainer;

@@ -37,16 +37,24 @@ const H5 = styled.h5`
 `;
 
 const H6 = styled.h6`
+  font-size: 14px;
+  font-weight: normal;
   margin: 0;
   padding: 0;
   color: ${props => props.color};
 `;
 
 const BodyText = styled.p`
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
   color: ${props => props.color};
 `;
 
 const AltText = styled.p`
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
   color: ${props => props.color};
 `;
 

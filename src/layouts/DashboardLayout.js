@@ -12,11 +12,18 @@ import GroupsContainer from '../views/Groups/GroupsContainer';
 import MessagesContainer from '../views/Messages/MessagesContainer';
 import ProfileContainer from '../views/Profile/ProfileContainer';
 import TimelineContainer from '../views/Timeline/TimelineContainer';
+import SettingsContainer from '../views/Settings/SettingsContainer';
 
 // styles
 const Layout = styled.div`
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 64px 1fr;
+  grid-template-areas:
+    'header header'
+    'sidenav main'
+    'sidenav main';
+  height: 100%;
 `;
 
 const DashboardLayout = () => (
@@ -29,8 +36,9 @@ const DashboardLayout = () => (
       <Route exact path="/messages" component={MessagesContainer} />
       <Route exact path="/groups" component={GroupsContainer} />
       <Route exact path="/events" component={EventsContainer} />
-      <Route exact path="/profile" component={ProfileContainer} />
       <Route exact path="/calendar" component={CalendarContainer} />
+      <Route exact path="/settings" component={SettingsContainer} />
+      <Route exact path="/profile" component={ProfileContainer} />
       <Route render={() => <Redirect to="/timeline" />} />
     </Switch>
   </Layout>

@@ -12,8 +12,7 @@ import App from './App';
 
 // link to graphql endpoint
 const httpLink = createHttpLink({
-  // TODO: update endpoint link
-  uri: 'http://localhost:4000',
+  uri: 'https://equipter-crm-staging.herokuapp.com/',
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -8,6 +8,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 const AppWrapper = styled.div`
   margin: 0;
   padding: 0;
+  height: 100vh;
   font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
 

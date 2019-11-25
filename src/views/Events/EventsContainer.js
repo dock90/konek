@@ -1,5 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const EventsContainer = () => <h1>I AM THE Events Area</h1>;
+// styles
+const Layout = styled.div`
+  grid-area: main;
+  background: #f4f6f8;
+`;
+
+const EventsContainer = () => (
+  <Layout>
+    <h1>EVENTS</h1>
+  </Layout>
+);
 
 export default EventsContainer;

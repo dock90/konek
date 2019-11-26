@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 // material
 import Grid from '@material-ui/core/Grid';
@@ -23,7 +18,7 @@ const Layout = styled.div`
   align-items: flex-end;
   height: 100vh;
   background: #bbbbbb;
-  background: url('https://bitbucket.org/equipter/crm_fe/raw/3c90c8527e78130223c998a4c1db3e0f8d971544/src/img/bg.png');
+  background: url('https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png');
 `;
 
 const Branding = styled.div`
@@ -36,27 +31,25 @@ const Branding = styled.div`
 // TODO: add responsive styles
 
 const AuthLayout = () => (
-  <Router>
-    <Grid container>
-      <Grid item xs={6}>
-        <Layout>
-          <Branding>
-            <H1>CRM Beta</H1>
-            <H2>Customer Relationship Management</H2>
-          </Branding>
-        </Layout>
-      </Grid>
-      <Grid item xs={6}>
-        <Switch>
-          <Route path="/auth/signup" component={Signup} />
-          <Route path="/auth/login" component={Login} />
-          <Route path="/auth/reset" component={ResetPass} />
-          <Route path="/auth/confirm" component={SignupConfirm} />
-          <Route render={() => <Redirect to="/auth/login" />} />
-        </Switch>
-      </Grid>
+  <Grid container>
+    <Grid item xs={6}>
+      <Layout>
+        <Branding>
+          <H1>CRM Beta</H1>
+          <H2>Customer Relationship Management</H2>
+        </Branding>
+      </Layout>
     </Grid>
-  </Router>
+    <Grid item xs={6}>
+      <Switch>
+        <Route exact path="/auth/signup" component={Signup} />
+        <Route exact path="/auth/login" component={Login} />
+        <Route exact path="/auth/reset" component={ResetPass} />
+        <Route exact path="/auth/confirm" component={SignupConfirm} />
+        <Route render={() => <Redirect to="/auth/login" />} />
+      </Switch>
+    </Grid>
+  </Grid>
 );
 
 export default AuthLayout;

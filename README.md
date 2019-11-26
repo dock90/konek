@@ -3,6 +3,8 @@ Custom crm focused on personal connection and spiritual development.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+It uses a React frontend w/ Apollo as graphql client.
+
 ## getting started
 
 Run `yarn` to install dependencies and get up and running.

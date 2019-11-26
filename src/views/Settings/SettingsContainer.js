@@ -7,10 +7,10 @@ const Layout = styled.div`
   background: #f4f6f8;
 `;
 
-const CalendarContainer = () => (
+const SettingsContainer = () => (
   <Layout>
-    <h1>CALENDAR</h1>
+    <h1>SETTINGS</h1>
   </Layout>
 );
 
-export default CalendarContainer;
+export default SettingsContainer;

@@ -8,19 +8,16 @@ import DashboardLayout from './layouts/DashboardLayout';
 const AppWrapper = styled.div`
   margin: 0;
   padding: 0;
+  height: 100vh;
   font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
 
-const authToken = false;
+// TODO: subscribe to backend for auth changes
+// TODO: remove temp localStorage test
+const authToken = localStorage.getItem('AUTH_TOKEN');
 
 const App = () => (
-  <AppWrapper>
-    {authToken ? (
-      <DashboardLayout authToken={authToken} />
-    ) : (
-      <AuthLayout authToken={authToken} />
-    )}
-  </AppWrapper>
+  <AppWrapper>{authToken ? <DashboardLayout /> : <AuthLayout />}</AppWrapper>
 );
 
 export default App;

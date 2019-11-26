@@ -10,6 +10,7 @@ const H1 = styled.h1`
 `;
 
 const H2 = styled.h2``;
+
 const H3 = styled.h3`
   font-size: 24px;
   font-weight: normal;

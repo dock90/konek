@@ -16,6 +16,7 @@ import PersonIcon from '@material-ui/icons/PersonOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircleOutlined';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 // components
 import { H6, AltText } from './Typography';
@@ -61,13 +62,19 @@ const Navbar = () => {
           >
             <ListItem
               button
-              selected={selectedIndex === 0}
+              // selected={selectedIndex === 0}
               onClick={event => handleListItemClick(event, 0)}
             >
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Timeline" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
           <Link
@@ -86,6 +93,12 @@ const Navbar = () => {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="Contacts" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
           <Link
@@ -104,6 +117,12 @@ const Navbar = () => {
                 <ChatIcon />
               </ListItemIcon>
               <ListItemText primary="Messages" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
           <Link
@@ -122,6 +141,12 @@ const Navbar = () => {
                 <SupervisedUserCircleIcon />
               </ListItemIcon>
               <ListItemText primary="Groups" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
           <Link
@@ -140,6 +165,12 @@ const Navbar = () => {
                 <WorkOutlineIcon />
               </ListItemIcon>
               <ListItemText primary="Events" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
           <Link
@@ -158,6 +189,12 @@ const Navbar = () => {
                 <CalendarTodayIcon />
               </ListItemIcon>
               <ListItemText primary="Calendar" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
         </List>
@@ -179,6 +216,12 @@ const Navbar = () => {
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Settings" />
+              <ArrowForwardIosIcon
+                style={{
+                  height: 13,
+                  width: 13,
+                }}
+              />
             </ListItem>
           </Link>
         </List>

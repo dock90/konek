@@ -1,6 +1,7 @@
 import App from 'next/app'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
+import Page from '../components/Page'
 
 const theme = {
   primary: 'green',
@@ -17,7 +18,9 @@ class CRM extends App {
     const { Component, pageProps } = this.props
     return (
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Page>
+          <Component {...pageProps} />
+        </Page>
       </ThemeProvider>
     )
   }

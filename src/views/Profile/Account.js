@@ -66,7 +66,7 @@ const Account = () => (
                   style={{ marginRight: 12, marginBottom: 12 }}
                 />
               </Grid>
-              <Grid item xs={12} style={{ marginBottom: 12 }}>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
                   label="Email"
@@ -80,7 +80,7 @@ const Account = () => (
                   style={{ marginRight: 12, marginBottom: 12 }}
                 />
               </Grid>
-              <Grid item xs={12} style={{ marginBottom: 12 }}>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
                   label="Location"
@@ -94,11 +94,12 @@ const Account = () => (
                   style={{ marginRight: 12, marginBottom: 12 }}
                 />
               </Grid>
-              <Grid item xs={12} style={{ marginBottom: 12 }}>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
                   label="Primary Language"
                   variant="outlined"
+                  style={{ marginRight: 12, marginBottom: 12 }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -115,7 +116,7 @@ const Account = () => (
           <H4>Change Password</H4>
           <form>
             <Grid container>
-              <Grid item xs={12} style={{ marginBottom: 12 }}>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-basic"
                   label="Password"

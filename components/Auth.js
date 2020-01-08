@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+// material
+import Grid from '@material-ui/core/Grid';
 import { H1, H2 } from './Typography';
 
 // styles
@@ -17,13 +19,20 @@ const Branding = styled.div`
   max-width: 300px;
 `;
 
-const Intro = () => (
-  <Layout>
-    <Branding>
-      <H1>CRM Beta</H1>
-      <H2>Customer Relationship Management</H2>
-    </Branding>
-  </Layout>
+const Intro = ({ children }) => (
+  <Grid container>
+    <Grid item xs={6}>
+      <Layout>
+        <Branding>
+          <H1>CRM Beta</H1>
+          <H2>Customer Relationship Management</H2>
+        </Branding>
+      </Layout>
+    </Grid>
+    <Grid item xs={6}>
+      {children}
+    </Grid>
+  </Grid>
 )
 
 export default Intro

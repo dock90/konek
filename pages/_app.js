@@ -1,12 +1,27 @@
 import App from 'next/app'
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+
+const theme = {
+  primary: 'green',
+}
 
 class CRM extends App {
+  componentDidMount() {
+    const jssStyles = document.querySelector('#jss-server-side')
+    if (jssStyles && jssStyles.parentNode)
+      jssStyles.parentNode.removeChild(jssStyles)
+  }
+
   render() {
     const { Component, pageProps } = this.props
     return (
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     )
   }
 }
 
 export default CRM
+

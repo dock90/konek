@@ -1,17 +1,25 @@
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import Meta from './Meta'
 
+// theme
+const theme = {
+  black: '#393939',
+}
+
 // styles
-const AppWrapper = styled.div`
-  font-family: Roboto, Oxygen, Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+const StyledPage = styled.div`
+  background: #FFF;
+  color: ${props => props.theme.black};
 `;
 
 
 const Page = ({ children }) => (
-  <AppWrapper>
-    <Meta />
-    {children}
-  </AppWrapper>
+  <ThemeProvider theme={theme}>
+    <StyledPage>
+      <Meta />
+      {children}
+    </StyledPage>
+  </ThemeProvider>
 )
 
 export default Page

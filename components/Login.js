@@ -5,18 +5,12 @@ import Divider from '@material-ui/core/Divider';
 // firebase
 import { auth } from '../firebase';
 // components
-import { H1 } from './Typography';
+import { H1 } from './styles/Typography';
+import AuthLayout from './styles/AuthLayout'
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
 // styles
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
 const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <AuthLayout>
       <LoginWrapper>
         <H1>Login</H1>
         <FormWrapper onSubmit={event => handleSubmit(event)}>
@@ -108,7 +102,7 @@ const Login = () => {
           </Link>
         </Actions>
       </LoginWrapper>
-    </Layout>
+    </AuthLayout>
   )
 }
 

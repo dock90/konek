@@ -1,17 +1,11 @@
 import styled from 'styled-components';
 // components
-import { H1, H5 } from './Typography';
+import { H1, H5 } from './styles/Typography';
+import AuthLayout from './styles/AuthLayout'
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
 // styles
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
 const ResetPassWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,7 +14,7 @@ const ResetPassWrapper = styled.div`
 `;
 
 const ResetPass = () => (
-  <Layout>
+  <AuthLayout>
     <ResetPassWrapper>
       <H1>Reset Password</H1>
       <H5>Forgot your password? No problem!</H5>
@@ -32,7 +26,7 @@ const ResetPass = () => (
       />
       <StyledButton variant="contained">Reset</StyledButton>
     </ResetPassWrapper>
-  </Layout>
+  </AuthLayout>
 );
 
 export default ResetPass;

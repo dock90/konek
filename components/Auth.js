@@ -1,14 +1,18 @@
 import styled from 'styled-components'
-// material
-import Grid from '@material-ui/core/Grid';
-import { H1, H2 } from './Typography';
+import { H1, H2 } from './styles/Typography';
 
 // styles
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  @media (max-width: 800px) {
+    grid-template-columns: auto;
+  }
+`
+
 const Layout = styled.div`
   display: flex;
   align-items: flex-end;
-  height: 100vh;
-  background: #bbbbbb;
   background: url('https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png');
 `;
 
@@ -20,19 +24,15 @@ const Branding = styled.div`
 `;
 
 const Intro = ({ children }) => (
-  <Grid container>
-    <Grid item xs={6}>
-      <Layout>
-        <Branding>
-          <H1>CRM Beta</H1>
-          <H2>Customer Relationship Management</H2>
-        </Branding>
-      </Layout>
-    </Grid>
-    <Grid item xs={6}>
-      {children}
-    </Grid>
-  </Grid>
+  <Container>
+    <Layout>
+      <Branding>
+        <H1>CRM Beta</H1>
+        <H2>Customer Relationship Management</H2>
+      </Branding>
+    </Layout>
+    {children}
+  </Container>
 )
 
 export default Intro

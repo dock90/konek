@@ -9,18 +9,12 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { auth } from '../firebase';
 // components
-import { H1 } from './Typography';
+import { H1 } from './styles/Typography';
+import AuthLayout from './styles/AuthLayout'
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
 // styles
-const Layout = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
 const SignupWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -66,7 +60,7 @@ const Signup = ({ history }) => {
   // TODO: setup mutations for signup
 
   return (
-    <Layout>
+    <AuthLayout>
       <SignupWrapper>
         <H1>Sign Up</H1>
         <StyledTextField
@@ -132,7 +126,7 @@ const Signup = ({ history }) => {
           </a>
         </Link>
       </SignupWrapper>
-    </Layout>
+    </AuthLayout>
   );
 };
 

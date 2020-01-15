@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components';
 // material
@@ -42,10 +43,13 @@ const Login = () => {
     event.preventDefault();
     auth
       .signInWithEmailAndPassword(state.email, state.password)
-      .then(authUser => {
-        // TODO: remove temp store user id in localstorage to immitate login
-        console.log('Login Success');
-        localStorage.setItem('AUTH_TOKEN', authUser.user.uid);
+      .then(() => {
+        auth.currentUser.getIdToken(true).then((idToken) => {
+          console.log('ID Token: ', idToken)
+          Router.push('/index')
+        }).catch((error) => {
+          // Handle error
+        });
       })
       .catch(error => console.log('Error Loggin In: ', error));
     // TODO: setup login mutation
@@ -80,25 +84,11 @@ const Login = () => {
         </FormWrapper>
         <Divider style={{ marginBottom: 15 }} />
         <Actions>
-          <Link
-            href="/auth/signup"
-          // style={{
-          //   textDecoration: 'none',
-          // }}
-          >
-            <a>
-              Need an account?
-            </a>
+          <Link href="/auth/signup">
+            <a>Need an account?</a>
           </Link>
-          <Link
-            href="/auth/reset"
-          // style={{
-          //   textDecoration: 'none',
-          // }}
-          >
-            <a>
-              Forgot password?
-            </a>
+          <Link href="/auth/reset">
+            <a>Forgot password?</a>
           </Link>
         </Actions>
       </LoginWrapper>

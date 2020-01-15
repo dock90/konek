@@ -23,7 +23,7 @@ const Branding = styled.div`
   max-width: 300px;
 `;
 
-const Intro = ({ children }) => (
+const Auth = ({ children }) => (
   <Container>
     <Layout>
       <Branding>
@@ -35,4 +35,4 @@ const Intro = ({ children }) => (
   </Container>
 )
 
-export default Intro
+export default Auth

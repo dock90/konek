@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Router from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components';
 // material
@@ -47,17 +47,14 @@ const Signup = ({ history }) => {
     email && password
       ? auth
         .createUserWithEmailAndPassword(state.email, state.password)
-        .then(authUser => {
-          console.log('authUser Data: ', authUser);
-          history.push(`/auth/confirm`);
+        .then(() => {
+          Router.push(`/auth/confirm`);
         })
         .catch(error => {
           console.log('Signup Error: ', error);
         })
       : console.log('TOO BAD SAUSAGE');
   };
-
-  // TODO: setup mutations for signup
 
   return (
     <AuthLayout>
@@ -115,23 +112,12 @@ const Signup = ({ history }) => {
           Sign Up
         </StyledButton>
         <Divider style={{ marginBottom: 15 }} />
-        <Link
-          href="/auth/login"
-        // style={{
-        //   textDecoration: 'none',
-        // }}
-        >
-          <a>
-            Have an account?
-          </a>
+        <Link href="/auth/login">
+          <a>Have an account?</a>
         </Link>
       </SignupWrapper>
     </AuthLayout>
   );
-};
-
-Signup.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default Signup;

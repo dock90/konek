@@ -46,7 +46,7 @@ const Login = () => {
       .then(() => {
         auth.currentUser.getIdToken(true).then((idToken) => {
           console.log('ID Token: ', idToken)
-          Router.push('/index')
+          Router.push('/')
         }).catch((error) => {
           // Handle error
         });

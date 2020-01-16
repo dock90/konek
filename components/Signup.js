@@ -88,6 +88,7 @@ const Signup = ({ history }) => {
           id="outlined-basic"
           label="Password"
           margin="normal"
+          type="password"
           variant="outlined"
           value={state.password}
           onChange={handleChange('password')}

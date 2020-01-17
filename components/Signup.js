@@ -22,7 +22,7 @@ const SignupWrapper = styled.div`
   width: 350px;
 `;
 
-const Signup = ({ history }) => {
+const Signup = () => {
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',

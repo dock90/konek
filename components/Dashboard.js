@@ -1,7 +1,7 @@
-import Router from 'next/router'
+import Link from 'next/link'
 import styled from 'styled-components'
-import { auth } from '../firebase';
-import Login from '../pages/auth/login'
+import { auth } from '../firebase'
+// components
 import Header from './Header'
 import Nav from './Nav'
 
@@ -16,7 +16,18 @@ const Container = styled.div`
 `
 
 const Main = ({ children }) => {
-  // main query here
+  if (!auth.currentUser) {
+    return (
+      <div>
+        <p>You need to login to view this page :)</p>
+        <Link href="/auth/login">
+          <a>
+            <button>TAKE ME TO THE LOGIN</button>
+          </a>
+        </Link>
+      </div>
+    )
+  }
   return (
     <Container>
       <Header />

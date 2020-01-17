@@ -44,12 +44,7 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then(() => {
-        auth.currentUser.getIdToken(true).then((idToken) => {
-          console.log('ID Token: ', idToken)
-          Router.push('/')
-        }).catch((error) => {
-          // Handle error
-        });
+        Router.push('/')
       })
       .catch(error => console.log('Error Loggin In: ', error));
     // TODO: setup login mutation
@@ -74,6 +69,7 @@ const Login = () => {
             id="outlined-basic"
             label="Password"
             margin="normal"
+            type="password"
             variant="outlined"
             value={state.password}
             onChange={handleChange('password')}

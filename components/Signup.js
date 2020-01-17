@@ -22,7 +22,7 @@ const SignupWrapper = styled.div`
   width: 350px;
 `;
 
-const Signup = ({ history }) => {
+const Signup = () => {
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',
@@ -88,6 +88,7 @@ const Signup = ({ history }) => {
           id="outlined-basic"
           label="Password"
           margin="normal"
+          type="password"
           variant="outlined"
           value={state.password}
           onChange={handleChange('password')}

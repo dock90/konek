@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-// components
 import Dashboard from '../../components/Dashboard'
-import Profile from '../../components/profile'
+// components
+import { H1 } from '../../components/styles/Typography';
 
 // styles
 const Container = styled.div`
@@ -10,12 +10,12 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
-const ProfilePage = () => (
+const NewContact = () => (
   <Dashboard>
     <Container>
-      <Profile />
+      <H1>New Contact</H1>
     </Container>
   </Dashboard>
 )
 
-export default ProfilePage
+export default NewContact

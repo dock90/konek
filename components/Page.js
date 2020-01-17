@@ -47,14 +47,16 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Page = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <StyledPage>
-      <Meta />
-      {children}
-    </StyledPage>
-  </ThemeProvider>
-)
+const Page = ({ children }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <StyledPage>
+        <Meta />
+        {children}
+      </StyledPage>
+    </ThemeProvider>
+  )
+}
 
 export default Page

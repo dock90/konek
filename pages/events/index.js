@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard'
+import Dashboard from '../../components/Dashboard';
 // components
 import { H1 } from '../../components/styles/Typography';
 
@@ -16,6 +16,6 @@ const Events = () => (
       <H1>EVENTS</H1>
     </Container>
   </Dashboard>
-)
+);
 
-export default Events
+export default Events;

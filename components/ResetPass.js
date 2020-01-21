@@ -1,8 +1,8 @@
-import Router from 'next/router'
+import Router from 'next/router';
 import styled from 'styled-components';
 // components
 import { H1, H5 } from './styles/Typography';
-import AuthLayout from './styles/AuthLayout'
+import AuthLayout from './styles/AuthLayout';
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
@@ -16,8 +16,8 @@ const ResetPassWrapper = styled.div`
 
 const ResetPass = () => {
   const handleResetPass = () => {
-    Router.push('/auth/reset-confirm')
-  }
+    Router.push('/auth/reset-confirm');
+  };
   return (
     <AuthLayout>
       <ResetPassWrapper>
@@ -29,15 +29,12 @@ const ResetPass = () => {
           margin="normal"
           variant="outlined"
         />
-        <StyledButton
-          onClick={handleResetPass}
-          variant="contained"
-        >
+        <StyledButton onClick={handleResetPass} variant="contained">
           Reset
-      </StyledButton>
+        </StyledButton>
       </ResetPassWrapper>
     </AuthLayout>
-  )
+  );
 };
 
 export default ResetPass;

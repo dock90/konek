@@ -1,10 +1,10 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard'
+import Dashboard from '../../components/Dashboard';
 // components
 import { H2 } from '../../components/styles/Typography';
-import { StyledButton } from '../../components/StyledButton'
-import ContactList from '../../components/contacts/ContactList'
+import { StyledButton } from '../../components/StyledButton';
+import ContactList from '../../components/contacts/ContactList';
 
 // styles
 const Container = styled.div`
@@ -16,7 +16,7 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Contacts = () => (
   <Dashboard>
@@ -32,6 +32,6 @@ const Contacts = () => (
       <ContactList />
     </Container>
   </Dashboard>
-)
+);
 
-export default Contacts
+export default Contacts;

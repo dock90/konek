@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 // components
-import Dashboard from '../../components/Dashboard'
-import Profile from '../../components/profile'
+import Dashboard from '../../components/Dashboard';
+import Profile from '../../components/profile';
 
 // styles
 const Container = styled.div`
@@ -16,6 +16,6 @@ const ProfilePage = () => (
       <Profile />
     </Container>
   </Dashboard>
-)
+);
 
-export default ProfilePage
+export default ProfilePage;

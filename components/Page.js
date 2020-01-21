@@ -1,29 +1,29 @@
-import Router from 'next/router'
-import NProgress from 'nprogress'
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
-import Meta from './Meta'
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import Meta from './Meta';
 
 // visualize route changes
 Router.onRouteChangeStart = () => {
   NProgress.start();
-}
+};
 
 Router.onRouteChangeComplete = () => {
-  NProgress.done()
-}
+  NProgress.done();
+};
 
 Router.onRouteChangeError = () => {
-  NProgress.done()
-}
+  NProgress.done();
+};
 
 // theme
 const theme = {
   black: '#393939',
-}
+};
 
 // styles
 const StyledPage = styled.div`
-  background: #FFF;
+  background: #fff;
   color: ${props => props.theme.black};
 `;
 
@@ -45,18 +45,16 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${theme.black};
   }
-`
+`;
 
-const Page = ({ children }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <StyledPage>
-        <Meta />
-        {children}
-      </StyledPage>
-    </ThemeProvider>
-  )
-}
+const Page = ({ children }) => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <StyledPage>
+      <Meta />
+      {children}
+    </StyledPage>
+  </ThemeProvider>
+);
 
-export default Page
+export default Page;

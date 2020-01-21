@@ -1,5 +1,4 @@
-import Timeline from './timeline'
-const Index = () => {
-  return (<Timeline />)
-}
-export default Index
+import Timeline from './timeline';
+
+const Index = () => <Timeline />;
+export default Index;

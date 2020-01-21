@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 // material
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -19,7 +19,7 @@ const ME_QUERY = gql`
       name
     }
   }
-`
+`;
 
 const Account = () => (
   <Grid container spacing={2} style={{ marginTop: 16, maxWidth: 1200 }}>
@@ -41,12 +41,12 @@ const Account = () => (
         >
           <Query query={ME_QUERY}>
             {({ data, error, loading }) => {
-              console.log('Payload', data)
-              if (loading) return <p>Loading...</p>
-              if (error) return <p>Error: {error.message}</p>
-              const { name } = data
+              console.log('Payload', data);
+              if (loading) return <p>Loading...</p>;
+              if (error) return <p>Error: {error.message}</p>;
+              const { name } = data;
               return (
-                <Fragment>
+                <>
                   <Avatar
                     alt="User Profile Image"
                     src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
@@ -58,10 +58,9 @@ const Account = () => (
                   <H4>{name}</H4>
                   <H6>Lancaster, Pennsylvania</H6>
                   <BodyText>Manging Director</BodyText>
-                </Fragment>
-              )
+                </>
+              );
             }}
-
           </Query>
         </CardContent>
         <CardActions>

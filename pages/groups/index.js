@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard'
+import Dashboard from '../../components/Dashboard';
 // components
 import { H1 } from '../../components/styles/Typography';
 
@@ -16,6 +16,6 @@ const Groups = () => (
       <H1>GROUPS</H1>
     </Container>
   </Dashboard>
-)
+);
 
-export default Groups
+export default Groups;

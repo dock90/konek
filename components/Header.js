@@ -1,4 +1,4 @@
-import Router from 'next/router'
+import Router from 'next/router';
 import styled from 'styled-components';
 // material
 import Avatar from '@material-ui/core/Avatar';
@@ -38,8 +38,10 @@ const Header = () => {
     auth
       .signOut()
       .then(() => {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('token');
         console.log('User Signed Out');
-        Router.push('/auth/login')
+        Router.push('/auth/login');
       })
       .catch(error => {
         console.log('There was an error signing out: ', error);

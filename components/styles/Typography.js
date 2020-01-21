@@ -9,7 +9,12 @@ const H1 = styled.h1`
   padding-left: ${props => props.pLeft};
 `;
 
-const H2 = styled.h2``;
+const H2 = styled.h2`
+  font-size: 29px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+`;
 
 const H3 = styled.h3`
   font-size: 24px;

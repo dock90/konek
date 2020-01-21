@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // components
-import AuthLayout from './styles/AuthLayout'
+import AuthLayout from './styles/AuthLayout';
 import { H1, H3 } from './styles/Typography';
 
 // styles

@@ -1,7 +1,10 @@
+import Link from 'next/link';
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard'
+import Dashboard from '../../components/Dashboard';
 // components
-import { H1 } from '../../components/styles/Typography';
+import { H2 } from '../../components/styles/Typography';
+import { StyledButton } from '../../components/StyledButton';
+import ContactList from '../../components/contacts/ContactList';
 
 // styles
 const Container = styled.div`
@@ -10,12 +13,25 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Contacts = () => (
   <Dashboard>
     <Container>
-      <H1>CONTACTS</H1>
+      <Header>
+        <H2>Contacts</H2>
+        <Link href="/contacts/newContact">
+          <a>
+            <StyledButton>Add Contact</StyledButton>
+          </a>
+        </Link>
+      </Header>
+      <ContactList />
     </Container>
   </Dashboard>
-)
+);
 
-export default Contacts
+export default Contacts;

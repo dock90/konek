@@ -1,6 +1,6 @@
 import React from 'react';
-import Router from 'next/router'
-import Link from 'next/link'
+import Router from 'next/router';
+import Link from 'next/link';
 import styled from 'styled-components';
 // material
 import Checkbox from '@material-ui/core/Checkbox';
@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { auth } from '../firebase';
 // components
 import { H1 } from './styles/Typography';
-import AuthLayout from './styles/AuthLayout'
+import AuthLayout from './styles/AuthLayout';
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
@@ -22,7 +22,7 @@ const SignupWrapper = styled.div`
   width: 350px;
 `;
 
-const Signup = ({ history }) => {
+const Signup = () => {
   const [state, setState] = React.useState({
     firstName: '',
     lastName: '',
@@ -46,13 +46,13 @@ const Signup = ({ history }) => {
     const password = state.password.length > 0;
     email && password
       ? auth
-        .createUserWithEmailAndPassword(state.email, state.password)
-        .then(() => {
-          Router.push(`/auth/confirm`);
-        })
-        .catch(error => {
-          console.log('Signup Error: ', error);
-        })
+          .createUserWithEmailAndPassword(state.email, state.password)
+          .then(() => {
+            Router.push(`/auth/confirm`);
+          })
+          .catch(error => {
+            console.log('Signup Error: ', error);
+          })
       : console.log('TOO BAD SAUSAGE');
   };
 
@@ -88,6 +88,7 @@ const Signup = ({ history }) => {
           id="outlined-basic"
           label="Password"
           margin="normal"
+          type="password"
           variant="outlined"
           value={state.password}
           onChange={handleChange('password')}

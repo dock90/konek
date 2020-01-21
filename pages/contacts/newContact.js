@@ -10,12 +10,12 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
-const Events = () => (
+const NewContact = () => (
   <Dashboard>
     <Container>
-      <H1>EVENTS</H1>
+      <H1>New Contact</H1>
     </Container>
   </Dashboard>
 );
 
-export default Events;
+export default NewContact;

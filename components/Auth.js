@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { H1, H2 } from './styles/Typography';
 
 // styles
@@ -8,7 +8,7 @@ const Container = styled.div`
   @media (max-width: 800px) {
     grid-template-columns: auto;
   }
-`
+`;
 
 const Layout = styled.div`
   display: flex;
@@ -33,6 +33,6 @@ const Auth = ({ children }) => (
     </Layout>
     {children}
   </Container>
-)
+);
 
-export default Auth
+export default Auth;

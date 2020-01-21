@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard'
 // components
+import Dashboard from '../../components/Dashboard';
 import { H3, H5 } from '../../components/styles/Typography';
 
 // styles
@@ -17,6 +17,6 @@ const Timeline = () => (
       <H5>Heres what happened while you were away.</H5>
     </Container>
   </Dashboard>
-)
+);
 
-export default Timeline
+export default Timeline;

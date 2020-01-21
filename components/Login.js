@@ -1,5 +1,5 @@
-import Router from 'next/router'
-import Link from 'next/link'
+import Router from 'next/router';
+import Link from 'next/link';
 import styled from 'styled-components';
 // material
 import Divider from '@material-ui/core/Divider';
@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import { auth } from '../firebase';
 // components
 import { H1 } from './styles/Typography';
-import AuthLayout from './styles/AuthLayout'
+import AuthLayout from './styles/AuthLayout';
 import { StyledButton } from './StyledButton';
 import { StyledTextField } from './StyledTextField';
 
@@ -44,11 +44,10 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then(() => {
-        auth.currentUser.getIdToken(true).then((idToken) => {
-          console.log('ID Token: ', idToken)
-          Router.push('/')
-        }).catch((error) => {
-          // Handle error
+        auth.currentUser.getIdToken().then(idToken => {
+          localStorage.setItem('auth', true);
+          localStorage.setItem('token', idToken);
+          Router.push('/');
         });
       })
       .catch(error => console.log('Error Loggin In: ', error));
@@ -74,6 +73,7 @@ const Login = () => {
             id="outlined-basic"
             label="Password"
             margin="normal"
+            type="password"
             variant="outlined"
             value={state.password}
             onChange={handleChange('password')}
@@ -93,7 +93,7 @@ const Login = () => {
         </Actions>
       </LoginWrapper>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

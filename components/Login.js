@@ -44,14 +44,9 @@ const Login = () => {
     auth
       .signInWithEmailAndPassword(state.email, state.password)
       .then(() => {
-        auth.currentUser.getIdToken().then(idToken => {
-          localStorage.setItem('auth', true);
-          localStorage.setItem('token', idToken);
-          Router.push('/');
-        });
+        Router.push('/');
       })
       .catch(error => console.log('Error Loggin In: ', error));
-    // TODO: setup login mutation
     // TODO: add better error handling
     // TODO: alert users on errors in ui
   };

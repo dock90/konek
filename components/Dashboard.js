@@ -17,22 +17,35 @@ const Container = styled.div`
 `;
 
 class Main extends Component {
+  state = {
+    authUser: false,
+  };
+
   componentDidMount() {
-    const loggedIn = localStorage.getItem('auth');
-    if (!loggedIn) {
-      Router.push('/auth/login');
-    }
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          authUser: true,
+        });
+      } else {
+        Router.push('/auth/login');
+      }
+    });
   }
 
   render() {
     const { children } = this.props;
-    return (
-      <Container>
-        <Header />
-        <Nav />
-        {children}
-      </Container>
-    );
+    const { authUser } = this.state;
+    if (authUser) {
+      return (
+        <Container>
+          <Header />
+          <Nav />
+          {children}
+        </Container>
+      );
+    }
+    return null;
   }
 }
 

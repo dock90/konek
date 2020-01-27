@@ -11,8 +11,8 @@ import { auth } from '../firebase';
 // components
 import { H1 } from './styles/Typography';
 import AuthLayout from './styles/AuthLayout';
-import { StyledButton } from './StyledButton';
-import { StyledTextField } from './StyledTextField';
+import { StyledButton } from './material/StyledButton';
+import { StyledTextField } from './material/StyledTextField';
 
 // styles
 const SignupWrapper = styled.div`
@@ -46,13 +46,13 @@ const Signup = () => {
     const password = state.password.length > 0;
     email && password
       ? auth
-          .createUserWithEmailAndPassword(state.email, state.password)
-          .then(() => {
-            Router.push(`/auth/confirm`);
-          })
-          .catch(error => {
-            console.log('Signup Error: ', error);
-          })
+        .createUserWithEmailAndPassword(state.email, state.password)
+        .then(() => {
+          Router.push(`/auth/confirm`);
+        })
+        .catch(error => {
+          console.log('Signup Error: ', error);
+        })
       : console.log('TOO BAD SAUSAGE');
   };
 

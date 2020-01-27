@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
 // components
-import { StyledInput } from './StyledInput';
+import { StyledInput } from './material/StyledInput';
 
 // styles
 const Container = styled.div`

@@ -6,9 +6,9 @@ import Account from './Account';
 import Header from './Header';
 import Notifications from './Notifications';
 import TabPanel from '../TabPanel';
-import StyledAppBar from '../StyledAppBar';
-import StyledTabs from '../StyledTabs';
-import StyledTab from '../StyledTab';
+import StyledAppBar from '../material/StyledAppBar';
+import StyledTabs from '../material/StyledTabs';
+import StyledTab from '../material/StyledTab';
 
 // styles
 const Container = styled.div`

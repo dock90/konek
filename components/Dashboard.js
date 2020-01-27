@@ -17,22 +17,39 @@ const Container = styled.div`
 `;
 
 class Main extends Component {
+  state = {
+    authUser: false,
+  };
+
   componentDidMount() {
-    const loggedIn = localStorage.getItem('auth');
-    if (!loggedIn) {
-      Router.push('/auth/login');
-    }
+    this.authSubscription = auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          authUser: true,
+        });
+      } else {
+        Router.push('/auth/login');
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.authSubscription();
   }
 
   render() {
     const { children } = this.props;
-    return (
-      <Container>
-        <Header />
-        <Nav />
-        {children}
-      </Container>
-    );
+    const { authUser } = this.state;
+    if (authUser) {
+      return (
+        <Container>
+          <Header />
+          <Nav />
+          {children}
+        </Container>
+      );
+    }
+    return null;
   }
 }
 

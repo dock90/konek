@@ -38,8 +38,6 @@ const Header = () => {
     auth
       .signOut()
       .then(() => {
-        localStorage.removeItem('auth');
-        localStorage.removeItem('token');
         console.log('User Signed Out');
         Router.push('/auth/login');
       })

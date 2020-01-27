@@ -1,6 +1,6 @@
 {
   "name": "crm_fe",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A crm focused on spiritual growth and connection.",
   "main": "index.js",
   "private": true,

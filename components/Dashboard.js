@@ -22,7 +22,7 @@ class Main extends Component {
   };
 
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
+    this.authSubscription = auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
           authUser: true,
@@ -31,6 +31,10 @@ class Main extends Component {
         Router.push('/auth/login');
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.authSubscription();
   }
 
   render() {

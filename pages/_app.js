@@ -1,8 +1,32 @@
 import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
+import fetch from 'isomorphic-fetch';
 import Page from '../components/Page';
-import withData from '../lib/withData';
+import { auth } from '../firebase';
+
+// link to graphql endpoint
+const httpLink = createHttpLink({
+  uri: 'https://equipter-crm-staging.herokuapp.com/graphql',
+});
+
+const authLink = setContext((_, { headers }) =>
+  auth.currentUser.getIdToken().then(token => ({
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }))
+);
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 class CRM extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -16,9 +40,9 @@ class CRM extends App {
   }
 
   render() {
-    const { apollo, Component, pageProps } = this.props;
+    const { Component, pageProps } = this.props;
     return (
-      <ApolloProvider client={apollo}>
+      <ApolloProvider client={client}>
         <Page>
           <Component {...pageProps} />
         </Page>
@@ -27,4 +51,4 @@ class CRM extends App {
   }
 }
 
-export default withData(CRM);
+export default CRM;

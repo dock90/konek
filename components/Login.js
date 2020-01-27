@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -30,7 +31,7 @@ const Actions = styled.div`
 `;
 
 const Login = () => {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     email: '',
     password: '',
   });

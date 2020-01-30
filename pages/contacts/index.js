@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Dashboard from '../../components/Dashboard';
 // components
 import { H2 } from '../../components/styles/Typography';
-import { StyledButton } from '../../components/StyledButton';
+import { StyledButton } from '../../components/material/StyledButton';
 import ContactList from '../../components/contacts/ContactList';
 
 // styles

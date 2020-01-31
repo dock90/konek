@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Router from 'next/router';
 // gql
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -64,7 +65,7 @@ const CreateContact = () => {
     });
   };
 
-  const handleSubmit = (event, createContactMutation) => {
+  const handleSubmit = async (event, createContactMutation) => {
     const {
       contactName,
       city,
@@ -76,7 +77,7 @@ const CreateContact = () => {
     } = contact;
 
     event.preventDefault();
-    createContactMutation({
+    const res = await createContactMutation({
       variables: {
         name: contactName,
         city,
@@ -87,6 +88,13 @@ const CreateContact = () => {
         groups,
       },
     });
+
+    const {
+      data: {
+        createContact: { contactId },
+      },
+    } = res;
+    Router.push(`/contacts/contact?id=${contactId}`);
   };
 
   return (

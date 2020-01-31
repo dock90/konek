@@ -21,9 +21,22 @@ const Header = styled.div``;
 const CREATE_CONTACT_MUTATION = gql`
   mutation CREATE_CONTACT_MUTATION(
     $name: String!
+    $city: String
+    $postalCode: String
+    $country: String
+    $language: String
     $groups: [ContactGroupInput!]!
   ) {
-    createContact(input: { name: $name, groups: $groups }) {
+    createContact(
+      input: {
+        name: $name
+        city: $city
+        postalCode: $postalCode
+        country: $country
+        language: $language
+        groups: $groups
+      }
+    ) {
       contactId
     }
   }
@@ -45,7 +58,6 @@ const CreateContact = () => {
 
   const handleChange = event => {
     const { name, value } = event.target;
-    console.log('Pre Change Groups: ', contact.groups);
     setContact({
       ...contact,
       [name]: value,
@@ -53,11 +65,25 @@ const CreateContact = () => {
   };
 
   const handleSubmit = (event, createContactMutation) => {
-    const { contactName, groups } = contact;
+    const {
+      contactName,
+      city,
+      state,
+      postalCode,
+      country,
+      language,
+      groups,
+    } = contact;
+
     event.preventDefault();
     createContactMutation({
       variables: {
         name: contactName,
+        city,
+        state,
+        postalCode,
+        country,
+        language,
         groups,
       },
     });

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // components
 import Dashboard from '../../components/Dashboard';
+import ContactEdit from '../../components/contact/ContactEdit';
 
 // styles
 const Container = styled.div`
@@ -10,11 +11,16 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
-const EditContact = () => (
-  <Dashboard>
-    <Container>
-      <h1>Contact Edit</h1>
-    </Container>
-  </Dashboard>
-);
+const EditContact = props => {
+  const {
+    query: { id },
+  } = props;
+  return (
+    <Dashboard>
+      <Container>
+        <ContactEdit id={id} />
+      </Container>
+    </Dashboard>
+  );
+};
 export default EditContact;

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 // gql
@@ -53,7 +54,7 @@ const Bio = styled.div`
 `;
 
 const ContactOverview = ({ id }) => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,7 +85,7 @@ const ContactOverview = ({ id }) => {
               </Name>
               <Link href={`/contacts/editContact?id=${id}`}>
                 <LinkText>
-                  <BorderButton>Edit Profile</BorderButton>
+                  <BorderButton>Edit Contact</BorderButton>
                 </LinkText>
               </Link>
             </Header>

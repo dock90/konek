@@ -11,7 +11,7 @@ import { auth } from '../firebase';
 // components
 import { H4 } from './styles/Typography';
 import SearchInput from './SearchInput';
-import { BaseButton } from './StyledButton';
+import { BaseButton } from './material/StyledButton';
 
 // styles
 const Container = styled.div`

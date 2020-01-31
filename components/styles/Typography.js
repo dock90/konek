@@ -38,7 +38,7 @@ const H5 = styled.h5`
   font-weight: normal;
   margin: 0;
   padding: 0;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   color: ${props => props.color};
 `;
 
@@ -47,6 +47,7 @@ const H6 = styled.h6`
   font-weight: normal;
   margin: 0;
   padding: 0;
+  margin-bottom: 5px;
   color: ${props => props.color};
 `;
 
@@ -61,7 +62,7 @@ const AltText = styled.p`
   font-size: 12px;
   margin: 0;
   padding: 0;
-  color: ${props => props.color};
+  color: #90a4ae;
 `;
 
 const LinkText = styled.a`

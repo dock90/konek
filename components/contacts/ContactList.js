@@ -1,20 +1,37 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
+// components
+import ListItem from './ListItem';
 
-const CONTACTS_QUERY = gql`
-  query CONTACTS_QUERY {
+// ALL_CONTACTS_QUERY
+const ALL_CONTACTS_QUERY = gql`
+  query ALL_CONTACTS_QUERY {
     contacts {
-      data
+      data {
+        contactId
+        name
+        country
+      }
     }
   }
 `;
 
+// styles
+const ListContainer = styled.div``;
+
 const ContactList = () => (
-  <Query query={CONTACTS_QUERY}>
+  <Query query={ALL_CONTACTS_QUERY}>
     {({ data, loading, error }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error: {error.message}</p>;
-      console.log('Contact List Data: ', data);
+      return (
+        <ListContainer>
+          {data.contacts.data.map(contact => (
+            <ListItem contactData={contact} />
+          ))}
+        </ListContainer>
+      );
     }}
   </Query>
 );

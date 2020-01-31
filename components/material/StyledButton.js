@@ -13,4 +13,8 @@ const StyledButton = styled(Button)({
   marginBottom: 30,
 });
 
-export { BaseButton, StyledButton };
+const BorderButton = styled(BaseButton)({
+  border: '1px solid #3F51B5',
+});
+
+export { BaseButton, BorderButton, StyledButton };

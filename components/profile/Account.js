@@ -1,4 +1,3 @@
-import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 // material
@@ -58,7 +57,7 @@ const Account = () => (
                   />
                   <H4>{name}</H4>
                   <H6>Lancaster, Pennsylvania</H6>
-                  <BodyText>Manging Director</BodyText>
+                  <BodyText>Managing Director</BodyText>
                 </>
               );
             }}
@@ -167,3 +166,4 @@ const Account = () => (
 );
 
 export default Account;
+export { ME_QUERY };

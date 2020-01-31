@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard';
 // components
-import CreateContact from '../../components/contacts/CreateContact';
+import Dashboard from '../../components/Dashboard';
 
 // styles
 const Container = styled.div`
@@ -10,12 +10,11 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
-const NewContact = () => (
+const EditContact = () => (
   <Dashboard>
     <Container>
-      <CreateContact />
+      <h1>Contact Edit</h1>
     </Container>
   </Dashboard>
 );
-
-export default NewContact;
+export default EditContact;

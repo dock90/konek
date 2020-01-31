@@ -3,8 +3,8 @@ import styled from 'styled-components';
 // components
 import { H1, H5 } from './styles/Typography';
 import AuthLayout from './styles/AuthLayout';
-import { StyledButton } from './StyledButton';
-import { StyledTextField } from './StyledTextField';
+import { StyledButton } from './material/StyledButton';
+import { StyledTextField } from './material/StyledTextField';
 
 // styles
 const ResetPassWrapper = styled.div`

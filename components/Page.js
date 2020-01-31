@@ -19,11 +19,12 @@ Router.onRouteChangeError = () => {
 // theme
 const theme = {
   black: '#393939',
+  white: '#FFFFFF',
 };
 
 // styles
 const StyledPage = styled.div`
-  background: #fff;
+  background: ${props => props.theme.white};
   color: ${props => props.theme.black};
 `;
 

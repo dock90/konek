@@ -1,6 +1,6 @@
 import { Query } from 'react-apollo';
-import styled from 'styled-components';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 // components
 import ListItem from './ListItem';
 

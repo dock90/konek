@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import styled from 'styled-components';
 // material
 import Avatar from '@material-ui/core/Avatar';
@@ -28,9 +29,9 @@ const Overview = styled.div`
 const Location = styled.div``;
 
 const ListItem = ({ contactData }) => {
-  const { id, name, country } = contactData;
+  const { contactId, name, country } = contactData;
   return (
-    <ListCard key={id}>
+    <ListCard key={contactId}>
       <Overview>
         <Avatar
           alt="User Profile Image"
@@ -49,7 +50,11 @@ const ListItem = ({ contactData }) => {
           <AltText>Country</AltText>
         </Location>
       )}
-      <BorderButton>View</BorderButton>
+      <Link href={`/contacts/contact?id=${contactId}`}>
+        <a>
+          <BorderButton>View</BorderButton>
+        </a>
+      </Link>
     </ListCard>
   );
 };

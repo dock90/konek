@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 // gql
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -260,6 +259,10 @@ const ContactEdit = ({ id }) => {
       }}
     </Query>
   );
+};
+
+ContactEdit.propTypes = {
+  id: PropTypes.string.isRequired,
 };
 
 export default ContactEdit;

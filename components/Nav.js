@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 // material
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
@@ -17,9 +19,17 @@ import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircleOutlined';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
 // components
 import { H6, AltText } from './styles/Typography';
+
+// ME_QUERY
+const ME_QUERY = gql`
+  query ME_QUERY {
+    me {
+      name
+    }
+  }
+`;
 
 // styles
 const Container = styled.div`
@@ -149,22 +159,33 @@ const Nav = () => (
         </Link>
       </List>
     </NavLayout>
-    <Link href="/profile">
-      <ProfileLayout>
-        <Avatar
-          alt="User Profile Image"
-          src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
-          style={{
-            height: 60,
-            width: 60,
-          }}
-        />
-        <ProfileTitle>
-          <H6>Aaron Beiler</H6>
-          <AltText color="#9EA0A5">Managing Director</AltText>
-        </ProfileTitle>
-      </ProfileLayout>
-    </Link>
+    <Query query={ME_QUERY}>
+      {({ data, error, loading }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error: {error.message}</p>;
+        const {
+          me: { name },
+        } = data;
+        return (
+          <Link href="/profile">
+            <ProfileLayout>
+              <Avatar
+                alt="User Profile Image"
+                src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
+                style={{
+                  height: 60,
+                  width: 60,
+                }}
+              />
+              <ProfileTitle>
+                <H6>{name}</H6>
+                <AltText color="#9EA0A5">Managing Director</AltText>
+              </ProfileTitle>
+            </ProfileLayout>
+          </Link>
+        );
+      }}
+    </Query>
   </Container>
 );
 

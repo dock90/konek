@@ -18,6 +18,12 @@ const ME_QUERY = gql`
   query ME_QUERY {
     me {
       name
+      emails {
+        email
+      }
+      phones {
+        number
+      }
       city
       state
       postalCode
@@ -32,8 +38,8 @@ const UPDATE_ME_MUTATION = gql`
   mutation UPDATE_ME_MUTATION(
     $name: String!
     $picture: AssetId
-    # $emails: Email
-    # $phones: Phone
+    $emails: [EmailInput!]
+    $phones: [PhoneInput!]
     $city: String
     $state: String
     $country: String
@@ -44,8 +50,8 @@ const UPDATE_ME_MUTATION = gql`
       input: {
         name: $name
         picture: $picture
-        # emails: $emails
-        # phones: $phones
+        emails: $emails
+        phones: $phones
         city: $city
         state: $state
         country: $country
@@ -71,6 +77,24 @@ const Account = () => {
     });
   };
 
+  const handleEmailChange = event => {
+    setProfile({
+      ...profile,
+      emails: {
+        email: event.target.value,
+      },
+    });
+  };
+
+  const handlePhoneChange = event => {
+    setProfile({
+      ...profile,
+      phones: {
+        number: event.target.value,
+      },
+    });
+  };
+
   const handleSubmit = (event, updateMeMutation, name) => {
     event.preventDefault();
     updateMeMutation({
@@ -87,8 +111,21 @@ const Account = () => {
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error: {error.message}</p>;
         const {
-          me: { name, city, state, postalCode, country, language },
+          me: {
+            name,
+            emails,
+            phones,
+            city,
+            state,
+            postalCode,
+            country,
+            language,
+          },
         } = data;
+
+        const email = emails ? emails[0].email : '';
+        const number = phones ? phones[0].number : '';
+
         return (
           <Mutation mutation={UPDATE_ME_MUTATION} variables={profile}>
             {(updateMe, { loading, error }) => (
@@ -168,15 +205,22 @@ const Account = () => {
                               />
                             </Grid>
                             <Grid item xs={12}>
+                              {/* TODO: update to handle list of emails */}
                               <TextField
-                                id="outlined-basic"
+                                id="email"
+                                name="email"
                                 label="Email"
+                                defaultValue={email}
+                                onChange={handleEmailChange}
                                 variant="outlined"
                                 style={{ marginRight: 12, marginBottom: 12 }}
                               />
                               <TextField
-                                id="outlined-basic"
+                                id="phone"
+                                name="phone"
                                 label="Phone"
+                                defaultValue={number}
+                                onChange={handlePhoneChange}
                                 variant="outlined"
                                 style={{ marginRight: 12, marginBottom: 12 }}
                               />

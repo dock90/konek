@@ -159,15 +159,15 @@ const Nav = () => (
         </Link>
       </List>
     </NavLayout>
-    <Link href="/profile">
-      <Query query={ME_QUERY}>
-        {({ data, error, loading }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>Error: {error.message}</p>;
-          const {
-            me: { name },
-          } = data;
-          return (
+    <Query query={ME_QUERY}>
+      {({ data, error, loading }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error: {error.message}</p>;
+        const {
+          me: { name },
+        } = data;
+        return (
+          <Link href="/profile">
             <ProfileLayout>
               <Avatar
                 alt="User Profile Image"
@@ -182,10 +182,10 @@ const Nav = () => (
                 <AltText color="#9EA0A5">Managing Director</AltText>
               </ProfileTitle>
             </ProfileLayout>
-          );
-        }}
-      </Query>
-    </Link>
+          </Link>
+        );
+      }}
+    </Query>
   </Container>
 );
 

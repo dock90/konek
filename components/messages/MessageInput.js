@@ -6,22 +6,23 @@ import {
   SEND_MESSAGE_MUTATION,
   MESSAGES_QUERY,
 } from '../../queries/MessagesQueries';
-import { RoomIdContext } from './RoomIdContext';
+import { RoomContext } from '../../contexts/RoomContext';
 
 const InputBox = styled(Input)`
   width: 100%;
 `;
 
 const MessageInput = () => {
-  const [input, setInput] = useState('');
-  const roomIdContext = useContext(RoomIdContext);
+  const [input, setInput] = useState(''),
+    roomContext = useContext(RoomContext),
+    roomId = roomContext.room ? roomContext.room.roomId : null;
 
   const [sendMessageMutation] = useMutation(SEND_MESSAGE_MUTATION, {
-    variables: { roomId: roomIdContext.roomId },
+    variables: { roomId: roomId },
     update(cache, { data: sendMessageMutation }) {
       const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
-        variables: { roomId: roomIdContext.roomId },
+        variables: { roomId: roomId },
       });
       // New messages go at the top of the list.
       messages.data.unshift(sendMessageMutation.sendMessage);

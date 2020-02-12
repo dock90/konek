@@ -5,7 +5,7 @@ import { useState, Component } from "react";
 import RoomList from "../../components/messages/RoomList";
 import { useRouter } from "next/router";
 import MessageContainer from "../../components/messages/MessageContainer";
-import { RoomIdContext } from "../../components/messages/RoomIdContext";
+import { RoomContext } from "../../contexts/RoomContext";
 
 // styles
 const Container = styled.div`
@@ -23,22 +23,22 @@ const Container = styled.div`
 const Messages = () => {
   const router = useRouter();
 
-  let [roomId, setRoomId] = useState(router.query.roomId);
+  let [room, setRoom] = useState(null);
 
   const roomIdValue = {
-    roomId: roomId,
-    setRoomId: newRoomId => {
-      setRoomId(newRoomId);
+    room: room,
+    setRoom: newRoom => {
+      setRoom(newRoom);
     }
   };
 
   return (
     <Dashboard>
       <Container>
-        <RoomIdContext.Provider value={roomIdValue}>
+        <RoomContext.Provider value={roomIdValue}>
           <RoomList />
           <MessageContainer />
-        </RoomIdContext.Provider>
+        </RoomContext.Provider>
       </Container>
     </Dashboard>
   );

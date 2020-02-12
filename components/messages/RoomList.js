@@ -1,24 +1,14 @@
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import styled from 'styled-components';
-import { Input } from '@material-ui/core';
+import { useQuery } from "@apollo/react-hooks";
+import styled from "styled-components";
+import { Input } from "@material-ui/core";
+import { ROOMS_QUERY } from "../../queries/RoomQueries";
 // components
-import RoomItem from './RoomItem';
-import Loading from '../Loading';
-
-const ROOMS_QUERY = gql`
-  {
-    rooms {
-      roomId
-      name
-      qtyUnread
-    }
-  }
-`;
+import RoomItem from "./RoomItem";
+import Loading from "../Loading";
 
 const RoomContainer = styled.div`
   grid-area: rooms;
-  background-color: #c4c4c4;
+  background-color: #eeeeee;
 `;
 
 const SearchInput = styled(Input)`
@@ -27,12 +17,12 @@ const SearchInput = styled(Input)`
   background-color: #ffffff;
 `;
 
-const RoomList = props => {
+const RoomList = () => {
   const rooms = useQuery(ROOMS_QUERY);
 
   return (
     <RoomContainer>
-      <SearchInput placeholder="Search Contacts" />
+      <SearchInput placeholder="Search..." />
       {(() => {
         if (rooms.loading) return <Loading />;
         if (rooms.error) return <span>Error: {rooms.error.message}</span>;

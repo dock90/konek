@@ -6,6 +6,7 @@ const queryFields = `
     createdAt
     author {
       name
+      memberId
     } 
 `;
 

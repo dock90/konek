@@ -1,34 +1,46 @@
-import React, { Component } from 'react';
-import Router from 'next/router';
-import styled from 'styled-components';
-import { auth } from '../firebase';
+import React, { Component } from "react";
+import Router from "next/router";
+import { Query } from "react-apollo";
+import styled from "styled-components";
+import { auth } from "../firebase";
+import { MeContext } from "../contexts/MeContext";
+import { ME_QUERY } from "../queries/MeQueries";
 // components
-import Header from './Header';
-import Nav from './Nav';
+import Header from "./Header";
+import Nav from "./Nav";
+import Loading from "./Loading";
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 240px auto;
   grid-template-rows: 64px auto;
   grid-template-areas:
-    'header header'
-    'nav main';
+    "header header"
+    "nav main";
   height: 100vh;
 `;
 
 class Main extends Component {
   state = {
     authUser: false,
+    me: {
+      me: {},
+      updateMe: this.updateMe,
+    }
   };
+
+  updateMe(me) {
+    // TODO: Implement me!
+  }
 
   componentDidMount() {
     this.authSubscription = auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
-          authUser: true,
+          authUser: true
         });
       } else {
-        Router.push('/auth/login');
+        Router.push("/auth/login");
       }
     });
   }
@@ -42,11 +54,21 @@ class Main extends Component {
     const { authUser } = this.state;
     if (authUser) {
       return (
-        <Container>
-          <Header />
-          <Nav />
-          {children}
-        </Container>
+        <Query query={ME_QUERY}>
+          {({loading, error, data}) => {
+            if (loading) return <Loading/>;
+            if (error) return <p>Error: {error.message}</p>;
+            return (
+              <MeContext.Provider value={data}>
+                <Container>
+                  <Header />
+                  <Nav />
+                  {children}
+                </Container>
+              </MeContext.Provider>
+            );
+          }}
+        </Query>
       );
     }
     return null;

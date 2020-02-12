@@ -114,7 +114,7 @@ const ContactOverview = ({ id }) => {
                 <Summary />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <Notes />
+                <Notes contactId={id} />
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <Messages />

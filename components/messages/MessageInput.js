@@ -1,42 +1,52 @@
-import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
+import styled from 'styled-components';
+import { useMutation } from '@apollo/react-hooks';
+import { useContext, useState } from 'react';
+import { Input } from '@material-ui/core';
 import {
   SEND_MESSAGE_MUTATION,
-  MESSAGES_QUERY
-} from "../../queries/MessagesQueries";
+  MESSAGES_QUERY,
+} from '../../queries/MessagesQueries';
+import { RoomIdContext } from './RoomIdContext';
 
-const Input = styled.input`
+const InputBox = styled(Input)`
   width: 100%;
 `;
 
-const MessageInput = props => {
-  let input;
+const MessageInput = () => {
+  const [input, setInput] = useState('');
+  const roomIdContext = useContext(RoomIdContext);
+
   const [sendMessageMutation] = useMutation(SEND_MESSAGE_MUTATION, {
-      variables: { roomId: props.roomId },
-      update(cache, { data: sendMessageMutation }) {
-        const { messages } = cache.readQuery({
-          query: MESSAGES_QUERY,
-          variables: { roomId: props.roomId }
-        });
-        // New messages go at the top of the list.
-        messages.data.unshift(sendMessageMutation.sendMessage);
-      }
-    }),
-    sendMessage = () => {
-      sendMessageMutation({ variables: { body: input.value } });
-    };
+    variables: { roomId: roomIdContext.roomId },
+    update(cache, { data: sendMessageMutation }) {
+      const { messages } = cache.readQuery({
+        query: MESSAGES_QUERY,
+        variables: { roomId: roomIdContext.roomId },
+      });
+      // New messages go at the top of the list.
+      messages.data.unshift(sendMessageMutation.sendMessage);
+    },
+  });
 
   const keyPress = e => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
-      sendMessage();
-      input.value = "";
+      sendMessageMutation({ variables: { body: input } });
+      setInput('');
     }
   };
 
+  function handleChange(e) {
+    setInput(e.target.value);
+  }
+
   return (
     <div>
-      <Input ref={node => (input = node)} onKeyUp={e => keyPress(e)} />
+      <InputBox
+        value={input}
+        onKeyUp={e => keyPress(e)}
+        onChange={handleChange}
+      />
     </div>
   );
 };

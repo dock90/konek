@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Dashboard from "../../components/Dashboard";
-import { useState } from "react";
+import { useState, Component } from "react";
 // components
 import RoomList from "../../components/messages/RoomList";
 import { useRouter } from "next/router";
 import MessageContainer from "../../components/messages/MessageContainer";
+import { RoomIdContext } from "../../components/messages/RoomIdContext";
 
 // styles
 const Container = styled.div`
@@ -19,15 +20,25 @@ const Container = styled.div`
     "rooms messages";
 `;
 
-const Messages = props => {
+const Messages = () => {
   const router = useRouter();
+
   let [roomId, setRoomId] = useState(router.query.roomId);
+
+  const roomIdValue = {
+    roomId: roomId,
+    setRoomId: newRoomId => {
+      setRoomId(newRoomId);
+    }
+  };
 
   return (
     <Dashboard>
       <Container>
-        <RoomList roomId={roomId} setRoomId={setRoomId} />
-        <MessageContainer roomId={roomId} />
+        <RoomIdContext.Provider value={roomIdValue}>
+          <RoomList />
+          <MessageContainer />
+        </RoomIdContext.Provider>
       </Container>
     </Dashboard>
   );

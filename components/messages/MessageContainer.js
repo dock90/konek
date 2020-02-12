@@ -1,7 +1,12 @@
 import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+import { useContext } from "react";
+import { MESSAGES_QUERY } from "../../queries/MessagesQueries";
+import { RoomIdContext } from "./RoomIdContext";
 // components
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
+import Loading from "../Loading";
 
 const Container = styled.div`
   grid-area: messages;
@@ -10,32 +15,43 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const List = styled.div`
-  flex-grow: 1;
-`;
 const Input = styled.div`
   flex-grow: 0;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 `;
 
-const NoRoomSelected = styled.div`
+const Information = styled.div`
   text-align: center;
   margin-top: 20%;
 `;
 
-const MessageContainer = props => {
-  if (!props.roomId) {
-    return (
-      <NoRoomSelected>Select a conversation to display details</NoRoomSelected>
-    );
+const MessageContainer = () => {
+  const roomIdContext = useContext(RoomIdContext);
+  const { loading, error, data } = useQuery(MESSAGES_QUERY, {
+    variables: {
+      roomId: roomIdContext.roomId
+    },
+    // Don't execute if we don't have a room id.
+    skip: !roomIdContext.roomId,
+  });
+
+  if (!roomIdContext.roomId) {
+    return <Information>Select a conversation to display details</Information>;
   }
+
+  if (loading) {
+    return <Information><Loading/></Information>
+  }
+
+  if (error) {
+    return <Information>{error}</Information>;
+  }
+
   return (
     <Container>
-      <List>
-        <MessageList roomId={props.roomId}/>
-      </List>
+      <MessageList messages={data.messages.data} />
       <Input>
-        <MessageInput roomId={props.roomId}/>
+        <MessageInput roomId={roomIdContext.roomId} />
       </Input>
     </Container>
   );

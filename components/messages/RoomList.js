@@ -1,16 +1,17 @@
 import { useQuery } from '@apollo/react-hooks';
-import gql from "graphql-tag";
-import styled from "styled-components";
-import { Input } from "@material-ui/core";
+import gql from 'graphql-tag';
+import styled from 'styled-components';
+import { Input } from '@material-ui/core';
 // components
-import RoomItem from "./RoomItem";
+import RoomItem from './RoomItem';
+import Loading from '../Loading';
 
 const ROOMS_QUERY = gql`
   {
     rooms {
       roomId
       name
-      qtyUnread 
+      qtyUnread
     }
   }
 `;
@@ -33,13 +34,16 @@ const RoomList = props => {
     <RoomContainer>
       <SearchInput placeholder="Search Contacts" />
       {(() => {
-        if (rooms.loading) return <span>loading...</span>;
+        if (rooms.loading) return <Loading />;
         if (rooms.error) return <span>Error: {rooms.error.message}</span>;
         if (rooms.data.rooms.length === 0) return <span>No rooms! 🙁</span>;
 
-        return rooms.data.rooms.map(room => <RoomItem room={room} key={room.roomId} active={room.roomId === props.roomId} setRoomId={props.setRoomId} />);
+        return rooms.data.rooms.map(room => (
+          <RoomItem room={room} key={room.roomId} />
+        ));
       })()}
-    </RoomContainer>);
+    </RoomContainer>
+  );
 };
 
 export default RoomList;

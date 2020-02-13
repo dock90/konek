@@ -7,9 +7,23 @@ import {
   MESSAGES_QUERY
 } from "../../queries/MessagesQueries";
 import { RoomContext } from "../../contexts/RoomContext";
+// components
+import SendIcon from "@material-ui/icons/Send";
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const InputBox = styled(Input)`
   width: 100%;
+  background-color: #f5f6f7;
+  flex-grow: 1;
+`;
+
+const SendButton = styled.div`
+  margin: 0 5px;
+  cursor: pointer;
 `;
 
 const MessageInput = () => {
@@ -41,11 +55,18 @@ const MessageInput = () => {
     }
   });
 
+  const sendMessage = () => {
+    if (input.length === 0) {
+      return;
+    }
+    sendMessageMutation({variables: {body: input}});
+    setInput("");
+  };
+
   const keyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault();
-      sendMessageMutation({ variables: { body: input } });
-      setInput("");
+      sendMessage();
     }
   };
 
@@ -54,13 +75,22 @@ const MessageInput = () => {
   }
 
   return (
-    <div>
+    <Container>
       <InputBox
+        placeholder="Message..."
         value={input}
         onKeyUp={e => keyPress(e)}
         onChange={handleChange}
       />
-    </div>
+      <SendButton onClick={sendMessage}>
+        <SendIcon
+          style={{
+            height: 20,
+            width: 20
+          }}
+        />
+      </SendButton>
+    </Container>
   );
 };
 

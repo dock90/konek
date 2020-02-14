@@ -16,10 +16,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const InputWrapper = styled.div`
+const InputContainer = styled.div`
   flex-grow: 0;
-  height: 5rem;
-  background-color: white;
+  margin-top: 0.5rem;
+  width: 100%;
+  border-top: solid 2px #bbbbbb;
+  background-color: whitesmoke;
+  padding: 5px;
 `;
 
 const MLWrapper = styled.div`
@@ -51,15 +54,6 @@ const Beginning = styled.div`
   align-self: center;
 `;
 
-const Input = styled.div`
-  flex-grow: 0;
-  margin-top: 0.5rem;
-  width: 100%;
-  border-top: solid 2px #bbbbbb;
-  background-color: whitesmoke;
-  padding: 5px;
-`;
-
 const Information = styled.div`
   text-align: center;
   margin-top: 20%;
@@ -83,11 +77,14 @@ const MessageContainer = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(loading);
 
   const eomRef = useRef();
-  useEffect(() => {
+  const scrollToBottom = () => {
     if (!eomRef.current || !isAtBottom) {
       return;
     }
     eomRef.current.scrollIntoView({ behavior: "auto" });
+  };
+  useEffect(() => {
+    scrollToBottom();
   }, [data, isAtBottom]);
 
   if (!roomId) {
@@ -171,9 +168,7 @@ const MessageContainer = () => {
               flexDirection: "column"
             }}
           >
-            {!hasMore && (
-              <Beginning>Beginning of chat</Beginning>
-            )}
+            {!hasMore && <Beginning>Beginning of chat</Beginning>}
             {messages.map(m => (
               <MessageItem message={m} key={m.messageId} />
             ))}
@@ -181,11 +176,9 @@ const MessageContainer = () => {
           <div ref={eomRef} />
         </MLContainer>
       </MLWrapper>
-      <InputWrapper>
-        <Input>
-          <MessageInput roomId={roomContext.room.roomId} />
-        </Input>
-      </InputWrapper>
+      <InputContainer>
+        <MessageInput updated={scrollToBottom} />
+      </InputContainer>
     </Container>
   );
 };

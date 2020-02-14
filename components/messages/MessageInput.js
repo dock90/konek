@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { useContext, useState } from "react";
-import { Input } from "@material-ui/core";
 import {
   SEND_MESSAGE_MUTATION,
   MESSAGES_QUERY
 } from "../../queries/MessagesQueries";
 import { RoomContext } from "../../contexts/RoomContext";
 // components
+import { CircularProgress, Input, TextareaAutosize } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 
 const Container = styled.div`
@@ -15,10 +15,12 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const InputBox = styled(Input)`
+const InputBox = styled(TextareaAutosize)`
   width: 100%;
   background-color: #f5f6f7;
   flex-grow: 1;
+  border: 0;
+  font: inherit;
 `;
 
 const SendButton = styled.div`
@@ -26,10 +28,12 @@ const SendButton = styled.div`
   cursor: pointer;
 `;
 
-const MessageInput = () => {
+const MessageInput = props => {
   const [input, setInput] = useState(""),
     roomContext = useContext(RoomContext),
     roomId = roomContext.room ? roomContext.room.roomId : null;
+
+  const [sending, setSending] = useState(false);
 
   const [sendMessageMutation] = useMutation(SEND_MESSAGE_MUTATION, {
     variables: { roomId: roomId },
@@ -56,18 +60,24 @@ const MessageInput = () => {
     }
   });
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (input.length === 0) {
       return;
     }
-    sendMessageMutation({ variables: { body: input } });
+    const inputVal = input;
     setInput("");
+    setSending(true);
+    await sendMessageMutation({ variables: { body: inputVal } });
+    setSending(false);
   };
 
   const keyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault();
       sendMessage();
+    }
+    if (props.updated instanceof Function) {
+      props.updated();
     }
   };
 
@@ -80,17 +90,24 @@ const MessageInput = () => {
       <InputBox
         placeholder="Message..."
         value={input}
-        onKeyUp={e => keyPress(e)}
+        onKeyPress={e => keyPress(e)}
         onChange={handleChange}
+        rowsMax={5}
       />
-      <SendButton onClick={sendMessage}>
-        <SendIcon
-          style={{
-            height: 20,
-            width: 20
-          }}
-        />
-      </SendButton>
+      {sending ? (
+        <SendButton>
+          <CircularProgress style={{ height: 20, width: 20 }} />
+        </SendButton>
+      ) : (
+        <SendButton onClick={sendMessage}>
+          <SendIcon
+            style={{
+              height: 20,
+              width: 20
+            }}
+          />
+        </SendButton>
+      )}
     </Container>
   );
 };

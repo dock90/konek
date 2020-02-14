@@ -5,7 +5,6 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
-import fetch from 'isomorphic-fetch';
 import Page from '../components/Page';
 import { auth } from '../firebase';
 
@@ -25,7 +24,16 @@ const authLink = setContext((_, { headers }) =>
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: object => {
+      switch (object.__typename) {
+        case 'Message':
+          return object.messageId;
+        case 'Room':
+          return object.roomId;
+      }
+    }
+  }),
 });
 
 class CRM extends App {

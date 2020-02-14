@@ -36,7 +36,7 @@ const MessageInput = () => {
     update(cache, { data: mutationResponse }) {
       const { messages } = cache.readQuery({
         query: MESSAGES_QUERY,
-        variables: { roomId: roomId }
+        variables: { roomId: roomId, after: null }
       });
 
       // Write to cache so
@@ -49,7 +49,8 @@ const MessageInput = () => {
           }
         },
         variables: {
-          roomId: roomId
+          roomId: roomId,
+          after: null
         }
       });
     }
@@ -59,7 +60,7 @@ const MessageInput = () => {
     if (input.length === 0) {
       return;
     }
-    sendMessageMutation({variables: {body: input}});
+    sendMessageMutation({ variables: { body: input } });
     setInput("");
   };
 

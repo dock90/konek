@@ -5,7 +5,6 @@ export const ME_QUERY = gql`
   query ME_QUERY {
     me {
       name
-      roomId
       picture
       emails {
         email

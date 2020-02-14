@@ -3,12 +3,10 @@ import Router from "next/router";
 import { Query } from "react-apollo";
 import styled from "styled-components";
 import { auth } from "../firebase";
-import { MeContext } from "../contexts/MeContext";
 import { ME_QUERY } from "../queries/MeQueries";
 // components
 import Header from "./Header";
 import Nav from "./Nav";
-import Loading from "./Loading";
 
 const Container = styled.div`
   display: grid;
@@ -25,7 +23,7 @@ class Main extends Component {
     authUser: false,
     me: {
       me: {},
-      updateMe: this.updateMe,
+      updateMe: this.updateMe
     }
   };
 
@@ -55,17 +53,17 @@ class Main extends Component {
     if (authUser) {
       return (
         <Query query={ME_QUERY}>
-          {({loading, error, data}) => {
-            if (loading) return <Loading/>;
+          {({ loading, error }) => {
+            // We run this query at the top level so that the cache is populated. Future queries will never
+            // be in the loading state and can use the data directly.
+            if (loading) return <p>loading...</p>;
             if (error) return <p>Error: {error.message}</p>;
             return (
-              <MeContext.Provider value={data}>
-                <Container>
-                  <Header />
-                  <Nav />
-                  {children}
-                </Container>
-              </MeContext.Provider>
+              <Container>
+                <Header />
+                <Nav />
+                {children}
+              </Container>
             );
           }}
         </Query>

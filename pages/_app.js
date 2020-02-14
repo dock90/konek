@@ -3,7 +3,7 @@ import App from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import 'isomorphic-fetch';
 import Page from '../components/Page';
@@ -27,12 +27,11 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache({
     dataIdFromObject: object => {
-      switch (object.__typename) {
-        case 'Message':
-          return object.messageId;
-        case 'Room':
-          return object.roomId;
+      const idField = object.__typename.charAt(0).toLowerCase() + object.__typename.slice(1) + 'Id';
+      if (idField in object) {
+        return object[idField];
       }
+      return defaultDataIdFromObject(object);
     }
   }),
 });

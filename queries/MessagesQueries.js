@@ -13,7 +13,7 @@ const QUERY_FIELDS = gql`
 `;
 
 export const MESSAGES_QUERY = gql`
-  query ($roomId: ID!, $after: String) {
+  query MESSAGES_QUERY ($roomId: ID!, $after: String) {
     messages(input: { roomId: $roomId, after: $after, first: 25 }) {
       data {
         ...MessageFields
@@ -28,7 +28,7 @@ export const MESSAGES_QUERY = gql`
 `;
 
 export const SEND_MESSAGE_MUTATION = gql`
-  mutation ($roomId: ID!, $body: String!) {
+  mutation SEND_MESSAGE_MUTATION ($roomId: ID!, $body: String!) {
     sendMessage(input: { roomId: $roomId, body: $body }) {
       __typename
       ...MessageFields

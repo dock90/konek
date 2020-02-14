@@ -79,6 +79,8 @@ const MessageContainer = () => {
   });
 
   const [isAtBottom, setIsAtBottom] = useState(true);
+  // A lock to prevent multiple simultaneous calls to `loadMore`.
+  const [isLoadingMore, setIsLoadingMore] = useState(loading);
 
   const eomRef = useRef();
   useEffect(() => {
@@ -94,11 +96,15 @@ const MessageContainer = () => {
 
   let hasMore = true;
 
-  const loadMore = () => {
+  const loadMore = async () => {
+    if (isLoadingMore) {
+      return;
+    }
     if (data) {
       variables.after = data.messages.pageInfo.endCursor;
     }
-    fetchMore({
+    setIsLoadingMore(true);
+    await fetchMore({
       variables,
       updateQuery: (prev, { fetchMoreResult: results }) => {
         if (!results || results.messages.data.length === 0) {
@@ -116,17 +122,13 @@ const MessageContainer = () => {
         return results;
       }
     });
+    setIsLoadingMore(false);
   };
 
   const handleScroll = e => {
-    if (
-      e.target.scrollHeight - e.target.scrollTop - 10 <=
-      e.target.clientHeight
-    ) {
-      setIsAtBottom(true);
-    } else {
-      setIsAtBottom(false);
-    }
+    setIsAtBottom(
+      e.target.scrollHeight - e.target.scrollTop - 10 <= e.target.clientHeight
+    );
   };
 
   if (error) {
@@ -170,7 +172,7 @@ const MessageContainer = () => {
             }}
           >
             {!hasMore && (
-              <Beginning key={"beginning"}>Beginning of chat</Beginning>
+              <Beginning>Beginning of chat</Beginning>
             )}
             {messages.map(m => (
               <MessageItem message={m} key={m.messageId} />

@@ -14,7 +14,7 @@ const QUERY_FIELDS = gql`
 
 export const MESSAGES_QUERY = gql`
   query ($roomId: ID!, $after: String) {
-    messages(input: { roomId: $roomId, after: $after, first: 15 }) {
+    messages(input: { roomId: $roomId, after: $after, first: 25 }) {
       data {
         ...MessageFields
       }

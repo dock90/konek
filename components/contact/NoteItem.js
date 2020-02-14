@@ -7,6 +7,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 // styled
 import { BodyText } from '../styles/Typography';
 
+// styles
 const Container = styled.div`
   margin-top: 1rem;
 `;

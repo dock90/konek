@@ -61,7 +61,7 @@ const ListItem = ({ contactData }) => {
 
 ListItem.propTypes = {
   contactData: PropTypes.object.isRequired,
-  id: PropTypes.number.isRequired,
+  contactId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
 };
 

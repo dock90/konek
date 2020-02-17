@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { MEMBER_FIELDS } from "./MemberQueries";
 
 const QUERY_FIELDS = gql`
   fragment MessageFields on Message {
@@ -6,14 +7,15 @@ const QUERY_FIELDS = gql`
     body
     createdAt
     author {
-      name
-      memberId
+      ...MemberFields
     }
+    __typename
   }
+  ${MEMBER_FIELDS}
 `;
 
 export const MESSAGES_QUERY = gql`
-  query MESSAGES_QUERY ($roomId: ID!, $after: String) {
+  query MESSAGES_QUERY($roomId: ID!, $after: String) {
     messages(input: { roomId: $roomId, after: $after, first: 25 }) {
       data {
         ...MessageFields
@@ -28,9 +30,8 @@ export const MESSAGES_QUERY = gql`
 `;
 
 export const SEND_MESSAGE_MUTATION = gql`
-  mutation SEND_MESSAGE_MUTATION ($roomId: ID!, $body: String!) {
+  mutation SEND_MESSAGE_MUTATION($roomId: ID!, $body: String!) {
     sendMessage(input: { roomId: $roomId, body: $body }) {
-      __typename
       ...MessageFields
     }
   }

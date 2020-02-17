@@ -5,7 +5,7 @@ import styled from 'styled-components';
 // material
 import Divider from '@material-ui/core/Divider';
 // firebase
-import { auth } from '../firebase';
+import { auth } from '../config/firebase';
 // components
 import { H1 } from './styles/Typography';
 import AuthLayout from './styles/AuthLayout';

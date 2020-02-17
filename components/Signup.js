@@ -7,7 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { auth } from '../firebase';
+import { auth } from '../config/firebase';
 // components
 import { H1 } from './styles/Typography';
 import AuthLayout from './styles/AuthLayout';

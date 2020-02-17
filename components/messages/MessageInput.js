@@ -1,14 +1,10 @@
 import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
 import { useContext, useState } from "react";
-import {
-  SEND_MESSAGE_MUTATION,
-  MESSAGES_QUERY
-} from "../../queries/MessagesQueries";
 import { RoomContext } from "../../contexts/RoomContext";
 // components
 import { CircularProgress, Input, TextareaAutosize } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
+import { sendMessage } from "../../service/Messages";
 
 const Container = styled.div`
   display: flex;
@@ -35,49 +31,24 @@ const MessageInput = props => {
 
   const [sending, setSending] = useState(false);
 
-  const [sendMessageMutation] = useMutation(SEND_MESSAGE_MUTATION, {
-    variables: { roomId: roomId },
-    update(cache, { data: mutationResponse }) {
-      const { messages } = cache.readQuery({
-        query: MESSAGES_QUERY,
-        variables: { roomId: roomId, after: null }
-      });
-
-      // Write to cache so
-      cache.writeQuery({
-        query: MESSAGES_QUERY,
-        data: {
-          messages: {
-            ...messages,
-            data: [mutationResponse.sendMessage, ...messages.data]
-          }
-        },
-        variables: {
-          roomId: roomId,
-          after: null
-        }
-      });
-    }
-  });
-
-  const sendMessage = async () => {
+  const processMessage = async () => {
     if (input.length === 0) {
       return;
     }
     const inputVal = input;
     setInput("");
     setSending(true);
-    await sendMessageMutation({ variables: { body: inputVal } });
+    await sendMessage(roomId, inputVal, roomContext.room.memberId);
     setSending(false);
+    if (props.updated instanceof Function) {
+      props.updated();
+    }
   };
 
   const keyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault();
-      sendMessage();
-    }
-    if (props.updated instanceof Function) {
-      props.updated();
+      processMessage();
     }
   };
 
@@ -99,7 +70,7 @@ const MessageInput = props => {
           <CircularProgress style={{ height: 20, width: 20 }} />
         </SendButton>
       ) : (
-        <SendButton onClick={sendMessage}>
+        <SendButton onClick={processMessage}>
           <SendIcon
             style={{
               height: 20,

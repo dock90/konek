@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import Router from "next/router";
 import { Query } from "react-apollo";
 import styled from "styled-components";
-import { auth } from "../firebase";
+import { auth } from "../config/firebase";
 import { ME_QUERY } from "../queries/MeQueries";
 // components
 import Header from "./Header";
 import Nav from "./Nav";
+import Loading from "./Loading";
 
 const Container = styled.div`
   display: grid;
@@ -21,15 +22,7 @@ const Container = styled.div`
 class Main extends Component {
   state = {
     authUser: false,
-    me: {
-      me: {},
-      updateMe: this.updateMe
-    }
   };
-
-  updateMe(me) {
-    // TODO: Implement me!
-  }
 
   componentDidMount() {
     this.authSubscription = auth.onAuthStateChanged(user => {
@@ -56,7 +49,7 @@ class Main extends Component {
           {({ loading, error }) => {
             // We run this query at the top level so that the cache is populated. Future queries will never
             // be in the loading state and can use the data directly.
-            if (loading) return <p>loading...</p>;
+            if (loading) return <Loading/>;
             if (error) return <p>Error: {error.message}</p>;
             return (
               <Container>

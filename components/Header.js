@@ -6,7 +6,7 @@ import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
 import InputIcon from '@material-ui/icons/Input';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import { auth } from '../firebase';
+import { auth } from '../config/firebase';
 
 // components
 import { H4 } from './styles/Typography';

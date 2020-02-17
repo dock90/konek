@@ -4,20 +4,20 @@ import {
   SEND_MESSAGE_MUTATION
 } from "../queries/MessagesQueries";
 import { MEMBER_QUERY } from "../queries/MemberQueries";
+import { ROOM_FIELDS } from "../queries/RoomQueries";
 
 /**
  *
  * @param roomId {String}
  * @param body {String}
- * @param memberId {String}
  * @return {Promise<void>}
  */
-export async function sendMessage(roomId, body, memberId) {
+export async function sendMessage(roomId, body) {
   await client.mutate({
     mutation: SEND_MESSAGE_MUTATION,
     variables: { roomId, body },
     update(proxy, { data }) {
-      const {messages} = proxy.readQuery({
+      const { messages } = proxy.readQuery({
         query: MESSAGES_QUERY,
         variables: { roomId: roomId, after: null }
       });
@@ -33,7 +33,7 @@ export async function sendMessage(roomId, body, memberId) {
         data: {
           messages: {
             ...messages,
-            data: [data.sendMessage, ...messages.data],
+            data: [data.sendMessage, ...messages.data]
           }
         },
         variables: {
@@ -41,7 +41,6 @@ export async function sendMessage(roomId, body, memberId) {
           after: null
         }
       });
-
     }
   });
 }
@@ -55,16 +54,40 @@ export async function sendMessage(roomId, body, memberId) {
  * @return {Promise<void>}
  */
 export async function addMessage(messageId, roomId, body, authorId) {
-  const query = client.readQuery({
-    query: MESSAGES_QUERY,
-    variables: { roomId, after: null }
+  const roomInfo = client.readFragment({
+    id: roomId,
+    fragment: ROOM_FIELDS
   });
+
+  if (!roomInfo) {
+    // The Chat UI hasn't been loaded, nothing to update.
+    return;
+  }
+
+  // Make sure that we aren't the sender before updating the qty unread.
+  if (roomInfo.memberId !== authorId) {
+    roomInfo.qtyUnread++;
+
+    client.writeFragment({
+      id: roomId,
+      fragment: ROOM_FIELDS,
+      data: roomInfo
+    });
+  }
+
+  let query;
+  try {
+    query = client.readQuery({
+      query: MESSAGES_QUERY,
+      variables: { roomId, after: null }
+    });
+  } catch (e) {
+    return;
+  }
 
   if (hasPreviousMessage(query.messages, messageId)) {
     return;
   }
-
-  // TODO: Handle if there is no data in the cache.
 
   let authorInfo;
 
@@ -101,14 +124,14 @@ export async function addMessage(messageId, roomId, body, authorId) {
     data: {
       messages: {
         ...query.messages,
-        data: [newMessage, ...query.messages.data],
+        data: [newMessage, ...query.messages.data]
       }
     }
   });
 }
 
+function incrementQtyUnread(roomId, authorId) {}
+
 function hasPreviousMessage(messages, messageId) {
-  return !!messages.data.find(m => m.messageId === messageId)
+  return !!messages.data.find(m => m.messageId === messageId);
 }
-
-

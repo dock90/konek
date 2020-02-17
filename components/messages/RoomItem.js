@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { RoomContext } from "../../contexts/RoomContext";
 // material
 import Avatar from "@material-ui/core/Avatar";
+import { Badge } from "@material-ui/core";
 
 const Container = styled.div`
   padding: 8px 8px 8px ${props => (props.active ? "8px" : "13px")};
@@ -13,19 +14,18 @@ const Container = styled.div`
   margin-bottom: 1px;
 `;
 
-const AvatarContainer = styled.div`
-  flex-grow: 0;
-  margin-right: 10px;
-`;
 const RoomName = styled.div`
   flex-grow: 1;
   display: flex;
   align-items: center;
 `;
+const QtyUnread = styled(Badge)`
+  flex-grow: 0;
+  margin-right: 10px;
+`;
 
 const RoomItem = props => {
-  const
-    roomContext = useContext(RoomContext),
+  const roomContext = useContext(RoomContext),
     roomId = roomContext.room ? roomContext.room.roomId : null;
 
   function setRoomId() {
@@ -33,18 +33,20 @@ const RoomItem = props => {
   }
 
   return (
-    <Container
-      active={props.room.roomId === roomId}
-      onClick={setRoomId}
-    >
-      <AvatarContainer>
+    <Container active={props.room.roomId === roomId} onClick={setRoomId}>
+      <QtyUnread
+        badgeContent={props.room.qtyUnread}
+        color="error"
+        invisible={props.room.qtyUnread === 0}
+        overlap="circle"
+      >
         <Avatar
           style={{
             height: 50,
             width: 50
           }}
         />
-      </AvatarContainer>
+      </QtyUnread>
       <RoomName>{props.room.name}</RoomName>
     </Container>
   );

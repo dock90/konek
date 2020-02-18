@@ -8,7 +8,7 @@ import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from "apollo-cache-inmemory";
-import { ROOM_FIELDS } from "../queries/RoomQueries";
+import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
 import introspectionResultData from "./fragmenTypes";
 
 const httpLink = createHttpLink({
@@ -50,20 +50,53 @@ const cache = new InMemoryCache({
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: cache,
-  // Required for @client fields to be resolved by the cache.
   resolvers: {
     Query: {
-      async room(obj, args, ctx, info) {
+      async room(obj, args, ctx) {
         if (!args.roomId) {
           return undefined;
         }
 
-        const roomInfo = ctx.cache.readFragment({
+        let roomInfo = ctx.cache.readFragment({
           fragment: ROOM_FIELDS,
-          id: args.roomId,
+          id: args.roomId
         });
-        // TODO: We may need to fetch from the server if it doesn't exist locally...
-        return roomInfo;
+
+        if (roomInfo) {
+          // It is already in the cache. Life is so simple sometimes, enjoy it while it lasts. 👴
+          return roomInfo;
+        }
+
+        // Get the current room list.
+        const { data: roomList } = await ctx.client.query({
+          query: ROOMS_QUERY
+        });
+
+        // Check if the current room list includes have the room we're searching for.
+        // This can happen if the "rooms" (plural) query hasn't completed yet when the "room" (singular) is queried.
+        const match = roomList.rooms.find(r => r.roomId === args.roomId);
+
+        if (match) {
+          return match;
+        }
+
+        // Load the requested room.
+        const result = await ctx.client.query({
+          query: ROOM_QUERY,
+          variables: {
+            roomId: args.roomId
+          }
+        });
+
+        // Update the cache with the requested room.
+        ctx.cache.writeQuery({
+          query: ROOMS_QUERY,
+          data: {
+            rooms: [result.data.room, ...roomList.rooms]
+          }
+        });
+
+        return result.data.room;
       }
     }
   }
@@ -71,6 +104,6 @@ export const client = new ApolloClient({
 
 cache.writeData({
   data: {
-    pnConnected: false,
-  },
+    pnConnected: false
+  }
 });

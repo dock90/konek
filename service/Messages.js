@@ -168,7 +168,7 @@ export async function markAllRead(roomId, updateServer) {
     });
     messages = data.messages;
   } catch (e) {
-    console.log("This really should not ever happen, but you never know.");
+    console.log("💥 This really should never happen, but you never know. 💥");
     return;
   }
 

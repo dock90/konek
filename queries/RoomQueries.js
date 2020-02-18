@@ -20,6 +20,15 @@ export const ROOMS_QUERY = gql`
   ${ROOM_FIELDS}
 `;
 
+export const ROOM_QUERY = gql`
+  query ROOM_QUERY ($roomId: ID!) {
+    room(roomId: $roomId) {
+      ...RoomFields
+    }
+  }
+  ${ROOM_FIELDS}
+`;
+
 export const ROOM_QUERY_LOCAL = gql`
   query ROOM_QUERY ($roomId: ID!) {
     room(roomId: $roomId) @client {

@@ -178,7 +178,7 @@ const MessageContainer = () => {
     return <Information>{error}</Information>;
   }
 
-  if (loading || !data || !data.messages.data.length) {
+  if (loading || !data) {
     return (
       <Information>
         <Loading />

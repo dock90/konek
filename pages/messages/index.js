@@ -23,7 +23,7 @@ const Container = styled.div`
 const Messages = () => {
   const router = useRouter();
 
-  let [roomId, setRoomId] = useState(null);
+  let [roomId, setRoomId] = useState(router.query.roomId);
 
   const roomValue = {
     roomId: roomId,

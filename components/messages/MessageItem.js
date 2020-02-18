@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useContext } from "react";
-import { RoomIdContext } from "../../contexts/RoomIdContext";
 
 const MessageContainer = styled.div`
   background-color: ${props => (props.isMe ? "#ffffff" : "#3F51B5")};

@@ -4,8 +4,8 @@ import {
   SEND_MESSAGE_MUTATION,
   SET_READ_THROUGH
 } from "../queries/MessagesQueries";
-import { MEMBER_QUERY } from "../queries/MemberQueries";
-import { ROOM_FIELDS } from "../queries/RoomQueries";
+import { MEMBER_FIELDS, MEMBER_QUERY } from "../queries/MemberQueries";
+import { ROOM_FIELDS, ROOM_QUERY_LOCAL } from "../queries/RoomQueries";
 
 /**
  *
@@ -47,7 +47,7 @@ export async function sendMessage(roomId, body) {
       // message we just added won't be available.
       const roomInfo = proxy.readFragment({
         id: roomId,
-        fragment: ROOM_FIELDS,
+        fragment: ROOM_FIELDS
       });
 
       roomInfo.readThrough = data.sendMessage.messageId;
@@ -70,11 +70,14 @@ export async function sendMessage(roomId, body) {
  * @return {Promise<void>}
  */
 export async function addMessage(messageId, roomId, body, authorId) {
-  const roomInfo = getRoomInfo(roomId);
+  let roomInfo = getRoomInfo(roomId);
 
   if (!roomInfo) {
-    // The Chat UI hasn't been loaded, nothing to update.
-    return;
+    const roomQuery = await client.query({
+      query: ROOM_QUERY_LOCAL,
+      variables: { roomId }
+    });
+    roomInfo = roomQuery.data.room;
   }
 
   // Make sure that we aren't the sender before updating the qty unread.
@@ -95,22 +98,21 @@ export async function addMessage(messageId, roomId, body, authorId) {
       variables: { roomId, after: null }
     });
   } catch (e) {
+    // There are no messages loaded for this room, so we can exit without updating anything.
     return;
   }
 
   if (hasPreviousMessage(query.messages, messageId)) {
+    // This message is already in the list! Our job is already done.
     return;
   }
 
-  let authorInfo;
+  let authorInfo = client.readFragment({
+    fragment: MEMBER_FIELDS,
+    id: authorId
+  });
 
-  const authorMessage = query.messages.data.find(
-    m => m.author.memberId === authorId
-  );
-
-  if (authorMessage) {
-    authorInfo = authorMessage.author;
-  } else {
+  if (!authorInfo) {
     // we gotta load the author info from the API. 🙁
     const { data } = await client.query({
       query: MEMBER_QUERY,

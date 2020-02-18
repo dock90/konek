@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useContext } from "react";
-import { RoomContext } from "../../contexts/RoomContext";
+import { RoomIdContext } from "../../contexts/RoomIdContext";
 // material
 import Avatar from "@material-ui/core/Avatar";
 import { Badge } from "@material-ui/core";
@@ -25,15 +25,15 @@ const QtyUnread = styled(Badge)`
 `;
 
 const RoomItem = props => {
-  const roomContext = useContext(RoomContext),
-    roomId = roomContext.room ? roomContext.room.roomId : null;
+  const roomIdContext = useContext(RoomIdContext),
+    roomId = roomIdContext.roomId;
 
-  function setRoomId() {
-    roomContext.setRoom(props.room);
+  function selectRoom() {
+    roomIdContext.setRoomId(props.room.roomId);
   }
 
   return (
-    <Container active={props.room.roomId === roomId} onClick={setRoomId}>
+    <Container active={props.room.roomId === roomId} onClick={selectRoom}>
       <QtyUnread
         badgeContent={props.room.qtyUnread}
         color="error"

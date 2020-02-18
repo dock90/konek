@@ -1,7 +1,10 @@
-import styled from 'styled-components';
-import { useQuery } from '@apollo/react-hooks';
-import MessageItem from './MessageItem';
-import { MESSAGES_QUERY } from '../../queries/MessagesQueries';
+import styled from "styled-components";
+import MessageItem from "./MessageItem";
+import { useContext } from "react";
+import { RoomIdContext } from "../../contexts/RoomIdContext";
+import { useQuery } from "@apollo/react-hooks";
+import { ROOM_QUERY_LOCAL } from "../../queries/RoomQueries";
+import Loading from "../Loading";
 
 const MessageContainer = styled.div`
   min-height: 100%;
@@ -11,11 +14,36 @@ const MessageContainer = styled.div`
   align-items: stretch;
 `;
 
-const MessageList = props => (
-  <MessageContainer>
-    {props.messages.map(m => (
-      <MessageItem message={m} key={m.messageId} />
-    ))}
-  </MessageContainer>
-);
+const MessageWrapper = styled.div`
+  margin: 4px;
+`;
+
+const MessageList = () => {
+  const roomIdContext = useContext(RoomIdContext),
+    roomId = roomIdContext.roomId;
+
+  const { loading, data } = useQuery(ROOM_QUERY_LOCAL, {
+    variables: { roomId }
+  });
+
+  if (loading) {
+    return <Loading/>;
+  }
+
+  return (
+    <MessageContainer>
+      {props.messages.map(m => {
+        const isLastRead = m.messageId === data.room.readThrough;
+
+        return (
+          <MessageWrapper>
+            <MessageItem message={m} key={m.messageId} />
+            {isLastRead}
+          </MessageWrapper>
+        );
+      })}
+    </MessageContainer>
+  );
+};
+
 export default MessageList;

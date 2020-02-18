@@ -7,7 +7,6 @@ const Container = styled.div`
   text-align: center;
 `;
 
-// This is ugly, improve it some day.
 const Loading = () => (
   <Container>
     <CircularProgress style={{height: 25, width: 25}} />

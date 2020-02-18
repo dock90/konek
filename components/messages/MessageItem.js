@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useContext } from "react";
-import { RoomContext } from "../../contexts/RoomContext";
+import { RoomIdContext } from "../../contexts/RoomIdContext";
 
 const MessageContainer = styled.div`
   background-color: ${props => (props.isMe ? "#ffffff" : "#3F51B5")};
@@ -26,18 +26,16 @@ const Author = styled.div`
 
 const Body = styled.div``;
 
-const MessageItem = props => {
-  const { room } = useContext(RoomContext);
-
-  return (
-    <MessageContainer isMe={props.message.author.memberId === room.memberId}>
-      <Meta>
-        <Author>{props.message.author.name}</Author>
-        <Date>{props.message.createdAt}</Date>
-      </Meta>
-      <Body>{props.message.body}</Body>
-    </MessageContainer>
-  );
-};
+const MessageItem = props => (
+  <MessageContainer
+    isMe={props.message.author.memberId === props.room.memberId}
+  >
+    <Meta>
+      <Author>{props.message.author.name}</Author>
+      <Date>{props.message.createdAt}</Date>
+    </Meta>
+    <Body>{props.message.body}</Body>
+  </MessageContainer>
+);
 
 export default MessageItem;

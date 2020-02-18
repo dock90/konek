@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { MEMBER_FIELDS } from "./MemberQueries";
+import {ROOM_FIELDS} from "./RoomQueries";
 
 const QUERY_FIELDS = gql`
   fragment MessageFields on Message {
@@ -16,7 +17,7 @@ const QUERY_FIELDS = gql`
 
 export const MESSAGES_QUERY = gql`
   query MESSAGES_QUERY($roomId: ID!, $after: String) {
-    messages(input: { roomId: $roomId, after: $after, first: 25 }) {
+    messages(input: { roomId: $roomId, after: $after, first: 100 }) {
       data {
         ...MessageFields
       }
@@ -36,4 +37,13 @@ export const SEND_MESSAGE_MUTATION = gql`
     }
   }
   ${QUERY_FIELDS}
+`;
+
+export const SET_READ_THROUGH = gql`
+  mutation SET_READ_THROUGH($roomId: ID!, $messageId: ID!) {
+    setReadThrough(input: {roomId: $roomId, messageId: $messageId }) {
+      ...RoomFields
+    }
+  }
+  ${ROOM_FIELDS}
 `;

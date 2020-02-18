@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
-import { RoomContext } from "../../contexts/RoomContext";
+import { RoomIdContext } from "../../contexts/RoomIdContext";
 // components
 import { CircularProgress, Input, TextareaAutosize } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
@@ -26,8 +26,8 @@ const SendButton = styled.div`
 
 const MessageInput = props => {
   const [input, setInput] = useState(""),
-    roomContext = useContext(RoomContext),
-    roomId = roomContext.room ? roomContext.room.roomId : null;
+    roomIdContext = useContext(RoomIdContext),
+    roomId = roomIdContext.roomId;
 
   const [sending, setSending] = useState(false);
 
@@ -38,7 +38,7 @@ const MessageInput = props => {
     const inputVal = input;
     setInput("");
     setSending(true);
-    await sendMessage(roomId, inputVal, roomContext.room.memberId);
+    await sendMessage(roomId, inputVal);
     setSending(false);
     if (props.updated instanceof Function) {
       props.updated();
@@ -64,6 +64,8 @@ const MessageInput = props => {
         onKeyPress={e => keyPress(e)}
         onChange={handleChange}
         rowsMax={5}
+        onFocus={props.focus}
+        onBlur={props.blur}
       />
       {sending ? (
         <SendButton>

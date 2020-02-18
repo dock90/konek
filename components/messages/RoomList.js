@@ -26,7 +26,7 @@ const RoomList = () => {
       {(() => {
         if (rooms.loading) return <Loading />;
         if (rooms.error) return <span>Error: {rooms.error.message}</span>;
-        if (rooms.data.rooms.length === 0) return <span>No rooms! 🙁</span>;
+        if (rooms.data.rooms.length === 0) return <span>No messages! 🙁</span>;
 
         return rooms.data.rooms.map(room => (
           <RoomItem room={room} key={room.roomId} />

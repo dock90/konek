@@ -4,8 +4,12 @@ import { ME_QUERY } from "../queries/MeQueries";
 import { addMessage } from "../service/Messages";
 import { auth } from "./firebase";
 
-const LOCAL_STORAGE_UUID_KEI = "pnuuid";
-let pn;
+/*
+ * When in an HMR environment, PN can end up with multiple simultaneous connections, which can cause
+ * weird issues with the qty unread messages counts. Do a full page refresh to resolve.
+ */
+
+const LOCAL_STORAGE_UUID_KEY = "pnuuid";
 
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -16,7 +20,7 @@ auth.onAuthStateChanged(user => {
 });
 
 function getUuid() {
-  let uuid = window.localStorage.getItem(LOCAL_STORAGE_UUID_KEI);
+  let uuid = window.localStorage.getItem(LOCAL_STORAGE_UUID_KEY);
 
   if (!uuid) {
     uuid = "";
@@ -28,28 +32,37 @@ function getUuid() {
 
     uuid = uuid.substring(0, 15);
 
-    window.localStorage.setItem(LOCAL_STORAGE_UUID_KEI, uuid);
+    window.localStorage.setItem(LOCAL_STORAGE_UUID_KEY, uuid);
   }
 
   return uuid;
 }
 
 const listeners = {
-  message: async msg => {
-    if (msg.message.type !== "message") {
-      console.log(msg);
+  message: async message => {
+    const data = message.message;
+    if (data.type !== "message") {
+      console.log(message);
       // We don't (yet) know how to do anything other than handle messages.
       return;
     }
 
-    await addMessage(
-      msg.message.messageId,
-      msg.message.roomId,
-      msg.message.body,
-      msg.message.authorId
-    );
+    await addMessage(data.messageId, data.roomId, data.body, data.authorId);
+  },
+  status(s) {
+    if (s.category === 'PNConnectedCategory') {
+      client.writeData({
+        data: {
+          pnConnected: true
+        }
+      })
+    } else {
+      console.log(s);
+    }
   }
 };
+
+let pn;
 
 /**
  * Must be called AFTER firebase has been authorized.

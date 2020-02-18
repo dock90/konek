@@ -1,7 +1,8 @@
 import { client } from "../config/apollo";
 import {
   MESSAGES_QUERY,
-  SEND_MESSAGE_MUTATION
+  SEND_MESSAGE_MUTATION,
+  SET_READ_THROUGH
 } from "../queries/MessagesQueries";
 import { MEMBER_QUERY } from "../queries/MemberQueries";
 import { ROOM_FIELDS } from "../queries/RoomQueries";
@@ -41,6 +42,21 @@ export async function sendMessage(roomId, body) {
           after: null
         }
       });
+
+      // We can't use "markAllRead" because the cache hasn't actually been committed at this point so the
+      // message we just added won't be available.
+      const roomInfo = proxy.readFragment({
+        id: roomId,
+        fragment: ROOM_FIELDS,
+      });
+
+      roomInfo.readThrough = data.sendMessage.messageId;
+
+      proxy.writeFragment({
+        id: roomId,
+        fragment: ROOM_FIELDS,
+        data: roomInfo
+      });
     }
   });
 }
@@ -54,10 +70,7 @@ export async function sendMessage(roomId, body) {
  * @return {Promise<void>}
  */
 export async function addMessage(messageId, roomId, body, authorId) {
-  const roomInfo = client.readFragment({
-    id: roomId,
-    fragment: ROOM_FIELDS
-  });
+  const roomInfo = getRoomInfo(roomId);
 
   if (!roomInfo) {
     // The Chat UI hasn't been loaded, nothing to update.
@@ -130,7 +143,68 @@ export async function addMessage(messageId, roomId, body, authorId) {
   });
 }
 
-function incrementQtyUnread(roomId, authorId) {}
+/**
+ *
+ * @param roomId {String}
+ * @param [updateServer=true] {Boolean}
+ */
+export async function markAllRead(roomId, updateServer) {
+  const roomInfo = getRoomInfo(roomId);
+
+  if (!roomInfo) {
+    return;
+  }
+
+  if (roomInfo.qtyUnread <= 0) {
+    return;
+  }
+
+  let messages;
+  try {
+    // get the local message list.
+    const data = await client.readQuery({
+      query: MESSAGES_QUERY,
+      variables: { roomId, after: null }
+    });
+    messages = data.messages;
+  } catch (e) {
+    console.log("This really should not ever happen, but you never know.");
+    return;
+  }
+
+  const messageId = messages.data[0].messageId;
+
+  roomInfo.qtyUnread = 0;
+  roomInfo.readThrough = messageId;
+
+  writeRoomInfo(roomId, roomInfo);
+
+  if (!updateServer) {
+    return;
+  }
+
+  const results = await client.mutate({
+    mutation: SET_READ_THROUGH,
+    variables: { roomId, messageId }
+  });
+
+  writeRoomInfo(roomId, results.data.setReadThrough);
+}
+
+function getRoomInfo(roomId) {
+  return client.readFragment({
+    id: roomId,
+    fragment: ROOM_FIELDS
+  });
+}
+
+function writeRoomInfo(roomId, info) {
+  client.writeFragment({
+    id: roomId,
+    fragment: ROOM_FIELDS,
+    data: info
+  });
+}
 
 function hasPreviousMessage(messages, messageId) {
   return !!messages.data.find(m => m.messageId === messageId);

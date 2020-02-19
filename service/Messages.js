@@ -5,7 +5,11 @@ import {
   SET_READ_THROUGH
 } from "../queries/MessagesQueries";
 import { MEMBER_FIELDS, MEMBER_QUERY } from "../queries/MemberQueries";
-import { ROOM_FIELDS, ROOM_QUERY_LOCAL } from "../queries/RoomQueries";
+import {
+  ROOM_FIELDS,
+  ROOM_QUERY_LOCAL,
+  ROOMS_QUERY
+} from "../queries/RoomQueries";
 
 /**
  *
@@ -42,6 +46,8 @@ export async function sendMessage(roomId, body) {
           after: null
         }
       });
+
+      orderRooms(roomId, proxy);
 
       // We can't use "markAllRead" because the cache hasn't actually been committed at this point so the
       // message we just added won't be available.
@@ -80,8 +86,8 @@ export async function addMessage(messageId, roomId, body, authorId) {
     roomInfo = roomQuery.data.room;
   }
 
-  // Make sure that we aren't the sender before updating the qty unread.
   if (roomInfo.memberId !== authorId) {
+    // We aren't the sender, so we want to update the qty unread.
     roomInfo.qtyUnread++;
 
     client.writeFragment({
@@ -90,6 +96,8 @@ export async function addMessage(messageId, roomId, body, authorId) {
       data: roomInfo
     });
   }
+
+  orderRooms(roomId, client);
 
   let query;
   try {
@@ -205,6 +213,32 @@ function writeRoomInfo(roomId, info) {
     id: roomId,
     fragment: ROOM_FIELDS,
     data: info
+  });
+}
+
+function orderRooms(topRoomId, client) {
+  const { rooms } = client.readQuery({
+    query: ROOMS_QUERY
+  });
+
+  const newRooms = [...rooms];
+
+  for (let i = 0; i < rooms.length; i++) {
+    const r = rooms[i];
+    if (r.roomId === topRoomId) {
+      if (i === 0) {
+        // If we're already at the top, there is nothing to do, we can abort early.
+        return;
+      }
+      newRooms.splice(i, 1);
+      newRooms.unshift(r);
+      break;
+    }
+  }
+
+  client.writeQuery({
+    query: ROOMS_QUERY,
+    data: { rooms: newRooms }
   });
 }
 

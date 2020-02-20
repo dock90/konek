@@ -1,0 +1,107 @@
+import PubNub from "pubnub";
+import { client } from "./apollo";
+import { ME_QUERY } from "../queries/MeQueries";
+import { addMessage } from "../service/Messages";
+import { auth } from "./firebase";
+
+/*
+ * When in an HMR environment, PN can end up with multiple simultaneous connections, which can cause
+ * weird issues with the qty unread messages counts. Do a full page refresh to resolve.
+ */
+
+const LOCAL_STORAGE_UUID_KEY = "pnuuid";
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    initPubNub();
+  } else {
+    closePubNub();
+  }
+});
+
+function getUuid() {
+  let uuid = window.localStorage.getItem(LOCAL_STORAGE_UUID_KEY);
+
+  if (!uuid) {
+    uuid = "";
+    while (uuid.length < 15) {
+      uuid += Math.random()
+        .toString(36)
+        .substring(16);
+    }
+
+    uuid = uuid.substring(0, 15);
+
+    window.localStorage.setItem(LOCAL_STORAGE_UUID_KEY, uuid);
+  }
+
+  return uuid;
+}
+
+const listeners = {
+  message: async message => {
+    const data = message.message;
+    if (data.type !== "message") {
+      console.log(message);
+      // We don't (yet) know how to do anything other than handle messages.
+      return;
+    }
+
+    await addMessage(data.messageId, data.roomId, data.body, data.authorId);
+  },
+  status(s) {
+    if (s.category === 'PNConnectedCategory') {
+      client.writeData({
+        data: {
+          pnConnected: true
+        }
+      })
+    } else {
+      console.log(s);
+    }
+  }
+};
+
+let pn;
+
+/**
+ * Must be called AFTER firebase has been authorized.
+ * @return {Promise<void>}
+ */
+export async function initPubNub() {
+  if (pn) {
+    return;
+  }
+
+  const {
+    data: {
+      me: { pubNubInfo }
+    }
+  } = await client.query({
+    query: ME_QUERY
+  });
+
+  pn = new PubNub({
+    subscribeKey: pubNubInfo.subscribeKey,
+    authKey: pubNubInfo.authKey,
+    ssl: true,
+    uuid: getUuid()
+  });
+
+  pn.addListener(listeners);
+
+  pn.subscribe({
+    channelGroups: [pubNubInfo.channelGroup]
+  });
+}
+
+/**
+ *
+ * @return {Promise<void>}
+ */
+export async function closePubNub() {
+  if (pn) {
+    pn.removeListener(listeners);
+    pn = undefined;
+  }
+}

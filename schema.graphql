@@ -1,0 +1,576 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+interface EntryTypeInterface {
+  access: AccessType!
+  "The contact that this entry is related to."
+  contact: Contact!
+  createdAt: DateTime!
+  "The profile that created this entry."
+  createdBy: Profile!
+  entryId: ID!
+  pinned: Boolean!
+  tags: [Tag!]!
+  title: String!
+}
+
+type Asset {
+  assetId: AssetId!
+  description: String
+}
+
+"A CRM contact record."
+type Contact {
+  "A brief description of the contact for quick reference."
+  bio: String
+  city: String
+  contactId: ID!
+  country: String
+  emails: [Email!]!
+  entryList(
+    #Cursor from previous query
+    after: String,
+    first: Float = 10.0
+  ): EntryList!
+  fbProfile: String
+  gender: Gender
+  groups: [ContactGroup!]!
+  invitationCode: String
+  language: String
+  legalName: String
+  name: String!
+  phones: [Phone!]!
+  picture: AssetId
+  "Will return a max of 50 entries."
+  pinnedEntries: [EntryTypeInterface!]!
+  postalCode: String
+  profile: Profile
+  state: String
+  tags: [Tag!]
+}
+
+type ContactGroup {
+  group: Group!
+  memberId: String!
+  role: Role!
+}
+
+type ContactList {
+  data: [Contact!]!
+  pageInfo: PageInfo!
+}
+
+"Record of messages sent in a room."
+type Conversation implements EntryTypeInterface {
+  access: AccessType!
+  contact: Contact!
+  createdAt: DateTime!
+  createdBy: Profile!
+  endDate: DateTime
+  entryId: ID!
+  "List of messages in the conversation sorted with the most recent first."
+  messages: [Message!]!
+  pinned: Boolean!
+  room: Room!
+  startDate: DateTime!
+  tags: [Tag!]!
+  title: String!
+}
+
+type Email {
+  email: String!
+  label: String
+}
+
+type EntryList {
+  data: [EntryTypeInterface!]!
+  pageInfo: PageInfo!
+}
+
+"A group to which contacts can be added."
+type Group {
+  "List of ancestor groups."
+  ancestors: [Group!]
+  "Default role for new members of this group."
+  defaultRole: Role
+  description: String!
+  groupId: ID!
+  members: [Member!]!
+  name: String!
+  roomId: ID!
+}
+
+type Log implements EntryTypeInterface {
+  access: AccessType!
+  contact: Contact!
+  createdAt: DateTime!
+  createdBy: Profile!
+  entryId: ID!
+  fieldChanged: String!
+  "The value of the field after the change. Null if no value."
+  newValue: String
+  pinned: Boolean!
+  "The value of the field before the change. Null if no value."
+  prevValue: String
+  tags: [Tag!]!
+  title: String!
+}
+
+type Me {
+  city: String
+  country: String
+  emails: [Email!]!
+  gender: Gender
+  groups: [ContactGroup!]
+  language: String
+  name: String!
+  phones: [Phone!]!
+  picture: AssetId
+  postalCode: String
+  pubNubInfo: PubNubInfo!
+  "Key for searching. Will be null if contact does not have access to anything"
+  searchKey: String
+  state: String
+}
+
+type Member {
+  "Preferred contact for DMs and group contact in groups."
+  contact: Contact
+  "Unique ID of member inside the group."
+  memberId: ID!
+  "Name of contact to show in the chat UI. If the current user has permission to view the contact, the contact's name will be shown. If the member is an anonymous member, a random name will be shown otherwise the member's profile name."
+  name: String!
+  picture: AssetId
+  profile: Profile
+  "Role is only defined in groups."
+  role: Role
+}
+
+type Message {
+  author: Member!
+  body: String!
+  createdAt: DateTime!
+  messageId: ID!
+}
+
+type MessageList {
+  data: [Message!]!
+  pageInfo: PageInfo!
+}
+
+type Mutation {
+  acceptInvitation(code: String!): Profile
+  "Adds a group to a contact"
+  addContactGroup(input: AddContactGroupInput!): Contact
+  "Adds a tag to a contact"
+  addContactTag(input: TagInput!): Contact
+  "Associates an orphan profile to a contact."
+  associateProfile(input: AssociateProfileInput!): Profile
+  "Creates a new contact record."
+  createContact(input: CreateContactInput!): Contact
+  createConversation(input: CreateConversationInput!): Conversation!
+  "Creates a new Group."
+  createGroup(input: CreateGroupInput!): Group
+  createNote(input: CreateNoteInput!): Note!
+  "Creates a new tag."
+  createTag(input: CreateTagInput!): Tag
+  deleteEntry(entryId: ID!): Boolean!
+  generateInvitationCode(input: GenerateInvitationCodeInput!): String
+  "Removes a group from a contact."
+  removeContactGroup(input: RemoveContactGroupInput!): Contact
+  "Removes a tag from a contact."
+  removeContactTag(input: TagInput!): Contact
+  "Sends a message and sets it as the most recently read for the sender."
+  sendMessage(input: SendMessageInput!): Message!
+  setNotificationPreference(input: SetNotificationPreferenceInput!): Room!
+  setPreferredContact(input: SetPreferredContactInput!): Profile!
+  setReadThrough(input: SetReadThroughInput!): Room!
+  "Updates a contact record."
+  updateContact(input: UpdateContactInput!): Contact!
+  "Updates a contact's group membership."
+  updateContactGroup(input: UpdateContactGroupInput!): Contact!
+  updateConversation(input: UpdateConversationInput!): Conversation
+  updateMe(input: UpdateMeInput!): Me!
+  updateNote(input: UpdateNoteInput!): Note
+  "Updates an existing tag."
+  updateTag(input: UpdateTagInput!): Tag
+}
+
+type Note implements EntryTypeInterface {
+  access: AccessType!
+  assets: [Asset!]
+  contact: Contact!
+  createdAt: DateTime!
+  createdBy: Profile!
+  entryId: ID!
+  message: String!
+  pinned: Boolean!
+  tags: [Tag!]!
+  title: String!
+}
+
+"Information for results paging."
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+}
+
+type Phone {
+  label: String
+  number: String!
+}
+
+type Profile {
+  city: String
+  contacts: [Contact!]!
+  country: String
+  dateCreated: DateTime
+  emails: [Email!]
+  gender: Gender
+  language: String
+  name: String!
+  phones: [Phone!]
+  picture: AssetId
+  postalCode: String
+  "Will be null when there is no preference set and there are either no or multiple contacts associated with the profile. If only a single contact exists, it will automatically be set as the preference."
+  preferredContact: Contact
+  profileId: ID!
+  "Room ID for direct messaging."
+  roomId: ID!
+  state: String
+}
+
+type PubNubInfo {
+  "`authKey` used when initializing PubNub. A new key will be generated when close to expiration."
+  authKey: String!
+  "Channel group to subscribe to."
+  channelGroup: String!
+  "New keys are valid for 5 days."
+  expires: DateTime!
+  "`subscribeKey` used when initializing PubNub"
+  subscribeKey: String!
+}
+
+type Query {
+  "Load a single contact"
+  contact(contactId: ID!): Contact
+  "All available contacts"
+  contacts(
+    #Cursor from previous query.
+    after: String,
+    #How many results to return, max of 100.
+    first: Float = 25.0
+  ): ContactList!
+  group(groupId: ID!): Group!
+  groups: [Group!]!
+  me: Me!
+  member(input: MemberType!): Member!
+  "List of messages sorted in descending order so the most recent messages are first."
+  messages(input: MessagesInput!): MessageList!
+  orphanProfiles: [Profile!]!
+  roles: [Role!]!
+  "Info about a group or DM chat room."
+  room(roomId: ID!): Room!
+  "Rooms that current profile has messaged in, sorted by most recent first."
+  rooms: [Room!]!
+  "List of all tags ordered by name."
+  tags: [Tag!]!
+}
+
+type Role {
+  name: String!
+  roleId: ID!
+}
+
+type Room {
+  "Date of most recent message in room."
+  lastMessage: DateTime!
+  "Own member ID in room"
+  memberId: String!
+  members: [Member!]!
+  "Name of room to show in the UI."
+  name: String!
+  notificationPreference: NotificationPreference!
+  qtyUnread: Float!
+  "ID of the last message read."
+  readThrough: ID
+  roomId: ID!
+}
+
+"Tag to be added to a contact or action."
+type Tag {
+  "Color of the tag in the UI."
+  color: String!
+  "If the tag should be unavailable for adding to an entity. (It may still exist where previously used.)"
+  hidden: Boolean!
+  name: String!
+  tagId: ID!
+}
+
+enum AccessType {
+  PRIVATE
+  SHARED
+}
+
+"Use `UNDEFINED` to un-set a previous value."
+enum Gender {
+  FEMALE
+  MALE
+  UNDEFINED
+}
+
+"Group notification preference options."
+enum NotificationPreference {
+  ALL
+  MENTIONS
+  NONE
+}
+
+input AddContactGroupInput {
+  contactId: ID!
+  groupId: ID!
+  roleId: ID!
+}
+
+input AssociateProfileInput {
+  contactId: ID!
+  profileId: ID!
+}
+
+input BaseEntryInput {
+  tags: [ID!]
+}
+
+input ContactGroupInput {
+  groupId: ID!
+  roleId: ID!
+}
+
+input ContactInput {
+  bio: String
+  city: String
+  country: String
+  emails: [EmailInput!]
+  fbProfile: String
+  gender: Gender
+  language: String
+  legalName: String
+  name: String
+  phones: [PhoneInput!]
+  picture: AssetId
+  postalCode: String
+  state: String
+}
+
+input CreateContactInput {
+  bio: String
+  city: String
+  country: String
+  emails: [EmailInput!]
+  fbProfile: String
+  gender: Gender
+  "Groups to which this user is assigned."
+  groups: [ContactGroupInput!]!
+  language: String
+  legalName: String
+  name: String!
+  phones: [PhoneInput!]
+  picture: AssetId
+  postalCode: String
+  state: String
+  "Tags to assign to user."
+  tags: [ID!]
+}
+
+input CreateConversationInput {
+  access: AccessType = PRIVATE
+  contactId: ID!
+  endDate: DateTime!
+  pinned: Boolean = false
+  roomId: ID!
+  startDate: DateTime!
+  tags: [ID!]
+  title: String!
+}
+
+input CreateEntryInput {
+  access: AccessType = PRIVATE
+  contactId: ID!
+  pinned: Boolean = false
+  tags: [ID!]
+  title: String!
+}
+
+input CreateGroupInput {
+  "Default role for new members of this group."
+  defaultRoleId: ID!
+  description: String
+  name: String!
+  "The group to assign as parent."
+  parentGroupId: ID!
+}
+
+input CreateNoteInput {
+  access: AccessType = PRIVATE
+  assets: [NoteAssetInput!]
+  contactId: ID!
+  message: String!
+  pinned: Boolean = false
+  tags: [ID!]
+  title: String!
+}
+
+input CreateTagInput {
+  "Color of the tag in the UI."
+  color: String!
+  "If the tag should be hidden when adding tags to an item."
+  hidden: Boolean = false
+  "Visible name of the tag in the UI."
+  name: String!
+}
+
+input EmailInput {
+  email: String!
+  label: String
+}
+
+input GenerateInvitationCodeInput {
+  contactId: ID!
+}
+
+input MemberType {
+  memberId: ID!
+  roomId: ID!
+}
+
+input MessagesInput {
+  after: String
+  first: Float = 25.0
+  roomId: ID!
+}
+
+input NoteAssetInput {
+  assetId: AssetId!
+  description: String
+}
+
+input PhoneInput {
+  label: String
+  number: String!
+}
+
+input RemoveContactGroupInput {
+  contactId: ID!
+  "ID of the group to remove."
+  groupId: ID!
+}
+
+input SendMessageInput {
+  body: String!
+  roomId: ID!
+}
+
+input SetNotificationPreferenceInput {
+  notificationPreference: NotificationPreference!
+  roomId: ID!
+}
+
+input SetPreferredContactInput {
+  contactId: ID!
+  profileId: ID!
+}
+
+input SetReadThroughInput {
+  messageId: ID!
+  roomId: ID!
+}
+
+input TagInput {
+  contactId: ID!
+  "Tag ID."
+  tagId: ID!
+}
+
+input UpdateContactGroupInput {
+  contactId: ID!
+  groupId: ID!
+  roleId: ID
+}
+
+input UpdateContactInput {
+  bio: String
+  city: String
+  "The id of the contact to update."
+  contactId: ID!
+  country: String
+  emails: [EmailInput!]
+  fbProfile: String
+  gender: Gender
+  language: String
+  legalName: String
+  name: String
+  phones: [PhoneInput!]
+  picture: AssetId
+  postalCode: String
+  state: String
+}
+
+input UpdateConversationInput {
+  access: AccessType
+  endDate: DateTime!
+  entryId: ID!
+  pinned: Boolean
+  startDate: DateTime!
+  tags: [ID!]
+  title: String
+}
+
+input UpdateEntryInput {
+  access: AccessType
+  entryId: ID!
+  pinned: Boolean
+  tags: [ID!]
+  title: String
+}
+
+input UpdateMeInput {
+  city: String
+  country: String
+  emails: [EmailInput!]
+  gender: Gender
+  language: String
+  name: String
+  phones: [PhoneInput!]
+  picture: AssetId
+  postalCode: String
+  state: String
+}
+
+input UpdateNoteInput {
+  access: AccessType
+  "If this field is included, it will replace all previous values."
+  assets: [NoteAssetInput!]
+  entryId: ID!
+  message: String
+  pinned: Boolean
+  tags: [ID!]
+  title: String
+}
+
+input UpdateTagInput {
+  color: String
+  hidden: Boolean
+  name: String
+  tagId: ID!
+}
+
+
+"Cloudinary ID for the asset."
+scalar AssetId
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

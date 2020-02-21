@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // material
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,59 +12,6 @@ import TextField from '@material-ui/core/TextField';
 
 // components
 import { H4, H6, BodyText } from '../styles/Typography';
-
-// ME_QUERY
-const ME_QUERY = gql`
-  query ME_QUERY {
-    me {
-      name
-      emails {
-        email
-      }
-      phones {
-        number
-      }
-      city
-      state
-      postalCode
-      country
-      language
-    }
-  }
-`;
-
-// UPDATE_ME_MUTATION
-const UPDATE_ME_MUTATION = gql`
-  mutation UPDATE_ME_MUTATION(
-    $name: String!
-    $picture: AssetId
-    $emails: [EmailInput!]
-    $phones: [PhoneInput!]
-    $city: String
-    $state: String
-    $country: String
-    $postalCode: String
-    $language: String # $gender: String # $groups: ContactGroup
-  ) {
-    updateMe(
-      input: {
-        name: $name
-        picture: $picture
-        emails: $emails
-        phones: $phones
-        city: $city
-        state: $state
-        country: $country
-        postalCode: $postalCode
-        language: $language
-        # gender: $gender
-        # groups: $groups
-      }
-    ) {
-      name
-    }
-  }
-`;
 
 const Account = () => {
   const [profile, setProfile] = useState({});

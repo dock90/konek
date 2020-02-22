@@ -3,29 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // gql
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { ALL_NOTES_QUERY } from '../../queries/NotesQueries';
 // components
 import NewNote from './NewNote';
 import NoteList from './NoteList';
 import { BorderButton } from '../material/StyledButton';
-
-// ALL_NOTES_QUERY
-const ALL_NOTES_QUERY = gql`
-  query ALL_NOTES_QUERY($contactId: ID!) {
-    contact(contactId: $contactId) {
-      entryList {
-        data {
-          entryId
-          createdAt
-          ... on Note {
-            title
-            message
-          }
-        }
-      }
-    }
-  }
-`;
 
 // styles
 const Actions = styled.div`
@@ -41,7 +23,9 @@ const Notes = ({ contactId }) => {
       <Actions>
         <BorderButton onClick={() => setNewNote(true)}>New Note</BorderButton>
       </Actions>
-      {newNote ? <NewNote contactId={contactId} /> : null}
+      {newNote ? (
+        <NewNote contactId={contactId} setNewNote={setNewNote} />
+      ) : null}
       <Query query={ALL_NOTES_QUERY} variables={{ contactId }}>
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>;
@@ -54,6 +38,10 @@ const Notes = ({ contactId }) => {
       </Query>
     </div>
   );
+};
+
+Notes.propTypes = {
+  contactId: PropTypes.string.isRequired,
 };
 
 export default Notes;

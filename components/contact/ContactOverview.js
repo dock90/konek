@@ -100,31 +100,29 @@ const ContactOverview = ({ id }) => {
                 </CardContent>
               </Card>
             </Bio>
-            <TabPanel>
-              <StyledAppBar position="static">
-                <StyledTabs value={value} onChange={handleChange}>
-                  <StyledTab label="Summary" />
-                  <StyledTab label="Notes" />
-                  <StyledTab label="Messages" />
-                  <StyledTab label="Tasks" />
-                  <StyledTab label="Files" />
-                </StyledTabs>
-              </StyledAppBar>
-              <TabPanel value={value} index={0}>
-                <Summary />
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <Notes contactId={id} />
-              </TabPanel>
-              <TabPanel value={value} index={2}>
-                <Messages />
-              </TabPanel>
-              <TabPanel value={value} index={3}>
-                <Tasks />
-              </TabPanel>
-              <TabPanel value={value} index={4}>
-                <Files />
-              </TabPanel>
+            <StyledAppBar position="static">
+              <StyledTabs value={value} onChange={handleChange}>
+                <StyledTab label="Summary" />
+                <StyledTab label="Notes" />
+                <StyledTab label="Messages" />
+                <StyledTab label="Tasks" />
+                <StyledTab label="Files" />
+              </StyledTabs>
+            </StyledAppBar>
+            <TabPanel value={value} index={0}>
+              <Summary />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Notes contactId={id} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <Messages />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <Tasks />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+              <Files />
             </TabPanel>
           </Container>
         );

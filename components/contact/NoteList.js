@@ -3,7 +3,7 @@ import NoteItem from './NoteItem';
 
 const NoteList = ({ notes }) => {
   const { data } = notes;
-  return data.map(note => <NoteItem note={note} />);
+  return data.map(note => <NoteItem key={note.entryId} note={note} />);
 };
 
 NoteList.propTypes = {

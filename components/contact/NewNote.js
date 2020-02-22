@@ -2,15 +2,17 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
+// gql
 import gql from 'graphql-tag';
+import { useApolloClient } from '@apollo/react-hooks';
 // material
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
-// styled
-import { BodyText } from '../styles/Typography';
+// gql
+import { CREATE_NOTE_MUTATION } from '../../queries/NotesQueries';
 
 // styles
 const Container = styled.div`
@@ -22,23 +24,11 @@ const Title = styled.div`
   border-bottom: 1px solid rgb(238, 238, 238);
 `;
 
-// CREATE_NOTE_MUTATION
-const CREATE_NOTE_MUTATION = gql`
-  mutation CREATE_NOTE_MUTATION(
-    $contactId: ID!
-    $title: String!
-    $message: String!
-  ) {
-    createNote(
-      input: { contactId: $contactId, title: $title, message: $message }
-    ) {
-      entryId
-    }
-  }
-`;
-
-const NewNote = ({ contactId }) => {
-  const [note, setNote] = useState({});
+const NewNote = ({ contactId, setNewNote }) => {
+  const [note, setNote] = useState({
+    title: '',
+    message: '',
+  });
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -56,7 +46,8 @@ const NewNote = ({ contactId }) => {
         ...note,
       },
     });
-    setNote({});
+    setNewNote(false);
+    // TODO: update cache with new note data
   };
 
   return (
@@ -117,6 +108,7 @@ const NewNote = ({ contactId }) => {
 
 NewNote.propTypes = {
   contactId: PropTypes.string.isRequired,
+  setNewNote: PropTypes.func.isRequired,
 };
 
 export default NewNote;

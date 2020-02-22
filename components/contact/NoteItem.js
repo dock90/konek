@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const NoteItem = ({ note }) => {
-  const { entryId, message, title } = note;
+  const { entryId, title, message } = note;
   return (
     <Container key={entryId}>
       <Card>

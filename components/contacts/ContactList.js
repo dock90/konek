@@ -28,7 +28,7 @@ const ContactList = () => (
       return (
         <ListContainer>
           {data.contacts.data.map(contact => (
-            <ListItem contactData={contact} />
+            <ListItem key={contact.contactId} contactData={contact} />
           ))}
         </ListContainer>
       );

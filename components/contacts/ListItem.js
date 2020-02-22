@@ -60,9 +60,11 @@ const ListItem = ({ contactData }) => {
 };
 
 ListItem.propTypes = {
-  contactData: PropTypes.object.isRequired,
-  contactId: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  contactData: PropTypes.shape({
+    contactId: PropTypes.string.isRequired,
+    country: PropTypes.string,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ListItem;

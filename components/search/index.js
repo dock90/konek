@@ -1,6 +1,6 @@
-import algoliaSearch from "algoliasearch/lite";
-import { Hits, InstantSearch } from "react-instantsearch-dom";
 import styled from "styled-components";
+import algoliaSearch from "algoliasearch/lite";
+import { InstantSearch, Index, Configure } from "react-instantsearch-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { useRef, useState } from "react";
 import { ME_QUERY } from "../../queries/MeQueries";
@@ -8,12 +8,14 @@ import { ME_QUERY } from "../../queries/MeQueries";
 import { Popper, ClickAwayListener, Paper } from "@material-ui/core";
 
 import SearchBox from "./SearchBox";
+import Results from "./Results";
 import ContactResult from "./ContactResult";
+import EntryResult from "./EntryResult";
 
 const ResultsContainer = styled(Paper)`
   max-width: 550px;
   min-width: 100px;
-  padding: 10px;
+  padding: 5px;
 `;
 
 const Search = () => {
@@ -26,6 +28,11 @@ const Search = () => {
   } = useQuery(ME_QUERY);
 
   if (loading) {
+    return;
+  }
+
+  if (!me.access.contacts) {
+    // If we don't have access to contacts, we don't have any use for search.
     return;
   }
 
@@ -42,6 +49,7 @@ const Search = () => {
     <ClickAwayListener onClickAway={handleClose}>
       <div ref={containerRef}>
         <InstantSearch searchClient={client} indexName="contacts">
+          <Configure hitsPerPage={10} />
           <SearchBox open={handleOpen} close={handleClose} />
           <Popper
             id="search-results-popover"
@@ -60,9 +68,15 @@ const Search = () => {
                 boundariesElement: "viewport"
               }
             }}
+            style={{
+              zIndex: 1
+            }}
           >
             <ResultsContainer>
-              <Hits hitComponent={ContactResult} />
+              <Results component={ContactResult} header="Contacts" />
+              <Index indexName="entries">
+                <Results component={EntryResult} header="Other"/>
+              </Index>
             </ResultsContainer>
           </Popper>
         </InstantSearch>

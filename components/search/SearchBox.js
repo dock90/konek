@@ -26,12 +26,13 @@ const PoweredByContainer = styled.div`
   margin-left: 0.5rem;
 `;
 
-const SearchBoxComponent = props => {
+const SearchBoxComponent = ({close, open, refine, currentRefinement}) => {
   const onKeyPress = e => {
     if (e.keyCode === 27) {
-      props.close();
+      close();
+      refine('');
     } else {
-      props.open();
+      open();
     }
   };
 
@@ -41,9 +42,9 @@ const SearchBoxComponent = props => {
       <StyledInput
         disableUnderline
         placeholder="Search"
-        value={props.currentRefinement}
-        onChange={e => props.refine(e.target.value)}
-        onFocus={props.open}
+        value={currentRefinement}
+        onChange={e => refine(e.target.value)}
+        onFocus={open}
         onKeyDown={onKeyPress}
       />
       <PoweredByContainer>

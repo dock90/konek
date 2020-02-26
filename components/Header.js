@@ -11,6 +11,7 @@ import { auth } from '../config/firebase';
 // components
 import { H4 } from './styles/Typography';
 import SearchInput from './SearchInput';
+import Search from './search';
 import { BaseButton } from './material/StyledButton';
 
 // styles
@@ -58,7 +59,7 @@ const Header = () => {
         </H4>
       </Branding>
       <Actions>
-        <SearchInput />
+        <Search />
         <IconButton color="inherit">
           <Badge variant="dot">
             <NotificationsIcon />

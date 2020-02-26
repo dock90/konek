@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { connectSearchBox, PoweredBy, Hits } from "react-instantsearch-dom";
+import { connectSearchBox, PoweredBy } from "react-instantsearch-dom";
 import styled from "styled-components";
 // material
 import { Search } from "@material-ui/icons";
@@ -24,13 +24,29 @@ const PoweredByContainer = styled.div`
   font-size: 0.95rem;
   margin-right: 0.5rem;
   margin-left: 0.5rem;
+
+  // Defining these here so that we don't have to import the whole instantsearch CSS file when 
+  // this is the only thing we're using.
+  .ais-PoweredBy {
+    display: flex;
+    align-items: center;
+  }
+
+  .ais-PoweredBy-logo {
+    display: block;
+    height: 1.2em;
+    width: auto;
+  }
+  .ais-PoweredBy-text {
+    padding-right: 0.25rem;
+  }
 `;
 
-const SearchBoxComponent = ({close, open, refine, currentRefinement}) => {
+const SearchBoxComponent = ({ close, open, refine, currentRefinement }) => {
   const onKeyPress = e => {
     if (e.keyCode === 27) {
       close();
-      refine('');
+      refine("");
     } else {
       open();
     }

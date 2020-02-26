@@ -45,6 +45,9 @@ const Search = () => {
     setIsOpen(false);
   };
 
+  /**
+   * Have to disable portal so that the "ClickAwayListener" works for the search result content.
+   */
   return (
     <ClickAwayListener onClickAway={handleClose}>
       <div ref={containerRef}>
@@ -58,17 +61,8 @@ const Search = () => {
             anchorEl={containerRef.current}
             placement="bottom"
             disablePortal={true}
-            transition={true}
-            modifiers={{
-              flip: {
-                enabled: false
-              },
-              preventOverflow: {
-                enabled: true,
-                boundariesElement: "viewport"
-              }
-            }}
             style={{
+              // Required so it is on top of messaging.
               zIndex: 1
             }}
           >

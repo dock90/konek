@@ -21,6 +21,7 @@ import SettingsIcon from "@material-ui/icons/SettingsOutlined";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircleOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import EmailIcon from "@material-ui/icons/Email";
 // components
 import { H6, AltText } from "./styles/Typography";
 import { ROOMS_QUERY } from "../queries/RoomQueries";
@@ -46,9 +47,17 @@ const ProfileTitle = styled.div`
   padding-left: 1rem;
 `;
 
+const arrowIconStyle = {
+  width: 13,
+  height: 13,
+};
+
 const Nav = () => {
-  const { loading, data } = useQuery(ROOMS_QUERY);
   const [qtyUnread, setQtyUnread] = useState(0);
+  const { loading, data: roomsData } = useQuery(ROOMS_QUERY);
+  // We don't care about loading because the query is executed by a higher component and will only render
+  // children once it is loaded.
+  const { data: meData } = useQuery(ME_QUERY);
 
   useMemo(() => {
     if (loading) {
@@ -56,107 +65,103 @@ const Nav = () => {
     }
 
     let qty = 0;
-    for (const room of data.rooms) {
+    for (const room of roomsData.rooms) {
       qty += room.qtyUnread;
     }
 
     setQtyUnread(qty);
-  }, [loading, data]);
+  }, [loading, roomsData]);
+
+  const me = meData.me;
 
   return (
     <Container>
       <NavLayout>
         <List component="nav" aria-label="main mailbox folders">
-          <Link href="/timeline">
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Timeline" />
-              <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
-              />
-            </ListItem>
-          </Link>
-          <Link href="/contacts">
-            <ListItem button>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Contacts" />
-              <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
-              />
-            </ListItem>
-          </Link>
-          <Link href="/messages">
-            <ListItem button>
-              <ListItemIcon>
-                <ChatIcon />
-              </ListItemIcon>
-              <ListItemText>
-                Messages
-                <span style={{ float: "right" }}></span>
-              </ListItemText>
-              {qtyUnread <= 0 && (
+          {me.access.timeline && (
+            <Link href="/timeline">
+              <ListItem button>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Timeline" />
                 <ArrowForwardIosIcon
-                  style={{
-                    height: 13,
-                    width: 13
-                  }}
+                  style={arrowIconStyle}
                 />
-              )}
-              <Badge badgeContent={qtyUnread} color="primary" />
-            </ListItem>
-          </Link>
-          <Link href="/groups">
-            <ListItem button>
-              <ListItemIcon>
-                <SupervisedUserCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Groups" />
-              <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
-              />
-            </ListItem>
-          </Link>
-          <Link href="/events">
-            <ListItem button>
-              <ListItemIcon>
-                <WorkOutlineIcon />
-              </ListItemIcon>
-              <ListItemText primary="Events" />
-              <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
-              />
-            </ListItem>
-          </Link>
-          <Link href="/calendar">
-            <ListItem button>
-              <ListItemIcon>
-                <CalendarTodayIcon />
-              </ListItemIcon>
-              <ListItemText primary="Calendar" />
-              <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
-              />
-            </ListItem>
-          </Link>
+              </ListItem>
+            </Link>
+          )}
+          {me.access.contacts && (
+            <Link href="/contacts">
+              <ListItem button>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText primary="Contacts" />
+                <ArrowForwardIosIcon
+                  style={arrowIconStyle}
+                />
+              </ListItem>
+            </Link>
+          )}
+          {me.access.messages && (
+            <Link href="/messages">
+              <ListItem button>
+                <ListItemIcon>
+                  <ChatIcon />
+                </ListItemIcon>
+                <ListItemText>
+                  Messages
+                  <span style={{ float: "right" }}></span>
+                </ListItemText>
+                {qtyUnread <= 0 && (
+                  <ArrowForwardIosIcon
+                    style={arrowIconStyle}
+                  />
+                )}
+                <Badge badgeContent={qtyUnread} color="primary" />
+              </ListItem>
+            </Link>
+          )}
+          {me.access.groups && (
+            <Link href="/groups">
+              <ListItem button>
+                <ListItemIcon>
+                  <SupervisedUserCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Groups" />
+                <ArrowForwardIosIcon
+                  style={arrowIconStyle}
+                />
+              </ListItem>
+            </Link>
+          )}
+          {false && (
+            <>
+              <Link href="/events">
+                <ListItem button>
+                  <ListItemIcon>
+                    <WorkOutlineIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Events" />
+                  <ArrowForwardIosIcon
+                    style={arrowIconStyle}
+                  />
+                </ListItem>
+              </Link>
+              <Link href="/calendar">
+                <ListItem button>
+                  <ListItemIcon>
+                    <CalendarTodayIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Calendar" />
+                  <ArrowForwardIosIcon
+                    style={arrowIconStyle}
+                  />
+                </ListItem>
+              </Link>
+            </>
+          )}
         </List>
         <Divider />
         <List>
@@ -167,37 +172,39 @@ const Nav = () => {
               </ListItemIcon>
               <ListItemText primary="Settings" />
               <ArrowForwardIosIcon
-                style={{
-                  height: 13,
-                  width: 13
-                }}
+                style={arrowIconStyle}
+              />
+            </ListItem>
+          </Link>
+          <Link href="/invitation">
+            <ListItem button>
+              <ListItemIcon>
+                <EmailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Invitations" />
+              <ArrowForwardIosIcon
+                style={arrowIconStyle}
               />
             </ListItem>
           </Link>
         </List>
       </NavLayout>
-      <Query query={ME_QUERY}>
-        {({ data: { me } }) => {
-          return (
-            <Link href="/profile">
-              <ProfileLayout>
-                <Avatar
-                  alt="User Profile Image"
-                  src={me.picture}
-                  style={{
-                    height: 60,
-                    width: 60
-                  }}
-                />
-                <ProfileTitle>
-                  <H6>{me.name}</H6>
-                  <AltText color="#9EA0A5">Managing Director</AltText>
-                </ProfileTitle>
-              </ProfileLayout>
-            </Link>
-          );
-        }}
-      </Query>
+      <Link href="/profile">
+        <ProfileLayout>
+          <Avatar
+            alt="User Profile Image"
+            src={me.picture}
+            style={{
+              height: 60,
+              width: 60
+            }}
+          />
+          <ProfileTitle>
+            <H6>{me.name}</H6>
+            <AltText color="#9EA0A5">Managing Director</AltText>
+          </ProfileTitle>
+        </ProfileLayout>
+      </Link>
     </Container>
   );
 };

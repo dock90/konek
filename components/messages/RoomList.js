@@ -21,12 +21,12 @@ const SearchInput = styled(Input)`
 
 const Info = styled(BodyText)`
   text-align: center;
-  margin-top: 5px;
+  margin-top: 10%;
 `;
 
 const RoomList = () => {
   const roomsQuery = useQuery(ROOMS_QUERY);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
 
   if (roomsQuery.loading) {
     return (
@@ -56,7 +56,7 @@ const RoomList = () => {
     if (e.target.value) {
       setSearch(e.target.value.toLowerCase());
     } else {
-      setSearch(undefined);
+      setSearch("");
     }
   }
 

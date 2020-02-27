@@ -56,7 +56,6 @@ const Search = () => {
           <SearchBox open={handleOpen} close={handleClose} />
           <Popper
             open={isOpen}
-            onClose={handleClose}
             anchorEl={containerRef.current}
             placement="bottom"
             disablePortal={true}

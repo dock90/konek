@@ -6,7 +6,7 @@ export const ResultContainer = styled(Paper)`
   padding: 2px;
 
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
 
   cursor: pointer;
   &.MuiPaper-root {

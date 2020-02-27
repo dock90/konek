@@ -11,11 +11,11 @@ import { auth } from "./firebase";
 
 const LOCAL_STORAGE_UUID_KEY = "pnuuid";
 
-auth.onAuthStateChanged(user => {
+auth.onAuthStateChanged(async (user) => {
   if (user) {
-    initPubNub();
+    await initPubNub();
   } else {
-    closePubNub();
+    await closePubNub();
   }
 });
 
@@ -51,11 +51,13 @@ const listeners = {
   },
   status(s) {
     switch (s.category) {
+      case "PNNetworkUpCategory":
       case "PNConnectedCategory":
         client.writeData({
           data: { pnConnected: true }
         });
         break;
+      case "PNNetworkDownCategory":
       case "PNNetworkIssuesCategory":
         client.writeData({
           data: { pnConnected: false }
@@ -107,6 +109,7 @@ export async function initPubNub() {
 export async function closePubNub() {
   if (pn) {
     pn.removeListener(listeners);
+    pn.unsubscribeAll();
     pn = undefined;
   }
 }

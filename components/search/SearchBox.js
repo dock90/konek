@@ -25,7 +25,7 @@ const PoweredByContainer = styled.div`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 
-  // Defining these here so that we don't have to import the whole instantsearch CSS file when 
+  // Defining these here so that we don't have to import the whole instantsearch CSS file when
   // this is the only thing we're using.
   .ais-PoweredBy {
     display: flex;
@@ -42,39 +42,39 @@ const PoweredByContainer = styled.div`
   }
 `;
 
-const SearchBoxComponent = ({ close, open, refine, currentRefinement }) => {
-  const onKeyPress = e => {
-    if (e.keyCode === 27) {
-      close();
-      refine("");
-    } else {
-      open();
-    }
-  };
+const SearchBox = connectSearchBox(
+  ({ close, open, refine, currentRefinement }) => {
+    const onKeyPress = e => {
+      if (e.keyCode === 27) {
+        close();
+        refine("");
+      } else {
+        open();
+      }
+    };
 
-  return (
-    <Container>
-      <Search color="disabled" />
-      <StyledInput
-        disableUnderline
-        placeholder="Search"
-        value={currentRefinement}
-        onChange={e => refine(e.target.value)}
-        onFocus={open}
-        onKeyDown={onKeyPress}
-      />
-      <PoweredByContainer>
-        <PoweredBy />
-      </PoweredByContainer>
-    </Container>
-  );
-};
+    return (
+      <Container>
+        <Search color="disabled" />
+        <StyledInput
+          disableUnderline
+          placeholder="Search"
+          value={currentRefinement}
+          onChange={e => refine(e.target.value)}
+          onFocus={open}
+          onKeyDown={onKeyPress}
+        />
+        <PoweredByContainer>
+          <PoweredBy />
+        </PoweredByContainer>
+      </Container>
+    );
+  }
+);
 
-SearchBoxComponent.propTypes = {
+SearchBox.propTypes = {
   open: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired
 };
-
-const SearchBox = connectSearchBox(SearchBoxComponent);
 
 export default SearchBox;

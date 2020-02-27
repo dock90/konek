@@ -18,7 +18,7 @@ const NoResults = styled.div`
   font-style: italic;
 `;
 
-const Hits = props => {
+const Results = connectHits(props => {
   const hideEmpty = props.hideEmpty !== undefined ? props.hideEmpty : true;
   if (props.hits.length === 0 && hideEmpty) {
     return <span />;
@@ -36,15 +36,13 @@ const Hits = props => {
       </ResultList>
     </>
   );
-};
+});
 
-Hits.propTypes = {
+Results.propTypes = {
   header: PropTypes.string.isRequired,
   hits: PropTypes.array.isRequired,
   component: PropTypes.func.isRequired,
-  hideEmpty: PropTypes.bool,
+  hideEmpty: PropTypes.bool
 };
-
-const Results = connectHits(Hits);
 
 export default Results;

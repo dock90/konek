@@ -50,14 +50,19 @@ const listeners = {
     await addMessage(data.messageId, data.roomId, data.body, data.authorId);
   },
   status(s) {
-    if (s.category === 'PNConnectedCategory') {
-      client.writeData({
-        data: {
-          pnConnected: true
-        }
-      })
-    } else {
-      console.log(s);
+    switch (s.category) {
+      case "PNConnectedCategory":
+        client.writeData({
+          data: { pnConnected: true }
+        });
+        break;
+      case "PNNetworkIssuesCategory":
+        client.writeData({
+          data: { pnConnected: false }
+        });
+        break;
+      default:
+        console.log(s);
     }
   }
 };

@@ -28,12 +28,12 @@ const Search = () => {
   } = useQuery(ME_QUERY);
 
   if (loading) {
-    return;
+    return null;
   }
 
   if (!me.access.contacts) {
     // If we don't have access to contacts, we don't have any use for search.
-    return;
+    return null;
   }
 
   const client = algoliaSearch(me.algoliaInfo.appId, me.algoliaInfo.searchKey);
@@ -55,21 +55,20 @@ const Search = () => {
           <Configure hitsPerPage={10} />
           <SearchBox open={handleOpen} close={handleClose} />
           <Popper
-            id="search-results-popover"
             open={isOpen}
             onClose={handleClose}
             anchorEl={containerRef.current}
             placement="bottom"
             disablePortal={true}
             style={{
-              // Required so it is on top of messaging.
-              zIndex: 1
+              // Required so it is on top of other stuff.
+              zIndex: 2000
             }}
           >
             <ResultsContainer>
-              <Results component={ContactResult} header="Contacts" />
+              <Results component={ContactResult} header="Contacts" hideEmpty={false} />
               <Index indexName="entries">
-                <Results component={EntryResult} header="Other"/>
+                <Results component={EntryResult} header="Other" hideEmpty={true}/>
               </Index>
             </ResultsContainer>
           </Popper>

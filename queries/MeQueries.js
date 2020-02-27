@@ -23,7 +23,10 @@ export const ME_FIELDS = gql`
       expires
       channelGroup
     }
-    searchKey
+    algoliaInfo {
+      appId
+      searchKey
+    }
     access {
       timeline
       contacts

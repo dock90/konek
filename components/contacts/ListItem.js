@@ -31,7 +31,7 @@ const Location = styled.div``;
 const ListItem = ({ contactData }) => {
   const { contactId, name, country } = contactData;
   return (
-    <ListCard key={contactId}>
+    <ListCard>
       <Overview>
         <Avatar
           alt="User Profile Image"
@@ -61,8 +61,6 @@ const ListItem = ({ contactData }) => {
 
 ListItem.propTypes = {
   contactData: PropTypes.object.isRequired,
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
 };
 
 export default ListItem;

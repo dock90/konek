@@ -2,9 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
-// gql
-import gql from 'graphql-tag';
-import { useApolloClient } from '@apollo/react-hooks';
 // material
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -47,7 +44,6 @@ const NewNote = ({ contactId, setNewNote }) => {
       },
     });
     setNewNote(false);
-    // TODO: update cache with new note data
   };
 
   return (

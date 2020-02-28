@@ -31,7 +31,7 @@ const Location = styled.div``;
 const ListItem = ({ contactData }) => {
   const { contactId, name, country } = contactData;
   return (
-    <ListCard key={contactId}>
+    <ListCard>
       <Overview>
         <Avatar
           alt="User Profile Image"

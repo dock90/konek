@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 // components
 import ListItem from './ListItem';
+import Loading from "../Loading";
 
 // ALL_CONTACTS_QUERY
 const ALL_CONTACTS_QUERY = gql`
@@ -23,12 +24,12 @@ const ListContainer = styled.div``;
 const ContactList = () => (
   <Query query={ALL_CONTACTS_QUERY}>
     {({ data, loading, error }) => {
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <Loading />;
       if (error) return <p>Error: {error.message}</p>;
       return (
         <ListContainer>
           {data.contacts.data.map(contact => (
-            <ListItem key={contact.contactId} contactData={contact} />
+            <ListItem contactData={contact} key={contact.contactId} />
           ))}
         </ListContainer>
       );

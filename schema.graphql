@@ -18,6 +18,21 @@ interface EntryTypeInterface {
   title: String!
 }
 
+"Exposes info about what features of the app the profile can access"
+type Access {
+  contacts: Boolean!
+  groups: Boolean!
+  hasContact: Boolean!
+  messages: Boolean!
+  timeline: Boolean!
+}
+
+type AlgoliaInfo {
+  appId: String!
+  "Key for searching. Will be null if contact does not have access to anything"
+  searchKey: String
+}
+
 type Asset {
   assetId: AssetId!
   description: String
@@ -121,6 +136,8 @@ type Log implements EntryTypeInterface {
 }
 
 type Me {
+  access: Access!
+  algoliaInfo: AlgoliaInfo!
   city: String
   country: String
   emails: [Email!]!
@@ -132,8 +149,6 @@ type Me {
   picture: AssetId
   postalCode: String
   pubNubInfo: PubNubInfo!
-  "Key for searching. Will be null if contact does not have access to anything"
-  searchKey: String
   state: String
 }
 
@@ -163,7 +178,8 @@ type MessageList {
 }
 
 type Mutation {
-  acceptInvitation(code: String!): Profile
+  "Associate profile with a contact via invitation code. A null response indicates that no matching invitation code was found."
+  acceptInvitation(code: String!): Me
   "Adds a group to a contact"
   addContactGroup(input: AddContactGroupInput!): Contact
   "Adds a tag to a contact"

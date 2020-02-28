@@ -1,33 +1,50 @@
 import gql from "graphql-tag";
 
+export const ME_FIELDS = gql`
+  fragment MeFields on Me {
+    name
+    picture
+    emails {
+      email
+      label
+    }
+    phones {
+      number
+      label
+    }
+    city
+    state
+    postalCode
+    country
+    language
+    pubNubInfo {
+      subscribeKey
+      authKey
+      expires
+      channelGroup
+    }
+    algoliaInfo {
+      appId
+      searchKey
+    }
+    access {
+      timeline
+      contacts
+      messages
+      groups
+      hasContact
+    }
+  }
+`;
+
 // ME_QUERY
 export const ME_QUERY = gql`
   query ME_QUERY {
     me {
-      name
-      picture
-      emails {
-        email
-        label
-      }
-      phones {
-        number
-        label
-      }
-      city
-      state
-      postalCode
-      country
-      language
-      pubNubInfo {
-        subscribeKey
-        authKey
-        expires
-        channelGroup
-      }
-      searchKey
+      ...MeFields
     }
   }
+  ${ME_FIELDS}
 `;
 
 // UPDATE_ME_MUTATION
@@ -58,7 +75,8 @@ export const UPDATE_ME_MUTATION = gql`
         # groups: $groups
       }
     ) {
-      name
+      ...MeFields
     }
   }
+  ${ME_FIELDS}
 `;

@@ -70,8 +70,8 @@ const Account = () => {
           },
         } = data;
 
-        const email = emails ? emails[0].email : '';
-        const number = phones ? phones[0].number : '';
+        const email = emails && emails.length > 0 ? emails[0].email : '';
+        const number = phones && phones.length > 0 ? phones[0].number : '';
 
         return (
           <Mutation mutation={UPDATE_ME_MUTATION} variables={profile}>

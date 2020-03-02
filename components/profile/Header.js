@@ -1,9 +1,9 @@
 import React from 'react';
+import {H1} from '../styles/Typography'
 
 const Header = () => (
   <div>
-    <p>Settings</p>
-    <h1>Edit Account Information</h1>
+    <H1>Edit Account Information</H1>
   </div>
 );
 

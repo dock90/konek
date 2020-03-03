@@ -117,7 +117,8 @@ export async function addMessage(messageId, roomId, body, authorId) {
 
   let authorInfo = client.readFragment({
     fragment: MEMBER_FIELDS,
-    id: authorId
+    id: authorId,
+    fragmentName: 'MemberFields',
   });
 
   if (!authorInfo) {

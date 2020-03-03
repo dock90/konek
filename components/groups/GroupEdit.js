@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { H4 } from "../styles/Typography";
-
 import { useMutation, useQuery } from "@apollo/react-hooks";
+
 import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
+
 // queries
 import {
   GROUP_UPDATE_MUTATION,
@@ -12,17 +12,20 @@ import {
   GROUPS_QUERY
 } from "../../queries/GroupQueries";
 import { ROLES_QUERY } from "../../queries/RoleQueries";
+
 // components
+import { BorderButton } from "../material/StyledButton";
 import {
   Grid,
   Card,
   CardContent,
   TextField,
-  MenuItem,
-  Button
+  MenuItem
 } from "@material-ui/core";
 import GroupItem from "./GroupItem";
 import Loading from "../Loading";
+import { H4 } from "../styles/Typography";
+import GroupDetails from "./Details";
 
 const Header = styled.div`
   display: flex;
@@ -91,7 +94,7 @@ export default ({ groupId }) => {
         }
         if (
           g.groupId === groupId ||
-          (g.ancestors && g.ancestors.includes(groupId))
+          (g.ancestors && g.ancestors.find(ag => ag.groupId === groupId))
         ) {
           // Skip ourselves and any of our children.
           return false;
@@ -161,7 +164,7 @@ export default ({ groupId }) => {
         <Grid container spacing={2}>
           {isNew ? null : (
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              <GroupItem group={group} style={{width: '100%', margin: 0}} />
+              <GroupItem group={group} style={{ width: "100%", margin: 0 }} />
             </Grid>
           )}
           <Grid
@@ -237,7 +240,7 @@ export default ({ groupId }) => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Button type="submit">Save Group</Button>
+                    <BorderButton type="submit">Save Group</BorderButton>
                   </Grid>
                 </Grid>
               </CardContent>
@@ -245,6 +248,9 @@ export default ({ groupId }) => {
           </Grid>
         </Grid>
       </form>
+      {!isNew && (
+        <GroupDetails groupId={groupId}/>
+      )}
     </div>
   );
 };

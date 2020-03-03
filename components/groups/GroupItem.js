@@ -1,8 +1,8 @@
-import { ChatOutlined } from "@material-ui/icons";
 import { Paper } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import styled from "styled-components";
 import Link from "next/link";
+import MessageAction from "../actions/MessageAction";
 
 const Container = styled(Paper)`
   margin: 5px;
@@ -57,11 +57,7 @@ const GroupItem = ({ group, style }) => {
       </Header>
       <Body>{group.description || <em>no description</em>}</Body>
       <Footer>
-        <Link href={`/messages?roomId=${group.roomId}`} passHref={true}>
-          <a>
-            <ChatOutlined /> Message Group
-          </a>
-        </Link>
+        <MessageAction roomId={group.roomId}>Message Group</MessageAction>
       </Footer>
     </Container>
   );

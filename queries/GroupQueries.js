@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { ROLE_FRAGMENT } from "./RoleQueries";
+import { MEMBER_FIELDS } from "./MemberQueries";
 
 const GROUP_FIELDS = gql`
   fragment GroupFields on Group {
@@ -17,6 +18,19 @@ const GROUP_FIELDS = gql`
     __typename
   }
   ${ROLE_FRAGMENT}
+`;
+
+export const GROUP_MEMBERS_QUERY = gql`
+  query GROUP_MEMBERS_QUERY($groupId: ID!) {
+    group(groupId: $groupId) {
+      ...GroupFields
+      members {
+        ...MemberFields
+      }
+    }
+  }
+  ${MEMBER_FIELDS}
+  ${GROUP_FIELDS}
 `;
 
 export const GROUPS_QUERY = gql`

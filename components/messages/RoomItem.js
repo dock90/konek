@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import { RoomIdContext } from "../../contexts/RoomIdContext";
 // material
-import Avatar from "@material-ui/core/Avatar";
+import { Avatar } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
 
 const Container = styled.div`

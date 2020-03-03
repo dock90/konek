@@ -49,7 +49,8 @@ type Contact {
   entryList(
     #Cursor from previous query
     after: String,
-    first: Float = 10.0
+    first: Float = 10.0,
+    type: EntryTypes
   ): EntryList!
   fbProfile: String
   gender: Gender
@@ -110,29 +111,15 @@ type EntryList {
 type Group {
   "List of ancestor groups."
   ancestors: [Group!]
+  "If the current profile has permission to manage the group."
+  canManage: Boolean!
   "Default role for new members of this group."
   defaultRole: Role
-  description: String!
+  description: String
   groupId: ID!
   members: [Member!]!
   name: String!
   roomId: ID!
-}
-
-type Log implements EntryTypeInterface {
-  access: AccessType!
-  contact: Contact!
-  createdAt: DateTime!
-  createdBy: Profile!
-  entryId: ID!
-  fieldChanged: String!
-  "The value of the field after the change. Null if no value."
-  newValue: String
-  pinned: Boolean!
-  "The value of the field before the change. Null if no value."
-  prevValue: String
-  tags: [Tag!]!
-  title: String!
 }
 
 type Me {
@@ -210,6 +197,7 @@ type Mutation {
   "Updates a contact's group membership."
   updateContactGroup(input: UpdateContactGroupInput!): Contact!
   updateConversation(input: UpdateConversationInput!): Conversation
+  updateGroup(input: UpdateGroupInput!): Group
   updateMe(input: UpdateMeInput!): Me!
   updateNote(input: UpdateNoteInput!): Note
   "Updates an existing tag."
@@ -281,6 +269,14 @@ type Query {
     #How many results to return, max of 100.
     first: Float = 25.0
   ): ContactList!
+  entries(
+    #Cursor from previous query
+    after: String,
+    contactId: ID!,
+    first: Float = 10.0,
+    type: EntryTypes
+  ): EntryList!
+  entry(entryId: ID!): EntryTypeInterface
   group(groupId: ID!): Group!
   groups: [Group!]!
   me: Me!
@@ -308,7 +304,7 @@ type Room {
   "Own member ID in room"
   memberId: String!
   members: [Member!]!
-  "Name of room to show in the UI."
+  "Name of the room to show in the UI"
   name: String!
   notificationPreference: NotificationPreference!
   qtyUnread: Float!
@@ -330,6 +326,11 @@ type Tag {
 enum AccessType {
   PRIVATE
   SHARED
+}
+
+enum EntryTypes {
+  Conversation
+  Note
 }
 
 "Use `UNDEFINED` to un-set a previous value."
@@ -553,6 +554,16 @@ input UpdateEntryInput {
   title: String
 }
 
+input UpdateGroupInput {
+  "Default role for new members of this group."
+  defaultRoleId: ID
+  description: String
+  groupId: ID!
+  name: String
+  "The group to assign as parent."
+  parentGroupId: ID
+}
+
 input UpdateMeInput {
   city: String
   country: String
@@ -585,8 +596,8 @@ input UpdateTagInput {
 }
 
 
-"Cloudinary ID for the asset."
-scalar AssetId
-
 "The javascript `Date` as string. Type represents date and time as the ISO Date string."
 scalar DateTime
+
+"Cloudinary ID for the asset."
+scalar AssetId

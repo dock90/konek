@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { ACCEPT_INVITATION_MUTATION } from "../../queries/Invitation";
+import { ACCEPT_INVITATION_MUTATION } from "../../queries/InvitationQueries";
 import { TextField, Button, Grid, CircularProgress } from "@material-ui/core";
 import { Email } from "@material-ui/icons";
 import { useRouter } from "next/router";

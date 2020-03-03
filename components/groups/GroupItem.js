@@ -37,7 +37,9 @@ const Body = styled(ContainerItem)`
   display: table-cell;
   vertical-align: top;
 `;
-const Footer = styled(ContainerItem)``;
+const Footer = styled(ContainerItem)`
+  justify-content: flex-end;
+`;
 
 const GroupItem = ({ group, style }) => {
   return (

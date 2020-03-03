@@ -24,11 +24,12 @@ import {
 } from "@material-ui/core";
 import GroupItem from "./GroupItem";
 import Loading from "../Loading";
-import { H4 } from "../styles/Typography";
+import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
 
 const Header = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 export default ({ groupId }) => {
@@ -56,6 +57,7 @@ export default ({ groupId }) => {
   const [updateGroup, setUpdatedGroup] = useState({});
   // Groups that we have "manage" access to. We can only change the parent group, when we can manage the parent group.
   const [manageGroups, setManageGroups] = useState([]);
+  const [editMode, setEditMode] = useState(false);
 
   useMemo(() => {
     if (data && data.group) {
@@ -109,16 +111,18 @@ export default ({ groupId }) => {
   }
 
   const required = [];
-  let rowOneWidth = 6;
+  let editRowOneWidth = 6;
   if (isNew) {
     required.push(...["name", "defaultRoleId", "parentGroupId"]);
-    rowOneWidth = 4;
+    editRowOneWidth = 4;
   } else if (group.parentGroupId) {
-    rowOneWidth = 4;
+    editRowOneWidth = 4;
   }
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setEditMode(false);
+
     if (Object.keys(updateGroup).length === 0) {
       // Nothing has changed! Why update?
       return;
@@ -159,98 +163,99 @@ export default ({ groupId }) => {
 
   return (
     <div>
-      <Header>{isNew ? "New" : "Edit"} Group</Header>
+      <Header>
+        <H1>{!editMode ? "" : isNew ? "New" : "Edit"} Group</H1>
+        {!editMode && !isNew && (
+          <BorderButton onClick={() => setEditMode(true)}>
+            Edit Group
+          </BorderButton>
+        )}
+      </Header>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {isNew ? null : (
-            <Grid item xs={12} sm={6} md={3} lg={2}>
+          {!editMode && (
+            <Grid item xs={12}>
               <GroupItem group={group} style={{ width: "100%", margin: 0 }} />
             </Grid>
           )}
-          <Grid
-            item
-            xs={12}
-            sm={isNew ? 12 : 6}
-            md={isNew ? 12 : 9}
-            lg={isNew ? 12 : 10}
-          >
-            <Card>
-              <CardContent>
-                <H4>Group Information</H4>
-                <Grid container spacing={2}>
-                  <Grid item xs={rowOneWidth}>
-                    <TextField
-                      name="name"
-                      label="Name"
-                      variant="outlined"
-                      required={required.includes("name")}
-                      value={group.name}
-                      onChange={handleChange}
-                      style={{ width: "100%" }}
-                    />
-                  </Grid>
-                  <Grid item xs={rowOneWidth}>
-                    <TextField
-                      name="defaultRoleId"
-                      label="Default Role"
-                      select
-                      value={group.defaultRoleId}
-                      required={required.includes("defaultRoleId")}
-                      onChange={handleChange}
-                      variant="outlined"
-                      style={{ width: "100%" }}
-                    >
-                      {rolesData.roles.map(r => (
-                        <MenuItem key={r.roleId} value={r.roleId}>
-                          {r.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </Grid>
-                  {(group.parentGroupId ||
-                    required.includes("parentGroupId")) && (
-                    <Grid item xs={rowOneWidth}>
+          {editMode && (
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <H4>Group Information</H4>
+                  <Grid container spacing={2}>
+                    <Grid item xs={editRowOneWidth}>
                       <TextField
-                        name="parentGroupId"
-                        label="Parent Group"
+                        name="name"
+                        label="Name"
+                        variant="outlined"
+                        required={required.includes("name")}
+                        value={group.name}
+                        onChange={handleChange}
+                        style={{ width: "100%" }}
+                      />
+                    </Grid>
+                    <Grid item xs={editRowOneWidth}>
+                      <TextField
+                        name="defaultRoleId"
+                        label="Default Role"
                         select
-                        value={group.parentGroupId}
-                        required={required.includes("parentGroupId")}
+                        value={group.defaultRoleId}
+                        required={required.includes("defaultRoleId")}
                         onChange={handleChange}
                         variant="outlined"
                         style={{ width: "100%" }}
                       >
-                        {manageGroups.map(g => (
-                          <MenuItem key={g.groupId} value={g.groupId}>
-                            {g.name}
+                        {rolesData.roles.map(r => (
+                          <MenuItem key={r.roleId} value={r.roleId}>
+                            {r.name}
                           </MenuItem>
                         ))}
                       </TextField>
                     </Grid>
-                  )}
-                  <Grid item xs={12}>
-                    <TextField
-                      multiline
-                      name="description"
-                      label="Description"
-                      variant="outlined"
-                      value={group.description}
-                      onChange={handleChange}
-                      style={{ width: "100%" }}
-                    />
+                    {(group.parentGroupId ||
+                      required.includes("parentGroupId")) && (
+                      <Grid item xs={editRowOneWidth}>
+                        <TextField
+                          name="parentGroupId"
+                          label="Parent Group"
+                          select
+                          value={group.parentGroupId}
+                          required={required.includes("parentGroupId")}
+                          onChange={handleChange}
+                          variant="outlined"
+                          style={{ width: "100%" }}
+                        >
+                          {manageGroups.map(g => (
+                            <MenuItem key={g.groupId} value={g.groupId}>
+                              {g.name}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </Grid>
+                    )}
+                    <Grid item xs={12}>
+                      <TextField
+                        multiline
+                        name="description"
+                        label="Description"
+                        variant="outlined"
+                        value={group.description}
+                        onChange={handleChange}
+                        style={{ width: "100%" }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <BorderButton type="submit">Save Group</BorderButton>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12}>
-                    <BorderButton type="submit">Save Group</BorderButton>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
         </Grid>
       </form>
-      {!isNew && (
-        <GroupDetails groupId={groupId}/>
-      )}
+      {!isNew && <GroupDetails groupId={groupId} />}
     </div>
   );
 };

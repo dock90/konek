@@ -1,0 +1,136 @@
+import gql from "graphql-tag";
+import { TAG_FIELDS } from "./TagQueries";
+
+const CONTACT_SUMMARY_FIELDS = gql`
+  fragment ContactSummaryFields on Contact {
+    __typename
+    contactId
+    name
+    country
+    picture
+    profile {
+      roomId
+    }
+  }
+`;
+
+const CONTACT_FIELDS = gql`
+  fragment ContactFields on Contact {
+    __typename
+    contactId
+    name
+    legalName
+    bio
+    city
+    state
+    postalCode
+    country
+    gender
+    language
+    tags {
+      ...TagFields
+    }
+    picture
+    bio
+    fbProfile
+    emails {
+      email
+      label
+    }
+    phones {
+      number
+      label
+    }
+  }
+  ${TAG_FIELDS}
+`;
+
+export const ALL_CONTACTS_QUERY = gql`
+  query ALL_CONTACTS_QUERY {
+    contacts {
+      data {
+        ...ContactSummaryFields
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+  ${CONTACT_SUMMARY_FIELDS}
+`;
+
+export const CONTACT_QUERY = gql`
+  query CONTACT_QUERY($contactId: ID!) {
+    contact(contactId: $contactId) {
+      ...ContactFields
+    }
+  }
+  ${CONTACT_FIELDS}
+`;
+
+export const UPDATE_CONTACT_MUTATION = gql`
+  mutation UPDATE_CONTACT_MUTATION(
+    $contactId: ID!
+    $name: String
+    $legalName: String
+    $bio: String
+    $city: String
+    $state: String
+    $postalCode: String
+    $country: String
+    $language: String
+    $fbProfile: String
+  ) {
+    updateContact(
+      input: {
+        contactId: $contactId
+        name: $name
+        legalName: $legalName
+        bio: $bio
+        city: $city
+        state: $state
+        postalCode: $postalCode
+        country: $country
+        language: $language
+        fbProfile: $fbProfile
+      }
+    ) {
+      ...ContactFields
+    }
+  }
+  ${CONTACT_FIELDS}
+`;
+
+export const CREATE_CONTACT_MUTATION = gql`
+  mutation CREATE_CONTACT_MUTATION(
+    $name: String!
+    $legalName: String
+    $bio: String
+    $city: String
+    $state: String
+    $postalCode: String
+    $country: String
+    $language: String
+    $fbProfile: String
+    $groups: [ContactGroupInput!]!
+  ) {
+    createContact(
+      input: {
+        name: $name
+        legalName: $legalName
+        bio: $bio
+        city: $city
+        state: $state
+        postalCode: $postalCode
+        country: $country
+        language: $language
+        fbProfile: $fbProfile
+        groups: $groups
+      }
+    ) {
+      ...ContactFields
+    }
+  }
+  ${CONTACT_FIELDS}
+`;

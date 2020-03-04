@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Dashboard from '../../components/Dashboard';
 // components
-import CreateContact from '../../components/contacts/CreateContact';
+import ContactEdit from '../../components/contact/ContactEdit';
 
 // styles
 const Container = styled.div`
@@ -13,7 +13,7 @@ const Container = styled.div`
 const NewContact = () => (
   <Dashboard>
     <Container>
-      <CreateContact />
+      <ContactEdit id="new" />
     </Container>
   </Dashboard>
 );

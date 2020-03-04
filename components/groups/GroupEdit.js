@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
-import { useMemo, useState } from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/router";
 
 // queries
@@ -26,7 +26,7 @@ import GroupItem from "./GroupItem";
 import Loading from "../Loading";
 import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
-import { hierarchyLabel } from "./hierarchyLabel";
+import {useGroupList} from "../../hooks/useGroupList";
 
 const Header = styled.div`
   display: flex;
@@ -42,7 +42,11 @@ export default ({ groupId }) => {
     skip: isNew
   });
   const { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY);
-  const { loading: groupsLoading, data: groupsData } = useQuery(GROUPS_QUERY);
+  const { loading: groupsLoading, data: manageGroups, groups } = useGroupList({
+    manageOnly: true,
+    excludeGroupId: isNew ? false : groupId,
+    includeGroupName: true
+  });
 
   const [saveGroup] = useMutation(GROUP_UPDATE_MUTATION);
   const [createGroup] = useMutation(GROUP_CREATE_MUTATION, {
@@ -58,36 +62,7 @@ export default ({ groupId }) => {
   const [updateGroup, setUpdatedGroup] = useState({});
   const [editMode, setEditMode] = useState(isNew);
 
-  const manageGroups = useMemo(() => {
-    if (groupsLoading) {
-      return;
-    }
-    const groupList = groupsData.groups.filter(g => {
-      if (!g.canManage) {
-        return false;
-      }
-      if (
-        g.groupId === groupId ||
-        (g.ancestors && g.ancestors.find(ag => ag.groupId === groupId))
-      ) {
-        // Skip ourselves and any of our children.
-        return false;
-      }
-      return true;
-    });
-
-    const results = [];
-    for (const g of groupList) {
-      results.push({
-        groupId: g.groupId,
-        name: hierarchyLabel(g, groupList, true)
-      });
-    }
-
-    return results;
-  }, [groupsData, groupsLoading]);
-
-  useMemo(() => {
+  useEffect(() => {
     if (data && data.group && manageGroups) {
       if (data.group.description === null) {
         // React doesn't like null values
@@ -186,7 +161,7 @@ export default ({ groupId }) => {
             <Grid item xs={12}>
               <GroupItem
                 group={group}
-                groupList={groupsData.groups}
+                groupList={groups}
               />
             </Grid>
           )}
@@ -240,7 +215,7 @@ export default ({ groupId }) => {
                         >
                           {manageGroups.map(g => (
                             <MenuItem key={g.groupId} value={g.groupId}>
-                              {g.name}
+                              {g.hierarchy}
                             </MenuItem>
                           ))}
                         </TextField>

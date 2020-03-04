@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import styled from 'styled-components';
+import Link from "next/link";
+import styled from "styled-components";
 // components
-import ContactList from '../../components/contacts/ContactList';
-import Dashboard from '../../components/Dashboard';
-import { H2, LinkText } from '../../components/styles/Typography';
-import { BorderButton } from '../../components/material/StyledButton';
+import ContactList from "../../components/contacts/ContactList";
+import Dashboard from "../../components/Dashboard";
+import { H2 } from "../../components/styles/Typography";
+import { BorderButton } from "../../components/material/StyledButton";
 
 // styles
 const Container = styled.div`
@@ -25,10 +25,8 @@ const Contacts = () => (
     <Container>
       <Header>
         <H2>Contacts</H2>
-        <Link href="/contacts/newContact" as="/contacts/new-contact">
-          <LinkText>
-            <BorderButton>Add Contact</BorderButton>
-          </LinkText>
+        <Link href="/contacts/new">
+          <BorderButton>New Contact</BorderButton>
         </Link>
       </Header>
       <ContactList />

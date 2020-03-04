@@ -4,7 +4,8 @@ import { PersonOutlined } from "@material-ui/icons";
 const ContactView = ({ contactId, name }) => {
   return (
     <BaseAction
-      href={`/contacts/contact?id=${contactId}`}
+      href={'/contacts/[id]'}
+      as={`/contacts/${contactId}`}
       Icon={PersonOutlined}
       children={`View ${name}`}
     />

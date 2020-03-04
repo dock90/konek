@@ -1,22 +1,9 @@
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
-import styled from 'styled-components';
+import { Query } from "react-apollo";
+import styled from "styled-components";
 // components
-import ListItem from './ListItem';
+import ListItem from "./ListItem";
 import Loading from "../Loading";
-
-// ALL_CONTACTS_QUERY
-const ALL_CONTACTS_QUERY = gql`
-  query ALL_CONTACTS_QUERY {
-    contacts {
-      data {
-        contactId
-        name
-        country
-      }
-    }
-  }
-`;
+import { ALL_CONTACTS_QUERY } from "../../queries/ContactQueries";
 
 // styles
 const ListContainer = styled.div``;

@@ -8,13 +8,13 @@ const Content = styled(Paper)`
   font-size: 0.9em;
 `;
 
-const BaseAction = ({ href, children, Icon }) => {
+const BaseAction = ({ href, as, children, Icon }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
   return (
     <span>
-      <Link href={href} passHref={true}>
+      <Link href={href} as={as}>
         <a
           onMouseEnter={() => setOpen(true)}
           onMouseLeave={() => setOpen(false)}

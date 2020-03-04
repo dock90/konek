@@ -29,13 +29,13 @@ const Overview = styled.div`
 const Location = styled.div``;
 
 const ListItem = ({ contactData }) => {
-  const { contactId, name, country } = contactData;
+  const { contactId, name, country, picture } = contactData;
   return (
     <ListCard>
       <Overview>
         <Avatar
           alt="User Profile Image"
-          src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
+          // src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
           style={{
             height: 40,
             width: 40,
@@ -50,7 +50,7 @@ const ListItem = ({ contactData }) => {
           <AltText>Country</AltText>
         </Location>
       )}
-      <Link href={`/contacts/contact?id=${contactId}`}>
+      <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`}>
         <a>
           <BorderButton>View</BorderButton>
         </a>

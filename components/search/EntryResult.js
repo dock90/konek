@@ -15,7 +15,8 @@ const TypeLabel = styled.span`
 const ContactResult = ({ hit }) => {
   return (
     <Link
-      href={`/contacts/contact?id=${hit.contactId}&entryId=${hit.objectID}`}
+      href={'/contacts/[id]'}
+      as={`/contacts/${hit.contactId}?entryId=${hit.objectID}`}
     >
       <ResultContainer variant="outlined">
         <ResultTitle direction="column">

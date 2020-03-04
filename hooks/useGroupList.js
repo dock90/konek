@@ -47,7 +47,8 @@ export function useGroupList(options) {
       res.push({
         groupId: group.groupId,
         name: group.name,
-        hierarchy: hierarchyLabel(group, data.groups, includeGroupName)
+        hierarchy: hierarchyLabel(group, data.groups, includeGroupName),
+        group: group,
       });
     }
 

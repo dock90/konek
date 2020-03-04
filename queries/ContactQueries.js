@@ -41,6 +41,15 @@ const CONTACT_FIELDS = gql`
       number
       label
     }
+    groups {
+      group {
+        groupId
+        name
+      }
+      role {
+        roleId
+      }
+    }
   }
   ${TAG_FIELDS}
 `;
@@ -134,3 +143,37 @@ export const CREATE_CONTACT_MUTATION = gql`
   }
   ${CONTACT_FIELDS}
 `;
+
+export const UPDATE_CONTACT_GROUP = gql`
+  mutation UPDATE_CONTACT_GROUP(
+    $contactId: ID!
+    $groupId: ID!
+    $roleId: ID!
+  ) {
+    updateContactGroup(input: {
+      contactId: $contactId
+      groupId: $groupId
+      roleId: $roleId
+    }) {
+      ...ContactFields
+    }
+  }
+  ${CONTACT_FIELDS}
+`;
+
+export const REMOVE_CONTACT_GROUP = gql`
+  mutation REMOVE_CONTACT_GROUP(
+    $contactId: ID!
+    $groupId: ID!
+  ) {
+    removeContactGroup(input: {
+      contactId: $contactId
+      groupId: $groupId
+    }) {
+      ...ContactFields
+    }
+  }
+  ${CONTACT_FIELDS}
+`;
+
+

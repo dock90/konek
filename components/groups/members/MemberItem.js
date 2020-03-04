@@ -6,7 +6,7 @@ import ContactView from "../../actions/ContactView";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  
+
   border-radius: 3px;
   padding: 3px;
   transition: background-color 150ms linear;
@@ -18,7 +18,11 @@ const Container = styled.div`
 const Overview = styled.div`
   display: flex;
 `;
-const Actions = styled.div``;
+const Actions = styled.div`
+  > :not(:last-child) {
+    margin-right: 5px;
+  }
+`;
 
 const MemberItem = ({ member }) => {
   return (

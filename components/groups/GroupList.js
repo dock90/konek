@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/react-hooks";
+import { Grid } from "@material-ui/core";
 import { GROUPS_QUERY } from "../../queries/GroupQueries";
 import Loading from "../Loading";
 import styled from "styled-components";
@@ -20,11 +21,17 @@ const GroupList = () => {
   }
 
   return (
-    <ListContainer>
+    <Grid container spacing={2}>
       {data.groups.map(group => (
-        <GroupItem key={group.groupId} group={group} />
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+          <GroupItem
+            key={group.groupId}
+            group={group}
+            groupList={data.groups}
+          />
+        </Grid>
       ))}
-    </ListContainer>
+    </Grid>
   );
 };
 

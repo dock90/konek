@@ -26,6 +26,7 @@ import GroupItem from "./GroupItem";
 import Loading from "../Loading";
 import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
+import { hierarchyLabel } from "./hierarchyLabel";
 
 const Header = styled.div`
   display: flex;
@@ -55,12 +56,39 @@ export default ({ groupId }) => {
     parentGroupId: ""
   });
   const [updateGroup, setUpdatedGroup] = useState({});
-  // Groups that we have "manage" access to. We can only change the parent group, when we can manage the parent group.
-  const [manageGroups, setManageGroups] = useState([]);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(isNew);
+
+  const manageGroups = useMemo(() => {
+    if (groupsLoading) {
+      return;
+    }
+    const groupList = groupsData.groups.filter(g => {
+      if (!g.canManage) {
+        return false;
+      }
+      if (
+        g.groupId === groupId ||
+        (g.ancestors && g.ancestors.find(ag => ag.groupId === groupId))
+      ) {
+        // Skip ourselves and any of our children.
+        return false;
+      }
+      return true;
+    });
+
+    const results = [];
+    for (const g of groupList) {
+      results.push({
+        groupId: g.groupId,
+        name: hierarchyLabel(g, groupList, true)
+      });
+    }
+
+    return results;
+  }, [groupsData, groupsLoading]);
 
   useMemo(() => {
-    if (data && data.group) {
+    if (data && data.group && manageGroups) {
       if (data.group.description === null) {
         // React doesn't like null values
         data.group.description = "";
@@ -85,27 +113,6 @@ export default ({ groupId }) => {
     }
   }, [data, manageGroups]);
 
-  useMemo(() => {
-    if (groupsLoading) {
-      return;
-    }
-    setManageGroups(
-      groupsData.groups.filter(g => {
-        if (!g.canManage) {
-          return false;
-        }
-        if (
-          g.groupId === groupId ||
-          (g.ancestors && g.ancestors.find(ag => ag.groupId === groupId))
-        ) {
-          // Skip ourselves and any of our children.
-          return false;
-        }
-        return true;
-      })
-    );
-  }, [groupsData, groupsLoading]);
-
   if (loading || rolesLoading || groupsLoading) {
     return <Loading />;
   }
@@ -121,9 +128,9 @@ export default ({ groupId }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setEditMode(false);
 
     if (Object.keys(updateGroup).length === 0) {
+      setEditMode(false);
       // Nothing has changed! Why update?
       return;
     }
@@ -136,9 +143,11 @@ export default ({ groupId }) => {
         "/groups/[id]",
         `/groups/${data.createGroup.groupId}`
       );
+      setEditMode(false);
       return;
     }
 
+    setEditMode(false);
     await saveGroup({
       variables: {
         ...updateGroup,
@@ -175,7 +184,10 @@ export default ({ groupId }) => {
         <Grid container spacing={2}>
           {!editMode && (
             <Grid item xs={12}>
-              <GroupItem group={group} style={{ width: "100%", margin: 0 }} />
+              <GroupItem
+                group={group}
+                groupList={groupsData.groups}
+              />
             </Grid>
           )}
           {editMode && (

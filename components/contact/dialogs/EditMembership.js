@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";

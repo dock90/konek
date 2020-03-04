@@ -10,6 +10,7 @@ import {
 } from "../../queries/ContactQueries";
 // material
 import { Grid, TextField, Button, Paper } from "@material-ui/core";
+import { Add } from '@material-ui/icons';
 // components
 import styled from "styled-components";
 import { H1, H2 } from "../styles/Typography";
@@ -17,6 +18,7 @@ import Loading from "../Loading";
 import { useGroupList } from "../../hooks/useGroupList";
 import ContactGroupEdit from "./ContactGroupEdit";
 import { ROLES_QUERY } from "../../queries/RoleQueries";
+import AddMembership from "./dialogs/AddMembership";
 
 // styles
 const Container = styled.div`
@@ -36,7 +38,7 @@ const SectionHeader = styled(H2)``;
 const GroupTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  
+
   th {
     border-bottom: 1px gray solid;
     margin: 0;
@@ -57,7 +59,7 @@ const GroupTable = styled.table`
     min-height: 32px;
   }
   tbody tr:hover {
-   background-color: lightgray;
+    background-color: lightgray;
   }
   tr:nth-child(even) {
     background-color: whitesmoke;
@@ -79,12 +81,13 @@ const ContactEdit = ({ id }) => {
 
   const { loading: groupsLoading, data: groupsData } = useGroupList({
     manageOnly: false,
-    includeGroupName: false
+    includeGroupName: true
   });
 
   const [contact, setContact] = useState({}),
     [updatedFields, setUpdatedFields] = useState({}),
-    [saving, setSaving] = useState(false);
+    [saving, setSaving] = useState(false),
+    [openAddGroup, setOpenAddGroup] = useState(false);
 
   useEffect(() => {
     if (loading || !data || !data.contact) {
@@ -165,6 +168,9 @@ const ContactEdit = ({ id }) => {
               <Grid item xs={12}>
                 {fieldFactory("bio", "Bio", { multiline: true })}
               </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+                {fieldFactory("fbProfile", "FaceBook Profile")}
+              </Grid>
               <Grid item xs={12}>
                 <SectionHeader>Contact Information</SectionHeader>
               </Grid>
@@ -183,37 +189,53 @@ const ContactEdit = ({ id }) => {
               <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
                 {fieldFactory("language", "Language")}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
-                {fieldFactory("fbProfile", "FaceBook Profile")}
-              </Grid>
-              <Grid item xs={12}>
-                <SectionHeader>Groups</SectionHeader>
-                <Grid container>
-                  <Grid item xs={12} sm={10} md={10} lg={6}>
-                    <GroupTable>
-                      <thead>
-                        <tr>
-                          <th>Group</th>
-                          <th>Role</th>
-                          <th>&nbsp;</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {contact.groups &&
-                          contact.groups.map(cg => (
-                            <ContactGroupEdit
-                              key={cg.group.groupId}
-                              contactId={contact.contactId}
-                              contactGroup={cg}
-                              groups={groupsData}
-                              roles={rolesData.roles}
-                            />
-                          ))}
-                      </tbody>
-                    </GroupTable>
+              {!isNew && (
+                <Grid item xs={12}>
+                  <SectionHeader>Groups</SectionHeader>
+                  <Grid container>
+                    <Grid item xs={12} sm={10} md={10} lg={6}>
+                      <GroupTable>
+                        <thead>
+                          <tr>
+                            <th>Group</th>
+                            <th>Role</th>
+                            <th>&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {contact.groups &&
+                            contact.groups.map(cg => (
+                              <ContactGroupEdit
+                                key={cg.group.groupId}
+                                contactId={contact.contactId}
+                                contactGroup={cg}
+                                groups={groupsData}
+                                roles={rolesData.roles}
+                              />
+                            ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td> </td>
+                            <td colSpan={2}>
+                              <Button onClick={e => setOpenAddGroup(true)}>
+                                <Add /> Add Group
+                              </Button>
+                              <AddMembership
+                                roles={rolesData.roles}
+                                groups={groupsData}
+                                contactId={id}
+                                open={openAddGroup}
+                                onClose={() => setOpenAddGroup(false)}
+                              />
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </GroupTable>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              )}
               <Grid item xs={12}>
                 <Button
                   disabled={saving}

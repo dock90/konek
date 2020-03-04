@@ -31,13 +31,12 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
     }
     setIsExecuting(true);
     try {
-      const res = await removeMembership({
+      await removeMembership({
         variables: {
           contactId,
           groupId: group.groupId
         }
       });
-      console.log(res);
     } catch (e) {
       if (
         e.graphQLErrors

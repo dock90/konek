@@ -145,16 +145,10 @@ export const CREATE_CONTACT_MUTATION = gql`
 `;
 
 export const UPDATE_CONTACT_GROUP = gql`
-  mutation UPDATE_CONTACT_GROUP(
-    $contactId: ID!
-    $groupId: ID!
-    $roleId: ID!
-  ) {
-    updateContactGroup(input: {
-      contactId: $contactId
-      groupId: $groupId
-      roleId: $roleId
-    }) {
+  mutation UPDATE_CONTACT_GROUP($contactId: ID!, $groupId: ID!, $roleId: ID!) {
+    updateContactGroup(
+      input: { contactId: $contactId, groupId: $groupId, roleId: $roleId }
+    ) {
       ...ContactFields
     }
   }
@@ -162,18 +156,23 @@ export const UPDATE_CONTACT_GROUP = gql`
 `;
 
 export const REMOVE_CONTACT_GROUP = gql`
-  mutation REMOVE_CONTACT_GROUP(
-    $contactId: ID!
-    $groupId: ID!
-  ) {
-    removeContactGroup(input: {
-      contactId: $contactId
-      groupId: $groupId
-    }) {
+  mutation REMOVE_CONTACT_GROUP($contactId: ID!, $groupId: ID!) {
+    removeContactGroup(input: { contactId: $contactId, groupId: $groupId }) {
       ...ContactFields
     }
   }
   ${CONTACT_FIELDS}
 `;
 
-
+export const ADD_CONTACT_GROUP = gql`
+mutation ADD_CONTACT_GROUP ($contactId: ID!, $groupId: ID!, $roleId: ID!) {
+  addContactGroup(input: {
+    contactId: $contactId
+    groupId: $groupId
+    roleId: $roleId
+  }) {
+    ...ContactFields
+  }
+}
+  ${CONTACT_FIELDS}
+`;

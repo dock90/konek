@@ -4,6 +4,7 @@ import Link from "next/link";
 // gql
 import { useQuery } from "react-apollo";
 // material
+import { Facebook } from "@material-ui/icons";
 import { Avatar, Card, CardContent, Grid } from "@material-ui/core";
 // components
 import styled from "styled-components";
@@ -40,7 +41,7 @@ const Name = styled.div`
 `;
 const LegalName = styled.div`
   color: gray;
-  font-size: .9em;
+  font-size: 0.9em;
   font-style: italic;
 `;
 
@@ -51,6 +52,8 @@ const Detail = styled(Card)`
 const BioContent = styled.div`
   white-space: pre-wrap;
 `;
+
+const ContactInfo = styled.div``;
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error } = useQuery(CONTACT_QUERY, {
@@ -98,6 +101,18 @@ const ContactOverview = ({ id }) => {
                 <BioContent>{contact.bio}</BioContent>
               </Grid>
             )}
+            {contact.fbProfile && (
+              <Grid item xs={12}>
+                <a href={contact.fbProfile} target="_blank"><Facebook /> {contact.fbProfile}</a>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <ContactInfo>
+                {contact.city && (<div> City: {contact.city}</div>)}
+                {contact.state && (<div> State: {contact.state}</div>)}
+                {contact.country && (<div> Country: {contact.country}</div>)}
+              </ContactInfo>
+            </Grid>
           </Grid>
         </CardContent>
       </Detail>

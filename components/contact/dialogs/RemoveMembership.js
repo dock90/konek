@@ -50,7 +50,7 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Remove "{group.name}" membership</DialogTitle>
       <DialogContent>
         <ErrorMessage>

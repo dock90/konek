@@ -5,12 +5,14 @@ import { useMutation, useQuery } from "react-apollo";
 import { useRouter } from "next/router";
 // queries
 import {
+  ALL_CONTACTS_QUERY,
   CONTACT_QUERY,
+  CREATE_CONTACT_MUTATION,
   UPDATE_CONTACT_MUTATION
 } from "../../queries/ContactQueries";
 // material
 import { Grid, TextField, Button, Paper } from "@material-ui/core";
-import { Add } from '@material-ui/icons';
+import { Add } from "@material-ui/icons";
 // components
 import styled from "styled-components";
 import { H1, H2 } from "../styles/Typography";
@@ -19,6 +21,7 @@ import { useGroupList } from "../../hooks/useGroupList";
 import ContactGroupEdit from "./ContactGroupEdit";
 import { ROLES_QUERY } from "../../queries/RoleQueries";
 import AddMembership from "./dialogs/AddMembership";
+import ContactNewGroups from "./ContactNewGroups";
 
 // styles
 const Container = styled.div`
@@ -77,7 +80,10 @@ const ContactEdit = ({ id }) => {
       skip: isNew
     }),
     { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY),
-    [updateContactMutation] = useMutation(UPDATE_CONTACT_MUTATION);
+    [updateContactMutation] = useMutation(UPDATE_CONTACT_MUTATION),
+    [createContactMutation] = useMutation(CREATE_CONTACT_MUTATION, {
+      refetchQueries: [{ query: ALL_CONTACTS_QUERY }]
+    });
 
   const { loading: groupsLoading, data: groupsData } = useGroupList({
     manageOnly: false,
@@ -111,6 +117,17 @@ const ContactEdit = ({ id }) => {
     });
   };
 
+  const newContactGroupsChange = value => {
+    setContact({
+      ...contact,
+      groups: value
+    });
+    setUpdatedFields({
+      ...updatedFields,
+      groups: value
+    });
+  };
+
   const handleSubmit = async event => {
     event.preventDefault();
     if (Object.keys(updatedFields).length === 0) {
@@ -119,6 +136,16 @@ const ContactEdit = ({ id }) => {
       return;
     }
     setSaving(true);
+
+    if (isNew) {
+      const res = await createContactMutation({ variables: updatedFields });
+      await router.replace(
+        "/contacts/[id]",
+        `/contacts/${res.data.createContact.contactId}`
+      );
+      return;
+    }
+
     await updateContactMutation({
       variables: {
         contactId: id,
@@ -189,53 +216,63 @@ const ContactEdit = ({ id }) => {
               <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
                 {fieldFactory("language", "Language")}
               </Grid>
-              {!isNew && (
-                <Grid item xs={12}>
-                  <SectionHeader>Groups</SectionHeader>
-                  <Grid container>
-                    <Grid item xs={12} sm={10} md={10} lg={6}>
-                      <GroupTable>
-                        <thead>
-                          <tr>
-                            <th>Group</th>
-                            <th>Role</th>
-                            <th>&nbsp;</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {contact.groups &&
-                            contact.groups.map(cg => (
-                              <ContactGroupEdit
-                                key={cg.group.groupId}
-                                contactId={contact.contactId}
-                                contactGroup={cg}
-                                groups={groupsData}
-                                roles={rolesData.roles}
-                              />
-                            ))}
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <td> </td>
-                            <td colSpan={2}>
-                              <Button onClick={e => setOpenAddGroup(true)}>
-                                <Add /> Add Group
-                              </Button>
-                              <AddMembership
-                                roles={rolesData.roles}
-                                groups={groupsData}
-                                contactId={id}
-                                open={openAddGroup}
-                                onClose={() => setOpenAddGroup(false)}
-                              />
-                            </td>
-                          </tr>
-                        </tfoot>
-                      </GroupTable>
-                    </Grid>
+              <Grid item xs={12}>
+                <SectionHeader>Groups</SectionHeader>
+                <Grid container>
+                  <Grid item xs={12} sm={10} md={10} lg={6}>
+                    <GroupTable>
+                      <thead>
+                        <tr>
+                          <th>Group</th>
+                          <th>Role</th>
+                          <th>&nbsp;</th>
+                        </tr>
+                      </thead>
+                      {!isNew && (
+                        <>
+                          <tbody>
+                            {contact.groups &&
+                              contact.groups.map(cg => (
+                                <ContactGroupEdit
+                                  key={cg.group.groupId}
+                                  contactId={contact.contactId}
+                                  contactGroup={cg}
+                                  groups={groupsData}
+                                  roles={rolesData.roles}
+                                />
+                              ))}
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td> </td>
+                              <td colSpan={2}>
+                                <Button onClick={e => setOpenAddGroup(true)}>
+                                  <Add /> Add Group
+                                </Button>
+                                <AddMembership
+                                  roles={rolesData.roles}
+                                  groups={groupsData}
+                                  contactId={id}
+                                  open={openAddGroup}
+                                  onClose={() => setOpenAddGroup(false)}
+                                />
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </>
+                      )}
+                      {isNew && (
+                        <ContactNewGroups
+                          value={contact.groups}
+                          onChange={newContactGroupsChange}
+                          groups={groupsData}
+                          roles={rolesData.roles}
+                        />
+                      )}
+                    </GroupTable>
                   </Grid>
                 </Grid>
-              )}
+              </Grid>
               <Grid item xs={12}>
                 <Button
                   disabled={saving}

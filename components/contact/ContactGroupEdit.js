@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { Edit, Delete } from "@material-ui/icons";
+import { Button } from "@material-ui/core";
 import { useMemo, useState } from "react";
 import { EditMembership } from "./dialogs/EditMembership";
 import RemoveMembership from "./dialogs/RemoveMembership";
@@ -10,6 +11,10 @@ const Hierarchy = styled.div`
   font-size: 0.8em;
   color: gray;
   font-style: italic;
+`;
+
+const ActionContainer = styled.div`
+  display: flex;
 `;
 
 const ContactGroupEdit = ({ contactGroup, roles, groups, contactId }) => {
@@ -47,8 +52,14 @@ const ContactGroupEdit = ({ contactGroup, roles, groups, contactId }) => {
       <td>{role.name}</td>
       {group.group.canManage && (
         <td>
-          <Edit onClick={handleOpenEdit} />
-          <Delete onClick={handleOpenDelete} />
+          <ActionContainer>
+            <Button onClick={handleOpenEdit} style={{ minWidth: 0 }}>
+              <Edit />
+            </Button>
+            <Button onClick={handleOpenDelete} style={{ minWidth: 0 }}>
+              <Delete />
+            </Button>
+          </ActionContainer>
           <EditMembership
             contactGroup={contactGroup}
             onClose={handleCloseEdit}

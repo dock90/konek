@@ -22,6 +22,7 @@ import ContactGroupEdit from "./ContactGroupEdit";
 import { ROLES_QUERY } from "../../queries/RoleQueries";
 import AddMembership from "./dialogs/AddMembership";
 import ContactNewGroups from "./ContactNewGroups";
+import GridInputs from "./GridInputs";
 
 // styles
 const Container = styled.div`
@@ -114,6 +115,17 @@ const ContactEdit = ({ id }) => {
     setUpdatedFields({
       ...updatedFields,
       [name]: value
+    });
+  };
+
+  const handleGridChange = (field, value) => {
+    setContact({
+      ...contact,
+      [field]: value
+    });
+    setUpdatedFields({
+      ...updatedFields,
+      [field]: value
     });
   };
 
@@ -215,6 +227,30 @@ const ContactEdit = ({ id }) => {
               </Grid>
               <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
                 {fieldFactory("language", "Language")}
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                    <GridInputs
+                      onChange={v => handleGridChange('emails', v)}
+                      columns={[
+                        { label: "Email", name: "email" },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={contact.emails}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                    <GridInputs
+                      onChange={v => handleGridChange('phones', v)}
+                      columns={[
+                        { label: "Phone Number", name: "number" },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={contact.phones}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <SectionHeader>Groups</SectionHeader>

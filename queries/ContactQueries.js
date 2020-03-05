@@ -90,6 +90,8 @@ export const UPDATE_CONTACT_MUTATION = gql`
     $country: String
     $language: String
     $fbProfile: String
+    $phones: [PhoneInput!]
+    $emails: [EmailInput!]
   ) {
     updateContact(
       input: {
@@ -103,6 +105,8 @@ export const UPDATE_CONTACT_MUTATION = gql`
         country: $country
         language: $language
         fbProfile: $fbProfile
+        phones: $phones
+        emails: $emails
       }
     ) {
       ...ContactFields
@@ -123,6 +127,8 @@ export const CREATE_CONTACT_MUTATION = gql`
     $language: String
     $fbProfile: String
     $groups: [ContactGroupInput!]!
+    $phones: [PhoneInput!]
+    $emails: [EmailInput!]
   ) {
     createContact(
       input: {
@@ -136,6 +142,8 @@ export const CREATE_CONTACT_MUTATION = gql`
         language: $language
         fbProfile: $fbProfile
         groups: $groups
+        phones: $phones
+        emails: $emails
       }
     ) {
       ...ContactFields

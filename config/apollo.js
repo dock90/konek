@@ -105,16 +105,17 @@ export const client = new ApolloClient({
 function initCache() {
   cache.writeData({
     data: {
-      pnConnected: false
-    }
+      pnConnected: false,
+    },
   });
 }
 initCache();
 
-auth.onAuthStateChanged(async (user) => {
-  if (!user) {
-    // Clear the cache when a user logs out.
-    await client.resetStore();
-    initCache();
-  }
-});
+// TODO: Enable cache clearing without throwing errors
+// auth.onAuthStateChanged(async (user) => {
+//   if (!user) {
+//     // Clear the cache when a user logs out.
+//     await client.resetStore();
+//     initCache();
+//   }
+// });

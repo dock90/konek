@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // material
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -9,6 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { ME_QUERY, UPDATE_ME_MUTATION } from '../../queries/MeQueries';
+import { auth } from '../../config/firebase';
 
 // components
 import { H4, H6, BodyText } from '../styles/Typography';
@@ -44,6 +45,21 @@ const Account = () => {
 
   const handleSubmit = (event, updateMeMutation, name) => {
     event.preventDefault();
+    const fbUser = auth.currentUser;
+    const {
+      emails: { email },
+    } = profile;
+    if (email) {
+      fbUser
+        .updateEmail(email)
+        .then(() => {
+          console.log('FB User Email Update Success - ', email);
+        })
+        .catch(error => {
+          console.log('FB User Email Update Fail');
+          console.log(error);
+        });
+    }
     updateMeMutation({
       variables: {
         name,

@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // material
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
+// firebase
+import { auth } from '../../config/firebase';
 // components
+import Password from './Password';
+// graphql
+import { ME_QUERY, UPDATE_ME_MUTATION } from '../../queries/MeQueries';
+// styles
+import Button from '../styles/Button';
 import { H4, H6, BodyText } from '../styles/Typography';
 
 const Account = () => {
@@ -44,6 +48,21 @@ const Account = () => {
 
   const handleSubmit = (event, updateMeMutation, name) => {
     event.preventDefault();
+    const fbUser = auth.currentUser;
+    const {
+      emails: { email },
+    } = profile;
+    if (email) {
+      fbUser
+        .updateEmail(email)
+        .then(() => {
+          console.log('FB User Email Update Success - ', email);
+        })
+        .catch(error => {
+          console.log('FB User Email Update Fail');
+          console.log(error);
+        });
+    }
     updateMeMutation({
       variables: {
         name,
@@ -75,7 +94,7 @@ const Account = () => {
 
         return (
           <Mutation mutation={UPDATE_ME_MUTATION} variables={profile}>
-            {(updateMe, { loading, error }) => (
+            {updateMe => (
               <Grid
                 container
                 spacing={2}
@@ -121,18 +140,16 @@ const Account = () => {
                   <Card style={{ marginBottom: 14 }}>
                     <CardContent>
                       <H4>Account Information</H4>
-                      <fieldset
-                        disabled={loading}
-                        aria-busy={loading}
-                        style={{
-                          border: 'none',
-                          margin: 0,
-                        }}
+                      <form
+                        onSubmit={event => handleSubmit(event, updateMe, name)}
                       >
-                        <form
-                          onSubmit={event =>
-                            handleSubmit(event, updateMe, name)
-                          }
+                        <fieldset
+                          disabled={loading}
+                          aria-busy={loading}
+                          style={{
+                            border: 'none',
+                            margin: 0,
+                          }}
                         >
                           <Grid container>
                             <Grid item xs={12}>
@@ -222,48 +239,16 @@ const Account = () => {
                               />
                             </Grid>
                             <Grid item xs={12}>
-                              <Button
-                                type="submit"
-                                style={{ background: '#4CAF50', color: '#FFF' }}
-                              >
+                              <Button primary type="submit">
                                 Save Changes
                               </Button>
                             </Grid>
                           </Grid>
-                        </form>
-                      </fieldset>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent>
-                      <H4>Change Password</H4>
-                      <form>
-                        <Grid container>
-                          <Grid item xs={12}>
-                            <TextField
-                              id="outlined-basic"
-                              label="Password"
-                              variant="outlined"
-                              style={{ marginRight: 12, marginBottom: 12 }}
-                            />
-                            <TextField
-                              id="outlined-basic"
-                              label="New Password"
-                              variant="outlined"
-                              style={{ marginRight: 12, marginBottom: 12 }}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Button
-                              style={{ background: '#4CAF50', color: '#FFF' }}
-                            >
-                              Save Changes
-                            </Button>
-                          </Grid>
-                        </Grid>
+                        </fieldset>
                       </form>
                     </CardContent>
                   </Card>
+                  <Password />
                 </Grid>
               </Grid>
             )}

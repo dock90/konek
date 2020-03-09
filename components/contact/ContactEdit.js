@@ -100,6 +100,10 @@ const ContactEdit = ({ id }) => {
     if (loading || !data || !data.contact) {
       return;
     }
+    if (Object.keys(updatedFields).length > 0) {
+      // don't overwrite the contact if it has been changed.
+      return;
+    }
     setContact(data.contact);
   }, [loading, data]);
 
@@ -237,7 +241,7 @@ const ContactEdit = ({ id }) => {
                         { label: "Email", name: "email" },
                         { label: "Label", name: "label" }
                       ]}
-                      value={contact.emails}
+                      value={contact.emails || []}
                     />
                   </Grid>
                   <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
@@ -247,7 +251,7 @@ const ContactEdit = ({ id }) => {
                         { label: "Phone Number", name: "number" },
                         { label: "Label", name: "label" }
                       ]}
-                      value={contact.phones}
+                      value={contact.phones || []}
                     />
                   </Grid>
                 </Grid>

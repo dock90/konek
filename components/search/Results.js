@@ -40,7 +40,7 @@ const Results = connectHits(props => {
 
 Results.propTypes = {
   header: PropTypes.string.isRequired,
-  hits: PropTypes.array.isRequired,
+  hits: PropTypes.array,
   component: PropTypes.func.isRequired,
   hideEmpty: PropTypes.bool
 };

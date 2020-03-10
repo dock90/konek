@@ -38,8 +38,15 @@ type Asset {
   description: String
 }
 
+type CloudinaryInfo {
+  apiKey: String!
+  cloudName: String!
+}
+
 "A CRM contact record."
 type Contact {
+  "Folder where all contact specific assets should be stored. (This includes note assets.)"
+  assetFolderId: String!
   "A brief description of the contact for quick reference."
   bio: String
   city: String
@@ -125,7 +132,10 @@ type Group {
 type Me {
   access: Access!
   algoliaInfo: AlgoliaInfo!
+  "Folder where all profile specific assets should be stored."
+  assetFolderId: String!
   city: String
+  cloudinaryInfo: CloudinaryInfo!
   country: String
   emails: [Email!]!
   gender: Gender
@@ -192,6 +202,7 @@ type Mutation {
   setNotificationPreference(input: SetNotificationPreferenceInput!): Room!
   setPreferredContact(input: SetPreferredContactInput!): Profile!
   setReadThrough(input: SetReadThroughInput!): Room!
+  signUpload(argToSign: ParamsToSign!): String!
   "Updates a contact record."
   updateContact(input: UpdateContactInput!): Contact!
   "Updates a contact's group membership."
@@ -601,3 +612,6 @@ scalar DateTime
 
 "Cloudinary ID for the asset."
 scalar AssetId
+
+"List of asset upload params to sign"
+scalar ParamsToSign

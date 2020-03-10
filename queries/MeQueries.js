@@ -4,6 +4,7 @@ export const ME_FIELDS = gql`
   fragment MeFields on Me {
     name
     picture
+    assetFolderId
     emails {
       email
       label
@@ -26,6 +27,10 @@ export const ME_FIELDS = gql`
     algoliaInfo {
       appId
       searchKey
+    }
+    cloudinaryInfo {
+      cloudName
+      apiKey
     }
     access {
       timeline
@@ -50,7 +55,7 @@ export const ME_QUERY = gql`
 // UPDATE_ME_MUTATION
 export const UPDATE_ME_MUTATION = gql`
   mutation UPDATE_ME_MUTATION(
-    $name: String!
+    $name: String
     $picture: AssetId
     $emails: [EmailInput!]
     $phones: [PhoneInput!]
@@ -58,7 +63,7 @@ export const UPDATE_ME_MUTATION = gql`
     $state: String
     $country: String
     $postalCode: String
-    $language: String # $gender: String # $groups: ContactGroup
+    $language: String
   ) {
     updateMe(
       input: {
@@ -71,8 +76,6 @@ export const UPDATE_ME_MUTATION = gql`
         country: $country
         postalCode: $postalCode
         language: $language
-        # gender: $gender
-        # groups: $groups
       }
     ) {
       ...MeFields

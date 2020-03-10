@@ -20,6 +20,8 @@ const CONTACT_FIELDS = gql`
     contactId
     name
     legalName
+    picture
+    assetFolderId
     bio
     city
     state

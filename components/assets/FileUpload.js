@@ -27,7 +27,6 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
         tags,
         maxFiles: maxFiles || 10,
         multiple: maxFiles && maxFiles > 1,
-        cropping: true,
         apiKey: data.me.cloudinaryInfo.apiKey,
         cloudName: data.me.cloudinaryInfo.cloudName,
         resourceType: resourceType || 'auto',

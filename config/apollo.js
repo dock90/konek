@@ -1,7 +1,7 @@
-import 'isomorphic-fetch';
-import { createHttpLink } from 'apollo-link-http';
-import { setContext } from 'apollo-link-context';
-import { ApolloClient } from 'apollo-client';
+import "isomorphic-fetch";
+import { createHttpLink } from "apollo-link-http";
+import { setContext } from "apollo-link-context";
+import { ApolloClient } from "apollo-client";
 import {
   defaultDataIdFromObject,
   InMemoryCache,
@@ -16,7 +16,10 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await auth.currentUser.getIdToken();
+  let token;
+  if (auth.currentUser) {
+    token = await auth.currentUser.getIdToken();
+  }
 
   return {
     headers: {
@@ -111,10 +114,14 @@ function initCache() {
 }
 initCache();
 
-auth.onAuthStateChanged(async (user) => {
+auth.onAuthStateChanged(async user => {
   if (!user) {
-    // Clear the cache when a user logs out.
-    await client.resetStore();
+    try {
+      // Clear the cache when a user logs out.
+      await client.resetStore();
+    } catch (e) {
+      console.log(e);
+    }
     initCache();
   }
 });

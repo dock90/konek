@@ -55,13 +55,13 @@ const arrowIconStyle = {
 
 const Nav = () => {
   const [qtyUnread, setQtyUnread] = useState(0);
-  const { loading, data: roomsData } = useQuery(ROOMS_QUERY);
+  const { loading, error: roomsError, data: roomsData } = useQuery(ROOMS_QUERY);
   // We don't care about loading because the query is executed by a higher component and will only render
   // children once it is loaded.
   const { data: meData } = useQuery(ME_QUERY);
 
   useMemo(() => {
-    if (loading) {
+    if (loading || roomsError) {
       return;
     }
 

@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "react-apollo";
-import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
+import { auth } from "../../config/firebase";
 // material
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import { Card, CardContent, TextField, Grid } from "@material-ui/core";
 
 // components
+import Password from "./Password";
+// graphql
+import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
+// styles
+import Button from "../styles/Button";
 import { H4, H6, BodyText } from "../styles/Typography";
 import AvatarUpload from "../assets/AvatarUpload";
 import Loading from "../Loading";
+import GridInputs from "../contact/GridInputs";
 
 const Account = () => {
   const [profile, setProfile] = useState();
@@ -43,21 +45,59 @@ const Account = () => {
     });
   };
 
-  const handleUpload = async (info) => {
+  const handleGridChange = (field, value) => {
+    setProfile({
+      ...profile,
+      [field]: value
+    });
+    setProfileChanged({
+      ...profileChanged,
+      [field]: value
+    });
+  };
+
+  const handleUpload = async info => {
     await updateMeMutation({
       variables: {
         picture: {
           format: info.format,
           publicId: info.public_id,
           resourceType: info.resource_type,
-          type: info.type,
+          type: info.type
         }
       }
-    })
+    });
   };
 
   const handleSubmit = async event => {
     event.preventDefault();
+    const {emails, phones} = profileChanged;
+    if (emails) {
+      const fbUser = auth.currentUser;
+      const email = emails[0].email;
+
+      if (email && fbUser.email !== email) {
+        try {
+          await fbUser.updateEmail(email);
+          console.log("FB User Email Update Success - ", email);
+        } catch (e) {
+          console.log("FB User Email Update Fail");
+          console.log(error);
+          return;
+        }
+      }
+
+      for (const e of emails) {
+        // This field needs deleted otherwise graphql screams when saving.
+        delete e.__typename;
+      }
+    }
+    if (phones) {
+      for (const p of phones) {
+        delete p.__typename;
+      }
+    }
+
     await updateMeMutation({
       variables: {
         ...profileChanged
@@ -95,7 +135,6 @@ const Account = () => {
             {profile.city && (
               <H6>{`${profile.city}, ${profile.state || ""}`}</H6>
             )}
-            <BodyText>Managing Director</BodyText>
           </CardContent>
         </Card>
       </Grid>
@@ -129,26 +168,26 @@ const Account = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    {/*/!* TODO: update to handle list of emails *!/*/}
-                    {/*<TextField*/}
-                    {/*  id="email"*/}
-                    {/*  name="email"*/}
-                    {/*  label="Email"*/}
-                    {/*  defaultValue={email}*/}
-                    {/*  onChange={handleEmailChange}*/}
-                    {/*  variant="outlined"*/}
-                    {/*  style={{ marginRight: 12, marginBottom: 12 }}*/}
-                    {/*/>*/}
-                    {/*<TextField*/}
-                    {/*  id="phone"*/}
-                    {/*  name="phone"*/}
-                    {/*  label="Phone"*/}
-                    {/*  defaultValue={number}*/}
-                    {/*  onChange={handlePhoneChange}*/}
-                    {/*  variant="outlined"*/}
-                    {/*  style={{ marginRight: 12, marginBottom: 12 }}*/}
-                    {/*/>*/}
+                  <Grid item xs={12} lg={6}>
+                    <GridInputs
+                      onChange={v => handleGridChange("emails", v)}
+                      columns={[
+                        { label: "Email", name: "email" },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={profile.emails || []}
+                      rowOneLabel="Login Email"
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <GridInputs
+                      onChange={v => handleGridChange("phones", v)}
+                      columns={[
+                        { label: "Phone Number", name: "number", required: true },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={profile.phones || []}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -212,34 +251,7 @@ const Account = () => {
             </form>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent>
-            <H4>Change Password</H4>
-            <form>
-              <Grid container>
-                <Grid item xs={12}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Password"
-                    variant="outlined"
-                    style={{ marginRight: 12, marginBottom: 12 }}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="New Password"
-                    variant="outlined"
-                    style={{ marginRight: 12, marginBottom: 12 }}
-                  />
-                </Grid>
-                <Grid item>
-                  <Button style={{ background: "#4CAF50", color: "#FFF" }}>
-                    Save Changes
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </CardContent>
-        </Card>
+        <Password />
       </Grid>
     </Grid>
   );

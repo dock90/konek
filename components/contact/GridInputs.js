@@ -5,12 +5,15 @@ import { Add, Delete } from "@material-ui/icons";
 
 const Table = styled.table`
   width: 100%;
+  td {
+    width: ${props => Math.round(100 / props.cols)}%;
+  }
 `;
 const InputField = styled(TextField)`
   width: 100%;
 `;
 
-const GridInputs = ({ value, onChange, columns }) => {
+const GridInputs = ({ value, onChange, columns, rowOneLabel }) => {
   const addRow = () => {
     const row = {};
     for (const col of columns) {
@@ -40,37 +43,46 @@ const GridInputs = ({ value, onChange, columns }) => {
   }
 
   return (
-    <Table>
+    <Table cols={columns.length}>
       <tbody>
         {value.map((val, rowKey) => (
           <tr key={rowKey}>
             {columns.map((col, colKey) => (
               <td key={colKey}>
-                <InputField
-                  label={`${col.label} ${rowKey + 1}`}
-                  name={col.name}
-                  value={val[col.name] || ""}
-                  onChange={e => handleChange(e, rowKey)}
-                />
+                {rowOneLabel && rowKey === 0 && colKey === 1 ? (
+                  rowOneLabel
+                ) : (
+                  <InputField
+                    label={`${col.label} ${rowKey + 1}`}
+                    name={col.name}
+                    value={val[col.name] || ""}
+                    onChange={e => handleChange(e, rowKey)}
+                    required={col.required}
+                  />
+                )}
               </td>
             ))}
             <td>
-              <Button
-                onClick={() => handleRemoveRow(rowKey)}
-                style={{minWidth: 0}}
-              ><Delete /></Button>
+              {(!rowOneLabel || (rowOneLabel && rowKey > 0)) && (
+                <Button
+                  onClick={() => handleRemoveRow(rowKey)}
+                  style={{ minWidth: 0 }}
+                >
+                  <Delete />
+                </Button>
+              )}
             </td>
           </tr>
         ))}
       </tbody>
       <tfoot>
-      <tr>
-        <td colSpan={columns.length + 1}>
-          <Button onClick={handleAddRow}>
-            <Add /> Add Row
-          </Button>
-        </td>
-      </tr>
+        <tr>
+          <td colSpan={columns.length + 1}>
+            <Button onClick={handleAddRow}>
+              <Add /> Add Row
+            </Button>
+          </td>
+        </tr>
       </tfoot>
     </Table>
   );
@@ -79,7 +91,8 @@ const GridInputs = ({ value, onChange, columns }) => {
 GridInputs.propTypes = {
   value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  columns: PropTypes.array.isRequired
+  columns: PropTypes.array.isRequired,
+  rowOneLabel: PropTypes.string
 };
 
 export default GridInputs;

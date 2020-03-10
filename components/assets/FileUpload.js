@@ -41,10 +41,12 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
               }
               break;
             case "success":
-              onSuccess(result.info);
+              if (onSuccess) {
+                onSuccess(result.info);
+              }
               break;
             default:
-              console.log(result);
+              // console.log(result);
               break;
           }
         }

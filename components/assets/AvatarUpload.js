@@ -4,6 +4,7 @@ import { Edit } from "@material-ui/icons";
 import FileUpload from "./FileUpload";
 import styled from "styled-components";
 import { useState } from "react";
+import AvatarPicture from "./AvatarPicture";
 
 const EditIcon = styled.div`
   position: absolute;
@@ -34,6 +35,7 @@ const Message = styled.div`
 
 const Container = styled.a`
   position: relative;
+  display: inline-block;
   :hover {
     ${Message} {
       opacity: 0.75;
@@ -58,7 +60,7 @@ const AvatarUpload = props => {
   };
 
   return (
-    <Container href="#" onClick={openUploader}>
+    <Container href="#" onClick={openUploader} size={props.size}>
       <FileUpload
         folderId="avatar"
         open={open}
@@ -68,7 +70,7 @@ const AvatarUpload = props => {
         resourceType="image"
         onSuccess={props.onSuccess}
       />
-      <Avatar style={{ height: props.size, width: props.size }} />
+      <AvatarPicture size={props.size} picture={props.picture} />
       <Message>Change Picture</Message>
       <EditIcon>
         <Edit />
@@ -82,6 +84,12 @@ AvatarUpload.propTypes = {
    * Size in pixels to show the avatar.
    */
   size: PropTypes.number,
+  picture: PropTypes.shape({
+    format: PropTypes.string,
+    publicId: PropTypes.string,
+    resourceType: PropTypes.string,
+    type: PropTypes.string
+  }),
   /**
    * Will be something like "contact", "profile" or "group".
    * This value will be included in the files's tags.

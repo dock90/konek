@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
-// material
-import Avatar from '@material-ui/core/Avatar';
 // components
 import { H5, H6, AltText } from '../styles/Typography';
 import { BorderButton } from '../material/StyledButton';
+import AvatarPicture from "../assets/AvatarPicture";
 
 // styles
 const ListCard = styled.div`
@@ -33,12 +32,10 @@ const ListItem = ({ contactData }) => {
   return (
     <ListCard>
       <Overview>
-        <Avatar
-          alt="User Profile Image"
-          // src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
+        <AvatarPicture
+          size={40}
+          picture={picture}
           style={{
-            height: 40,
-            width: 40,
             marginRight: 10,
           }}
         />

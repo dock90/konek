@@ -1,5 +1,6 @@
 import { client } from "../config/apollo";
 import { SIGN_ARGS_MUTATION } from "../queries/AssetQueries";
+
 let isLoaded = false;
 
 /**

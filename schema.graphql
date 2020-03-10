@@ -34,8 +34,10 @@ type AlgoliaInfo {
 }
 
 type Asset {
-  assetId: AssetId!
-  description: String
+  format: String!
+  publicId: String!
+  resourceType: String!
+  type: String!
 }
 
 type CloudinaryInfo {
@@ -67,7 +69,7 @@ type Contact {
   legalName: String
   name: String!
   phones: [Phone!]!
-  picture: AssetId
+  picture: Asset
   "Will return a max of 50 entries."
   pinnedEntries: [EntryTypeInterface!]!
   postalCode: String
@@ -143,7 +145,7 @@ type Me {
   language: String
   name: String!
   phones: [Phone!]!
-  picture: AssetId
+  picture: Asset
   postalCode: String
   pubNubInfo: PubNubInfo!
   state: String
@@ -156,7 +158,7 @@ type Member {
   memberId: ID!
   "Name of contact to show in the chat UI. If the current user has permission to view the contact, the contact's name will be shown. If the member is an anonymous member, a random name will be shown otherwise the member's profile name."
   name: String!
-  picture: AssetId
+  picture: Asset
   profile: Profile
   "Role is only defined in groups."
   role: Role
@@ -217,7 +219,7 @@ type Mutation {
 
 type Note implements EntryTypeInterface {
   access: AccessType!
-  assets: [Asset!]
+  assets: [NoteAsset!]
   contact: Contact!
   createdAt: DateTime!
   createdBy: Profile!
@@ -226,6 +228,11 @@ type Note implements EntryTypeInterface {
   pinned: Boolean!
   tags: [Tag!]!
   title: String!
+}
+
+type NoteAsset {
+  asset: Asset!
+  description: String
 }
 
 "Information for results paging."
@@ -249,7 +256,7 @@ type Profile {
   language: String
   name: String!
   phones: [Phone!]
-  picture: AssetId
+  picture: Asset
   postalCode: String
   "Will be null when there is no preference set and there are either no or multiple contacts associated with the profile. If only a single contact exists, it will automatically be set as the preference."
   preferredContact: Contact
@@ -364,6 +371,13 @@ input AddContactGroupInput {
   roleId: ID!
 }
 
+input AssetInput {
+  format: String!
+  publicId: String!
+  resourceType: String!
+  type: String!
+}
+
 input AssociateProfileInput {
   contactId: ID!
   profileId: ID!
@@ -389,7 +403,7 @@ input ContactInput {
   legalName: String
   name: String
   phones: [PhoneInput!]
-  picture: AssetId
+  picture: AssetInput
   postalCode: String
   state: String
 }
@@ -407,7 +421,7 @@ input CreateContactInput {
   legalName: String
   name: String!
   phones: [PhoneInput!]
-  picture: AssetId
+  picture: AssetInput
   postalCode: String
   state: String
   "Tags to assign to user."
@@ -482,7 +496,7 @@ input MessagesInput {
 }
 
 input NoteAssetInput {
-  assetId: AssetId!
+  asset: AssetInput!
   description: String
 }
 
@@ -542,7 +556,7 @@ input UpdateContactInput {
   legalName: String
   name: String
   phones: [PhoneInput!]
-  picture: AssetId
+  picture: AssetInput
   postalCode: String
   state: String
 }
@@ -583,7 +597,7 @@ input UpdateMeInput {
   language: String
   name: String
   phones: [PhoneInput!]
-  picture: AssetId
+  picture: AssetInput
   postalCode: String
   state: String
 }
@@ -609,9 +623,6 @@ input UpdateTagInput {
 
 "The javascript `Date` as string. Type represents date and time as the ISO Date string."
 scalar DateTime
-
-"Cloudinary ID for the asset."
-scalar AssetId
 
 "List of asset upload params to sign"
 scalar ParamsToSign

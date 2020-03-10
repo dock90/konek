@@ -23,6 +23,7 @@ import StyledTab from "../material/StyledTab";
 
 import { CONTACT_QUERY } from "../../queries/ContactQueries";
 import Loading from "../Loading";
+import AvatarPicture from "../assets/AvatarPicture";
 // styles
 const Container = styled.div``;
 
@@ -72,13 +73,10 @@ const ContactOverview = ({ id }) => {
   return (
     <Container>
       <Header>
-        <Avatar
-          alt="Contact Image"
-          style={{
-            height: 40,
-            width: 40,
-            marginRight: 10
-          }}
+        <AvatarPicture
+          size={40}
+          picture={contact.picture}
+          style={{marginRight: 10}}
         />
         <Name>
           <h2>{contact.name}</h2>

@@ -3,7 +3,12 @@ import gql from "graphql-tag";
 export const ME_FIELDS = gql`
   fragment MeFields on Me {
     name
-    picture
+    picture {
+      publicId
+      format
+      resourceType
+      type
+    }
     assetFolderId
     emails {
       email
@@ -56,7 +61,7 @@ export const ME_QUERY = gql`
 export const UPDATE_ME_MUTATION = gql`
   mutation UPDATE_ME_MUTATION(
     $name: String
-    $picture: AssetId
+    $picture: AssetInput
     $emails: [EmailInput!]
     $phones: [PhoneInput!]
     $city: String

@@ -43,6 +43,19 @@ const Account = () => {
     });
   };
 
+  const handleUpload = async (info) => {
+    await updateMeMutation({
+      variables: {
+        picture: {
+          format: info.format,
+          publicId: info.public_id,
+          resourceType: info.resource_type,
+          type: info.type,
+        }
+      }
+    })
+  };
+
   const handleSubmit = async event => {
     event.preventDefault();
     await updateMeMutation({
@@ -73,8 +86,10 @@ const Account = () => {
           >
             <AvatarUpload
               size={60}
+              picture={me.picture}
               avatarType="profile"
               folder={me.assetFolderId}
+              onSuccess={handleUpload}
             />
             <H4>{profile.name}</H4>
             {profile.city && (

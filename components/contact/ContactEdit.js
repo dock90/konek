@@ -23,6 +23,7 @@ import { ROLES_QUERY } from "../../queries/RoleQueries";
 import AddMembership from "./dialogs/AddMembership";
 import ContactNewGroups from "./ContactNewGroups";
 import GridInputs from "./GridInputs";
+import AvatarUpload from "../assets/AvatarUpload";
 
 // styles
 const Container = styled.div`
@@ -171,6 +172,27 @@ const ContactEdit = ({ id }) => {
     router.push("/contacts/[id]", `/contacts/${id}`);
   };
 
+  const handleUpdatePicture = async info => {
+    const picture = {
+      format: info.format,
+      publicId: info.public_id,
+      resourceType: info.resource_type,
+      type: info.type,
+    };
+
+    setContact({
+      ...contact,
+      picture
+    });
+
+    await updateContactMutation({
+      variables: {
+        contactId: id,
+        picture
+      }
+    });
+  };
+
   const fieldFactory = (name, label, options) => {
     options = options || {};
     let value = contact[name];
@@ -202,10 +224,21 @@ const ContactEdit = ({ id }) => {
               <Grid item xs={12}>
                 <SectionHeader>Basic Information</SectionHeader>
               </Grid>
-              <Grid item xs={12} md={6}>
+              {contact.assetFolderId && (
+                <Grid item xs={6} sm={3} md={2} lg={1} xl={1}>
+                  <AvatarUpload
+                    onSuccess={handleUpdatePicture}
+                    size={60}
+                    avatarType="contact"
+                    folder={contact.assetFolderId}
+                    picture={contact.picture}
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12} md={5}>
                 {fieldFactory("name", "Name", { required: true })}
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={5}>
                 {fieldFactory("legalName", "Legal Name")}
               </Grid>
               <Grid item xs={12}>
@@ -236,7 +269,7 @@ const ContactEdit = ({ id }) => {
                 <Grid container>
                   <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                     <GridInputs
-                      onChange={v => handleGridChange('emails', v)}
+                      onChange={v => handleGridChange("emails", v)}
                       columns={[
                         { label: "Email", name: "email" },
                         { label: "Label", name: "label" }
@@ -246,7 +279,7 @@ const ContactEdit = ({ id }) => {
                   </Grid>
                   <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                     <GridInputs
-                      onChange={v => handleGridChange('phones', v)}
+                      onChange={v => handleGridChange("phones", v)}
                       columns={[
                         { label: "Phone Number", name: "number" },
                         { label: "Label", name: "label" }

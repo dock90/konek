@@ -25,6 +25,7 @@ import EmailIcon from "@material-ui/icons/Email";
 // components
 import { H6, AltText } from "./styles/Typography";
 import { ROOMS_QUERY } from "../queries/RoomQueries";
+import AvatarPicture from "./assets/AvatarPicture";
 
 // styles
 const Container = styled.div`
@@ -191,14 +192,7 @@ const Nav = () => {
       </NavLayout>
       <Link href="/profile">
         <ProfileLayout>
-          <Avatar
-            alt="User Profile Image"
-            src={me.picture}
-            style={{
-              height: 60,
-              width: 60
-            }}
-          />
+          <AvatarPicture size={60} picture={me.picture} />
           <ProfileTitle>
             <H6>{me.name}</H6>
             <AltText color="#9EA0A5">Managing Director</AltText>

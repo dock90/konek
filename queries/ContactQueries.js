@@ -7,7 +7,12 @@ const CONTACT_SUMMARY_FIELDS = gql`
     contactId
     name
     country
-    picture
+    picture {
+      format
+      publicId
+      resourceType
+      type
+    }
     profile {
       roomId
     }
@@ -20,7 +25,12 @@ const CONTACT_FIELDS = gql`
     contactId
     name
     legalName
-    picture
+    picture {
+      format
+      publicId
+      resourceType
+      type
+    }
     assetFolderId
     bio
     city
@@ -32,7 +42,6 @@ const CONTACT_FIELDS = gql`
     tags {
       ...TagFields
     }
-    picture
     bio
     fbProfile
     emails {
@@ -94,6 +103,7 @@ export const UPDATE_CONTACT_MUTATION = gql`
     $fbProfile: String
     $phones: [PhoneInput!]
     $emails: [EmailInput!]
+    $picture: AssetInput
   ) {
     updateContact(
       input: {
@@ -109,6 +119,7 @@ export const UPDATE_CONTACT_MUTATION = gql`
         fbProfile: $fbProfile
         phones: $phones
         emails: $emails
+        picture: $picture
       }
     ) {
       ...ContactFields

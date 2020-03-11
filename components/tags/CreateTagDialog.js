@@ -21,6 +21,7 @@ const CreateTagDialog = ({ open, name, onClose }) => {
   useEffect(() => {
     // Set the tag name only when the name prop changes.
     setTagName(name);
+    setTagColor('ffffff');
   }, [name]);
 
   const handleClose = e => {
@@ -44,7 +45,15 @@ const CreateTagDialog = ({ open, name, onClose }) => {
             value={tagName}
             onChange={e => setTagName(e.target.value)}
             label="Name"
-            required={true}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            value={tagColor}
+            onChange={e => setTagColor(e.target.value)}
+            label="Color"
+            required
           />
         </div>
       </DialogContent>

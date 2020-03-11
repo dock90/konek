@@ -1,38 +1,27 @@
-import styled from "styled-components";
 import Dashboard from "../../components/Dashboard";
 // components
 import { H1, LinkText } from "../../components/styles/Typography";
 import GroupList from "../../components/groups/GroupList";
 import { BorderButton } from "../../components/material/StyledButton";
 import Link from "next/link";
-
-// styles
-const Container = styled.div`
-  grid-area: main;
-  background: #f4f6f8;
-  padding: 2rem;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
+import {
+  ContentContainer,
+  ContentHeader
+} from "../../components/styles/PageStyles";
 
 const Groups = () => (
   <Dashboard>
-    <Container>
-      <Header>
+    <ContentContainer>
+      <ContentHeader>
         <H1>Groups</H1>
         <Link href="/groups/new">
           <LinkText>
             <BorderButton>New Group</BorderButton>
           </LinkText>
         </Link>
-      </Header>
+      </ContentHeader>
       <GroupList />
-    </Container>
+    </ContentContainer>
   </Dashboard>
 );
 

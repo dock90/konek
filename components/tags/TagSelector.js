@@ -11,29 +11,6 @@ import styled from "styled-components";
 
 const filter = createFilterOptions();
 
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null;
-}
-
-function textColor(hexValue) {
-  const rgb = hexToRgb(hexValue);
-  if (!rgb) {
-    return '#ffffff';
-  }
-
-  const brightness = ((rgb.r * 299) + (rgb.g * 587) + (rgb.b * 114)) / 255000;
-
-  if (brightness >= 0.5) {
-    return '#000000';
-  }
-  return '#ffffff';
-}
-
 const TagOptions = styled.span`
   padding: 2px;
   border-radius: 2px;

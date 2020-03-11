@@ -5,7 +5,6 @@ import { Query, useQuery } from "react-apollo";
 // queries
 import { ME_QUERY } from "../queries/MeQueries";
 // material
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import { Badge } from "@material-ui/core";
 import List from "@material-ui/core/List";
@@ -19,6 +18,7 @@ import HomeIcon from "@material-ui/icons/HomeOutlined";
 import PersonIcon from "@material-ui/icons/PersonOutlined";
 import SettingsIcon from "@material-ui/icons/SettingsOutlined";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircleOutlined";
+import TagsIcon from '@material-ui/icons/LabelOutlined';
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import EmailIcon from "@material-ui/icons/Email";
@@ -131,6 +131,19 @@ const Nav = () => {
                   <SupervisedUserCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Groups" />
+                <ArrowForwardIosIcon
+                  style={arrowIconStyle}
+                />
+              </ListItem>
+            </Link>
+          )}
+          {me.access.contacts && (
+            <Link href="/tags">
+              <ListItem button>
+                <ListItemIcon>
+                  <TagsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Tags" />
                 <ArrowForwardIosIcon
                   style={arrowIconStyle}
                 />

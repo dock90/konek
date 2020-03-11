@@ -34,3 +34,22 @@ export const CREATE_TAG_MUTATION = gql`
   }
   ${TAG_FIELDS}
 `;
+
+export const UPDATE_TAG_MUTATION = gql`
+  mutation UPDATE_TAG_MUTATION(
+    $tagId: ID!
+    $name: String
+    $color: String
+    $hidden: Boolean
+  ) {
+    updateTag(input: {
+      tagId: $tagId
+      name: $name
+      color: $color
+      hidden: $hidden
+    }) {
+      ...TagFields
+    }
+  }
+  ${TAG_FIELDS}
+`;

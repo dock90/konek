@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { useContext } from "react";
 import { RoomIdContext } from "../../contexts/RoomIdContext";
 // material
-import { Avatar } from "@material-ui/core";
 import { Badge } from "@material-ui/core";
+import AvatarPicture from "../assets/AvatarPicture";
 
 const Container = styled.div`
   padding: 8px 8px 8px ${props => (props.active ? "8px" : "13px")};
@@ -24,32 +25,31 @@ const QtyUnread = styled(Badge)`
   margin-right: 10px;
 `;
 
-const RoomItem = props => {
+const RoomItem = ({ room }) => {
   const roomIdContext = useContext(RoomIdContext),
     roomId = roomIdContext.roomId;
 
   function selectRoom() {
-    roomIdContext.setRoomId(props.room.roomId);
+    roomIdContext.setRoomId(room.roomId);
   }
 
   return (
-    <Container active={props.room.roomId === roomId} onClick={selectRoom}>
+    <Container active={room.roomId === roomId} onClick={selectRoom}>
       <QtyUnread
-        badgeContent={props.room.qtyUnread}
+        badgeContent={room.qtyUnread}
         color="error"
-        invisible={props.room.qtyUnread === 0}
+        invisible={room.qtyUnread === 0}
         overlap="circle"
       >
-        <Avatar
-          style={{
-            height: 50,
-            width: 50
-          }}
-        />
+        <AvatarPicture size={45} picture={room.picture} />
       </QtyUnread>
-      <RoomName>{props.room.name}</RoomName>
+      <RoomName>{room.name}</RoomName>
     </Container>
   );
+};
+
+RoomItem.propTypes = {
+  room: PropTypes.object.isRequired
 };
 
 export default RoomItem;

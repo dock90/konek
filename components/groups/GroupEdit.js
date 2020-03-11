@@ -27,10 +27,15 @@ import Loading from "../Loading";
 import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
 import {useGroupList} from "../../hooks/useGroupList";
+import AvatarUpload from "../assets/AvatarUpload";
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const GroupH4 = styled(H4)`
+margin-bottom: 15px;
 `;
 
 export default ({ groupId }) => {
@@ -59,7 +64,7 @@ export default ({ groupId }) => {
     defaultRoleId: "",
     parentGroupId: ""
   });
-  const [updateGroup, setUpdatedGroup] = useState({});
+  const [updatedGroup, setUpdatedGroup] = useState({});
   const [editMode, setEditMode] = useState(isNew);
 
   useEffect(() => {
@@ -93,18 +98,18 @@ export default ({ groupId }) => {
   }
 
   const required = [];
-  let editRowOneWidth = 6;
+  let editRowOneWidth = 5;
   if (isNew) {
     required.push(...["name", "defaultRoleId", "parentGroupId"]);
-    editRowOneWidth = 4;
+    editRowOneWidth = 3;
   } else if (group.parentGroupId) {
-    editRowOneWidth = 4;
+    editRowOneWidth = 3;
   }
 
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (Object.keys(updateGroup).length === 0) {
+    if (Object.keys(updatedGroup).length === 0) {
       setEditMode(false);
       // Nothing has changed! Why update?
       return;
@@ -112,7 +117,7 @@ export default ({ groupId }) => {
 
     if (isNew) {
       const { data } = await createGroup({
-        variables: updateGroup
+        variables: updatedGroup
       });
       await router.replace(
         "/groups/[id]",
@@ -125,7 +130,7 @@ export default ({ groupId }) => {
     setEditMode(false);
     await saveGroup({
       variables: {
-        ...updateGroup,
+        ...updatedGroup,
         groupId
       }
     });
@@ -140,8 +145,36 @@ export default ({ groupId }) => {
     });
 
     setUpdatedGroup({
-      ...updateGroup,
+      ...updatedGroup,
       [name]: value
+    });
+  };
+
+  const updateAvatar = async (info) => {
+    const picture = {
+      format: info.format,
+      publicId: info.public_id,
+      resourceType: info.resource_type,
+      type: info.type,
+    };
+
+    setGroup({
+      ...group,
+      picture
+    });
+
+    setUpdatedGroup({
+      ...updatedGroup,
+      picture,
+    });
+
+    if (isNew) return;
+
+    await saveGroup({
+      variables: {
+        groupId,
+        picture
+      }
     });
   };
 
@@ -169,8 +202,11 @@ export default ({ groupId }) => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <H4>Group Information</H4>
+                  <GroupH4>Group Information</GroupH4>
                   <Grid container spacing={2}>
+                    <Grid item xs={12} sm={1}>
+                      <AvatarUpload avatarType="group" folder="groups" picture={group.picture} size={50} onSuccess={updateAvatar} />
+                    </Grid>
                     <Grid item xs={editRowOneWidth}>
                       <TextField
                         name="name"

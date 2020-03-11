@@ -1,10 +1,10 @@
 import { Paper } from "@material-ui/core";
-import { Avatar } from "@material-ui/core";
 import styled from "styled-components";
 import Link from "next/link";
 import MessageAction from "../actions/MessageAction";
 import { useMemo } from "react";
-import {hierarchyLabel} from "./hierarchyLabel";
+import { hierarchyLabel } from "./hierarchyLabel";
+import AvatarPicture from "../assets/AvatarPicture";
 
 const Container = styled(Paper)`
   width: 100%;
@@ -52,7 +52,7 @@ const Footer = styled(ContainerItem)`
 const GroupItem = ({ group, groupList }) => {
   const name = useMemo(() => {
     if (!groupList) {
-      return '';
+      return "";
     }
 
     return hierarchyLabel(group, groupList, false);
@@ -64,7 +64,11 @@ const GroupItem = ({ group, groupList }) => {
         <Link href={`/groups/[id]`} as={`/groups/${group.groupId}`}>
           <a>
             <Header>
-              <Avatar style={{ width: 40, height: 40, marginRight: 5 }} />
+              <AvatarPicture
+                size={40}
+                picture={group.picture}
+                style={{ marginRight: 5 }}
+              />
               <div>
                 <GroupName>{group.name}</GroupName>
                 {group.defaultRole && (
@@ -78,11 +82,7 @@ const GroupItem = ({ group, groupList }) => {
         </Link>
       </Header>
       <Body>
-        {name.length > 0 && (
-          <Hierarchy>
-            Parent Groups: {name}
-          </Hierarchy>
-        )}
+        {name.length > 0 && <Hierarchy>Parent Groups: {name}</Hierarchy>}
         {group.description}
       </Body>
       <Footer>

@@ -28,7 +28,7 @@ const MemberList = ({ groupId }) => {
     [members, setMembers] = useState([]);
 
   useMemo(() => {
-    if (loading) {
+    if (loading || error) {
       return;
     }
     const admins = [],

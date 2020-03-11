@@ -128,6 +128,7 @@ type Group {
   groupId: ID!
   members: [Member!]!
   name: String!
+  picture: Asset
   roomId: ID!
 }
 
@@ -325,6 +326,7 @@ type Room {
   "Name of the room to show in the UI"
   name: String!
   notificationPreference: NotificationPreference!
+  picture: Asset
   qtyUnread: Float!
   "ID of the last message read."
   readThrough: ID
@@ -454,6 +456,7 @@ input CreateGroupInput {
   name: String!
   "The group to assign as parent."
   parentGroupId: ID!
+  picture: AssetInput
 }
 
 input CreateNoteInput {
@@ -587,6 +590,7 @@ input UpdateGroupInput {
   name: String
   "The group to assign as parent."
   parentGroupId: ID
+  picture: AssetInput
 }
 
 input UpdateMeInput {

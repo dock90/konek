@@ -225,17 +225,17 @@ const ContactEdit = ({ id }) => {
                 <SectionHeader>Basic Information</SectionHeader>
               </Grid>
               {contact.assetFolderId && (
-                <Grid item xs={6} sm={3} md={2} lg={1} xl={1}>
+                <Grid item xs={6} sm={2} md={1} lg={1} xl={1}>
                   <AvatarUpload
                     onSuccess={handleUpdatePicture}
-                    size={60}
+                    size={45}
                     avatarType="contact"
                     folder={contact.assetFolderId}
                     picture={contact.picture}
                   />
                 </Grid>
               )}
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12} md={6}>
                 {fieldFactory("name", "Name", { required: true })}
               </Grid>
               <Grid item xs={12} md={5}>

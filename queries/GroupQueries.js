@@ -15,6 +15,12 @@ const GROUP_FIELDS = gql`
     ancestors {
       groupId
     }
+    picture {
+      format
+      publicId
+      resourceType
+      type
+    }
     __typename
   }
   ${ROLE_FRAGMENT}
@@ -58,6 +64,7 @@ export const GROUP_UPDATE_MUTATION = gql`
     $description: String
     $defaultRoleId: ID
     $parentGroupId: ID
+    $picture: AssetInput
   ) {
     updateGroup(
       input: {
@@ -66,6 +73,7 @@ export const GROUP_UPDATE_MUTATION = gql`
         description: $description
         defaultRoleId: $defaultRoleId
         parentGroupId: $parentGroupId
+        picture: $picture
       }
     ) {
       ...GroupFields
@@ -80,6 +88,7 @@ export const GROUP_CREATE_MUTATION = gql`
     $description: String
     $defaultRoleId: ID!
     $parentGroupId: ID!
+    $picture: AssetInput
   ) {
     createGroup(
       input: {
@@ -87,6 +96,7 @@ export const GROUP_CREATE_MUTATION = gql`
         description: $description
         defaultRoleId: $defaultRoleId
         parentGroupId: $parentGroupId
+        picture: $picture
       }
     ) {
       ...GroupFields

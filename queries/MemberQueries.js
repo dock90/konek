@@ -5,7 +5,12 @@ export const MEMBER_FIELDS = gql`
   fragment MemberFields on Member {
     name
     memberId
-    picture
+    picture {
+      format
+      publicId
+      resourceType
+      type
+    }
     role {
       ...RoleFields
     }

@@ -8,6 +8,12 @@ export const ROOM_FIELDS = gql`
     qtyUnread
     memberId
     readThrough
+    picture {
+      format
+      publicId
+      resourceType
+      type
+    }
   }
 `;
 

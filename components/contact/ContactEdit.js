@@ -24,6 +24,7 @@ import AddMembership from "./dialogs/AddMembership";
 import ContactNewGroups from "./ContactNewGroups";
 import GridInputs from "./GridInputs";
 import AvatarUpload from "../assets/AvatarUpload";
+import TagSelector from "../tags/TagSelector";
 
 // styles
 const Container = styled.div`
@@ -153,9 +154,14 @@ const ContactEdit = ({ id }) => {
       return;
     }
     setSaving(true);
+    let tags = [];
+
+    if (updatedFields.tags && updatedFields.tags.length > 0) {
+      tags = updatedFields.tags.map(t => t.tagId);
+    }
 
     if (isNew) {
-      const res = await createContactMutation({ variables: updatedFields });
+      const res = await createContactMutation({ variables: {...updatedFields, tags} });
       await router.replace(
         "/contacts/[id]",
         `/contacts/${res.data.createContact.contactId}`
@@ -166,7 +172,8 @@ const ContactEdit = ({ id }) => {
     await updateContactMutation({
       variables: {
         contactId: id,
-        ...updatedFields
+        ...updatedFields,
+        tags
       }
     });
     router.push("/contacts/[id]", `/contacts/${id}`);
@@ -246,6 +253,9 @@ const ContactEdit = ({ id }) => {
               </Grid>
               <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
                 {fieldFactory("fbProfile", "FaceBook Profile")}
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+                <TagSelector value={contact.tags || []} onChange={val => handleGridChange("tags", val)} />
               </Grid>
               <Grid item xs={12}>
                 <SectionHeader>Contact Information</SectionHeader>

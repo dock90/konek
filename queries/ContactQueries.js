@@ -104,6 +104,8 @@ export const UPDATE_CONTACT_MUTATION = gql`
     $phones: [PhoneInput!]
     $emails: [EmailInput!]
     $picture: AssetInput
+    $gender: Gender
+    $tags: [ID!]
   ) {
     updateContact(
       input: {
@@ -120,6 +122,8 @@ export const UPDATE_CONTACT_MUTATION = gql`
         phones: $phones
         emails: $emails
         picture: $picture
+        gender: $gender
+        tags: $tags
       }
     ) {
       ...ContactFields

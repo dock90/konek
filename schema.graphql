@@ -408,6 +408,8 @@ input ContactInput {
   picture: AssetInput
   postalCode: String
   state: String
+  "Tags to assign to user."
+  tags: [ID!]
 }
 
 input CreateContactInput {
@@ -562,6 +564,8 @@ input UpdateContactInput {
   picture: AssetInput
   postalCode: String
   state: String
+  "Tags to assign to user."
+  tags: [ID!]
 }
 
 input UpdateConversationInput {

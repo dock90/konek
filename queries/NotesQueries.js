@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const QUERY_FIELDS = gql`
   fragment NotesFields on Contact {
@@ -7,8 +7,8 @@ const QUERY_FIELDS = gql`
       data {
         entryId
         createdAt
+        title
         ... on Note {
-          title
           message
         }
       }

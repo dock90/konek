@@ -7,9 +7,19 @@ import { useState } from "react";
 import EditTagDialog from "./EditTagDialog";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 
-const TagWidget = styled.span`
+const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const TagWidget = styled.div`
+  margin: 2px 4px;
+  cursor: pointer;
+  transition: opacity linear 150ms;
+  // So they are all the same height.
+  display: flex;
+  
   :hover {
-    cursor: pointer;
+    opacity: 65%;
   }
 `;
 
@@ -52,11 +62,13 @@ const TagList = () => {
           />
         </div>
       </Info>
-      {tags.map(t => (
-        <TagWidget key={t.tagId} onClick={() => handleClick(t)}>
-          <TagItem tag={t} />
-        </TagWidget>
-      ))}
+      <TagContainer>
+        {tags.map(t => (
+          <TagWidget key={t.tagId} onClick={() => handleClick(t)}>
+            <TagItem tag={t} />
+          </TagWidget>
+        ))}
+      </TagContainer>
       <EditTagDialog
         tag={editTag}
         onClose={() => toggleDialogOpen(false)}

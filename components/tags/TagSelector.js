@@ -2,18 +2,26 @@ import PropTypes from "prop-types";
 import Autocomplete, {
   createFilterOptions
 } from "@material-ui/lab/Autocomplete";
-import { TextField, Chip } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import { Cancel } from "@material-ui/icons";
 import { useQuery } from "@apollo/react-hooks";
 import { TAGS_QUERY } from "../../queries/TagQueries";
 import CreateTagDialog from "./CreateTagDialog";
 import { useState } from "react";
 import styled from "styled-components";
+import TagItem from "./TagItem";
 
 const filter = createFilterOptions();
 
-const TagOptions = styled.span`
-  padding: 2px;
-  border-radius: 2px;
+const TagItemWrapper = styled.span`
+  padding-right: 4px;
+  display: block;
+  height: 15px;
+`;
+
+const RemoveTag = styled.span`
+  cursor: pointer;
+  margin-left: 3px;
 `;
 
 const TagSelector = ({ value, onChange }) => {
@@ -42,27 +50,30 @@ const TagSelector = ({ value, onChange }) => {
   };
 
   const filterOptions = (options, params) => {
-    const filtered = filter(options, params);
+    const filtered = filter(options, params).filter(t => !t.hidden);
 
     if (params.inputValue !== "") {
       filtered.push({
         inputValue: params.inputValue,
-        name: `Add "${params.inputValue}"`
+        name: `Add "${params.inputValue}"`,
+        color: 'ffffff',
       });
     }
 
     return filtered;
   };
 
-  const dialogClose = (newTag) => {
+  const dialogClose = newTag => {
     toggleDialog(false);
     setDialogName("");
     if (newTag) {
-      onChange([
-        ...value,
-        newTag
-      ]);
+      onChange([...value, newTag]);
     }
+  };
+
+  const removeItem = tagId => {
+    const newValue = value.filter(t => t.tagId !== tagId);
+    onChange(newValue);
   };
 
   return (
@@ -78,22 +89,33 @@ const TagSelector = ({ value, onChange }) => {
         renderInput={params => (
           <TextField {...params} label="Tags" variant="outlined" />
         )}
-        renderOption={t => (
-          <TagOptions color={t.color}>
-            {t.name}
-          </TagOptions>
-        )}
+        renderOption={t => <TagItem tag={t} />}
+        renderTags={(value, getTagProps) =>
+          value.map(t => (
+            <TagItemWrapper key={t.tagId}>
+              <TagItem tag={t}>
+                <RemoveTag onClick={() => removeItem(t.tagId)}>
+                  <Cancel />
+                </RemoveTag>
+              </TagItem>
+            </TagItemWrapper>
+          ))
+        }
         onChange={handleChange}
         getOptionSelected={(a, b) => a.tagId === b.tagId}
       />
-      <CreateTagDialog open={dialogOpen} name={dialogName} onClose={dialogClose} />
+      <CreateTagDialog
+        open={dialogOpen}
+        name={dialogName}
+        onClose={dialogClose}
+      />
     </>
   );
 };
 
 TagSelector.propTypes = {
   value: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default TagSelector;

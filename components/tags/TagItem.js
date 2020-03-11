@@ -5,15 +5,18 @@ import styled from "styled-components";
 const Tag = styled.span`
   border-radius: 4px;
   padding: 2px 4px;
-  margin: 2px 4px;
   border: solid 1px lightgray;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
 `;
 
 const Hidden = styled.span`
   font-style: italic;
+  margin-left: 4px;
 `;
 
-function textColor(hex) {
+export function textColor(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) {
     return "#ffffff";
@@ -32,13 +35,14 @@ function textColor(hex) {
   return "#ffffff";
 }
 
-const TagItem = ({ tag }) => {
+const TagItem = ({ tag, children }) => {
   const color = textColor(tag.color);
 
   return (
     <Tag style={{ backgroundColor: `#${tag.color}`, color }}>
-      {tag.name}
-      {tag.hidden && <Hidden> (hidden)</Hidden>}
+      <span>{tag.name}</span>
+      {tag.hidden && <Hidden>(hidden)</Hidden>}
+      {children && <span>{children}</span>}
     </Tag>
   );
 };

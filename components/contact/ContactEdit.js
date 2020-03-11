@@ -251,28 +251,28 @@ const ContactEdit = ({ id }) => {
               <Grid item xs={12}>
                 {fieldFactory("bio", "Bio", { multiline: true })}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("fbProfile", "FaceBook Profile")}
               </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+              <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
                 <TagSelector value={contact.tags || []} onChange={val => handleGridChange("tags", val)} />
               </Grid>
               <Grid item xs={12}>
                 <SectionHeader>Contact Information</SectionHeader>
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("city", "City")}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("state", "State")}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("postalCode", "Postal Code")}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("country", "Country")}
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2} xl={1}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 {fieldFactory("language", "Language")}
               </Grid>
               <Grid item xs={12}>

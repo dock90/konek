@@ -27,7 +27,7 @@ const Info = styled.div`
   margin-bottom: 1em;
 `;
 
-const TagList = () => {
+const TagsEdit = () => {
   const { loading, data, error } = useQuery(TAGS_QUERY);
   const [dialogOpen, toggleDialogOpen] = useState(false);
   const [editTag, setEditTag] = useState({});
@@ -78,4 +78,4 @@ const TagList = () => {
   );
 };
 
-export default TagList;
+export default TagsEdit;

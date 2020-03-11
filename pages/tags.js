@@ -4,7 +4,7 @@ import {
   ContentHeader
 } from "../components/styles/PageStyles";
 import { H1 } from "../components/styles/Typography";
-import TagList from "../components/tags/TagList";
+import TagsEdit from "../components/tags/TagsEdit";
 
 const Tags = () => (
   <Dashboard>
@@ -12,7 +12,7 @@ const Tags = () => (
       <ContentHeader>
         <H1>Tags</H1>
       </ContentHeader>
-      <TagList />
+      <TagsEdit />
     </ContentContainer>
   </Dashboard>
 );

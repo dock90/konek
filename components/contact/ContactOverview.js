@@ -24,6 +24,8 @@ import StyledTab from "../material/StyledTab";
 import { CONTACT_QUERY } from "../../queries/ContactQueries";
 import Loading from "../Loading";
 import AvatarPicture from "../assets/AvatarPicture";
+import TagItem from "../tags/TagItem";
+import TagsList from "../tags/TagsList";
 // styles
 const Container = styled.div``;
 
@@ -110,6 +112,9 @@ const ContactOverview = ({ id }) => {
                 {contact.state && (<div> State: {contact.state}</div>)}
                 {contact.country && (<div> Country: {contact.country}</div>)}
               </ContactInfo>
+            </Grid>
+            <Grid item xs={12}>
+              <TagsList tags={contact.tags} />
             </Grid>
           </Grid>
         </CardContent>

@@ -24,7 +24,10 @@ const RemoveTag = styled.span`
   margin-left: 3px;
 `;
 
-const TagSelector = ({ value, onChange }) => {
+const TagSelector = ({ value, onChange, variant }) => {
+  if (!variant) {
+    variant = 'outlined';
+  }
   const { loading, data, error } = useQuery(TAGS_QUERY);
   const [dialogOpen, toggleDialog] = useState(false);
   const [dialogName, setDialogName] = useState("");
@@ -87,7 +90,7 @@ const TagSelector = ({ value, onChange }) => {
         filterSelectedOptions={true}
         loading={loading}
         renderInput={params => (
-          <TextField {...params} label="Tags" variant="outlined" />
+          <TextField {...params} label="Tags" variant={variant} />
         )}
         renderOption={t => <TagItem tag={t} />}
         renderTags={(value, getTagProps) =>
@@ -115,7 +118,8 @@ const TagSelector = ({ value, onChange }) => {
 
 TagSelector.propTypes = {
   value: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  variant: PropTypes.string
 };
 
 export default TagSelector;

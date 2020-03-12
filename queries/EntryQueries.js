@@ -13,40 +13,26 @@ export const ENTRY_FIELDS = gql`
     tags {
       ...TagFields
     }
+    ...on Note {
+      message
+      assets {
+        description
+        asset {
+          ...AssetFields
+        }
+      }
+    }
     access
   }
-`;
-export const NOTE_FIELDS = gql`
-  fragment NoteFields on Note {
-    message
-    assets {
-      asset {
-        ...AssetFields
-      }
-      description
-    }
-  }
+  ${TAG_FIELDS}
   ${ASSET_FIELDS}
 `;
-export const CONVERSATION_FIELDS = gql`
-  fragment ConversationFields on Conversation {
-    messages {
-      body
-      createdAt
-    }
-  }
-`;
+
 export const ENTRIES_QUERY = gql`
   query ENTRIES_QUERY($contactId: ID!, $type: EntryTypes) {
     entries(contactId: $contactId, type: $type) {
       data {
         ...EntryFields
-        ... on Note {
-          ...NoteFields
-        }
-        ... on Conversation {
-          ...ConversationFields
-        }
       }
       pageInfo {
         endCursor
@@ -54,8 +40,5 @@ export const ENTRIES_QUERY = gql`
       }
     }
   }
-  ${TAG_FIELDS}
   ${ENTRY_FIELDS}
-  ${NOTE_FIELDS}
-  ${CONVERSATION_FIELDS}
 `;

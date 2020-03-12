@@ -36,6 +36,9 @@ const cache = new InMemoryCache({
       case 'Me':
         // Will only ever be one, so a static ID is fine.
         return typeName;
+      case 'Note':
+      case 'Conversation':
+        return object.entryId;
       default:
         const idField = `${typeName.charAt(0).toLowerCase() +
           typeName.slice(1)}Id`;

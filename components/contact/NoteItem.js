@@ -16,8 +16,14 @@ import { BodyText } from "../styles/Typography";
 import { Container } from "./EntryStyles";
 import styled from "styled-components";
 import AssetDisplay from "../assets/AssetDisplay";
+import TagsList from "../tags/TagsList";
+
+const NoteMessage = styled(BodyText)`
+  white-space: pre-wrap;
+`;
 
 const AssetsWrapper = styled.div`
+  margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -68,7 +74,12 @@ const NoteItem = ({ note }) => {
               }
             />
             <CardContent>
-              <BodyText>{message}</BodyText>
+              {note.tags && (
+              <div>
+                <TagsList tags={note.tags} />
+              </div>
+            )}
+              <NoteMessage>{message}</NoteMessage>
               {assets && (
                 <AssetsWrapper>
                   {assets.map((a, k) => (

@@ -1,15 +1,20 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Mutation } from 'react-apollo';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import { useMutation } from "react-apollo";
 // material
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import TextField from '@material-ui/core/TextField';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import TextField from "@material-ui/core/TextField";
+import Button from '../styles/Button'
 // gql
-import { UPDATE_NOTE_MUTATION } from '../../queries/NoteQueries';
+import {
+  UPDATE_NOTE_MUTATION,
+  CREATE_NOTE_MUTATION
+} from "../../queries/NoteQueries";
+import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
+import TagSelector from "../tags/TagSelector";
 
 // styles
 const Container = styled.div`
@@ -21,92 +26,123 @@ const Title = styled.div`
   border-bottom: 1px solid rgb(238, 238, 238);
 `;
 
-const EditNote = ({ note, setEdit }) => {
-  const { entryId, title, message } = note;
-  const [pending, setNote] = useState({
-    title,
-    message,
-  });
+const EditNote = ({ note, contactId, setEdit }) => {
+  const isNew = note.entryId === undefined;
+
+  const [noteState, setNoteState] = useState(note);
+  const [changed, setChanged] = useState({});
+  const [updateNoteMutation, { loading: updateLoading }] = useMutation(
+    UPDATE_NOTE_MUTATION
+  );
+  const [createNoteMutation, { loading: createLoading }] = useMutation(
+    CREATE_NOTE_MUTATION,
+    {
+      refetchQueries: [{ query: ENTRIES_QUERY, variables: { type: TYPE_NOTE } }]
+    }
+  );
+
+  const loading = updateLoading || createLoading;
 
   const handleChange = event => {
     const { name, value } = event.target;
-    setNote({
-      ...pending,
-      [name]: value,
+    setNoteState({
+      ...noteState,
+      [name]: value
+    });
+    setChanged({
+      ...changed,
+      [name]: value
     });
   };
 
-  const handleSubmit = (event, editNoteMutation) => {
+  const handleTagsChange = tags => {
+    setNoteState({ ...noteState, tags });
+    setChanged({ ...changed, tags });
+  };
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    editNoteMutation({
-      variables: {
-        entryId,
-        ...pending,
-      },
-    });
+    let tags = [];
+    if (changed.tags !== undefined) {
+      tags = changed.tags.map(t => t.tagId);
+    }
+    if (isNew) {
+      await createNoteMutation({ variables: { ...changed, tags, contactId } });
+    } else {
+      await updateNoteMutation({
+        variables: { ...changed, tags, entryId: note.entryId }
+      });
+    }
     setEdit(false);
   };
 
   return (
-    <Mutation mutation={UPDATE_NOTE_MUTATION} variables={note}>
-      {(editNote, { loading }) => (
-        <Container>
-          <form onSubmit={event => handleSubmit(event, editNote)}>
-            <fieldset
-              disabled={loading}
-              aria-busy={loading}
-              style={{
-                border: 'none',
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              <Card>
-                <Title>
-                  <TextField
-                    id="title"
-                    name="title"
-                    label="Title"
-                    required
-                    value={pending.title}
-                    onChange={handleChange}
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                </Title>
-                <CardContent>
-                  <TextField
-                    id="message"
-                    name="message"
-                    label="Message"
-                    required
-                    value={pending.message}
-                    onChange={handleChange}
-                    style={{
-                      width: '100%',
-                    }}
-                  />
-                </CardContent>
-                <CardActions>
-                  <Button type="submit">Save</Button>
-                </CardActions>
-              </Card>
-            </fieldset>
-          </form>
-        </Container>
-      )}
-    </Mutation>
+    <Container>
+      <form onSubmit={handleSubmit}>
+        <fieldset
+          disabled={loading}
+          aria-busy={loading}
+          style={{
+            border: "none",
+            margin: 0,
+            padding: 0
+          }}
+        >
+          <Card>
+            <Title>
+              <TextField
+                id="title"
+                name="title"
+                label="Title"
+                required
+                value={noteState.title || ""}
+                onChange={handleChange}
+                style={{
+                  width: "100%"
+                }}
+              />
+            </Title>
+            <CardContent>
+              <div>
+                <TagSelector
+                  value={noteState.tags || []}
+                  onChange={handleTagsChange}
+                  variant="standard"
+                />
+              </div>
+              <div>
+                <TextField
+                  id="message"
+                  name="message"
+                  label="Message"
+                  multiline
+                  value={noteState.message || ""}
+                  onChange={handleChange}
+                  style={{
+                    width: "100%"
+                  }}
+                />
+              </div>
+            </CardContent>
+            <CardActions>
+              <Button primary type="submit">Save</Button>
+              <Button onClick={() => setEdit(false)}>Cancel</Button>
+            </CardActions>
+          </Card>
+        </fieldset>
+      </form>
+    </Container>
   );
 };
 
 EditNote.propTypes = {
   setEdit: PropTypes.func.isRequired,
   note: PropTypes.shape({
-    entryId: PropTypes.string.isRequired,
+    entryId: PropTypes.string,
     title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
   }).isRequired,
+  contactId: PropTypes.string
 };
 
 export default EditNote;

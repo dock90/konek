@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 // gql
-import { UPDATE_NOTE_MUTATION } from '../../queries/NotesQueries';
+import { UPDATE_NOTE_MUTATION } from '../../queries/NoteQueries';
 
 // styles
 const Container = styled.div`

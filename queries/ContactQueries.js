@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import { TAG_FIELDS } from "./TagQueries";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 const CONTACT_SUMMARY_FIELDS = gql`
   fragment ContactSummaryFields on Contact {
@@ -8,15 +9,13 @@ const CONTACT_SUMMARY_FIELDS = gql`
     name
     country
     picture {
-      format
-      publicId
-      resourceType
-      type
+      ...AssetFields
     }
     profile {
       roomId
     }
   }
+  ${ASSET_FIELDS}
 `;
 
 const CONTACT_FIELDS = gql`
@@ -26,10 +25,7 @@ const CONTACT_FIELDS = gql`
     name
     legalName
     picture {
-      format
-      publicId
-      resourceType
-      type
+      ...AssetFields
     }
     assetFolderId
     bio
@@ -63,6 +59,7 @@ const CONTACT_FIELDS = gql`
     }
   }
   ${TAG_FIELDS}
+  ${ASSET_FIELDS}
 `;
 
 export const ALL_CONTACTS_QUERY = gql`
@@ -190,14 +187,12 @@ export const REMOVE_CONTACT_GROUP = gql`
 `;
 
 export const ADD_CONTACT_GROUP = gql`
-mutation ADD_CONTACT_GROUP ($contactId: ID!, $groupId: ID!, $roleId: ID!) {
-  addContactGroup(input: {
-    contactId: $contactId
-    groupId: $groupId
-    roleId: $roleId
-  }) {
-    ...ContactFields
+  mutation ADD_CONTACT_GROUP($contactId: ID!, $groupId: ID!, $roleId: ID!) {
+    addContactGroup(
+      input: { contactId: $contactId, groupId: $groupId, roleId: $roleId }
+    ) {
+      ...ContactFields
+    }
   }
-}
   ${CONTACT_FIELDS}
 `;

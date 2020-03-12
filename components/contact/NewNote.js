@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 // gql
-import { CREATE_NOTE_MUTATION } from '../../queries/NotesQueries';
+import { CREATE_NOTE_MUTATION } from '../../queries/NoteQueries';
 
 // styles
 const Container = styled.div`
@@ -91,6 +91,7 @@ const NewNote = ({ contactId, setNewNote }) => {
                   </CardContent>
                   <CardActions>
                     <Button type="submit">Add</Button>
+                    <Button onClick={() => setNewNote(false)}>Cancel</Button>
                   </CardActions>
                 </Card>
               </fieldset>

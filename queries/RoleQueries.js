@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const ROLE_FRAGMENT = gql`
+export const ROLE_FIELDS = gql`
   fragment RoleFields on Role {
     name
     roleId
@@ -14,5 +14,5 @@ export const ROLES_QUERY = gql`
       ...RoleFields
     }
   }
-  ${ROLE_FRAGMENT}
+  ${ROLE_FIELDS}
 `;

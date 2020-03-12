@@ -10,8 +10,7 @@ import { Avatar, Card, CardContent, Grid } from "@material-ui/core";
 import styled from "styled-components";
 import TabPanel from "../TabPanel";
 import Summary from "./Summary";
-import Notes from "./Notes";
-import Messages from "./Messages";
+import Entries from "./Entries";
 import Tasks from "./Tasks";
 import Files from "./Files";
 
@@ -26,6 +25,7 @@ import Loading from "../Loading";
 import AvatarPicture from "../assets/AvatarPicture";
 import TagItem from "../tags/TagItem";
 import TagsList from "../tags/TagsList";
+import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 // styles
 const Container = styled.div``;
 
@@ -78,7 +78,7 @@ const ContactOverview = ({ id }) => {
         <AvatarPicture
           size={40}
           picture={contact.picture}
-          style={{marginRight: 10}}
+          style={{ marginRight: 10 }}
         />
         <Name>
           <h2>{contact.name}</h2>
@@ -103,14 +103,16 @@ const ContactOverview = ({ id }) => {
             )}
             {contact.fbProfile && (
               <Grid item xs={12}>
-                <a href={contact.fbProfile} target="_blank"><Facebook /> {contact.fbProfile}</a>
+                <a href={contact.fbProfile} target="_blank">
+                  <Facebook /> {contact.fbProfile}
+                </a>
               </Grid>
             )}
             <Grid item xs={12}>
               <ContactInfo>
-                {contact.city && (<div> City: {contact.city}</div>)}
-                {contact.state && (<div> State: {contact.state}</div>)}
-                {contact.country && (<div> Country: {contact.country}</div>)}
+                {contact.city && <div> City: {contact.city}</div>}
+                {contact.state && <div> State: {contact.state}</div>}
+                {contact.country && <div> Country: {contact.country}</div>}
               </ContactInfo>
             </Grid>
             <Grid item xs={12}>
@@ -132,10 +134,10 @@ const ContactOverview = ({ id }) => {
         <Summary />
       </TabPanel>
       <TabPanel value={activeTab} index={1}>
-        <Notes contactId={id} />
+        <Entries contactId={id} type={TYPE_NOTE} />
       </TabPanel>
       <TabPanel value={activeTab} index={2}>
-        <Messages />
+        <Entries contactId={id} type={TYPE_CONVERSATION} canNew={false} />
       </TabPanel>
       <TabPanel value={activeTab} index={3}>
         <Tasks />

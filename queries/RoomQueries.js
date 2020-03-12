@@ -1,4 +1,5 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 export const ROOM_FIELDS = gql`
   fragment RoomFields on Room {
@@ -9,12 +10,10 @@ export const ROOM_FIELDS = gql`
     memberId
     readThrough
     picture {
-      format
-      publicId
-      resourceType
-      type
+      ...AssetFields
     }
   }
+  ${ASSET_FIELDS}
 `;
 
 export const ROOMS_QUERY = gql`

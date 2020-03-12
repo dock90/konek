@@ -1,30 +1,5 @@
 import gql from "graphql-tag";
-
-const QUERY_FIELDS = gql`
-  fragment NotesFields on Contact {
-    contactId
-    entryList {
-      data {
-        entryId
-        createdAt
-        title
-        ... on Note {
-          message
-        }
-      }
-    }
-  }
-`;
-
-// ALL_NOTES_QUERY
-export const ALL_NOTES_QUERY = gql`
-  query ALL_NOTES_QUERY($contactId: ID!) {
-    contact(contactId: $contactId) {
-      ...NotesFields
-    }
-  }
-  ${QUERY_FIELDS}
-`;
+import {ENTRY_FIELDS, NOTE_FIELDS} from "./EntryQueries";
 
 // CREATE_NOTE_MUTATION
 export const CREATE_NOTE_MUTATION = gql`
@@ -36,16 +11,12 @@ export const CREATE_NOTE_MUTATION = gql`
     createNote(
       input: { contactId: $contactId, title: $title, message: $message }
     ) {
-      contact {
-        ...NotesFields
-      }
-      entryId
-      createdAt
-      title
-      message
+      ...EntryFields
+      ...NoteFields
     }
   }
-  ${QUERY_FIELDS}
+  ${ENTRY_FIELDS}
+  ${NOTE_FIELDS}
 `;
 
 // UPDATE_NOTE_MUTATION
@@ -56,11 +27,13 @@ export const UPDATE_NOTE_MUTATION = gql`
     $message: String!
   ) {
     updateNote(input: { entryId: $entryId, title: $title, message: $message }) {
+      ...EntryFields
       contact {
         ...NotesFields
       }
       entryId
     }
   }
-  ${QUERY_FIELDS}
+  ${ENTRY_FIELDS}
+  ${NOTE_FIELDS}
 `;

@@ -1,15 +1,13 @@
 import gql from "graphql-tag";
-import { ROLE_FRAGMENT } from "./RoleQueries";
+import { ROLE_FIELDS } from "./RoleQueries";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 export const MEMBER_FIELDS = gql`
   fragment MemberFields on Member {
     name
     memberId
     picture {
-      format
-      publicId
-      resourceType
-      type
+      ...AssetFields
     }
     role {
       ...RoleFields
@@ -22,7 +20,8 @@ export const MEMBER_FIELDS = gql`
       name
     }
   }
-  ${ROLE_FRAGMENT}
+  ${ROLE_FIELDS}
+  ${ASSET_FIELDS}
 `;
 
 export const MEMBER_QUERY = gql`

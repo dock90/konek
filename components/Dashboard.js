@@ -1,12 +1,12 @@
 import { useQuery } from "react-apollo";
 import styled from "styled-components";
 import { ME_QUERY } from "../queries/MeQueries";
+import { MeContext } from "../contexts/MeContext";
+import { useAuthenticated } from "../hooks/useAuthenticated";
 // components
 import Header from "./Header";
 import Nav from "./Nav";
 import Loading from "./Loading";
-import { MeContext } from "../contexts/MeContext";
-import {useAuthenticated} from "../hooks/useAuthenticated";
 
 const Container = styled.div`
   display: grid;

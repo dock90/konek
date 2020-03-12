@@ -1,13 +1,11 @@
 import gql from "graphql-tag";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 export const ME_FIELDS = gql`
   fragment MeFields on Me {
     name
     picture {
-      publicId
-      format
-      resourceType
-      type
+      ...AssetFields
     }
     assetFolderId
     emails {
@@ -45,6 +43,7 @@ export const ME_FIELDS = gql`
       hasContact
     }
   }
+  ${ASSET_FIELDS}
 `;
 
 // ME_QUERY

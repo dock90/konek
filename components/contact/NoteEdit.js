@@ -3,11 +3,16 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMutation } from "react-apollo";
 // material
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import TextField from "@material-ui/core/TextField";
-import Button from '../styles/Button'
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  TextField,
+  Switch,
+  FormControlLabel
+} from "@material-ui/core";
+import Button from "../styles/Button";
 // gql
 import {
   UPDATE_NOTE_MUTATION,
@@ -26,10 +31,17 @@ const Title = styled.div`
   border-bottom: 1px solid rgb(238, 238, 238);
 `;
 
-const EditNote = ({ note, contactId, setEdit }) => {
-  const isNew = note.entryId === undefined;
+const accessToggle = {
+  PRIVATE: "SHARED",
+  SHARED: "PRIVATE"
+};
 
-  const [noteState, setNoteState] = useState(note);
+const NoteEdit = ({ note, contactId, setEdit }) => {
+  const isNew = !note || note.entryId === undefined;
+
+  const [noteState, setNoteState] = useState(note || {
+    access: "PRIVATE"
+  });
   const [changed, setChanged] = useState({});
   const [updateNoteMutation, { loading: updateLoading }] = useMutation(
     UPDATE_NOTE_MUTATION
@@ -37,7 +49,9 @@ const EditNote = ({ note, contactId, setEdit }) => {
   const [createNoteMutation, { loading: createLoading }] = useMutation(
     CREATE_NOTE_MUTATION,
     {
-      refetchQueries: [{ query: ENTRIES_QUERY, variables: { type: TYPE_NOTE } }]
+      refetchQueries: [
+        { query: ENTRIES_QUERY, variables: { type: TYPE_NOTE, contactId } }
+      ]
     }
   );
 
@@ -55,6 +69,18 @@ const EditNote = ({ note, contactId, setEdit }) => {
     });
   };
 
+  const toggleAccess = () => {
+    const access = accessToggle[noteState.access];
+    setNoteState({
+      ...noteState,
+      access
+    });
+    setChanged({
+      ...changed,
+      access
+    });
+  };
+
   const handleTagsChange = tags => {
     setNoteState({ ...noteState, tags });
     setChanged({ ...changed, tags });
@@ -66,6 +92,7 @@ const EditNote = ({ note, contactId, setEdit }) => {
     if (changed.tags !== undefined) {
       tags = changed.tags.map(t => t.tagId);
     }
+
     if (isNew) {
       await createNoteMutation({ variables: { ...changed, tags, contactId } });
     } else {
@@ -103,29 +130,45 @@ const EditNote = ({ note, contactId, setEdit }) => {
               />
             </Title>
             <CardContent>
-              <div>
-                <TagSelector
-                  value={noteState.tags || []}
-                  onChange={handleTagsChange}
-                  variant="standard"
-                />
-              </div>
-              <div>
-                <TextField
-                  id="message"
-                  name="message"
-                  label="Message"
-                  multiline
-                  value={noteState.message || ""}
-                  onChange={handleChange}
-                  style={{
-                    width: "100%"
-                  }}
-                />
-              </div>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={9}>
+                  <TagSelector
+                    value={noteState.tags || []}
+                    onChange={handleTagsChange}
+                    variant="standard"
+                  />
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={noteState.access === "SHARED"}
+                        onChange={toggleAccess}
+                        color="primary"
+                      />
+                    }
+                    label={noteState.access}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="message"
+                    name="message"
+                    label="Message"
+                    multiline
+                    value={noteState.message || ""}
+                    onChange={handleChange}
+                    style={{
+                      width: "100%"
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
             <CardActions>
-              <Button primary type="submit">Save</Button>
+              <Button primary type="submit">
+                Save
+              </Button>
               <Button onClick={() => setEdit(false)}>Cancel</Button>
             </CardActions>
           </Card>
@@ -135,14 +178,14 @@ const EditNote = ({ note, contactId, setEdit }) => {
   );
 };
 
-EditNote.propTypes = {
+NoteEdit.propTypes = {
   setEdit: PropTypes.func.isRequired,
   note: PropTypes.shape({
     entryId: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
-  }).isRequired,
+    title: PropTypes.string,
+    message: PropTypes.string
+  }),
   contactId: PropTypes.string
 };
 
-export default EditNote;
+export default NoteEdit;

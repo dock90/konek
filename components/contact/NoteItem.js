@@ -9,8 +9,9 @@ import {
   Menu,
   MenuItem
 } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import EditNote from "./EditNote";
+import { People, Person } from "@material-ui/icons";
+import { MoreVert } from "@material-ui/icons";
+import NoteEdit from "./NoteEdit";
 // styled
 import { BodyText } from "../styles/Typography";
 import { Container } from "./EntryStyles";
@@ -18,10 +19,33 @@ import styled from "styled-components";
 import AssetDisplay from "../assets/AssetDisplay";
 import TagsList from "../tags/TagsList";
 
+const CardTitle = styled(CardHeader)`
+  && {
+    padding: 10px;
+  }
+`;
+const AccessIcon = styled.span`
+  padding: 2px;
+  // TODO: These colors are ugly.
+  background-color: ${props => (props.isShared ? "lightpink" : "lightgray")};
+  border: 1px solid ${props => (props.isShared ? "deeppink" : "grey")};
+  border-radius: 4px;
+  margin-right: 10px;
+  // To vertically align the icon in the span.
+  display: inline-flex;
+  align-items: center;
+`;
+const CardBody = styled(CardContent)`
+  && {
+    padding: 10px;
+    :last-child {
+      padding-bottom: 10px;
+    }
+  }
+`;
 const NoteMessage = styled(BodyText)`
   white-space: pre-wrap;
 `;
-
 const AssetsWrapper = styled.div`
   margin-top: 1em;
   display: flex;
@@ -49,17 +73,24 @@ const NoteItem = ({ note }) => {
   return (
     <>
       {edit ? (
-        <EditNote note={note} setEdit={setEdit} />
+        <NoteEdit note={note} setEdit={setEdit} />
       ) : (
         <Container key={entryId}>
           <Card>
-            <CardHeader
-              title={title}
+            <CardTitle
+              title={
+                <span>
+                  <AccessIcon isShared={note.access === "SHARED"}>
+                    {note.access === "SHARED" ? <People /> : <Person />}
+                  </AccessIcon>
+                  {title}
+                </span>
+              }
               style={{ borderBottom: "1px solid #EEEEEE" }}
               action={
                 <>
                   <IconButton aria-label="settings" onClick={handleClick}>
-                    <MoreVertIcon />
+                    <MoreVert />
                   </IconButton>
                   <Menu
                     id="simple-menu"
@@ -73,14 +104,14 @@ const NoteItem = ({ note }) => {
                 </>
               }
             />
-            <CardContent>
+            <CardBody>
               {note.tags && (
-              <div>
-                <TagsList tags={note.tags} />
-              </div>
-            )}
+                <div>
+                  <TagsList tags={note.tags} />
+                </div>
+              )}
               <NoteMessage>{message}</NoteMessage>
-              {assets && (
+              {assets && assets.length > 0 && (
                 <AssetsWrapper>
                   {assets.map((a, k) => (
                     <AssetDisplay
@@ -92,7 +123,7 @@ const NoteItem = ({ note }) => {
                   ))}
                 </AssetsWrapper>
               )}
-            </CardContent>
+            </CardBody>
           </Card>
         </Container>
       )}

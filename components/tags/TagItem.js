@@ -35,11 +35,11 @@ export function textColor(hex) {
   return "#ffffff";
 }
 
-const TagItem = ({ tag, children }) => {
+const TagItem = ({ tag, children, style }) => {
   const color = textColor(tag.color);
 
   return (
-    <Tag style={{ backgroundColor: `#${tag.color}`, color }}>
+    <Tag style={{...style, backgroundColor: `#${tag.color}`, color }}>
       <span>{tag.name}</span>
       {tag.hidden && <Hidden>(hidden)</Hidden>}
       {children && <span>{children}</span>}

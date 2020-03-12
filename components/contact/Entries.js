@@ -4,9 +4,8 @@ import styled from "styled-components";
 import { useState } from "react";
 // gql
 import { Query } from "react-apollo";
-import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
+import { ENTRIES_QUERY } from "../../queries/EntryQueries";
 // components
-import NewNote from "./NewNote";
 import EntryList from "./EntryList";
 import { BorderButton } from "../material/StyledButton";
 import Loading from "../Loading";
@@ -17,24 +16,18 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-const Entries = ({ contactId, type, canNew }) => {
-  const [newNote, setNewNote] = useState(false);
-  if (canNew === undefined) {
-    canNew = true;
-  }
-
+const Entries = ({ contactId, type, NewFormComponent }) => {
+  const [showNewForm, toggleNewForm] = useState(false);
   return (
     <div>
-      {canNew && (
+      {NewFormComponent && (
         <>
           <Actions>
-            <BorderButton onClick={() => setNewNote(true)}>
-              New Note
+            <BorderButton onClick={() => toggleNewForm(true)}>
+              New {type}
             </BorderButton>
           </Actions>
-          {newNote ? (
-            <NewNote contactId={contactId} setNewNote={setNewNote} />
-          ) : null}
+          {showNewForm ? <NewFormComponent setEdit={toggleNewForm} contactId={contactId} />: null}
         </>
       )}
       <Query query={ENTRIES_QUERY} variables={{ contactId, type }}>
@@ -49,7 +42,9 @@ const Entries = ({ contactId, type, canNew }) => {
 };
 
 Entries.propTypes = {
-  contactId: PropTypes.string.isRequired
+  contactId: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  NewFormComponent: PropTypes.func
 };
 
 export default Entries;

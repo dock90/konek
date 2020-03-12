@@ -23,9 +23,9 @@ import StyledTab from "../material/StyledTab";
 import { CONTACT_QUERY } from "../../queries/ContactQueries";
 import Loading from "../Loading";
 import AvatarPicture from "../assets/AvatarPicture";
-import TagItem from "../tags/TagItem";
 import TagsList from "../tags/TagsList";
 import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
+import NoteEdit from "./NoteEdit";
 // styles
 const Container = styled.div``;
 
@@ -62,7 +62,7 @@ const ContactOverview = ({ id }) => {
   const { loading, data, error } = useQuery(CONTACT_QUERY, {
     variables: { contactId: id }
   });
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
 
   if (loading) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
@@ -134,10 +134,10 @@ const ContactOverview = ({ id }) => {
         <Summary />
       </TabPanel>
       <TabPanel value={activeTab} index={1}>
-        <Entries contactId={id} type={TYPE_NOTE} />
+        <Entries contactId={id} type={TYPE_NOTE} NewFormComponent={NoteEdit} />
       </TabPanel>
       <TabPanel value={activeTab} index={2}>
-        <Entries contactId={id} type={TYPE_CONVERSATION} canNew={false} />
+        <Entries contactId={id} type={TYPE_CONVERSATION} />
       </TabPanel>
       <TabPanel value={activeTab} index={3}>
         <Tasks />

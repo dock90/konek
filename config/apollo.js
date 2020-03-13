@@ -3,7 +3,6 @@ import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { ApolloClient } from "apollo-client";
 import {
-  defaultDataIdFromObject,
   InMemoryCache,
   IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory';
@@ -30,9 +29,15 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const cache = new InMemoryCache({
+  addTypename: false,
   dataIdFromObject: object => {
     const typeName = object.__typename;
+    if (!typeName) {
+      return null;
+    }
     switch (typeName) {
+      case 'Asset':
+        return null;
       case 'Me':
         // Will only ever be one, so a static ID is fine.
         return typeName;
@@ -46,7 +51,8 @@ const cache = new InMemoryCache({
           return object[idField];
         }
     }
-    return defaultDataIdFromObject(object);
+    console.info(`Unable to find ID for object of type "${typeName}"`);
+    return null;
   },
   fragmentMatcher: new IntrospectionFragmentMatcher({
     introspectionQueryResultData: introspectionResultData.data,

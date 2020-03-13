@@ -11,7 +11,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import MessageItem from "./MessageItem";
 import { ROOM_QUERY_LOCAL } from "../../queries/RoomQueries";
 import { markAllRead } from "../../service/Messages";
-import { PUB_NUB_CONNECTION_STATE_QUERY } from "../../queries/LocalState";
+import { PUB_NUB_CONNECTION_STATE_QUERY } from "../../queries/LocalStateQueries";
 
 const Container = styled.div`
   grid-area: messages;

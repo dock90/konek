@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 
 export const ROLE_FIELDS = gql`
   fragment RoleFields on Role {
-    name
-    roleId
     __typename
+    roleId
+    name
   }
 `;
 

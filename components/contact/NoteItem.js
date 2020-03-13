@@ -7,7 +7,8 @@ import {
   CardHeader,
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
+  Grid
 } from "@material-ui/core";
 import { People, Person } from "@material-ui/icons";
 import { MoreVert } from "@material-ui/icons";
@@ -50,6 +51,9 @@ const AssetsWrapper = styled.div`
   margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
+  div {
+    margin-right: 15px;
+  }
 `;
 
 const NoteItem = ({ note }) => {

@@ -26,6 +26,7 @@ import AvatarPicture from "../assets/AvatarPicture";
 import TagsList from "../tags/TagsList";
 import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 import NoteEdit from "./NoteEdit";
+import { ContactContext } from "../../contexts/ContactContext";
 // styles
 const Container = styled.div``;
 
@@ -73,79 +74,81 @@ const ContactOverview = ({ id }) => {
 
   const contact = data.contact;
   return (
-    <Container>
-      <Header>
-        <AvatarPicture
-          size={40}
-          picture={contact.picture}
-          style={{ marginRight: 10 }}
-        />
-        <Name>
-          <h2>{contact.name}</h2>
-          {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
-        </Name>
-        <Link
-          href={`/contacts/[id]/edit`}
-          as={`/contacts/${contact.contactId}/edit`}
-        >
-          <a>
-            <BorderButton>Edit Contact</BorderButton>
-          </a>
-        </Link>
-      </Header>
-      <Detail>
-        <CardContent>
-          <Grid container spacing={1}>
-            {contact.bio && (
+    <ContactContext.Provider value={contact}>
+      <Container>
+        <Header>
+          <AvatarPicture
+            size={40}
+            picture={contact.picture}
+            style={{ marginRight: 10 }}
+          />
+          <Name>
+            <h2>{contact.name}</h2>
+            {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
+          </Name>
+          <Link
+            href={`/contacts/[id]/edit`}
+            as={`/contacts/${contact.contactId}/edit`}
+          >
+            <a>
+              <BorderButton>Edit Contact</BorderButton>
+            </a>
+          </Link>
+        </Header>
+        <Detail>
+          <CardContent>
+            <Grid container spacing={1}>
+              {contact.bio && (
+                <Grid item xs={12}>
+                  <BioContent>{contact.bio}</BioContent>
+                </Grid>
+              )}
+              {contact.fbProfile && (
+                <Grid item xs={12}>
+                  <a href={contact.fbProfile} target="_blank">
+                    <Facebook /> {contact.fbProfile}
+                  </a>
+                </Grid>
+              )}
               <Grid item xs={12}>
-                <BioContent>{contact.bio}</BioContent>
+                <ContactInfo>
+                  {contact.city && <div> City: {contact.city}</div>}
+                  {contact.state && <div> State: {contact.state}</div>}
+                  {contact.country && <div> Country: {contact.country}</div>}
+                </ContactInfo>
               </Grid>
-            )}
-            {contact.fbProfile && (
               <Grid item xs={12}>
-                <a href={contact.fbProfile} target="_blank">
-                  <Facebook /> {contact.fbProfile}
-                </a>
+                <TagsList tags={contact.tags} />
               </Grid>
-            )}
-            <Grid item xs={12}>
-              <ContactInfo>
-                {contact.city && <div> City: {contact.city}</div>}
-                {contact.state && <div> State: {contact.state}</div>}
-                {contact.country && <div> Country: {contact.country}</div>}
-              </ContactInfo>
             </Grid>
-            <Grid item xs={12}>
-              <TagsList tags={contact.tags} />
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Detail>
-      <StyledAppBar position="static">
-        <StyledTabs value={activeTab} onChange={handleTabChange}>
-          <StyledTab label="Summary" />
-          <StyledTab label="Notes" />
-          <StyledTab label="Messages" />
-          <StyledTab label="Tasks" />
-          <StyledTab label="Files" />
-        </StyledTabs>
-      </StyledAppBar>
-      <TabPanel value={activeTab} index={0}>
-        <Summary />
-      </TabPanel>
-      <TabPanel value={activeTab} index={1}>
-        <Entries contactId={id} type={TYPE_NOTE} NewFormComponent={NoteEdit} />
-      </TabPanel>
-      <TabPanel value={activeTab} index={2}>
-        <Entries contactId={id} type={TYPE_CONVERSATION} />
-      </TabPanel>
-      <TabPanel value={activeTab} index={3}>
-        <Tasks />
-      </TabPanel>
-      <TabPanel value={activeTab} index={4}>
-        <Files />
-      </TabPanel>
-    </Container>
+          </CardContent>
+        </Detail>
+        <StyledAppBar position="static">
+          <StyledTabs value={activeTab} onChange={handleTabChange}>
+            <StyledTab label="Summary" />
+            <StyledTab label="Notes" />
+            <StyledTab label="Messages" />
+            <StyledTab label="Tasks" />
+            <StyledTab label="Files" />
+          </StyledTabs>
+        </StyledAppBar>
+        <TabPanel value={activeTab} index={0}>
+          <Summary />
+        </TabPanel>
+        <TabPanel value={activeTab} index={1}>
+          <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          <Entries contactId={id} type={TYPE_CONVERSATION} />
+        </TabPanel>
+        <TabPanel value={activeTab} index={3}>
+          <Tasks />
+        </TabPanel>
+        <TabPanel value={activeTab} index={4}>
+          <Files />
+        </TabPanel>
+      </Container>
+    </ContactContext.Provider>
   );
 };
 

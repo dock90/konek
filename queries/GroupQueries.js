@@ -5,6 +5,7 @@ import { ASSET_FIELDS } from "./AssetQueries";
 
 const GROUP_FIELDS = gql`
   fragment GroupFields on Group {
+    __typename
     groupId
     name
     description
@@ -19,7 +20,6 @@ const GROUP_FIELDS = gql`
     picture {
       ...AssetFields
     }
-    __typename
   }
   ${ROLE_FIELDS}
   ${ASSET_FIELDS}

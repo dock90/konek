@@ -4,6 +4,7 @@ import { ASSET_FIELDS } from "./AssetQueries";
 
 export const MEMBER_FIELDS = gql`
   fragment MemberFields on Member {
+    __typename
     name
     memberId
     picture {
@@ -16,6 +17,7 @@ export const MEMBER_FIELDS = gql`
       roomId
     }
     contact {
+      __typename
       contactId
       name
     }

@@ -12,7 +12,7 @@ export const TAG_FIELDS = gql`
 
 export const TAGS_QUERY = gql`
   query TAGS_QUERY {
-    tags{
+    tags {
       ...TagFields
     }
   }
@@ -20,15 +20,8 @@ export const TAGS_QUERY = gql`
 `;
 
 export const CREATE_TAG_MUTATION = gql`
-  mutation CREATE_TAG_MUTATION(
-    $name: String!
-    $color: String!
-  ) {
-    createTag(input: {
-      name: $name
-      hidden: false
-      color: $color
-    }) {
+  mutation CREATE_TAG_MUTATION($name: String!, $color: String!) {
+    createTag(input: { name: $name, hidden: false, color: $color }) {
       ...TagFields
     }
   }
@@ -42,12 +35,9 @@ export const UPDATE_TAG_MUTATION = gql`
     $color: String
     $hidden: Boolean
   ) {
-    updateTag(input: {
-      tagId: $tagId
-      name: $name
-      color: $color
-      hidden: $hidden
-    }) {
+    updateTag(
+      input: { tagId: $tagId, name: $name, color: $color, hidden: $hidden }
+    ) {
       ...TagFields
     }
   }

@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 export const ASSET_FIELDS = gql`
   fragment AssetFields on Asset {
+    __typename
     format
     publicId
     resourceType

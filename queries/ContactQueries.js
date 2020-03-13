@@ -50,6 +50,7 @@ const CONTACT_FIELDS = gql`
     }
     groups {
       group {
+        __typename
         groupId
         name
       }

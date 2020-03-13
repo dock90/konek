@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
 import { TAG_FIELDS } from "./TagQueries";
-import { ASSET_FIELDS } from "./AssetQueries";
 
 export const TYPE_NOTE = "Note";
 export const TYPE_CONVERSATION = "Conversation";
 
 export const ENTRY_FIELDS = gql`
   fragment EntryFields on EntryTypeInterface {
+    __typename
     entryId
     title
     pinned
@@ -18,14 +18,17 @@ export const ENTRY_FIELDS = gql`
       assets {
         description
         asset {
-          ...AssetFields
+          # Not using fragment so the __typename field isn't included.
+          format
+          publicId
+          resourceType
+          type
         }
       }
     }
     access
   }
   ${TAG_FIELDS}
-  ${ASSET_FIELDS}
 `;
 
 export const ENTRIES_QUERY = gql`

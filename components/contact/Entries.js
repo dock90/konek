@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 // hooks
-import { useState } from "react";
+import { useContext, useState } from "react";
 // gql
 import { Query } from "react-apollo";
 import { ENTRIES_QUERY } from "../../queries/EntryQueries";
@@ -9,6 +9,7 @@ import { ENTRIES_QUERY } from "../../queries/EntryQueries";
 import EntryList from "./EntryList";
 import { BorderButton } from "../material/StyledButton";
 import Loading from "../Loading";
+import { ContactContext } from "../../contexts/ContactContext";
 
 // styles
 const Actions = styled.div`
@@ -16,8 +17,10 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 
-const Entries = ({ contactId, type, NewFormComponent }) => {
+const Entries = ({ type, NewFormComponent }) => {
   const [showNewForm, toggleNewForm] = useState(false);
+  const { contactId } = useContext(ContactContext);
+
   return (
     <div>
       {NewFormComponent && (
@@ -27,7 +30,7 @@ const Entries = ({ contactId, type, NewFormComponent }) => {
               New {type}
             </BorderButton>
           </Actions>
-          {showNewForm ? <NewFormComponent setEdit={toggleNewForm} contactId={contactId} />: null}
+          {showNewForm ? <NewFormComponent setEdit={toggleNewForm} /> : null}
         </>
       )}
       <Query query={ENTRIES_QUERY} variables={{ contactId, type }}>
@@ -42,7 +45,6 @@ const Entries = ({ contactId, type, NewFormComponent }) => {
 };
 
 Entries.propTypes = {
-  contactId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   NewFormComponent: PropTypes.func
 };

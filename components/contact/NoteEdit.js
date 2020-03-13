@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMutation } from "react-apollo";
@@ -20,6 +20,8 @@ import {
 } from "../../queries/NoteQueries";
 import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
 import TagSelector from "../tags/TagSelector";
+import NoteEditAssets from "./NoteEditAssets";
+import { ContactContext } from "../../contexts/ContactContext";
 
 // styles
 const Container = styled.div`
@@ -36,12 +38,15 @@ const accessToggle = {
   SHARED: "PRIVATE"
 };
 
-const NoteEdit = ({ note, contactId, setEdit }) => {
+const NoteEdit = ({ note, setEdit }) => {
   const isNew = !note || note.entryId === undefined;
 
-  const [noteState, setNoteState] = useState(note || {
-    access: "PRIVATE"
-  });
+  const { contactId } = useContext(ContactContext);
+  const [noteState, setNoteState] = useState(
+    note || {
+      access: "PRIVATE"
+    }
+  );
   const [changed, setChanged] = useState({});
   const [updateNoteMutation, { loading: updateLoading }] = useMutation(
     UPDATE_NOTE_MUTATION
@@ -84,6 +89,11 @@ const NoteEdit = ({ note, contactId, setEdit }) => {
   const handleTagsChange = tags => {
     setNoteState({ ...noteState, tags });
     setChanged({ ...changed, tags });
+  };
+
+  const handleAssetsChange = assets => {
+    setNoteState({ ...noteState, assets });
+    setChanged({ ...changed, assets });
   };
 
   const handleSubmit = async event => {
@@ -156,12 +166,16 @@ const NoteEdit = ({ note, contactId, setEdit }) => {
                     name="message"
                     label="Message"
                     multiline
+                    required
                     value={noteState.message || ""}
                     onChange={handleChange}
                     style={{
                       width: "100%"
                     }}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <NoteEditAssets assets={noteState.assets} onChange={handleAssetsChange} />
                 </Grid>
               </Grid>
             </CardContent>

@@ -3,6 +3,7 @@ import { ASSET_FIELDS } from "./AssetQueries";
 
 export const ME_FIELDS = gql`
   fragment MeFields on Me {
+    __typename
     name
     picture {
       ...AssetFields

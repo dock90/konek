@@ -23,6 +23,7 @@ export const ENTRY_FIELDS = gql`
           publicId
           resourceType
           type
+          originalFilename
         }
       }
     }

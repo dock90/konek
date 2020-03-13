@@ -4,6 +4,15 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { ME_QUERY } from "../../queries/MeQueries";
 
+function getExtension(publicId) {
+  let ext = '';
+  for (let i = publicId.length - 1; i >= 0; i--) {
+    if (publicId[i] === '.') break;
+    ext = publicId[i] + ext;
+  }
+  return ext;
+}
+
 const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resourceType }) => {
   const [widget, setWidget] = useState();
   const [loading, setLoading] = useState(false);
@@ -41,6 +50,7 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
               break;
             case "success":
               if (onSuccess) {
+                result.info.original_filename = result.info.original_filename + '.' + getExtension(result.info.public_id);
                 onSuccess(result.info);
               }
               break;

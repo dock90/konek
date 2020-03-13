@@ -63,7 +63,8 @@ const Account = () => {
           format: info.format,
           publicId: info.public_id,
           resourceType: info.resource_type,
-          type: info.type
+          type: info.type,
+          originalFilename: info.original_filename
         }
       }
     });

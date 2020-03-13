@@ -2,14 +2,16 @@ import PropTypes from "prop-types";
 import cloudinary from "cloudinary-core";
 import { Avatar } from "@material-ui/core";
 import { useContext } from "react";
-import {MeContext} from "../../contexts/MeContext";
+import { MeContext } from "../../contexts/MeContext";
 
 const AvatarPicture = ({ picture, size, style }) => {
-  const meContext = useContext(MeContext);
+  const { cloudinaryInfo } = useContext(MeContext);
 
   let url = "";
   if (picture) {
-    const core = new cloudinary.Cloudinary({ cloud_name: meContext.cloudinaryInfo.cloudName });
+    const core = new cloudinary.Cloudinary({
+      cloud_name: cloudinaryInfo.cloudName
+    });
 
     url = core.url(picture.publicId, {
       format: picture.format,
@@ -19,7 +21,9 @@ const AvatarPicture = ({ picture, size, style }) => {
       crop: "fit"
     });
   }
-  return <Avatar style={{...(style || {}), height: size, width: size }} src={url} />;
+  return (
+    <Avatar style={{ ...(style || {}), height: size, width: size }} src={url} />
+  );
 };
 
 AvatarPicture.propTypes = {
@@ -30,7 +34,7 @@ AvatarPicture.propTypes = {
     resourceType: PropTypes.string,
     type: PropTypes.string
   }),
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 export default AvatarPicture;

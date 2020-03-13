@@ -51,7 +51,7 @@ const AssetsWrapper = styled.div`
   margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
-  div {
+  > div {
     margin-right: 15px;
   }
 `;

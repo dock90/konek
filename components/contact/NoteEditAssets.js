@@ -43,7 +43,8 @@ const NoteEditAssets = ({ assets, onChange }) => {
         format: info.format,
         publicId: info.public_id,
         resourceType: info.resource_type,
-        type: info.type
+        type: info.type,
+        originalFilename: info.original_filename
       }
     });
     onChange(assets);

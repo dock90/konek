@@ -1,14 +1,24 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Image } from "cloudinary-react";
 import Button from "../styles/Button";
-import { TextField } from "@material-ui/core";
+import { TextField, Paper } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
-import { ContactContext } from "../../contexts/ContactContext";
 import { MeContext } from "../../contexts/MeContext";
-import FileUpload from "../assets/FileUpload";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+const DisplayWrapper = styled.div`
+  flex-grow: 1;
+  text-align: center;
+`;
+const Filename = styled(Paper)`
+  padding: 4px;
+`;
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -28,19 +38,32 @@ const NoteEditAsset = ({ asset, onChange }) => {
     });
   };
 
+  let display = null;
+  if (asset.asset) {
+    switch (asset.asset.resourceType) {
+      case "image":
+        display = (
+          <Image
+            publicId={asset.asset.publicId}
+            cloudName={cloudinaryInfo.cloudName}
+            dpr="auto"
+            width={100}
+            crop="scale"
+            fetchFormat="auto"
+            quality="auto"
+          />
+        );
+        break;
+      case "raw":
+        display = (
+          <Filename>{asset.asset.originalFilename}</Filename>
+        );
+    }
+  }
+
   return (
-    <span>
-      {asset.asset && (
-        <Image
-          publicId={asset.asset.publicId}
-          cloudName={cloudinaryInfo.cloudName}
-          dpr="auto"
-          width={100}
-          crop="scale"
-          fetchFormat="auto"
-          quality="auto"
-        />
-      )}
+    <Container>
+      <DisplayWrapper>{display}</DisplayWrapper>
       <div>
         <TextField
           value={asset.description || ""}
@@ -54,7 +77,7 @@ const NoteEditAsset = ({ asset, onChange }) => {
           <Delete />
         </Button>
       </Actions>
-    </span>
+    </Container>
   );
 };
 

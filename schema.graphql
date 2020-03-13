@@ -34,7 +34,8 @@ type AlgoliaInfo {
 }
 
 type Asset {
-  format: String!
+  format: String
+  originalFilename: String
   publicId: String!
   resourceType: String!
   type: String!
@@ -374,7 +375,8 @@ input AddContactGroupInput {
 }
 
 input AssetInput {
-  format: String!
+  format: String
+  originalFilename: String
   publicId: String!
   resourceType: String!
   type: String!

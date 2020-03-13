@@ -53,7 +53,8 @@ export async function sendMessage(roomId, body) {
       // message we just added won't be available.
       const roomInfo = proxy.readFragment({
         id: roomId,
-        fragment: ROOM_FIELDS
+        fragment: ROOM_FIELDS,
+        fragmentName:"RoomFields"
       });
 
       roomInfo.readThrough = data.sendMessage.messageId;
@@ -61,6 +62,7 @@ export async function sendMessage(roomId, body) {
       proxy.writeFragment({
         id: roomId,
         fragment: ROOM_FIELDS,
+        fragmentName: "RoomFields",
         data: roomInfo
       });
     }
@@ -206,7 +208,8 @@ export async function markAllRead(roomId, updateServer) {
 function getRoomInfo(roomId) {
   return client.readFragment({
     id: roomId,
-    fragment: ROOM_FIELDS
+    fragment: ROOM_FIELDS,
+    fragmentName: "RoomFields"
   });
 }
 
@@ -214,6 +217,7 @@ function writeRoomInfo(roomId, info) {
   client.writeFragment({
     id: roomId,
     fragment: ROOM_FIELDS,
+    fragmentName: "RoomFields",
     data: info
   });
 }

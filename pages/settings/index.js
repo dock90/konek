@@ -13,7 +13,7 @@ const Container = styled.div`
 const Settings = () => (
   <Dashboard>
     <Container>
-      <H1>SETTINGS</H1>
+      <H1>Settings</H1>
     </Container>
   </Dashboard>
 );

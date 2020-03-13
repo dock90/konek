@@ -7,7 +7,7 @@ import {
 import { MEMBER_FIELDS, MEMBER_QUERY } from "../queries/MemberQueries";
 import {
   ROOM_FIELDS,
-  ROOM_QUERY_LOCAL,
+  ROOM_QUERY,
   ROOMS_QUERY
 } from "../queries/RoomQueries";
 
@@ -80,7 +80,8 @@ export async function addMessage(messageId, roomId, body, authorId) {
 
   if (!roomInfo) {
     const roomQuery = await client.query({
-      query: ROOM_QUERY_LOCAL,
+      fetchPolicy: "cache-only",
+      query: ROOM_QUERY,
       variables: { roomId }
     });
     roomInfo = roomQuery.data.room;
@@ -118,7 +119,7 @@ export async function addMessage(messageId, roomId, body, authorId) {
   let authorInfo = client.readFragment({
     fragment: MEMBER_FIELDS,
     id: authorId,
-    fragmentName: 'MemberFields',
+    fragmentName: "MemberFields"
   });
 
   if (!authorInfo) {

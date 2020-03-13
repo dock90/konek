@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const ROOM_FIELDS = gql`
   fragment RoomFields on Room {
@@ -21,7 +21,7 @@ export const ROOMS_QUERY = gql`
 `;
 
 export const ROOM_QUERY = gql`
-  query ROOM_QUERY ($roomId: ID!) {
+  query ROOM_QUERY($roomId: ID!) {
     room(roomId: $roomId) {
       ...RoomFields
     }
@@ -30,9 +30,9 @@ export const ROOM_QUERY = gql`
 `;
 
 export const ROOM_QUERY_LOCAL = gql`
-  query ROOM_QUERY ($roomId: ID!) {
+  query ROOM_QUERY($roomId: ID!) {
     room(roomId: $roomId) @client {
-      ...RoomFields,
+      ...RoomFields
     }
   }
   ${ROOM_FIELDS}

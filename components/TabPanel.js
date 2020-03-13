@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 const TabPanel = props => {
-  const { children, value, index, ...other } = props;
+  const { children, value, index } = props;
 
   return (
     <Typography
@@ -12,7 +12,6 @@ const TabPanel = props => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
     >
       {value === index && <Box>{children}</Box>}
     </Typography>
@@ -21,8 +20,13 @@ const TabPanel = props => {
 
 TabPanel.propTypes = {
   children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  index: PropTypes.number,
+  value: PropTypes.number,
+};
+
+TabPanel.defaultProps = {
+  index: 1,
+  value: 1,
 };
 
 export default TabPanel;

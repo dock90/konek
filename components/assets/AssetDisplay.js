@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Image } from "cloudinary-react";
+import { Image, Video, Transformation } from "cloudinary-react";
 import cloudinary from "cloudinary-core";
 import {
   Button,
@@ -9,16 +9,23 @@ import {
   DialogContent,
   Paper
 } from "@material-ui/core";
-import { Close, CloudDownload } from "@material-ui/icons";
+import { Close, CloudDownload, PlayArrow } from "@material-ui/icons";
 import { useContext, useState } from "react";
 import { MeContext } from "../../contexts/MeContext";
 
 const Container = styled(Paper)`
   // So the image respects the rounded borders of the Paper.
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+const ThumbItem = styled.div`
+  text-align: center;
+  // So it pushes the description to the bottom.
+  flex-grow: 1;
 `;
 const ThumbWrapper = styled.div`
-  text-align: center;
+  position: relative;
 `;
 const ImageThumb = styled(Image)`
   cursor: pointer;
@@ -27,11 +34,21 @@ const ImageThumb = styled(Image)`
 const Filename = styled.span`
   padding: 4px;
 `;
+const PlayIcon = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: white;
+`;
 const Description = styled.div`
   width: ${props => props.size}px;
   padding: 5px;
 `;
 const ImageView = styled(Image)`
+  max-width: 100%;
+  max-height: 100%;
+`;
+const VideoView = styled(Video)`
   max-width: 100%;
   max-height: 100%;
 `;
@@ -49,18 +66,29 @@ const AssetDisplay = ({ asset, description, size }) => {
 
   let thumb = null;
   switch (asset.resourceType) {
+    case "video":
     case "image":
       thumb = (
-        <ImageThumb
-          publicId={asset.publicId}
-          cloudName={cloudinaryInfo.cloudName}
-          dpr="auto"
-          width={size}
-          crop="scale"
-          fetchFormat="auto"
-          quality="auto"
-          onClick={() => toggleIsOpen(true)}
-        />
+        <ThumbItem>
+          <ThumbWrapper>
+            <ImageThumb
+              publicId={asset.publicId}
+              cloudName={cloudinaryInfo.cloudName}
+              resourceType={asset.resourceType}
+              dpr="auto"
+              width={size}
+              crop="limit"
+              fetchFormat="auto"
+              quality="auto"
+              onClick={() => toggleIsOpen(true)}
+            />
+            {asset.resourceType === "video" && (
+              <PlayIcon>
+                <PlayArrow />
+              </PlayIcon>
+            )}
+          </ThumbWrapper>
+        </ThumbItem>
       );
       break;
     case "raw":
@@ -70,19 +98,19 @@ const AssetDisplay = ({ asset, description, size }) => {
         }),
         url = core.url(asset.publicId, {});
       thumb = (
-        <>
+        <ThumbItem>
           <Filename>{asset.originalFilename}</Filename>
           <Button href={url} target="blank">
             <CloudDownload />
           </Button>
-        </>
+        </ThumbItem>
       );
       break;
   }
 
   return (
     <Container style={{ width: size }}>
-      <ThumbWrapper>{thumb}</ThumbWrapper>
+      {thumb}
       {description && <Description>{description}</Description>}
       <Dialog
         open={isOpen}
@@ -97,17 +125,25 @@ const AssetDisplay = ({ asset, description, size }) => {
           </Button>
         </DialogActions>
         <DialogContent>
-          <ImageView
-            publicId={asset.publicId}
-            cloudName={cloudinaryInfo.cloudName}
-            dpr="auto"
-            width="auto"
-            crop="scale"
-            responsive
-            responsiveUseBreakpoints={true}
-            fetchFormat="auto"
-            quality="auto"
-          />
+          {(asset.resourceType === "image" && (
+            <ImageView
+              publicId={asset.publicId}
+              cloudName={cloudinaryInfo.cloudName}
+              dpr="auto"
+              width="auto"
+              crop="limit"
+              responsive
+              responsiveUseBreakpoints
+              fetchFormat="auto"
+              quality="auto"
+            />
+          )) || (
+            <VideoView
+              publicId={asset.publicId}
+              cloudName={cloudinaryInfo.cloudName}
+              controls
+            />
+          )}
           {description && <Description>{description}</Description>}
         </DialogContent>
       </Dialog>

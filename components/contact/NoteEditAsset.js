@@ -22,6 +22,7 @@ const Filename = styled(Paper)`
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
+  padding: 5px;
 `;
 
 const NoteEditAsset = ({ asset, onChange }) => {
@@ -38,33 +39,26 @@ const NoteEditAsset = ({ asset, onChange }) => {
     });
   };
 
-  let display = null;
-  if (asset.asset) {
-    switch (asset.asset.resourceType) {
-      case "image":
-        display = (
-          <Image
-            publicId={asset.asset.publicId}
-            cloudName={cloudinaryInfo.cloudName}
-            dpr="auto"
-            width={100}
-            crop="scale"
-            fetchFormat="auto"
-            quality="auto"
-          />
-        );
-        break;
-      case "raw":
-        display = (
-          <Filename>{asset.asset.originalFilename}</Filename>
-        );
-    }
-  }
-
   return (
     <Container>
-      <DisplayWrapper>{display}</DisplayWrapper>
-      <div>
+      <DisplayWrapper>
+        {asset.asset &&
+          ((asset.asset.resourceType === "raw" && (
+            <Filename>{asset.asset.originalFilename}</Filename>
+          )) || (
+            <Image
+              publicId={asset.asset.publicId}
+              cloudName={cloudinaryInfo.cloudName}
+              resourceType={asset.asset.resourceType}
+              dpr="auto"
+              width={100}
+              crop="limit"
+              fetchFormat="auto"
+              quality="auto"
+            />
+          ))}
+      </DisplayWrapper>
+      <div style={{ padding: 5 }}>
         <TextField
           value={asset.description || ""}
           onChange={handleDescrChange}

@@ -1,12 +1,21 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
 import Button from "../styles/Button";
+import { Paper } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 import NoteEditAsset from "./NoteEditAsset";
 import FileUpload from "../assets/FileUpload";
 import { useContext, useState } from "react";
 import { ContactContext } from "../../contexts/ContactContext";
+
+// I'm not using the Material-UI Grid component because I want a fixed width.
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const Item = styled(Paper)`
+  margin-right: 15px;
+`;
 
 const NoteEditAssets = ({ assets, onChange }) => {
   const { assetFolderId } = useContext(ContactContext);
@@ -51,16 +60,18 @@ const NoteEditAssets = ({ assets, onChange }) => {
   };
 
   return (
-    <Grid container spacing={2}>
-      {assets &&
-        assets.length > 0 &&
-        assets.map((a, k) => (
-          <Grid key={k} item xs={12} sm={6} md={3} lg={2}>
-            <NoteEditAsset asset={a} onChange={handleChange(k)} />
-          </Grid>
-        ))}
-      <Grid item xs={12}>
-        <Button onClick={handleUploadClick}>Add Files</Button>
+    <>
+      <Container>
+        {assets &&
+          assets.length > 0 &&
+          assets.map((a, k) => (
+            <Item key={k}>
+              <NoteEditAsset asset={a} onChange={handleChange(k)} />
+            </Item>
+          ))}
+      </Container>
+      <div>
+        <Button onClick={handleUploadClick}><Add /> Add Files</Button>
         <FileUpload
           folder={assetFolderId}
           open={uploadOpen}
@@ -69,8 +80,8 @@ const NoteEditAssets = ({ assets, onChange }) => {
           tags={["contact", "note"]}
           onSuccess={handleUploadSuccess}
         />
-      </Grid>
-    </Grid>
+      </div>
+    </>
   );
 };
 

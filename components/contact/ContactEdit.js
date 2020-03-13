@@ -1,268 +1,384 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-// gql
-import { Mutation, Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import PropTypes from "prop-types";
+// hooks
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-apollo";
+import { useRouter } from "next/router";
+// queries
+import {
+  ALL_CONTACTS_QUERY,
+  CONTACT_QUERY,
+  CREATE_CONTACT_MUTATION,
+  UPDATE_CONTACT_MUTATION
+} from "../../queries/ContactQueries";
 // material
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { Grid, TextField, Button, Paper } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 // components
-import styled from 'styled-components';
-import { H3, H4, H6, BodyText } from '../styles/Typography';
-
-// CONTACT_QUERY
-const CONTACT_QUERY = gql`
-  query CONTACT_QUERY($id: ID!) {
-    contact(contactId: $id) {
-      name
-      city
-      state
-      postalCode
-      country
-      language
-    }
-  }
-`;
-
-// UPDATE_CONTACT_MUTATION
-const UPDATE_CONTACT_MUTATION = gql`
-  mutation UPDATE_CONTACT_MUTATION(
-    $contactId: ID!
-    $name: String
-    $city: String
-    $state: String
-    $postalCode: String
-    $country: String
-    $language: String
-  ) {
-    updateContact(
-      input: {
-        contactId: $contactId
-        name: $name
-        city: $city
-        state: $state
-        postalCode: $postalCode
-        country: $country
-        language: $language
-      }
-    ) {
-      contactId
-    }
-  }
-`;
+import styled from "styled-components";
+import { H1, H2 } from "../styles/Typography";
+import Loading from "../Loading";
+import { useGroupList } from "../../hooks/useGroupList";
+import ContactGroupEdit from "./ContactGroupEdit";
+import { ROLES_QUERY } from "../../queries/RoleQueries";
+import AddMembership from "./dialogs/AddMembership";
+import ContactNewGroups from "./ContactNewGroups";
+import GridInputs from "./GridInputs";
+import AvatarUpload from "../assets/AvatarUpload";
+import TagSelector from "../tags/TagSelector";
 
 // styles
-const Container = styled.div``;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const Container = styled.div`
+  max-width: 1200px;
+`;
+const Header = styled(H1)`
   margin-bottom: 1.5rem;
+`;
+const FormContainer = styled(Paper)`
+  padding-top: 10px;
+`;
+const Fieldset = styled.fieldset`
+  border: none;
+  margin: 0;
+`;
+const SectionHeader = styled(H2)``;
+const GroupTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    border-bottom: 1px gray solid;
+    margin: 0;
+  }
+  td {
+    padding: 2px;
+    border: 0;
+  }
+  td:nth-child(2) {
+    width: 20%;
+  }
+  td:nth-child(3) {
+    width: 45px;
+  }
+  tr {
+    transition: background-color linear 150ms;
+    height: 32px;
+    min-height: 32px;
+  }
+  tbody tr:hover {
+    background-color: lightgray;
+  }
+  tr:nth-child(even) {
+    background-color: whitesmoke;
+  }
+`;
+const Input = styled(TextField)`
+  width: 100%;
 `;
 
 const ContactEdit = ({ id }) => {
-  const [contact, setContact] = useState({});
+  const isNew = id === "new";
+  const router = useRouter();
+  const { loading, data, error } = useQuery(CONTACT_QUERY, {
+      variables: { contactId: id },
+      skip: isNew
+    }),
+    { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY),
+    [updateContactMutation] = useMutation(UPDATE_CONTACT_MUTATION),
+    [createContactMutation] = useMutation(CREATE_CONTACT_MUTATION, {
+      refetchQueries: [{ query: ALL_CONTACTS_QUERY }]
+    });
+
+  const { loading: groupsLoading, data: groupsData } = useGroupList({
+    manageOnly: false,
+    includeGroupName: true
+  });
+
+  const [contact, setContact] = useState({}),
+    [updatedFields, setUpdatedFields] = useState({}),
+    [saving, setSaving] = useState(false),
+    [openAddGroup, setOpenAddGroup] = useState(false);
+
+  useEffect(() => {
+    if (loading || !data || !data.contact) {
+      return;
+    }
+    if (Object.keys(updatedFields).length > 0) {
+      // don't overwrite the contact if it has been changed.
+      return;
+    }
+    setContact(data.contact);
+  }, [loading, data]);
+
+  if (loading || groupsLoading || rolesLoading || !contact) return <Loading />;
+  if (error) return <p>Error: {error.message}</p>;
 
   const handleChange = event => {
     const { name, value } = event.target;
     setContact({
       ...contact,
-      [name]: value,
+      [name]: value
+    });
+    setUpdatedFields({
+      ...updatedFields,
+      [name]: value
     });
   };
 
-  const handleSubmit = (event, updateContactMutation) => {
+  const handleGridChange = (field, value) => {
+    setContact({
+      ...contact,
+      [field]: value
+    });
+    setUpdatedFields({
+      ...updatedFields,
+      [field]: value
+    });
+  };
+
+  const newContactGroupsChange = value => {
+    setContact({
+      ...contact,
+      groups: value
+    });
+    setUpdatedFields({
+      ...updatedFields,
+      groups: value
+    });
+  };
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    updateContactMutation({
+    if (Object.keys(updatedFields).length === 0) {
+      // Nothing updated, nothing to do.
+      router.push("/contacts/[id]", `/contacts/${id}`);
+      return;
+    }
+    setSaving(true);
+    let tags = [];
+
+    if (updatedFields.tags && updatedFields.tags.length > 0) {
+      tags = updatedFields.tags.map(t => t.tagId);
+    }
+
+    if (isNew) {
+      const res = await createContactMutation({ variables: {...updatedFields, tags} });
+      await router.replace(
+        "/contacts/[id]",
+        `/contacts/${res.data.createContact.contactId}`
+      );
+      return;
+    }
+
+    await updateContactMutation({
       variables: {
         contactId: id,
-        ...contact,
-      },
+        ...updatedFields,
+        tags
+      }
     });
+    router.push("/contacts/[id]", `/contacts/${id}`);
+  };
+
+  const handleUpdatePicture = async info => {
+    const picture = {
+      format: info.format,
+      publicId: info.public_id,
+      resourceType: info.resource_type,
+      type: info.type,
+      originalFilename: info.original_filename
+    };
+
+    setContact({
+      ...contact,
+      picture
+    });
+
+    await updateContactMutation({
+      variables: {
+        contactId: id,
+        picture
+      }
+    });
+  };
+
+  const fieldFactory = (name, label, options) => {
+    options = options || {};
+    let value = contact[name];
+    if (!value) {
+      // So that it is controlled.
+      value = "";
+    }
+    return (
+      <Input
+        multiline={options.multiline || false}
+        id={name}
+        name={name}
+        label={label}
+        required={options.required || false}
+        value={value}
+        onChange={handleChange}
+        variant="outlined"
+      />
+    );
   };
 
   return (
-    <Query query={CONTACT_QUERY} variables={{ id }}>
-      {({ data, error, loading }) => {
-        if (error) return <p>Error: {error.message}</p>;
-        if (loading) return <p>Loading...</p>;
-        return (
-          <Mutation mutation={UPDATE_CONTACT_MUTATION} variables={contact}>
-            {(updateContact, { loading, error }) => (
-              <Container>
-                <Header>
-                  <H3 style={{ margin: 0 }}>Edit Contact</H3>
-                </Header>
-                <form onSubmit={event => handleSubmit(event, updateContact)}>
-                  <fieldset
-                    disabled={loading}
-                    aria-busy={loading}
-                    style={{
-                      border: 'none',
-                      margin: 0,
-                    }}
-                  >
-                    <Grid
-                      container
-                      spacing={2}
-                      style={{ marginTop: 16, maxWidth: 1200 }}
-                    >
-                      <Grid item xs={12} sm={8} md={4} lg={3}>
-                        <Card
-                          style={{
-                            maxWidth: 250,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <CardContent
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Avatar
-                              alt="User Profile Image"
-                              src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/profile.png"
-                              style={{
-                                height: 60,
-                                width: 60,
-                              }}
-                            />
-                            <H4>{contact.name || data.contact.name}</H4>
-                            {(contact.city || data.contact.city) && (
-                              <H6>{`${contact.city ||
-                                data.contact.city}, ${contact.state ||
-                                data.contact.state}`}</H6>
-                            )}
-                            <BodyText>Managing Director</BodyText>
-                          </CardContent>
-                          <CardActions>
-                            <Button>Upload Photo</Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                      <Grid item xs={12} sm={10} md={8} lg={9}>
-                        <Card style={{ marginBottom: 14 }}>
-                          <CardContent>
-                            <H4>Account Information</H4>
-                            <Grid container>
-                              <Grid item xs={12}>
-                                <TextField
-                                  id="name"
-                                  name="name"
-                                  label="Name"
-                                  required
-                                  defaultValue={data.contact.name}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  style={{
-                                    marginRight: 12,
-                                    marginBottom: 12,
-                                    width: '50%',
-                                  }}
+    <Container>
+      <Header>{isNew ? "New" : "Edit"} Contact</Header>
+      <FormContainer>
+        <form onSubmit={handleSubmit}>
+          <Fieldset disabled={saving} aria-busy={saving}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <SectionHeader>Basic Information</SectionHeader>
+              </Grid>
+              {contact.assetFolderId && (
+                <Grid item xs={6} sm={2} md={1} lg={1} xl={1}>
+                  <AvatarUpload
+                    onSuccess={handleUpdatePicture}
+                    size={45}
+                    avatarType="contact"
+                    folder={contact.assetFolderId}
+                    picture={contact.picture}
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12} md={6}>
+                {fieldFactory("name", "Name", { required: true })}
+              </Grid>
+              <Grid item xs={12} md={5}>
+                {fieldFactory("legalName", "Legal Name")}
+              </Grid>
+              <Grid item xs={12}>
+                {fieldFactory("bio", "Bio", { multiline: true })}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("fbProfile", "FaceBook Profile")}
+              </Grid>
+              <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
+                <TagSelector value={contact.tags || []} onChange={val => handleGridChange("tags", val)} />
+              </Grid>
+              <Grid item xs={12}>
+                <SectionHeader>Contact Information</SectionHeader>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("city", "City")}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("state", "State")}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("postalCode", "Postal Code")}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("country", "Country")}
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                {fieldFactory("language", "Language")}
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                    <GridInputs
+                      onChange={v => handleGridChange("emails", v)}
+                      columns={[
+                        { label: "Email", name: "email" },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={contact.emails || []}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                    <GridInputs
+                      onChange={v => handleGridChange("phones", v)}
+                      columns={[
+                        { label: "Phone Number", name: "number" },
+                        { label: "Label", name: "label" }
+                      ]}
+                      value={contact.phones || []}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <SectionHeader>Groups</SectionHeader>
+                <Grid container>
+                  <Grid item xs={12} sm={10} md={10} lg={6}>
+                    <GroupTable>
+                      <thead>
+                        <tr>
+                          <th>Group</th>
+                          <th>Role</th>
+                          <th>&nbsp;</th>
+                        </tr>
+                      </thead>
+                      {!isNew && (
+                        <>
+                          <tbody>
+                            {contact.groups &&
+                              contact.groups.map(cg => (
+                                <ContactGroupEdit
+                                  key={cg.group.groupId}
+                                  contactId={contact.contactId}
+                                  contactGroup={cg}
+                                  groups={groupsData}
+                                  roles={rolesData.roles}
                                 />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <TextField
-                                  id="outlined-basic"
-                                  label="Email"
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                                <TextField
-                                  id="outlined-basic"
-                                  label="Phone"
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <TextField
-                                  id="city"
-                                  name="city"
-                                  label="City"
-                                  defaultValue={data.contact.city}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                                <TextField
-                                  id="state"
-                                  name="state"
-                                  label="State"
-                                  defaultValue={data.contact.state}
-                                  onChange={handleChange}
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                                <TextField
-                                  id="postalCode"
-                                  name="postalCode"
-                                  defaultValue={data.contact.postalCode}
-                                  onChange={handleChange}
-                                  label="Postal Code"
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <TextField
-                                  id="country"
-                                  name="country"
-                                  defaultValue={data.contact.country}
-                                  onChange={handleChange}
-                                  label="Country"
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                                <TextField
-                                  id="language"
-                                  name="language"
-                                  defaultValue={data.contact.language}
-                                  onChange={handleChange}
-                                  label="Primary Language"
-                                  variant="outlined"
-                                  style={{ marginRight: 12, marginBottom: 12 }}
-                                />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Button
-                                  type="submit"
-                                  style={{
-                                    background: '#4CAF50',
-                                    color: '#FFF',
-                                  }}
-                                >
-                                  Edit Contact
+                              ))}
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td> </td>
+                              <td colSpan={2}>
+                                <Button onClick={e => setOpenAddGroup(true)}>
+                                  <Add /> Add Group
                                 </Button>
-                              </Grid>
-                            </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    </Grid>
-                  </fieldset>
-                </form>
-              </Container>
-            )}
-          </Mutation>
-        );
-      }}
-    </Query>
+                                <AddMembership
+                                  roles={rolesData.roles}
+                                  groups={groupsData}
+                                  contactId={id}
+                                  open={openAddGroup}
+                                  onClose={() => setOpenAddGroup(false)}
+                                />
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </>
+                      )}
+                      {isNew && (
+                        <ContactNewGroups
+                          value={contact.groups}
+                          onChange={newContactGroupsChange}
+                          groups={groupsData}
+                          roles={rolesData.roles}
+                        />
+                      )}
+                    </GroupTable>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  disabled={saving}
+                  type="submit"
+                  style={{
+                    background: "#4CAF50",
+                    color: "#FFF"
+                  }}
+                >
+                  Save
+                </Button>
+              </Grid>
+            </Grid>
+          </Fieldset>
+        </form>
+      </FormContainer>
+    </Container>
   );
 };
 
 ContactEdit.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 export default ContactEdit;

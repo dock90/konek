@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import Router from "next/router";
-import { Query } from "react-apollo";
+import { useQuery } from "react-apollo";
 import styled from "styled-components";
-import { auth } from "../config/firebase";
 import { ME_QUERY } from "../queries/MeQueries";
+import { MeContext } from "../contexts/MeContext";
+import { useAuthenticated } from "../hooks/useAuthenticated";
 // components
 import Header from "./Header";
 import Nav from "./Nav";
@@ -19,51 +18,30 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-class Main extends Component {
-  state = {
-    authUser: false,
-  };
+const Dashboard = ({ children }) => {
+  const authenticated = useAuthenticated();
 
-  componentDidMount() {
-    this.authSubscription = auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          authUser: true
-        });
-      } else {
-        Router.push("/auth/login");
-      }
-    });
+  // We run this query at the top level so that the cache is populated. Future queries will never
+  // be in the loading state and can use the data directly.
+  const { loading, error, data } = useQuery(ME_QUERY, {
+    skip: !authenticated
+  });
+
+  if (loading) return <Loading />;
+  if (error) return <p>Error: {error.message}</p>;
+
+  if (authenticated) {
+    return (
+      <MeContext.Provider value={data.me}>
+        <Container>
+          <Header />
+          <Nav />
+          {children}
+        </Container>
+      </MeContext.Provider>
+    );
   }
+  return null;
+};
 
-  componentWillUnmount() {
-    this.authSubscription();
-  }
-
-  render() {
-    const { children } = this.props;
-    const { authUser } = this.state;
-    if (authUser) {
-      return (
-        <Query query={ME_QUERY}>
-          {({ loading, error }) => {
-            // We run this query at the top level so that the cache is populated. Future queries will never
-            // be in the loading state and can use the data directly.
-            if (loading) return <Loading/>;
-            if (error) return <p>Error: {error.message}</p>;
-            return (
-              <Container>
-                <Header />
-                <Nav />
-                {children}
-              </Container>
-            );
-          }}
-        </Query>
-      );
-    }
-    return null;
-  }
-}
-
-export default Main;
+export default Dashboard;

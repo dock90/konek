@@ -6,7 +6,7 @@ import { ResultContainer, ResultTitle, ResultDetail  } from "./Styles";
 
 const ContactResult = ({ hit }) => {
   return (
-    <Link href={`/contacts/contact?id=${hit.objectID}`}>
+    <Link href={'/contacts/[id]'} as={`/contacts/${hit.objectID}`}>
       <ResultContainer variant="outlined">
         <ResultTitle>
           <Avatar

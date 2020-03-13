@@ -1,9 +1,8 @@
-import 'isomorphic-fetch';
-import { createHttpLink } from 'apollo-link-http';
-import { setContext } from 'apollo-link-context';
-import { ApolloClient } from 'apollo-client';
+import "isomorphic-fetch";
+import { createHttpLink } from "apollo-link-http";
+import { setContext } from "apollo-link-context";
+import { ApolloClient } from "apollo-client";
 import {
-  defaultDataIdFromObject,
   InMemoryCache,
   IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory';
@@ -16,7 +15,10 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await auth.currentUser.getIdToken();
+  let token;
+  if (auth.currentUser) {
+    token = await auth.currentUser.getIdToken();
+  }
 
   return {
     headers: {
@@ -27,12 +29,21 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const cache = new InMemoryCache({
+  addTypename: false,
   dataIdFromObject: object => {
     const typeName = object.__typename;
+    if (!typeName) {
+      return null;
+    }
     switch (typeName) {
+      case 'Asset':
+        return null;
       case 'Me':
         // Will only ever be one, so a static ID is fine.
         return typeName;
+      case 'Note':
+      case 'Conversation':
+        return object.entryId;
       default:
         const idField = `${typeName.charAt(0).toLowerCase() +
           typeName.slice(1)}Id`;
@@ -40,7 +51,8 @@ const cache = new InMemoryCache({
           return object[idField];
         }
     }
-    return defaultDataIdFromObject(object);
+    console.info(`Unable to find ID for object of type "${typeName}"`);
+    return null;
   },
   fragmentMatcher: new IntrospectionFragmentMatcher({
     introspectionQueryResultData: introspectionResultData.data,
@@ -111,10 +123,14 @@ function initCache() {
 }
 initCache();
 
-auth.onAuthStateChanged(async (user) => {
+auth.onAuthStateChanged(async user => {
   if (!user) {
-    // Clear the cache when a user logs out.
-    await client.resetStore();
+    try {
+      // Clear the cache when a user logs out.
+      await client.resetStore();
+    } catch (e) {
+      console.log(e);
+    }
     initCache();
   }
 });

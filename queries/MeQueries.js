@@ -1,9 +1,14 @@
 import gql from "graphql-tag";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 export const ME_FIELDS = gql`
   fragment MeFields on Me {
+    __typename
     name
-    picture
+    picture {
+      ...AssetFields
+    }
+    assetFolderId
     emails {
       email
       label
@@ -27,6 +32,10 @@ export const ME_FIELDS = gql`
       appId
       searchKey
     }
+    cloudinaryInfo {
+      cloudName
+      apiKey
+    }
     access {
       timeline
       contacts
@@ -35,6 +44,7 @@ export const ME_FIELDS = gql`
       hasContact
     }
   }
+  ${ASSET_FIELDS}
 `;
 
 // ME_QUERY
@@ -50,15 +60,15 @@ export const ME_QUERY = gql`
 // UPDATE_ME_MUTATION
 export const UPDATE_ME_MUTATION = gql`
   mutation UPDATE_ME_MUTATION(
-    $name: String!
-    $picture: AssetId
+    $name: String
+    $picture: AssetInput
     $emails: [EmailInput!]
     $phones: [PhoneInput!]
     $city: String
     $state: String
     $country: String
     $postalCode: String
-    $language: String # $gender: String # $groups: ContactGroup
+    $language: String
   ) {
     updateMe(
       input: {
@@ -71,8 +81,6 @@ export const UPDATE_ME_MUTATION = gql`
         country: $country
         postalCode: $postalCode
         language: $language
-        # gender: $gender
-        # groups: $groups
       }
     ) {
       ...MeFields

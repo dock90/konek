@@ -53,6 +53,7 @@ const listeners = {
     switch (s.category) {
       case "PNNetworkUpCategory":
       case "PNConnectedCategory":
+      case "PNReconnectedCategory":
         client.writeData({
           data: { pnConnected: true }
         });

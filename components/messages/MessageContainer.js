@@ -9,9 +9,9 @@ import MessageInput from "./MessageInput";
 import Loading from "../Loading";
 import InfiniteScroll from "react-infinite-scroller";
 import MessageItem from "./MessageItem";
-import { ROOM_QUERY_LOCAL } from "../../queries/RoomQueries";
+import { ROOM_QUERY } from "../../queries/RoomQueries";
 import { markAllRead } from "../../service/Messages";
-import { PUB_NUB_CONNECTION_STATE_QUERY } from "../../queries/LocalState";
+import { PUB_NUB_CONNECTION_STATE_QUERY } from "../../queries/LocalStateQueries";
 
 const Container = styled.div`
   grid-area: messages;
@@ -71,7 +71,7 @@ const MessageContainer = () => {
   const roomIdContext = useContext(RoomIdContext);
   const roomId = roomIdContext.roomId;
   const variables = {
-    roomId: roomId,
+    roomId,
     after: null
   };
   const { loading: messagesLoading, error, data, fetchMore } = useQuery(
@@ -81,14 +81,12 @@ const MessageContainer = () => {
       // Don't execute if we don't have a room id or if PubNub isn't connected.
       // We don't want to load the message list until after PN is connected because any message sent between when we
       // get the list and we successfully connect will get missed.
-      skip: !roomId || !pnStateData.pnConnected,
+      skip: !roomId || !pnStateData.pnConnected
     }
   );
 
-  const { loading: roomLoading, data: roomData } = useQuery(ROOM_QUERY_LOCAL, {
-    variables: {
-      roomId
-    },
+  const { loading: roomLoading, data: roomData } = useQuery(ROOM_QUERY, {
+    variables: { roomId },
     skip: !roomId
   });
 

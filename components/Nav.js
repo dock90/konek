@@ -1,9 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
-import { Query, useQuery } from "react-apollo";
-// queries
-import { ME_QUERY } from "../queries/MeQueries";
+import { useQuery } from "react-apollo";
 // material
 import Divider from "@material-ui/core/Divider";
 import { Badge } from "@material-ui/core";
@@ -18,7 +16,7 @@ import HomeIcon from "@material-ui/icons/HomeOutlined";
 import PersonIcon from "@material-ui/icons/PersonOutlined";
 import SettingsIcon from "@material-ui/icons/SettingsOutlined";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircleOutlined";
-import TagsIcon from '@material-ui/icons/LabelOutlined';
+import TagsIcon from "@material-ui/icons/LabelOutlined";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import EmailIcon from "@material-ui/icons/Email";
@@ -26,6 +24,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import { H6, AltText } from "./styles/Typography";
 import { ROOMS_QUERY } from "../queries/RoomQueries";
 import AvatarPicture from "./assets/AvatarPicture";
+import { MeContext } from "../contexts/MeContext";
 
 // styles
 const Container = styled.div`
@@ -50,15 +49,13 @@ const ProfileTitle = styled.div`
 
 const arrowIconStyle = {
   width: 13,
-  height: 13,
+  height: 13
 };
 
 const Nav = () => {
   const [qtyUnread, setQtyUnread] = useState(0);
   const { loading, error: roomsError, data: roomsData } = useQuery(ROOMS_QUERY);
-  // We don't care about loading because the query is executed by a higher component and will only render
-  // children once it is loaded.
-  const { data: meData } = useQuery(ME_QUERY);
+  const me = useContext(MeContext);
 
   useMemo(() => {
     if (loading || roomsError) {
@@ -73,8 +70,6 @@ const Nav = () => {
     setQtyUnread(qty);
   }, [loading, roomsData]);
 
-  const me = meData.me;
-
   return (
     <Container>
       <NavLayout>
@@ -86,9 +81,7 @@ const Nav = () => {
                   <HomeIcon />
                 </ListItemIcon>
                 <ListItemText primary="Timeline" />
-                <ArrowForwardIosIcon
-                  style={arrowIconStyle}
-                />
+                <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
           )}
@@ -99,9 +92,7 @@ const Nav = () => {
                   <PersonIcon />
                 </ListItemIcon>
                 <ListItemText primary="Contacts" />
-                <ArrowForwardIosIcon
-                  style={arrowIconStyle}
-                />
+                <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
           )}
@@ -116,9 +107,7 @@ const Nav = () => {
                   <span style={{ float: "right" }}></span>
                 </ListItemText>
                 {qtyUnread <= 0 && (
-                  <ArrowForwardIosIcon
-                    style={arrowIconStyle}
-                  />
+                  <ArrowForwardIosIcon style={arrowIconStyle} />
                 )}
                 <Badge badgeContent={qtyUnread} color="primary" />
               </ListItem>
@@ -131,9 +120,7 @@ const Nav = () => {
                   <SupervisedUserCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Groups" />
-                <ArrowForwardIosIcon
-                  style={arrowIconStyle}
-                />
+                <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
           )}
@@ -144,9 +131,7 @@ const Nav = () => {
                   <TagsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Tags" />
-                <ArrowForwardIosIcon
-                  style={arrowIconStyle}
-                />
+                <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
           )}
@@ -158,9 +143,7 @@ const Nav = () => {
                     <WorkOutlineIcon />
                   </ListItemIcon>
                   <ListItemText primary="Events" />
-                  <ArrowForwardIosIcon
-                    style={arrowIconStyle}
-                  />
+                  <ArrowForwardIosIcon style={arrowIconStyle} />
                 </ListItem>
               </Link>
               <Link href="/calendar">
@@ -169,9 +152,7 @@ const Nav = () => {
                     <CalendarTodayIcon />
                   </ListItemIcon>
                   <ListItemText primary="Calendar" />
-                  <ArrowForwardIosIcon
-                    style={arrowIconStyle}
-                  />
+                  <ArrowForwardIosIcon style={arrowIconStyle} />
                 </ListItem>
               </Link>
             </>
@@ -185,9 +166,7 @@ const Nav = () => {
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Settings" />
-              <ArrowForwardIosIcon
-                style={arrowIconStyle}
-              />
+              <ArrowForwardIosIcon style={arrowIconStyle} />
             </ListItem>
           </Link>
           <Link href="/invitation">
@@ -196,9 +175,7 @@ const Nav = () => {
                 <EmailIcon />
               </ListItemIcon>
               <ListItemText primary="Invitations" />
-              <ArrowForwardIosIcon
-                style={arrowIconStyle}
-              />
+              <ArrowForwardIosIcon style={arrowIconStyle} />
             </ListItem>
           </Link>
         </List>

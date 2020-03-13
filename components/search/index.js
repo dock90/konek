@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import algoliaSearch from "algoliasearch/lite";
 import { InstantSearch, Index, Configure } from "react-instantsearch-dom";
-import { useQuery } from "@apollo/react-hooks";
-import { useRef, useState } from "react";
-import { ME_QUERY } from "../../queries/MeQueries";
+import { MeContext } from "../../contexts/MeContext";
+
+import { useContext, useRef, useState } from "react";
 
 import { Popper, ClickAwayListener, Paper } from "@material-ui/core";
-
 import SearchBox from "./SearchBox";
 import Results from "./Results";
 import ContactResult from "./ContactResult";
@@ -21,22 +20,14 @@ const ResultsContainer = styled(Paper)`
 const Search = () => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
+  const { algoliaInfo, access } = useContext(MeContext);
 
-  const {
-    loading,
-    data: { me }
-  } = useQuery(ME_QUERY);
-
-  if (loading) {
-    return null;
-  }
-
-  if (!me.access.contacts) {
+  if (!access.contacts) {
     // If we don't have access to contacts, we don't have any use for search.
     return null;
   }
 
-  const client = algoliaSearch(me.algoliaInfo.appId, me.algoliaInfo.searchKey);
+  const client = algoliaSearch(algoliaInfo.appId, algoliaInfo.searchKey);
 
   const handleOpen = e => {
     setIsOpen(true);
@@ -65,9 +56,17 @@ const Search = () => {
             }}
           >
             <ResultsContainer>
-              <Results component={ContactResult} header="Contacts" hideEmpty={false} />
+              <Results
+                component={ContactResult}
+                header="Contacts"
+                hideEmpty={false}
+              />
               <Index indexName="entries">
-                <Results component={EntryResult} header="Other" hideEmpty={true}/>
+                <Results
+                  component={EntryResult}
+                  header="Other"
+                  hideEmpty={true}
+                />
               </Index>
             </ResultsContainer>
           </Popper>

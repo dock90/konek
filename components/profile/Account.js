@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { useMutation, useQuery } from "react-apollo";
 import { auth } from "../../config/firebase";
 // material
@@ -7,26 +7,22 @@ import { Card, CardContent, TextField, Grid } from "@material-ui/core";
 // components
 import Password from "./Password";
 // graphql
-import { ME_QUERY, UPDATE_ME_MUTATION } from "../../queries/MeQueries";
+import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // styles
 import Button from "../styles/Button";
-import { H4, H6, BodyText } from "../styles/Typography";
+import { H4, H6 } from "../styles/Typography";
 import AvatarUpload from "../assets/AvatarUpload";
 import Loading from "../Loading";
 import GridInputs from "../contact/GridInputs";
+import {MeContext} from "../../contexts/MeContext";
 
 const Account = () => {
   const [profile, setProfile] = useState();
   const [profileChanged, setProfileChanged] = useState({});
-  const { data, loading, error } = useQuery(ME_QUERY);
+  const me = useContext(MeContext);
   const [updateMeMutation, { loading: mutationLoading }] = useMutation(
     UPDATE_ME_MUTATION
   );
-
-  if (loading) return <Loading />;
-  if (error) return <span>{error}</span>;
-
-  const me = data.me;
 
   if (!profile && me) {
     setProfile(me);
@@ -83,7 +79,7 @@ const Account = () => {
           console.log("FB User Email Update Success - ", email);
         } catch (e) {
           console.log("FB User Email Update Fail");
-          console.log(error);
+          console.log(e);
           return;
         }
       }
@@ -259,5 +255,3 @@ const Account = () => {
 };
 
 export default Account;
-export { ME_QUERY };
-export { UPDATE_ME_MUTATION };

@@ -1,22 +1,29 @@
 import PropTypes from "prop-types";
 import { getWidget } from "../../config/cloudinary";
-import { useEffect, useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { ME_QUERY } from "../../queries/MeQueries";
+import { useContext, useEffect, useState } from "react";
+import { MeContext } from "../../contexts/MeContext";
 
 function getExtension(publicId) {
-  let ext = '';
+  let ext = "";
   for (let i = publicId.length - 1; i >= 0; i--) {
-    if (publicId[i] === '.') break;
+    if (publicId[i] === ".") break;
     ext = publicId[i] + ext;
   }
   return ext;
 }
 
-const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resourceType }) => {
+const FileUpload = ({
+  open,
+  onClose,
+  onSuccess,
+  maxFiles,
+  folder,
+  tags,
+  resourceType
+}) => {
   const [widget, setWidget] = useState();
   const [loading, setLoading] = useState(false);
-  const { data, loading: meLoading } = useQuery(ME_QUERY);
+  const { cloudinaryInfo } = useContext(MeContext);
 
   useEffect(() => {
     if (open && widget) {
@@ -27,7 +34,7 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
     };
   }, [open, widget]);
 
-  if (!widget && !loading &&  !meLoading) {
+  if (!widget && !loading) {
     setLoading(true);
 
     getWidget(
@@ -36,9 +43,9 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
         tags,
         maxFiles: maxFiles || 10,
         multiple: maxFiles && maxFiles > 1,
-        apiKey: data.me.cloudinaryInfo.apiKey,
-        cloudName: data.me.cloudinaryInfo.cloudName,
-        resourceType: resourceType || 'auto',
+        apiKey: cloudinaryInfo.apiKey,
+        cloudName: cloudinaryInfo.cloudName,
+        resourceType: resourceType || "auto"
       },
       function(error, result) {
         if (result) {
@@ -50,7 +57,10 @@ const FileUpload = ({ open, onClose, onSuccess, maxFiles, folder, tags, resource
               break;
             case "success":
               if (onSuccess) {
-                result.info.original_filename = result.info.original_filename + '.' + getExtension(result.info.public_id);
+                result.info.original_filename =
+                  result.info.original_filename +
+                  "." +
+                  getExtension(result.info.public_id);
                 onSuccess(result.info);
               }
               break;
@@ -73,7 +83,7 @@ FileUpload.propTypes = {
   folder: PropTypes.string.isRequired,
   maxFiles: PropTypes.number,
   tags: PropTypes.array,
-  resourceType: PropTypes.string,
+  resourceType: PropTypes.string
 };
 
 export default FileUpload;

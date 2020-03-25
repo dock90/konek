@@ -13,7 +13,7 @@ const InputField = styled(TextField)`
   width: 100%;
 `;
 
-const GridInputs = ({ value, onChange, columns, rowOneLabel }) => {
+const GridInputs = ({ value, onChange, columns, rowOneLabel, disabled }) => {
   const addRow = () => {
     const row = {};
     for (const col of columns) {
@@ -58,6 +58,7 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel }) => {
                     value={val[col.name] || ""}
                     onChange={e => handleChange(e, rowKey)}
                     required={col.required}
+                    disabled={disabled}
                   />
                 )}
               </td>
@@ -67,6 +68,7 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel }) => {
                 <Button
                   onClick={() => handleRemoveRow(rowKey)}
                   style={{ minWidth: 0 }}
+                  disabled={disabled}
                 >
                   <Delete />
                 </Button>
@@ -78,7 +80,7 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel }) => {
       <tfoot>
         <tr>
           <td colSpan={columns.length + 1}>
-            <Button onClick={handleAddRow}>
+            <Button onClick={handleAddRow} disabled={disabled}>
               <Add /> Add Row
             </Button>
           </td>
@@ -92,7 +94,8 @@ GridInputs.propTypes = {
   value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
-  rowOneLabel: PropTypes.string
+  rowOneLabel: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 export default GridInputs;

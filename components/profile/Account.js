@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-apollo";
 import { auth } from "../../config/firebase";
 // material
@@ -14,7 +14,7 @@ import { H4, H6 } from "../styles/Typography";
 import AvatarUpload from "../assets/AvatarUpload";
 import Loading from "../Loading";
 import GridInputs from "../contact/GridInputs";
-import {MeContext} from "../../contexts/MeContext";
+import { MeContext } from "../../contexts/MeContext";
 
 const Account = () => {
   const [profile, setProfile] = useState();
@@ -68,7 +68,7 @@ const Account = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const {emails, phones} = profileChanged;
+    const { emails, phones } = profileChanged;
     if (emails) {
       const fbUser = auth.currentUser;
       const email = emails[0].email;
@@ -140,111 +140,111 @@ const Account = () => {
           <CardContent>
             <H4>Account Information</H4>
             <form onSubmit={handleSubmit}>
-              <fieldset
-                disabled={mutationLoading}
-                aria-busy={mutationLoading}
-                style={{
-                  border: "none",
-                  margin: 0
-                }}
-              >
-                <Grid container>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="name"
-                      name="name"
-                      label="Name"
-                      required
-                      value={profile.name || ""}
-                      onChange={handleChange}
-                      variant="outlined"
-                      style={{
-                        marginRight: 12,
-                        marginBottom: 12,
-                        width: "50%"
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <GridInputs
-                      onChange={v => handleGridChange("emails", v)}
-                      columns={[
-                        { label: "Email", name: "email" },
-                        { label: "Label", name: "label" }
-                      ]}
-                      value={profile.emails || []}
-                      rowOneLabel="Login Email"
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <GridInputs
-                      onChange={v => handleGridChange("phones", v)}
-                      columns={[
-                        { label: "Phone Number", name: "number", required: true },
-                        { label: "Label", name: "label" }
-                      ]}
-                      value={profile.phones || []}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="city"
-                      name="city"
-                      label="City"
-                      value={profile.city || ""}
-                      onChange={handleChange}
-                      variant="outlined"
-                      style={{ marginRight: 12, marginBottom: 12 }}
-                    />
-                    <TextField
-                      id="state"
-                      name="state"
-                      label="State"
-                      value={profile.state || ""}
-                      onChange={handleChange}
-                      variant="outlined"
-                      style={{ marginRight: 12, marginBottom: 12 }}
-                    />
-                    <TextField
-                      id="postalCode"
-                      name="postalCode"
-                      value={profile.postalCode || ""}
-                      onChange={handleChange}
-                      label="Postal Code"
-                      variant="outlined"
-                      style={{ marginRight: 12, marginBottom: 12 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="country"
-                      name="country"
-                      value={profile.country || ""}
-                      onChange={handleChange}
-                      label="Country"
-                      variant="outlined"
-                      style={{ marginRight: 12, marginBottom: 12 }}
-                    />
-                    <TextField
-                      id="language"
-                      name="language"
-                      value={profile.language || ""}
-                      onChange={handleChange}
-                      label="Primary Language"
-                      variant="outlined"
-                      style={{ marginRight: 12, marginBottom: 12 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      type="submit"
-                      style={{ background: "#4CAF50", color: "#FFF" }}
-                    >
-                      Save Changes
-                    </Button>
-                  </Grid>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    id="name"
+                    name="name"
+                    label="Name"
+                    required
+                    disabled={mutationLoading}
+                    value={profile.name || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                    style={{
+                      marginRight: 12,
+                      marginBottom: 12,
+                      width: "50%"
+                    }}
+                  />
                 </Grid>
-              </fieldset>
+                <Grid item xs={12} lg={6}>
+                  <GridInputs
+                    onChange={v => handleGridChange("emails", v)}
+                    columns={[
+                      { label: "Email", name: "email" },
+                      { label: "Label", name: "label" }
+                    ]}
+                    value={profile.emails || []}
+                    rowOneLabel="Login Email"
+                    disabled={mutationLoading}
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <GridInputs
+                    onChange={v => handleGridChange("phones", v)}
+                    columns={[
+                      { label: "Phone Number", name: "number", required: true },
+                      { label: "Label", name: "label" }
+                    ]}
+                    value={profile.phones || []}
+                    disabled={mutationLoading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="city"
+                    name="city"
+                    label="City"
+                    value={profile.city || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                    style={{ marginRight: 12, marginBottom: 12 }}
+                    disabled={mutationLoading}
+                  />
+                  <TextField
+                    id="state"
+                    name="state"
+                    label="State"
+                    value={profile.state || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                    style={{ marginRight: 12, marginBottom: 12 }}
+                    disabled={mutationLoading}
+                  />
+                  <TextField
+                    id="postalCode"
+                    name="postalCode"
+                    value={profile.postalCode || ""}
+                    onChange={handleChange}
+                    label="Postal Code"
+                    variant="outlined"
+                    style={{ marginRight: 12, marginBottom: 12 }}
+                    disabled={mutationLoading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="country"
+                    name="country"
+                    value={profile.country || ""}
+                    onChange={handleChange}
+                    label="Country"
+                    variant="outlined"
+                    style={{ marginRight: 12, marginBottom: 12 }}
+                    disabled={mutationLoading}
+                  />
+                  <TextField
+                    id="language"
+                    name="language"
+                    value={profile.language || ""}
+                    onChange={handleChange}
+                    label="Primary Language"
+                    variant="outlined"
+                    style={{ marginRight: 12, marginBottom: 12 }}
+                    disabled={mutationLoading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    primary={true}
+                    disabled={mutationLoading}
+                  >
+                    Save Changes
+                  </Button>
+                </Grid>
+              </Grid>
             </form>
           </CardContent>
         </Card>

@@ -12,6 +12,7 @@ const Password = () => {
     newPass: ""
   });
   const [error, setError] = useState({ noMatch: "" });
+  const [processing, setProcessing] = useState(false);
   const { pass, newPass } = password;
   const { noMatch } = error;
 
@@ -28,12 +29,15 @@ const Password = () => {
     event.preventDefault();
     const fbUser = auth.currentUser;
     if (pass === newPass) {
+      setProcessing(true);
       fbUser
         .updatePassword(pass)
         .then(() => {
+          setProcessing(false);
           console.log("Password Change Success");
         })
         .catch(error => {
+          setProcessing(false);
           console.log("Password Change Error");
           console.log(error);
         });
@@ -58,23 +62,25 @@ const Password = () => {
             <Grid item xs={12}>
               <TextField
                 id="pass"
-                label="Password"
+                label="New Password"
                 name="pass"
                 onChange={handleChange}
                 style={{ marginRight: 12, marginBottom: 12 }}
                 type="password"
                 value={pass}
                 variant="outlined"
+                disabled={processing}
               />
               <TextField
                 id="newPass"
-                label="New Password"
+                label="Repeat Password"
                 name="newPass"
                 onChange={handleChange}
                 style={{ marginRight: 12, marginBottom: 12 }}
                 type="password"
                 value={newPass}
                 variant="outlined"
+                disabled={processing}
               />
             </Grid>
             {noMatch ? (
@@ -83,7 +89,7 @@ const Password = () => {
               </Grid>
             ) : null}
             <Grid item>
-              <Button primary type="submit">
+              <Button primary type="submit" disabled={processing}>
                 Update Password
               </Button>
             </Grid>

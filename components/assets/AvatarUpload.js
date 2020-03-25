@@ -46,35 +46,47 @@ const Container = styled.a`
   }
 `;
 
-const AvatarUpload = props => {
+const AvatarUpload = ({
+  size,
+  picture,
+  onSuccess,
+  avatarType,
+  folder,
+  disabled
+}) => {
   const [open, setOpen] = useState(false);
 
   const openUploader = e => {
     e.preventDefault();
+    if (disabled) {
+      return;
+    }
 
     setOpen(true);
   };
 
-  const closeUploader = e => {
+  const closeUploader = () => {
     setOpen(false);
   };
 
   return (
-    <Container href="#" onClick={openUploader} size={props.size}>
+    <Container href="#" onClick={openUploader} size={size} disabled={disabled}>
       <FileUpload
         folderId="avatar"
         open={open}
         onClose={closeUploader}
-        tags={["avatar", props.avatarType]}
-        folder={props.folder}
+        tags={["avatar", avatarType]}
+        folder={folder}
         resourceType="image"
-        onSuccess={props.onSuccess}
+        onSuccess={onSuccess}
       />
-      <AvatarPicture size={props.size} picture={props.picture} />
-      <Message>Change Picture</Message>
-      <EditIcon>
-        <Edit />
-      </EditIcon>
+      <AvatarPicture size={size} picture={picture} />
+      {!disabled && <Message>Change Picture</Message>}
+      {!disabled && (
+        <EditIcon>
+          <Edit />
+        </EditIcon>
+      )}
     </Container>
   );
 };
@@ -96,7 +108,8 @@ AvatarUpload.propTypes = {
    */
   avatarType: PropTypes.string.isRequired,
   folder: PropTypes.string.isRequired,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 export default AvatarUpload;

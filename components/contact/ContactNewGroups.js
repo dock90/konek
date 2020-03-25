@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Button, TextField, MenuItem } from "@material-ui/core";
 import { Add, Delete } from "@material-ui/icons";
 
-const ContactNewGroups = ({ onChange, value, groups, roles }) => {
+const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
   value = value || [{ groupId: "", roleId: "" }];
 
   const handleUpdate = (e, key) => {
@@ -36,6 +36,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles }) => {
                 value={cg.groupId}
                 onChange={e => handleUpdate(e, k)}
                 style={{ width: "100%" }}
+                disabled={disabled}
               >
                 {groups.map(g => (
                   <MenuItem key={g.groupId} value={g.groupId}>
@@ -51,6 +52,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles }) => {
                 value={cg.roleId}
                 onChange={e => handleUpdate(e, k)}
                 style={{ width: "100%" }}
+                disabled={disabled}
               >
                 {roles.map(r => (
                   <MenuItem key={r.roleId} value={r.roleId}>
@@ -60,7 +62,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles }) => {
               </TextField>
             </td>
             <td>
-              <Button onClick={() => removeGroup(k)} style={{minWidth: 0}}>
+              <Button onClick={() => removeGroup(k)} style={{minWidth: 0}} disabled={disabled}>
                 <Delete />
               </Button>
             </td>
@@ -71,7 +73,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles }) => {
         <tr>
           <td>&nbsp;</td>
           <td colSpan={2}>
-            <Button onClick={addGroup}>
+            <Button onClick={addGroup} disabled={disabled}>
               <Add /> Add Group
             </Button>
           </td>
@@ -85,7 +87,8 @@ ContactNewGroups.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.array,
   groups: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired
+  roles: PropTypes.array.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default ContactNewGroups;

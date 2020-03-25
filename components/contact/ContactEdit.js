@@ -34,11 +34,7 @@ const Header = styled(H1)`
   margin-bottom: 1.5rem;
 `;
 const FormContainer = styled(Paper)`
-  padding-top: 10px;
-`;
-const Fieldset = styled.fieldset`
-  border: none;
-  margin: 0;
+  padding: 10px;
 `;
 const SectionHeader = styled(H2)``;
 const GroupTable = styled.table`
@@ -161,7 +157,9 @@ const ContactEdit = ({ id }) => {
     }
 
     if (isNew) {
-      const res = await createContactMutation({ variables: {...updatedFields, tags} });
+      const res = await createContactMutation({
+        variables: { ...updatedFields, tags }
+      });
       await router.replace(
         "/contacts/[id]",
         `/contacts/${res.data.createContact.contactId}`
@@ -218,6 +216,7 @@ const ContactEdit = ({ id }) => {
         value={value}
         onChange={handleChange}
         variant="outlined"
+        disabled={saving}
       />
     );
   };
@@ -227,150 +226,159 @@ const ContactEdit = ({ id }) => {
       <Header>{isNew ? "New" : "Edit"} Contact</Header>
       <FormContainer>
         <form onSubmit={handleSubmit}>
-          <Fieldset disabled={saving} aria-busy={saving}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <SectionHeader>Basic Information</SectionHeader>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <SectionHeader>Basic Information</SectionHeader>
+            </Grid>
+            {contact.assetFolderId && (
+              <Grid item xs={6} sm={2} md={1} lg={1} xl={1}>
+                <AvatarUpload
+                  onSuccess={handleUpdatePicture}
+                  size={45}
+                  avatarType="contact"
+                  folder={contact.assetFolderId}
+                  picture={contact.picture}
+                  disabled={saving}
+                />
               </Grid>
-              {contact.assetFolderId && (
-                <Grid item xs={6} sm={2} md={1} lg={1} xl={1}>
-                  <AvatarUpload
-                    onSuccess={handleUpdatePicture}
-                    size={45}
-                    avatarType="contact"
-                    folder={contact.assetFolderId}
-                    picture={contact.picture}
+            )}
+            <Grid item xs={12} md={6}>
+              {fieldFactory("name", "Name", { required: true })}
+            </Grid>
+            <Grid item xs={12} md={5}>
+              {fieldFactory("legalName", "Legal Name")}
+            </Grid>
+            <Grid item xs={12}>
+              {fieldFactory("bio", "Bio", { multiline: true })}
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("fbProfile", "FaceBook Profile")}
+            </Grid>
+            <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
+              <TagSelector
+                value={contact.tags || []}
+                onChange={val => handleGridChange("tags", val)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SectionHeader>Contact Information</SectionHeader>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("city", "City")}
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("state", "State")}
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("postalCode", "Postal Code")}
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("country", "Country")}
+            </Grid>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
+              {fieldFactory("language", "Language")}
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                  <GridInputs
+                    onChange={v => handleGridChange("emails", v)}
+                    columns={[
+                      { label: "Email", name: "email" },
+                      { label: "Label", name: "label" }
+                    ]}
+                    value={contact.emails || []}
+                    disabled={saving}
                   />
                 </Grid>
-              )}
-              <Grid item xs={12} md={6}>
-                {fieldFactory("name", "Name", { required: true })}
-              </Grid>
-              <Grid item xs={12} md={5}>
-                {fieldFactory("legalName", "Legal Name")}
-              </Grid>
-              <Grid item xs={12}>
-                {fieldFactory("bio", "Bio", { multiline: true })}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("fbProfile", "FaceBook Profile")}
-              </Grid>
-              <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
-                <TagSelector value={contact.tags || []} onChange={val => handleGridChange("tags", val)} />
-              </Grid>
-              <Grid item xs={12}>
-                <SectionHeader>Contact Information</SectionHeader>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("city", "City")}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("state", "State")}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("postalCode", "Postal Code")}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("country", "Country")}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
-                {fieldFactory("language", "Language")}
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container>
-                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
-                    <GridInputs
-                      onChange={v => handleGridChange("emails", v)}
-                      columns={[
-                        { label: "Email", name: "email" },
-                        { label: "Label", name: "label" }
-                      ]}
-                      value={contact.emails || []}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
-                    <GridInputs
-                      onChange={v => handleGridChange("phones", v)}
-                      columns={[
-                        { label: "Phone Number", name: "number" },
-                        { label: "Label", name: "label" }
-                      ]}
-                      value={contact.phones || []}
-                    />
-                  </Grid>
+                <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
+                  <GridInputs
+                    onChange={v => handleGridChange("phones", v)}
+                    columns={[
+                      { label: "Phone Number", name: "number" },
+                      { label: "Label", name: "label" }
+                    ]}
+                    value={contact.phones || []}
+                    disabled={saving}
+                  />
                 </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <SectionHeader>Groups</SectionHeader>
-                <Grid container>
-                  <Grid item xs={12} sm={10} md={10} lg={6}>
-                    <GroupTable>
-                      <thead>
-                        <tr>
-                          <th>Group</th>
-                          <th>Role</th>
-                          <th>&nbsp;</th>
-                        </tr>
-                      </thead>
-                      {!isNew && (
-                        <>
-                          <tbody>
-                            {contact.groups &&
-                              contact.groups.map(cg => (
-                                <ContactGroupEdit
-                                  key={cg.group.groupId}
-                                  contactId={contact.contactId}
-                                  contactGroup={cg}
-                                  groups={groupsData}
-                                  roles={rolesData.roles}
-                                />
-                              ))}
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <td> </td>
-                              <td colSpan={2}>
-                                <Button onClick={e => setOpenAddGroup(true)}>
-                                  <Add /> Add Group
-                                </Button>
-                                <AddMembership
-                                  roles={rolesData.roles}
-                                  groups={groupsData}
-                                  contactId={id}
-                                  open={openAddGroup}
-                                  onClose={() => setOpenAddGroup(false)}
-                                />
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </>
-                      )}
-                      {isNew && (
-                        <ContactNewGroups
-                          value={contact.groups}
-                          onChange={newContactGroupsChange}
-                          groups={groupsData}
-                          roles={rolesData.roles}
-                        />
-                      )}
-                    </GroupTable>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  disabled={saving}
-                  type="submit"
-                  style={{
-                    background: "#4CAF50",
-                    color: "#FFF"
-                  }}
-                >
-                  Save
-                </Button>
               </Grid>
             </Grid>
-          </Fieldset>
+            <Grid item xs={12}>
+              <SectionHeader>Groups</SectionHeader>
+              <Grid container>
+                <Grid item xs={12} sm={10} md={10} lg={6}>
+                  <GroupTable>
+                    <thead>
+                      <tr>
+                        <th>Group</th>
+                        <th>Role</th>
+                        <th>&nbsp;</th>
+                      </tr>
+                    </thead>
+                    {!isNew && (
+                      <>
+                        <tbody>
+                          {contact.groups &&
+                            contact.groups.map(cg => (
+                              <ContactGroupEdit
+                                key={cg.group.groupId}
+                                contactId={contact.contactId}
+                                contactGroup={cg}
+                                groups={groupsData}
+                                roles={rolesData.roles}
+                                disabled={saving}
+                              />
+                            ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td> </td>
+                            <td colSpan={2}>
+                              <Button
+                                onClick={e => setOpenAddGroup(true)}
+                                disabled={saving}
+                              >
+                                <Add /> Add Group
+                              </Button>
+                              <AddMembership
+                                roles={rolesData.roles}
+                                groups={groupsData}
+                                contactId={id}
+                                open={openAddGroup}
+                                onClose={() => setOpenAddGroup(false)}
+                              />
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </>
+                    )}
+                    {isNew && (
+                      <ContactNewGroups
+                        value={contact.groups}
+                        onChange={newContactGroupsChange}
+                        groups={groupsData}
+                        roles={rolesData.roles}
+                        disabled={saving}
+                      />
+                    )}
+                  </GroupTable>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                disabled={saving}
+                type="submit"
+                style={{
+                  background: "#4CAF50",
+                  color: "#FFF"
+                }}
+              >
+                Save
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </FormContainer>
     </Container>

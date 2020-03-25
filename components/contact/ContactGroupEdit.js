@@ -17,7 +17,7 @@ const ActionContainer = styled.div`
   display: flex;
 `;
 
-const ContactGroupEdit = ({ contactGroup, roles, groups, contactId }) => {
+const ContactGroupEdit = ({ contactGroup, roles, groups, contactId, disabled }) => {
   const [isEditing, setIsEditing] = useState(false),
     [isDeleting, setIsDeleting] = useState(false);
 
@@ -53,10 +53,10 @@ const ContactGroupEdit = ({ contactGroup, roles, groups, contactId }) => {
       {group.group.canManage && (
         <td>
           <ActionContainer>
-            <Button onClick={handleOpenEdit} style={{ minWidth: 0 }}>
+            <Button onClick={handleOpenEdit} style={{ minWidth: 0 }} disabled={disabled}>
               <Edit />
             </Button>
-            <Button onClick={handleOpenDelete} style={{ minWidth: 0 }}>
+            <Button onClick={handleOpenDelete} style={{ minWidth: 0 }} disabled={disabled}>
               <Delete />
             </Button>
           </ActionContainer>
@@ -84,7 +84,8 @@ ContactGroupEdit.propTypes = {
   contactId: PropTypes.string.isRequired,
   contactGroup: PropTypes.object.isRequired,
   groups: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired
+  roles: PropTypes.array.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default ContactGroupEdit;

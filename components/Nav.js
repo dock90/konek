@@ -181,13 +181,15 @@ const Nav = () => {
         </List>
       </NavLayout>
       <Link href="/profile">
-        <ProfileLayout>
-          <AvatarPicture size={60} picture={me.picture} />
-          <ProfileTitle>
-            <H6>{me.name}</H6>
-            <AltText color="#9EA0A5">Managing Director</AltText>
-          </ProfileTitle>
-        </ProfileLayout>
+        <a>
+          <ProfileLayout>
+            <AvatarPicture size={60} picture={me.picture} />
+            <ProfileTitle>
+              <H6>{me.name}</H6>
+              <AltText color="#9EA0A5">Managing Director</AltText>
+            </ProfileTitle>
+          </ProfileLayout>
+        </a>
       </Link>
     </Container>
   );

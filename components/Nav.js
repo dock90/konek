@@ -183,7 +183,7 @@ const Nav = () => {
       <Link href="/profile">
         <a>
           <ProfileLayout>
-            <AvatarPicture size={60} picture={me.picture} />
+            <AvatarPicture size={40} picture={me.picture} />
             <ProfileTitle>
               <H6>{me.name}</H6>
               <AltText color="#9EA0A5">Managing Director</AltText>

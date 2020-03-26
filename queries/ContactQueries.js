@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { TAG_FIELDS } from "./TagQueries";
 import { ASSET_FIELDS } from "./AssetQueries";
+import {PROFILE_FIELDS} from "./ProfileQueries";
 
 const CONTACT_SUMMARY_FIELDS = gql`
   fragment ContactSummaryFields on Contact {
@@ -35,11 +36,15 @@ const CONTACT_FIELDS = gql`
     country
     gender
     language
+    invitationCode
     tags {
       ...TagFields
     }
     bio
     fbProfile
+    profile {
+      ...ProfileFields
+    }
     emails {
       email
       label
@@ -61,6 +66,7 @@ const CONTACT_FIELDS = gql`
   }
   ${TAG_FIELDS}
   ${ASSET_FIELDS}
+  ${PROFILE_FIELDS}
 `;
 
 export const ALL_CONTACTS_QUERY = gql`
@@ -196,4 +202,10 @@ export const ADD_CONTACT_GROUP = gql`
     }
   }
   ${CONTACT_FIELDS}
+`;
+
+export const GENERATE_INVITATION_CODE = gql`
+  mutation GENERATE_INVITATION_CODE($contactId: ID!) {
+    generateInvitationCode(input: {contactId: $contactId})
+  }
 `;

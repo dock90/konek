@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useQuery } from "react-apollo";
 // material
 import { Facebook } from "@material-ui/icons";
-import { Avatar, Card, CardContent, Grid } from "@material-ui/core";
+import { CardContent, Grid } from "@material-ui/core";
 // components
 import styled from "styled-components";
 import TabPanel from "../TabPanel";
@@ -28,42 +28,22 @@ import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 import NoteEdit from "./NoteEdit";
 import { ContactContext } from "../../contexts/ContactContext";
 // styles
+import {
+  Header,
+  Name,
+  LegalName,
+  Detail,
+  BioContent
+} from "../styles/ContactProfile";
+
 const Container = styled.div``;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
-const Name = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  h2 {
-    margin: 0;
-  }
-`;
-const LegalName = styled.div`
-  color: gray;
-  font-size: 0.9em;
-  font-style: italic;
-`;
-
-const Detail = styled(Card)`
-  margin-bottom: 1rem;
-`;
-
-const BioContent = styled.div`
-  white-space: pre-wrap;
-`;
-
 const ContactInfo = styled.div``;
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error } = useQuery(CONTACT_QUERY, {
     variables: { contactId: id }
   });
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
 
   if (loading) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;

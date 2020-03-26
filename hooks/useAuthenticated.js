@@ -10,8 +10,9 @@ export function useAuthenticated() {
     return auth.onAuthStateChanged(user => {
       if (user) {
         setAuthenticated(true);
-      } else {
-        router.push("/auth/login");
+      } else if (router.route !== "/auth/login") {
+        let target = encodeURIComponent(router.asPath);
+        router.push(`/auth/login?target=${target}`);
       }
     });
   });

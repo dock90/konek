@@ -1,23 +1,30 @@
-import { useContext } from "react";
-import { ContactContext } from "../../contexts/ContactContext";
-import { H4, H5 } from "../styles/Typography";
 import styled from "styled-components";
+import {useContext, useRef} from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { ContactContext } from "../../contexts/ContactContext";
+// Components
 import { Paper, Grid, TextField, Button } from "@material-ui/core";
 import AvatarPicture from "../assets/AvatarPicture";
-// styles
-import { Header, Name } from "../styles/ContactProfile";
 import MessageAction from "../actions/MessageAction";
-import { useMutation } from "@apollo/react-hooks";
+// styles
+import { H4, H5 } from "../styles/Typography";
+import { Header, Name } from "../styles/ContactProfile";
+// queries
 import {
   CONTACT_QUERY,
   GENERATE_INVITATION_CODE
 } from "../../queries/ContactQueries";
+import {useRouter} from "next/router";
 
 const SummaryContainer = styled(Paper)`
   padding: 10px;
 `;
 const InvitationCodeInstructions = styled.span`
   padding: 10px;
+`;
+const CodeInput = styled.input`
+  padding: 2px;
+  text-align: center;
 `;
 
 const Summary = () => {
@@ -43,12 +50,16 @@ const Summary = () => {
       }
     }
   );
-  console.log(profile);
 
   const handleGenerateCode = async e => {
     e.preventDefault();
 
     await generateCodeMutation();
+  };
+
+  const handleCodeBlur = e => {
+    // e.target.setSelectionRange(0, e.target.value.length);
+    e.target.select();
   };
 
   return (
@@ -109,15 +120,15 @@ const Summary = () => {
           <H4>Invitation Code</H4>
           {invitationCode && (
             <>
-              <TextField
+              <CodeInput
                 disabled={loading}
                 value={invitationCode}
-                variant="outlined"
+                onFocus={handleCodeBlur}
               />
               <InvitationCodeInstructions>
-                Copy and paste this code to the relevant person. Once they
-                navigate to "Invitations" and paste in this code, their profile
-                will be associated with this contact.
+                Send this code to the relevant person. Once they navigate to
+                "Invitations" and paste in this code, their profile will be
+                associated with this contact.
               </InvitationCodeInstructions>
             </>
           )}

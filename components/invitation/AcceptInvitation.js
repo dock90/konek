@@ -1,21 +1,16 @@
+// hooks
 import { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
-import { ACCEPT_INVITATION_MUTATION } from "../../queries/InvitationQueries";
+import { useRouter } from "next/router";
+import { useAcceptInvitation } from "../../hooks/useAcceptInvitation";
+// components
 import { TextField, Button, Grid, CircularProgress } from "@material-ui/core";
 import { Email } from "@material-ui/icons";
-import { useRouter } from "next/router";
-import { ROOMS_QUERY } from "../../queries/RoomQueries";
 
 const AcceptInvitation = props => {
   const router = useRouter();
   const [code, setCode] = useState(props.code ? props.code : "");
   const [errorMessage, setErrorMessage] = useState("");
-  const [doAccept, { loading }] = useMutation(ACCEPT_INVITATION_MUTATION, {
-    refetchQueries: [
-      // They likely have access to more groups/etc, so we'll re-load them.
-      { query: ROOMS_QUERY }
-    ]
-  });
+  const [doAccept, { loading }] = useAcceptInvitation();
 
   const handleChange = e => {
     setCode(e.target.value);

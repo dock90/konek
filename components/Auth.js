@@ -1,5 +1,7 @@
-import styled from 'styled-components';
-import { H1, H2 } from './styles/Typography';
+import styled from "styled-components";
+import { H1 } from "./styles/Typography";
+import { useAuthenticated } from "../hooks/useAuthenticated";
+import { useRouter } from "next/router";
 
 // styles
 const Container = styled.div`
@@ -13,7 +15,7 @@ const Container = styled.div`
 const Layout = styled.div`
   display: flex;
   align-items: flex-end;
-  background: url('https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png');
+  background: url("https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png");
 `;
 
 const Branding = styled.div`
@@ -21,18 +23,32 @@ const Branding = styled.div`
   margin-left: 3rem;
   margin-bottom: 5rem;
   max-width: 300px;
+  h1 {
+    margin-bottom: 0;
+  }
 `;
 
-const Auth = ({ children }) => (
-  <Container>
-    <Layout>
-      <Branding>
-        <H1>CRM Beta</H1>
-        <H2>Customer Relationship Management</H2>
-      </Branding>
-    </Layout>
-    {children}
-  </Container>
-);
+const Auth = ({ children }) => {
+  const authenticated = useAuthenticated({ disableForward: true });
+  const router = useRouter();
+
+  if (authenticated === true) {
+    let target = "/";
+    if (router.query.target) {
+      target = decodeURIComponent(router.query.target);
+    }
+    router.replace(target);
+  }
+  return (
+    <Container>
+      <Layout>
+        <Branding>
+          <H1>Konek Beta</H1>
+        </Branding>
+      </Layout>
+      {children}
+    </Container>
+  );
+};
 
 export default Auth;

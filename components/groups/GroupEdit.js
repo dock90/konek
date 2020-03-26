@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 // queries
@@ -26,7 +26,7 @@ import GroupItem from "./GroupItem";
 import Loading from "../Loading";
 import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
-import {useGroupList} from "../../hooks/useGroupList";
+import { useGroupList } from "../../hooks/useGroupList";
 import AvatarUpload from "../assets/AvatarUpload";
 
 const Header = styled.div`
@@ -35,7 +35,7 @@ const Header = styled.div`
 `;
 
 const GroupH4 = styled(H4)`
-margin-bottom: 15px;
+  margin-bottom: 15px;
 `;
 
 export default ({ groupId }) => {
@@ -150,12 +150,12 @@ export default ({ groupId }) => {
     });
   };
 
-  const updateAvatar = async (info) => {
+  const updateAvatar = async info => {
     const picture = {
       format: info.format,
       publicId: info.public_id,
       resourceType: info.resource_type,
-      type: info.type,
+      type: info.type
     };
 
     setGroup({
@@ -165,7 +165,7 @@ export default ({ groupId }) => {
 
     setUpdatedGroup({
       ...updatedGroup,
-      picture,
+      picture
     });
 
     if (isNew) return;
@@ -192,10 +192,7 @@ export default ({ groupId }) => {
         <Grid container spacing={2}>
           {!editMode && (
             <Grid item xs={12}>
-              <GroupItem
-                group={group}
-                groupList={groups}
-              />
+              <GroupItem group={group} groupList={groups} />
             </Grid>
           )}
           {editMode && (
@@ -205,7 +202,13 @@ export default ({ groupId }) => {
                   <GroupH4>Group Information</GroupH4>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={1}>
-                      <AvatarUpload avatarType="group" folder="groups" picture={group.picture} size={50} onSuccess={updateAvatar} />
+                      <AvatarUpload
+                        avatarType="group"
+                        folder="groups"
+                        picture={group.picture}
+                        size={50}
+                        onSuccess={updateAvatar}
+                      />
                     </Grid>
                     <Grid item xs={editRowOneWidth}>
                       <TextField

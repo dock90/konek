@@ -5,12 +5,20 @@ import { MeContext } from "../../contexts/MeContext";
 
 import { useContext, useRef, useState } from "react";
 
-import { Popper, ClickAwayListener, Paper } from "@material-ui/core";
+import { ClickAwayListener, Paper } from "@material-ui/core";
 import SearchBox from "./SearchBox";
 import Results from "./Results";
 import ContactResult from "./ContactResult";
 import EntryResult from "./EntryResult";
 
+const SearchResults = styled.div`
+  position: absolute;
+  opacity: ${props => (props.isOpen ? 1 : 0)};
+  transition: opacity 150ms ease-in-out,
+    visibility 0s linear ${props => (props.isOpen ? '0s' : "150ms")};
+  // Required so it is on top of other stuff.
+  z-index: 2000;
+`;
 const ResultsContainer = styled(Paper)`
   max-width: 550px;
   min-width: 100px;
@@ -19,7 +27,6 @@ const ResultsContainer = styled(Paper)`
 
 const Search = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef(null);
   const { algoliaInfo, access } = useContext(MeContext);
 
   if (!access.contacts) {
@@ -41,20 +48,11 @@ const Search = () => {
    */
   return (
     <ClickAwayListener onClickAway={handleClose}>
-      <div ref={containerRef}>
+      <div>
         <InstantSearch searchClient={client} indexName="contacts">
           <Configure hitsPerPage={10} />
           <SearchBox open={handleOpen} close={handleClose} />
-          <Popper
-            open={isOpen}
-            anchorEl={containerRef.current}
-            placement="bottom"
-            disablePortal={true}
-            style={{
-              // Required so it is on top of other stuff.
-              zIndex: 2000
-            }}
-          >
+          <SearchResults isOpen={isOpen}>
             <ResultsContainer>
               <Results
                 component={ContactResult}
@@ -69,7 +67,7 @@ const Search = () => {
                 />
               </Index>
             </ResultsContainer>
-          </Popper>
+          </SearchResults>
         </InstantSearch>
       </div>
     </ClickAwayListener>

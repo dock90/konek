@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
-import Link from 'next/link';
-import styled from 'styled-components';
+import PropTypes from "prop-types";
+import Link from "next/link";
+import styled from "styled-components";
 // components
-import { H5, H6, AltText } from '../styles/Typography';
-import { BorderButton } from '../material/StyledButton';
+import { H5, H6, AltText } from "../styles/Typography";
+import { BorderButton } from "../material/StyledButton";
 import AvatarPicture from "../assets/AvatarPicture";
+import MessageAction from "../actions/MessageAction";
+import TagsList from "../tags/TagsList";
 
 // styles
 const ListCard = styled.div`
@@ -36,10 +38,13 @@ const ListItem = ({ contactData }) => {
           size={40}
           picture={picture}
           style={{
-            marginRight: 10,
+            marginRight: 10
           }}
         />
-        <H5>{name}</H5>
+        <div>
+          <H5>{name}</H5>
+          <TagsList tags={contactData.tags} size={0.75} />
+        </div>
       </Overview>
       {country && (
         <Location>
@@ -47,11 +52,11 @@ const ListItem = ({ contactData }) => {
           <AltText>Country</AltText>
         </Location>
       )}
-      <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`}>
-        <a>
+      <div>
+        <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`}>
           <BorderButton>View</BorderButton>
-        </a>
-      </Link>
+        </Link>
+      </div>
     </ListCard>
   );
 };
@@ -60,8 +65,8 @@ ListItem.propTypes = {
   contactData: PropTypes.shape({
     contactId: PropTypes.string.isRequired,
     country: PropTypes.string,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default ListItem;

@@ -12,13 +12,12 @@ const CONTACT_SUMMARY_FIELDS = gql`
     picture {
       ...AssetFields
     }
-    profile {
-      __typename
-      profileId
-      roomId
+    tags {
+      ...TagFields
     }
   }
   ${ASSET_FIELDS}
+  ${TAG_FIELDS}
 `;
 
 const CONTACT_FIELDS = gql`

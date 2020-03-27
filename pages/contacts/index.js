@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+import { Add } from "@material-ui/icons";
 // components
 import ContactList from "../../components/contacts/ContactList";
 import Dashboard from "../../components/Dashboard";
@@ -26,7 +27,7 @@ const Contacts = () => (
       <Header>
         <H2>Contacts</H2>
         <Link href="/contacts/new">
-          <BorderButton>New Contact</BorderButton>
+          <BorderButton><Add /> New Contact</BorderButton>
         </Link>
       </Header>
       <ContactList />

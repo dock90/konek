@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard';
+import Layout from '../../components/Layout';
 // components
 import ContactEdit from '../../components/contact/ContactEdit';
 
@@ -11,11 +11,11 @@ const Container = styled.div`
 `;
 
 const NewContact = () => (
-  <Dashboard>
+  <Layout>
     <Container>
       <ContactEdit id="new" />
     </Container>
-  </Dashboard>
+  </Layout>
 );
 
 export default NewContact;

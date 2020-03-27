@@ -1,4 +1,4 @@
-import Dashboard from "../../components/Dashboard";
+import Layout from "../../components/Layout";
 import styled from "styled-components";
 import GroupEdit from "../../components/groups/GroupEdit";
 
@@ -10,9 +10,9 @@ const Container = styled.div`
 `;
 
 export default () => (
-  <Dashboard>
+  <Layout>
     <Container>
       <GroupEdit groupId="new" />
     </Container>
-  </Dashboard>
+  </Layout>
 );

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // components
-import Dashboard from '../../components/Dashboard';
+import Layout from '../../components/Layout';
 import Greeting from '../../components/timeline/Greeting';
 
 // styles
@@ -11,11 +11,11 @@ const Container = styled.div`
 `;
 
 const Timeline = () => (
-  <Dashboard>
+  <Layout>
     <Container>
       <Greeting />
     </Container>
-  </Dashboard>
+  </Layout>
 );
 
 export default Timeline;

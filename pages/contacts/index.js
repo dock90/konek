@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Add } from "@material-ui/icons";
 // components
 import ContactList from "../../components/contacts/ContactList";
-import Dashboard from "../../components/Dashboard";
+import Layout from "../../components/Layout";
 import { H2 } from "../../components/styles/Typography";
 import { BorderButton } from "../../components/material/StyledButton";
 
@@ -22,7 +22,7 @@ const Header = styled.div`
 `;
 
 const Contacts = () => (
-  <Dashboard>
+  <Layout>
     <Container>
       <Header>
         <H2>Contacts</H2>
@@ -32,7 +32,7 @@ const Contacts = () => (
       </Header>
       <ContactList />
     </Container>
-  </Dashboard>
+  </Layout>
 );
 
 export default Contacts;

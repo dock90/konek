@@ -1,6 +1,6 @@
 import styled from "styled-components";
 // components
-import Dashboard from "../../../components/Dashboard";
+import Layout from "../../../components/Layout";
 import ContactOverview from "../../../components/contact/ContactOverview";
 
 // styles
@@ -11,11 +11,11 @@ const Container = styled.div`
 `;
 
 const Contact = ({ query }) => (
-  <Dashboard>
+  <Layout>
     <Container>
       <ContactOverview id={query.id} />
     </Container>
-  </Dashboard>
+  </Layout>
 );
 
 export default Contact;

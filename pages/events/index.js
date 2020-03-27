@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Dashboard from '../../components/Dashboard';
+import Layout from '../../components/Layout';
 // components
 import { H1 } from '../../components/styles/Typography';
 
@@ -11,11 +11,11 @@ const Container = styled.div`
 `;
 
 const Events = () => (
-  <Dashboard>
+  <Layout>
     <Container>
       <H1>EVENTS</H1>
     </Container>
-  </Dashboard>
+  </Layout>
 );
 
 export default Events;

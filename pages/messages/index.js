@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Dashboard from "../../components/Dashboard";
+import Layout from "../../components/Layout";
 import { useState } from "react";
 // components
 import RoomList from "../../components/messages/RoomList";
@@ -33,14 +33,14 @@ const Messages = () => {
   };
 
   return (
-    <Dashboard>
+    <Layout>
       <Container>
         <RoomIdContext.Provider value={roomValue}>
           <RoomList />
           <MessageContainer />
         </RoomIdContext.Provider>
       </Container>
-    </Dashboard>
+    </Layout>
   );
 };
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 // components
-import Dashboard from "../../../components/Dashboard";
+import Layout from "../../../components/Layout";
 import ContactEdit from "../../../components/contact/ContactEdit";
 
 // styles
@@ -11,10 +11,10 @@ const Container = styled.div`
 `;
 
 const EditContact = ({ query }) => (
-  <Dashboard>
+  <Layout>
     <Container>
       <ContactEdit id={query.id} />
     </Container>
-  </Dashboard>
+  </Layout>
 );
 export default EditContact;

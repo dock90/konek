@@ -5,10 +5,7 @@ import { useQuery } from "react-apollo";
 // material
 import Divider from "@material-ui/core/Divider";
 import { Badge } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 // icons
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import ChatIcon from "@material-ui/icons/ChatOutlined";
@@ -28,15 +25,17 @@ import { MeContext } from "../contexts/MeContext";
 
 // styles
 const Container = styled.div`
-  grid-area: nav;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   background: #ffffff;
   padding: 1rem;
 `;
 
-const NavLayout = styled.div``;
+const NavLayout = styled.div`
+  flex-grow: 1;
+`;
 
 const ProfileLayout = styled.div`
   display: flex;
@@ -52,7 +51,7 @@ const arrowIconStyle = {
   height: 13
 };
 
-const Nav = () => {
+const Nav = ({ children }) => {
   const [qtyUnread, setQtyUnread] = useState(0);
   const { loading, error: roomsError, data: roomsData } = useQuery(ROOMS_QUERY);
   const me = useContext(MeContext);
@@ -72,6 +71,7 @@ const Nav = () => {
 
   return (
     <Container>
+      {children}
       <NavLayout>
         <List component="nav" aria-label="main mailbox folders">
           {false && me.access.timeline && (

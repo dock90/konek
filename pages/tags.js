@@ -1,4 +1,4 @@
-import Dashboard from "../components/Dashboard";
+import Layout from "../components/Layout";
 import {
   ContentContainer,
   ContentHeader
@@ -7,14 +7,14 @@ import { H1 } from "../components/styles/Typography";
 import TagsEdit from "../components/tags/TagsEdit";
 
 const Tags = () => (
-  <Dashboard>
+  <Layout>
     <ContentContainer>
       <ContentHeader>
         <H1>Tags</H1>
       </ContentHeader>
       <TagsEdit />
     </ContentContainer>
-  </Dashboard>
+  </Layout>
 );
 
 export default Tags;

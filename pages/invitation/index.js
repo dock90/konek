@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Dashboard from "../../components/Dashboard";
+import Layout from "../../components/Layout";
 import AcceptInvitation from "../../components/invitation/AcceptInvitation";
 import { H2 } from "../../components/styles/Typography";
 import {useRouter} from "next/router";
@@ -13,12 +13,12 @@ const Container = styled.div`
 const Invitation = () => {
   const router = useRouter();
   return (
-    <Dashboard>
+    <Layout>
       <Container>
         <H2>Accept Invitation</H2>
         <AcceptInvitation code={router.query.code} />
       </Container>
-    </Dashboard>
+    </Layout>
   );
 };
 

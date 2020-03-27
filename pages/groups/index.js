@@ -1,4 +1,4 @@
-import Dashboard from "../../components/Dashboard";
+import Layout from "../../components/Layout";
 // components
 import { H1, LinkText } from "../../components/styles/Typography";
 import GroupList from "../../components/groups/GroupList";
@@ -10,7 +10,7 @@ import {
 } from "../../components/styles/PageStyles";
 
 const Groups = () => (
-  <Dashboard>
+  <Layout>
     <ContentContainer>
       <ContentHeader>
         <H1>Groups</H1>
@@ -22,7 +22,7 @@ const Groups = () => (
       </ContentHeader>
       <GroupList />
     </ContentContainer>
-  </Dashboard>
+  </Layout>
 );
 
 export default Groups;

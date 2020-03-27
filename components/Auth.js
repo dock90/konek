@@ -29,7 +29,7 @@ const Branding = styled.div`
 `;
 
 const Auth = ({ children }) => {
-  const authenticated = useAuthenticated({ disableForward: true });
+  const authenticated = useAuthenticated(false);
   const router = useRouter();
 
   if (authenticated === true) {

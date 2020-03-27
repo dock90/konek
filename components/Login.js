@@ -86,10 +86,10 @@ const Login = () => {
         </FormWrapper>
         <Divider style={{ marginBottom: 15 }} />
         <Actions>
-          <Link href="/auth/signup">
+          <Link href={{ pathname: "/auth/signup", query: router.query }}>
             <a>Need an account?</a>
           </Link>
-          <Link href="/auth/reset">
+          <Link href={{ pathname: "/auth/reset", query: router.query }}>
             <a>Forgot password?</a>
           </Link>
         </Actions>

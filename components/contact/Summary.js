@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {useContext, useRef} from "react";
+import { useContext, useRef } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { ContactContext } from "../../contexts/ContactContext";
 // Components
@@ -14,7 +14,6 @@ import {
   CONTACT_QUERY,
   GENERATE_INVITATION_CODE
 } from "../../queries/ContactQueries";
-import {useRouter} from "next/router";
 
 const SummaryContainer = styled(Paper)`
   padding: 10px;
@@ -25,6 +24,7 @@ const InvitationCodeInstructions = styled.span`
 const CodeInput = styled.input`
   padding: 2px;
   text-align: center;
+  width: 350px;
 `;
 
 const Summary = () => {
@@ -51,14 +51,15 @@ const Summary = () => {
     }
   );
 
+  const invitationLink = `${window.location.origin}/invitation?code=${invitationCode}`;
+
   const handleGenerateCode = async e => {
     e.preventDefault();
 
     await generateCodeMutation();
   };
 
-  const handleCodeBlur = e => {
-    // e.target.setSelectionRange(0, e.target.value.length);
+  const handleCodeFocus = e => {
     e.target.select();
   };
 
@@ -121,14 +122,14 @@ const Summary = () => {
           {invitationCode && (
             <>
               <CodeInput
+                readonly
                 disabled={loading}
-                value={invitationCode}
-                onFocus={handleCodeBlur}
+                value={invitationLink}
+                onFocus={handleCodeFocus}
               />
               <InvitationCodeInstructions>
-                Send this code to the relevant person. Once they navigate to
-                "Invitations" and paste in this code, their profile will be
-                associated with this contact.
+                Send this link to the relevant person to associate this contact
+                with their profile.
               </InvitationCodeInstructions>
             </>
           )}

@@ -1,18 +1,18 @@
-import React from 'react';
-import Router from 'next/router';
-import Link from 'next/link';
-import styled from 'styled-components';
+import React from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import styled from "styled-components";
 // material
-import Checkbox from '@material-ui/core/Checkbox';
-import Divider from '@material-ui/core/Divider';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { auth } from '../config/firebase';
+import Checkbox from "@material-ui/core/Checkbox";
+import Divider from "@material-ui/core/Divider";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { auth } from "../config/firebase";
 // components
-import { H1 } from './styles/Typography';
-import AuthLayout from './styles/AuthLayout';
-import { StyledButton } from './material/StyledButton';
-import { StyledTextField } from './material/StyledTextField';
+import { H1 } from "./styles/Typography";
+import AuthLayout from "./styles/AuthLayout";
+import { StyledButton } from "./material/StyledButton";
+import { StyledTextField } from "./material/StyledTextField";
 
 // styles
 const SignupWrapper = styled.div`
@@ -24,12 +24,13 @@ const SignupWrapper = styled.div`
 
 const Signup = () => {
   const [state, setState] = React.useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    acceptedTerms: false,
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    acceptedTerms: false
   });
+  const router = useRouter();
 
   const handleTermsChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
@@ -46,14 +47,18 @@ const Signup = () => {
     const password = state.password.length > 0;
     email && password
       ? auth
-        .createUserWithEmailAndPassword(state.email, state.password)
-        .then(() => {
-          Router.push(`/auth/confirm`);
-        })
-        .catch(error => {
-          console.log('Signup Error: ', error);
-        })
-      : console.log('TOO BAD SAUSAGE');
+          .createUserWithEmailAndPassword(state.email, state.password)
+          .then(() => {
+            let target = "/";
+            if (router.query.target) {
+              target = decodeURIComponent(router.query.target);
+            }
+            router.push(target);
+          })
+          .catch(error => {
+            console.log("Signup Error: ", error);
+          })
+      : console.log("TOO BAD SAUSAGE");
   };
 
   return (
@@ -66,7 +71,7 @@ const Signup = () => {
           margin="normal"
           variant="outlined"
           value={state.firstName}
-          onChange={handleChange('firstName')}
+          onChange={handleChange("firstName")}
         />
         <StyledTextField
           id="outlined-basic"
@@ -74,7 +79,7 @@ const Signup = () => {
           margin="normal"
           variant="outlined"
           value={state.lastName}
-          onChange={handleChange('lastName')}
+          onChange={handleChange("lastName")}
         />
         <StyledTextField
           id="outlined-basic"
@@ -82,7 +87,7 @@ const Signup = () => {
           margin="normal"
           variant="outlined"
           value={state.email}
-          onChange={handleChange('email')}
+          onChange={handleChange("email")}
         />
         <StyledTextField
           id="outlined-basic"
@@ -91,14 +96,14 @@ const Signup = () => {
           type="password"
           variant="outlined"
           value={state.password}
-          onChange={handleChange('password')}
+          onChange={handleChange("password")}
         />
         <FormGroup row style={{ marginBottom: 20 }}>
           <FormControlLabel
             control={
               <Checkbox
                 checked={state.acceptedTerms}
-                onChange={handleTermsChange('acceptedTerms')}
+                onChange={handleTermsChange("acceptedTerms")}
                 value="acceptedTerms"
               />
             }

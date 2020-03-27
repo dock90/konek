@@ -7,7 +7,6 @@ export const ASSET_FIELDS = gql`
     publicId
     resourceType
     type
-    originalFilename
   }
 `;
 

@@ -13,6 +13,8 @@ const CONTACT_SUMMARY_FIELDS = gql`
       ...AssetFields
     }
     profile {
+      __typename
+      profileId
       roomId
     }
   }

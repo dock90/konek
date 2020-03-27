@@ -14,6 +14,7 @@ import EntryResult from "./EntryResult";
 const SearchResults = styled.div`
   position: absolute;
   opacity: ${props => (props.isOpen ? 1 : 0)};
+  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
   transition: opacity 150ms ease-in-out,
     visibility 0s linear ${props => (props.isOpen ? '0s' : "150ms")};
   // Required so it is on top of other stuff.

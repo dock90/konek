@@ -96,6 +96,7 @@ export async function addMessage(messageId, roomId, body, authorId) {
     client.writeFragment({
       id: roomId,
       fragment: ROOM_FIELDS,
+      fragmentName: 'RoomFields',
       data: roomInfo
     });
   }

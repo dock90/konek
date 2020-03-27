@@ -4,14 +4,14 @@ import { setContext } from "apollo-link-context";
 import { ApolloClient } from "apollo-client";
 import {
   InMemoryCache,
-  IntrospectionFragmentMatcher,
-} from 'apollo-cache-inmemory';
-import { auth } from './firebase';
-import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from '../queries/RoomQueries';
-import introspectionResultData from './fragmenTypes';
+  IntrospectionFragmentMatcher
+} from "apollo-cache-inmemory";
+import { auth } from "./firebase";
+import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
+import introspectionResultData from "./fragmenTypes";
 
 const httpLink = createHttpLink({
-  uri: 'https://equipter-crm-staging.herokuapp.com/graphql',
+  uri: "https://equipter-crm-staging.herokuapp.com/graphql"
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -23,8 +23,8 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
+      authorization: token ? `Bearer ${token}` : ""
+    }
   };
 });
 
@@ -36,13 +36,13 @@ const cache = new InMemoryCache({
       return null;
     }
     switch (typeName) {
-      case 'Asset':
+      case "Asset":
         return null;
-      case 'Me':
+      case "Me":
         // Will only ever be one, so a static ID is fine.
         return typeName;
-      case 'Note':
-      case 'Conversation':
+      case "Note":
+      case "Conversation":
         return object.entryId;
       default:
         const idField = `${typeName.charAt(0).toLowerCase() +
@@ -55,8 +55,8 @@ const cache = new InMemoryCache({
     return null;
   },
   fragmentMatcher: new IntrospectionFragmentMatcher({
-    introspectionQueryResultData: introspectionResultData.data,
-  }),
+    introspectionQueryResultData: introspectionResultData.data
+  })
 });
 
 export const client = new ApolloClient({
@@ -71,7 +71,8 @@ export const client = new ApolloClient({
 
         const roomInfo = ctx.cache.readFragment({
           fragment: ROOM_FIELDS,
-          id: args.roomId,
+          fragmentName: "RoomFields",
+          id: args.roomId
         });
 
         if (roomInfo) {
@@ -81,7 +82,7 @@ export const client = new ApolloClient({
 
         // Get the current room list.
         const { data: roomList } = await ctx.client.query({
-          query: ROOMS_QUERY,
+          query: ROOMS_QUERY
         });
 
         // Check if the current room list includes have the room we're searching for.
@@ -96,22 +97,22 @@ export const client = new ApolloClient({
         const result = await ctx.client.query({
           query: ROOM_QUERY,
           variables: {
-            roomId: args.roomId,
-          },
+            roomId: args.roomId
+          }
         });
 
         // Update the cache with the requested room.
         ctx.cache.writeQuery({
           query: ROOMS_QUERY,
           data: {
-            rooms: [result.data.room, ...roomList.rooms],
-          },
+            rooms: [result.data.room, ...roomList.rooms]
+          }
         });
 
         return result.data.room;
-      },
-    },
-  },
+      }
+    }
+  }
 });
 
 function initCache() {

@@ -74,7 +74,7 @@ const Nav = () => {
     <Container>
       <NavLayout>
         <List component="nav" aria-label="main mailbox folders">
-          {me.access.timeline && (
+          {false && me.access.timeline && (
             <Link href="/timeline">
               <ListItem button>
                 <ListItemIcon>
@@ -160,15 +160,17 @@ const Nav = () => {
         </List>
         <Divider />
         <List>
-          <Link href="/settings">
-            <ListItem button>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-              <ArrowForwardIosIcon style={arrowIconStyle} />
-            </ListItem>
-          </Link>
+          {false && (
+            <Link href="/settings">
+              <ListItem button>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+                <ArrowForwardIosIcon style={arrowIconStyle} />
+              </ListItem>
+            </Link>
+          )}
           <Link href="/invitation">
             <ListItem button>
               <ListItemIcon>
@@ -186,7 +188,7 @@ const Nav = () => {
             <AvatarPicture size={40} picture={me.picture} />
             <ProfileTitle>
               <H6>{me.name}</H6>
-              <AltText color="#9EA0A5">Managing Director</AltText>
+              <AltText color="#9EA0A5">&nbsp;</AltText>
             </ProfileTitle>
           </ProfileLayout>
         </a>

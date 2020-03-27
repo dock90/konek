@@ -4,7 +4,7 @@ import Link from "next/link";
 // gql
 import { useQuery } from "react-apollo";
 // material
-import { Facebook } from "@material-ui/icons";
+import { Facebook, Refresh, Edit } from "@material-ui/icons";
 import { CardContent, Grid } from "@material-ui/core";
 // components
 import styled from "styled-components";
@@ -40,7 +40,7 @@ const Container = styled.div``;
 const ContactInfo = styled.div``;
 
 const ContactOverview = ({ id }) => {
-  const { loading, data, error } = useQuery(CONTACT_QUERY, {
+  const { loading, data, error, refetch } = useQuery(CONTACT_QUERY, {
     variables: { contactId: id }
   });
   const [activeTab, setActiveTab] = useState(0);
@@ -50,6 +50,11 @@ const ContactOverview = ({ id }) => {
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+  };
+
+  const refreshContact = async e => {
+    e.preventDefault();
+    await refetch();
   };
 
   const contact = data.contact;
@@ -66,14 +71,14 @@ const ContactOverview = ({ id }) => {
             <h2>{contact.name}</h2>
             {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
           </Name>
-          <Link
-            href={`/contacts/[id]/edit`}
-            as={`/contacts/${contact.contactId}/edit`}
-          >
-            <a>
-              <BorderButton>Edit Contact</BorderButton>
-            </a>
-          </Link>
+            <BorderButton onClick={refreshContact}><Refresh /> Refresh Contact</BorderButton>
+            <Link
+              href={`/contacts/[id]/edit`}
+              as={`/contacts/${contact.contactId}/edit`}
+              passHref
+            >
+              <BorderButton><Edit />Edit Contact</BorderButton>
+            </Link>
         </Header>
         <Detail>
           <CardContent>

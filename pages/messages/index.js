@@ -18,6 +18,10 @@ const Container = styled.div`
   grid-template-areas:
     "rooms messages"
     "rooms messages";
+    
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 45% 55%;
+  }
 `;
 
 const Messages = () => {

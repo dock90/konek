@@ -55,11 +55,13 @@ const Layout = ({ children }) => {
     skip: !authenticated
   });
 
-  const isiOs = useMemo(() => {
-    if (!navigator.userAgent) {
+  const iOs = useMemo(() => {
+    if (!process.browser) {
       return false;
     }
-
+    if (!navigator || !navigator.userAgent) {
+      return false;
+    }
     return /iPad|iPhone|iPod/.test(navigator.userAgent);
   }, []);
 
@@ -79,10 +81,11 @@ const Layout = ({ children }) => {
           <Hidden smUp implementation="js">
             <SwipeableDrawer
               open={navOpen}
+              onOpen={handleDrawerToggle}
               onClose={handleDrawerToggle}
               variant="temporary"
-              disableDiscovery={isiOs}
-              disableBackdropTransition={!isiOs}
+              disableDiscovery={iOs}
+              disableBackdropTransition={!iOs}
             >
               <Nav>
                 <NavCollapse>

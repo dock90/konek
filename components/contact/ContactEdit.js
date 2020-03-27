@@ -149,6 +149,11 @@ const ContactEdit = ({ id }) => {
       router.push("/contacts/[id]", `/contacts/${id}`);
       return;
     }
+    if (!contact.groups || contact.groups.length === 0) {
+      alert('The contact must be in at least one group!');
+      return;
+    }
+
     setSaving(true);
     let tags = [];
 

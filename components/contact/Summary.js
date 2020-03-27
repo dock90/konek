@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { ContactContext } from "../../contexts/ContactContext";
 // Components
-import { Paper, Grid, TextField, Button } from "@material-ui/core";
+import { Paper, Grid } from "@material-ui/core";
 import AvatarPicture from "../assets/AvatarPicture";
 import MessageAction from "../actions/MessageAction";
+import { BorderButton } from "../material/StyledButton";
 // styles
 import { H4, H5 } from "../styles/Typography";
 import { Header, Name } from "../styles/ContactProfile";
@@ -24,7 +25,9 @@ const InvitationCodeInstructions = styled.span`
 const CodeInput = styled.input`
   padding: 2px;
   text-align: center;
-  width: 350px;
+  width: 355px;
+  border-radius: 3px;
+  border: solid 1px gray;
 `;
 
 const Summary = () => {
@@ -122,21 +125,21 @@ const Summary = () => {
           {invitationCode && (
             <>
               <CodeInput
-                readonly
+                readOnly
                 disabled={loading}
                 value={invitationLink}
                 onFocus={handleCodeFocus}
               />
               <InvitationCodeInstructions>
-                Send this link to the relevant person to associate this contact
+                Send the link to the relevant person to associate this contact
                 with their profile.
               </InvitationCodeInstructions>
             </>
           )}
-          <div>
-            <Button disabled={loading} onClick={handleGenerateCode}>
+          <div style={{marginTop: 5}}>
+            <BorderButton disabled={loading} onClick={handleGenerateCode}>
               Generate Code
-            </Button>
+            </BorderButton>
           </div>
         </SummaryContainer>
       )}

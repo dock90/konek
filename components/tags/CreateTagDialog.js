@@ -7,7 +7,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import Button from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 import { useMutation } from "@apollo/react-hooks";
 import { CREATE_TAG_MUTATION, TAGS_QUERY } from "../../queries/TagQueries";
 
@@ -21,7 +21,7 @@ const CreateTagDialog = ({ open, name, onClose }) => {
   useEffect(() => {
     // Set the tag name only when the name prop changes.
     setTagName(name);
-    setTagColor('ffffff');
+    setTagColor("ffffff");
   }, [name]);
 
   const handleClose = e => {
@@ -58,8 +58,10 @@ const CreateTagDialog = ({ open, name, onClose }) => {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button primary onClick={handleSave}>Create New Tag</Button>
-        <Button onClick={handleClose}>Cancel</Button>
+        <BaseButton primary onClick={handleSave}>
+          Create New Tag
+        </BaseButton>
+        <BaseButton onClick={handleClose}>Cancel</BaseButton>
       </DialogActions>
     </Dialog>
   );

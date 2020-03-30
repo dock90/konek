@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { useMutation } from "@apollo/react-hooks";
 import { TAGS_QUERY, UPDATE_TAG_MUTATION } from "../../queries/TagQueries";
-import Button from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 
 const EditTagDialog = ({ tag, open, onClose }) => {
   const [tagState, setTagState] = useState({});
@@ -21,7 +21,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   });
 
   useEffect(() => {
-    const t = {...tag};
+    const t = { ...tag };
     // Clean up so it doesn't bother the mutation.
     delete t.__typename;
 
@@ -44,7 +44,6 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   };
 
   const handleSave = async () => {
-
     if (hasChange) {
       await updateTag({
         variables: tagState
@@ -90,10 +89,10 @@ const EditTagDialog = ({ tag, open, onClose }) => {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button primary onClick={handleSave}>
+        <BaseButton primary onClick={handleSave}>
           Save
-        </Button>
-        <Button onClick={() => onClose()}>Cancel</Button>
+        </BaseButton>
+        <BaseButton onClick={() => onClose()}>Cancel</BaseButton>
       </DialogActions>
     </Dialog>
   );

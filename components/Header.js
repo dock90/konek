@@ -10,7 +10,7 @@ import { Hidden, IconButton, Badge, Avatar } from "@material-ui/core";
 // components
 import { H4 } from "./styles/Typography";
 import Search from "./search";
-import { BaseButton } from "./material/StyledButton";
+import {BaseButton} from "./styles/Button";
 
 // styles
 const MenuToggle = styled.div`
@@ -31,6 +31,11 @@ const Branding = styled.div`
   display: flex;
   align-items: center;
   margin-left: 22px;
+`;
+
+const Logo = styled.img`
+  width: 133px;
+  height: 40px;
 `;
 
 const Actions = styled.div`
@@ -62,24 +67,18 @@ const Header = ({ drawerToggle }) => {
         </MenuToggle>
       </Hidden>
       <Branding>
-        <Avatar
-          alt="Konek Logo"
-          src="https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/logo.png"
-        />
-        <H4 color="#ffffff" pLeft="0.5rem">
-          Konek
-        </H4>
+        <Logo alt="Konek Logo" src="/logo-name.png" />
       </Branding>
       <Actions>
         <Search />
-        <IconButton color="inherit">
+        {false && <IconButton color="inherit">
           <Badge variant="dot">
             <NotificationsOutlined />
           </Badge>
-        </IconButton>
+        </IconButton>}
         <BaseButton color="inherit" onClick={handleLogout}>
           <Input />
-          Sign out
+          &nbsp;Sign out
         </BaseButton>
       </Actions>
     </Container>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 // material
-import { Card, CardContent, Grid, TextField } from '@material-ui/core';
-import Button from "../styles/Button";
+import { Card, CardContent, Grid, TextField } from "@material-ui/core";
+import { BaseButton } from "../styles/Button";
 import { auth } from "../../config/firebase";
 import { H4 } from "../styles/Typography";
 import { ErrorMessage } from "../styles/Messages";
@@ -89,9 +89,9 @@ const Password = () => {
               </Grid>
             ) : null}
             <Grid item>
-              <Button primary type="submit" disabled={processing}>
+              <BaseButton primary type="submit" disabled={processing}>
                 Update Password
-              </Button>
+              </BaseButton>
             </Grid>
           </Grid>
         </form>

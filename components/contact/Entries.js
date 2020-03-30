@@ -7,9 +7,9 @@ import { Query } from "react-apollo";
 import { ENTRIES_QUERY } from "../../queries/EntryQueries";
 // components
 import EntryList from "./EntryList";
-import { BorderButton } from "../material/StyledButton";
 import Loading from "../Loading";
 import { ContactContext } from "../../contexts/ContactContext";
+import {BaseButton} from "../styles/Button";
 
 // styles
 const Actions = styled.div`
@@ -26,9 +26,9 @@ const Entries = ({ type, NewFormComponent }) => {
       {NewFormComponent && (
         <>
           <Actions>
-            <BorderButton onClick={() => toggleNewForm(true)}>
+            <BaseButton onClick={() => toggleNewForm(true)}>
               New {type}
-            </BorderButton>
+            </BaseButton>
           </Actions>
           {showNewForm ? <NewFormComponent setEdit={toggleNewForm} /> : null}
         </>

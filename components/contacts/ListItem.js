@@ -3,10 +3,10 @@ import Link from "next/link";
 import styled from "styled-components";
 // components
 import { H5, H6, AltText } from "../styles/Typography";
-import { BorderButton } from "../material/StyledButton";
 import AvatarPicture from "../assets/AvatarPicture";
 import MessageAction from "../actions/MessageAction";
 import TagsList from "../tags/TagsList";
+import {BaseButton} from "../styles/Button";
 
 // styles
 const ListCard = styled.div`
@@ -54,7 +54,7 @@ const ListItem = ({ contactData }) => {
       )}
       <div>
         <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`}>
-          <BorderButton>View</BorderButton>
+          <BaseButton>View</BaseButton>
         </Link>
       </div>
     </ListCard>

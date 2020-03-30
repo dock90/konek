@@ -6,7 +6,6 @@ import { ContactContext } from "../../contexts/ContactContext";
 import { Paper, Grid } from "@material-ui/core";
 import AvatarPicture from "../assets/AvatarPicture";
 import MessageAction from "../actions/MessageAction";
-import { BorderButton } from "../material/StyledButton";
 // styles
 import { H4, H5 } from "../styles/Typography";
 import { Header, Name } from "../styles/ContactProfile";
@@ -15,6 +14,7 @@ import {
   CONTACT_QUERY,
   GENERATE_INVITATION_CODE
 } from "../../queries/ContactQueries";
+import {BaseButton} from "../styles/Button";
 
 const SummaryContainer = styled(Paper)`
   padding: 10px;
@@ -137,9 +137,9 @@ const Summary = () => {
             </>
           )}
           <div style={{marginTop: 5}}>
-            <BorderButton disabled={loading} onClick={handleGenerateCode}>
+            <BaseButton disabled={loading} onClick={handleGenerateCode}>
               Generate Code
-            </BorderButton>
+            </BaseButton>
           </div>
         </SummaryContainer>
       )}

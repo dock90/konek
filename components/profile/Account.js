@@ -9,7 +9,7 @@ import Password from "./Password";
 // graphql
 import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // styles
-import Button from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 import { H4, H6 } from "../styles/Typography";
 import AvatarUpload from "../assets/AvatarUpload";
 import Loading from "../Loading";
@@ -236,13 +236,9 @@ const Account = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    primary={true}
-                    disabled={mutationLoading}
-                  >
+                  <BaseButton type="submit" primary disabled={mutationLoading}>
                     Save Changes
-                  </Button>
+                  </BaseButton>
                 </Grid>
               </Grid>
             </form>

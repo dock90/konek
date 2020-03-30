@@ -1,21 +1,38 @@
 import styled from "styled-components";
+import { Button } from "@material-ui/core";
 
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${props => (props.primary ? "#4caf50" : "none")};
-  color: ${props => (props.primary ? "#FFFFFF" : "#393939")};
-  padding: 6px 8px;
-  text-transform: uppercase;
-  border-radius: 4px;
-  border: ${props => (props.primary ? "0" : "1px solid #3f51b5")};
-  line-height: 1.75;
-  cursor: pointer;
+export const BaseButton = styled(Button)`
+  && {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: ${props => (props.primary ? props.theme.primary : "none")};
+    color: ${props => (props.primary ? props.theme.white : props.theme.black)};
+    margin-right: 1rem;
 
-  :disabled {
-    background: ${props => (props.primary ? "gray" : "none")};
+    border: 1px solid ${props => props.theme.primary};
+
+    :hover {
+      background-color: ${props =>
+        props.primary ? props.theme.primaryDarker : props.theme.light};
+    }
+
+    :disabled {
+      background: ${props => (props.primary ? props.theme.gray : "none")};
+    }
   }
 `;
 
-export default Button;
+export const DeleteButton = styled(BaseButton)`
+  &&, &&:hover {
+    background-color: ${props => props.theme.error};
+    color: ${props => props.theme.white};
+    border: 1px solid ${props => props.theme.black};
+  }
+`;
+
+export const StyledButton = styled(BaseButton)`
+  height: 40px;
+  margin: 0;
+  padding: 0;
+`;

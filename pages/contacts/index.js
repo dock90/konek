@@ -5,7 +5,7 @@ import { Add } from "@material-ui/icons";
 import ContactList from "../../components/contacts/ContactList";
 import Layout from "../../components/Layout";
 import { H2 } from "../../components/styles/Typography";
-import { BorderButton } from "../../components/material/StyledButton";
+import {BaseButton} from "../../components/styles/Button";
 
 // styles
 const Container = styled.div`
@@ -27,7 +27,7 @@ const Contacts = () => (
       <Header>
         <H2>Contacts</H2>
         <Link href="/contacts/new">
-          <BorderButton><Add /> New Contact</BorderButton>
+          <BaseButton><Add /> New Contact</BaseButton>
         </Link>
       </Header>
       <ContactList />

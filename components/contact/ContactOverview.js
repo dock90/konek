@@ -15,7 +15,6 @@ import Tasks from "./Tasks";
 import Files from "./Files";
 
 // styled
-import { BorderButton } from "../material/StyledButton";
 import StyledAppBar from "../material/StyledAppBar";
 import StyledTabs from "../material/StyledTabs";
 import StyledTab from "../material/StyledTab";
@@ -35,6 +34,7 @@ import {
   Detail,
   BioContent
 } from "../styles/ContactProfile";
+import {BaseButton} from "../styles/Button";
 
 const Container = styled.div``;
 const ContactInfo = styled.div``;
@@ -71,13 +71,13 @@ const ContactOverview = ({ id }) => {
             <h2>{contact.name}</h2>
             {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
           </Name>
-            <BorderButton onClick={refreshContact}><Refresh /> Refresh Contact</BorderButton>
+            <BaseButton onClick={refreshContact}><Refresh /> Refresh Contact</BaseButton>
             <Link
               href={`/contacts/[id]/edit`}
               as={`/contacts/${contact.contactId}/edit`}
               passHref
             >
-              <BorderButton><Edit />Edit Contact</BorderButton>
+              <BaseButton><Edit />Edit Contact</BaseButton>
             </Link>
         </Header>
         <Detail>

@@ -1,7 +1,8 @@
-import Router from 'next/router';
-import NProgress from 'nprogress';
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
-import Meta from './Meta';
+import Router from "next/router";
+import NProgress from "nprogress";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import Meta from "./Meta";
+import { theme } from "../config/theme";
 
 // visualize route changes
 Router.onRouteChangeStart = () => {
@@ -14,12 +15,6 @@ Router.onRouteChangeComplete = () => {
 
 Router.onRouteChangeError = () => {
   NProgress.done();
-};
-
-// theme
-const theme = {
-  black: '#393939',
-  white: '#FFFFFF',
 };
 
 // styles
@@ -39,12 +34,12 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    font-size: 1.5rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;,
   }
   a {
     text-decoration: none;
-    color: ${theme.black};
+    color: ${props => props.theme.black};
   }
 `;
 

@@ -51,7 +51,7 @@ const Auth = ({ children }) => {
     <Container>
       <Layout>
         <Branding>
-          <H1>Konek Beta</H1>
+          <H1>Konek</H1>
         </Branding>
       </Layout>
       <ContentContainer>

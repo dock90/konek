@@ -12,9 +12,9 @@ import {
   MenuItem,
   TextField
 } from "@material-ui/core";
-import { BorderButton } from "../../material/StyledButton";
 import { Cancel, Save } from "@material-ui/icons";
 import {ErrorMessage} from "../../styles/Messages";
+import {BaseButton} from "../../styles/Button";
 
 export const EditMembership = ({
   contactGroup,
@@ -86,12 +86,12 @@ export const EditMembership = ({
         </TextField>
       </DialogContent>
       <DialogActions>
-        <BorderButton disabled={isSaving} onClick={handleClose}>
+        <BaseButton disabled={isSaving} onClick={handleClose}>
           <Cancel /> Cancel
-        </BorderButton>
-        <BorderButton disabled={isSaving} onClick={handleSave}>
+        </BaseButton>
+        <BaseButton disabled={isSaving} primary onClick={handleSave}>
           <Save /> Save
-        </BorderButton>
+        </BaseButton>
       </DialogActions>
     </Dialog>
   );

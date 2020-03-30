@@ -12,7 +12,7 @@ import {
   Switch,
   FormControlLabel
 } from "@material-ui/core";
-import Button from "../styles/Button";
+import {BaseButton} from "../styles/Button";
 // gql
 import {
   UPDATE_NOTE_MUTATION,
@@ -180,10 +180,10 @@ const NoteEdit = ({ note, setEdit }) => {
               </Grid>
             </CardContent>
             <CardActions>
-              <Button primary type="submit">
+              <BaseButton primary type="submit">
                 Save
-              </Button>
-              <Button onClick={() => setEdit(false)}>Cancel</Button>
+              </BaseButton>
+              <BaseButton onClick={() => setEdit(false)}>Cancel</BaseButton>
             </CardActions>
           </Card>
         </fieldset>

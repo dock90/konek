@@ -8,9 +8,9 @@ import {
 import { ErrorMessage } from "../../styles/Messages";
 import { useState } from "react";
 import { Cancel, Delete } from "@material-ui/icons";
-import { BorderButton } from "../../material/StyledButton";
 import { useMutation } from "@apollo/react-hooks";
 import { REMOVE_CONTACT_GROUP } from "../../../queries/ContactQueries";
+import { BaseButton, DeleteButton } from "../../styles/Button";
 
 const RemoveMembership = ({ open, onClose, contactId, group }) => {
   const [isExecuting, setIsExecuting] = useState(false),
@@ -38,9 +38,7 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
         }
       });
     } catch (e) {
-      if (
-        e.graphQLErrors
-      ) {
+      if (e.graphQLErrors) {
         // Probably access denied.
         setError(e.graphQLErrors.map(e => e.message).join("\n"));
       }
@@ -59,12 +57,12 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </DialogContent>
       <DialogActions>
-        <BorderButton disabled={isExecuting} onClick={handleClose}>
+        <BaseButton disabled={isExecuting} onClick={handleClose}>
           <Cancel /> Cancel
-        </BorderButton>
-        <BorderButton disabled={isExecuting} onClick={handleDelete}>
+        </BaseButton>
+        <DeleteButton disabled={isExecuting} onClick={handleDelete}>
           <Delete /> Delete
-        </BorderButton>
+        </DeleteButton>
       </DialogActions>
     </Dialog>
   );

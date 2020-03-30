@@ -25,6 +25,7 @@ import ContactNewGroups from "./ContactNewGroups";
 import GridInputs from "./GridInputs";
 import AvatarUpload from "../assets/AvatarUpload";
 import TagSelector from "../tags/TagSelector";
+import {BaseButton} from "../styles/Button";
 
 // styles
 const Container = styled.div`
@@ -372,16 +373,13 @@ const ContactEdit = ({ id }) => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Button
+              <BaseButton
                 disabled={saving}
                 type="submit"
-                style={{
-                  background: "#4CAF50",
-                  color: "#FFF"
-                }}
+                primary
               >
                 Save
-              </Button>
+              </BaseButton>
             </Grid>
           </Grid>
         </form>

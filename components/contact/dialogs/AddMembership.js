@@ -12,9 +12,9 @@ import {
   Grid
 } from "@material-ui/core";
 import { ErrorMessage } from "../../styles/Messages";
-import { BorderButton } from "../../material/StyledButton";
 import { Cancel, Save } from "@material-ui/icons";
 import styled from "styled-components";
+import {BaseButton} from "../../styles/Button";
 
 const Container = styled(Grid)`
   width: 500px !important;
@@ -125,12 +125,12 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
         </Container>
       </DialogContent>
       <DialogActions>
-        <BorderButton disabled={isExecuting} onClick={handleClose}>
+        <BaseButton disabled={isExecuting} onClick={handleClose}>
           <Cancel /> Cancel
-        </BorderButton>
-        <BorderButton disabled={isExecuting} onClick={handleSave}>
+        </BaseButton>
+        <BaseButton primary disabled={isExecuting} onClick={handleSave}>
           <Save /> Save
-        </BorderButton>
+        </BaseButton>
       </DialogActions>
     </Dialog>
   );

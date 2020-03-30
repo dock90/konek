@@ -2,12 +2,12 @@ import Layout from "../../components/Layout";
 // components
 import { H1, LinkText } from "../../components/styles/Typography";
 import GroupList from "../../components/groups/GroupList";
-import { BorderButton } from "../../components/material/StyledButton";
 import Link from "next/link";
 import {
   ContentContainer,
   ContentHeader
 } from "../../components/styles/PageStyles";
+import {BaseButton} from "../../components/styles/Button";
 
 const Groups = () => (
   <Layout>
@@ -16,7 +16,7 @@ const Groups = () => (
         <H1>Groups</H1>
         <Link href="/groups/new">
           <LinkText>
-            <BorderButton>New Group</BorderButton>
+            <BaseButton>New Group</BaseButton>
           </LinkText>
         </Link>
       </ContentHeader>

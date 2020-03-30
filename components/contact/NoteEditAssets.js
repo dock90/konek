@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Button from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 import { Paper } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import NoteEditAsset from "./NoteEditAsset";
@@ -71,7 +71,9 @@ const NoteEditAssets = ({ assets, onChange }) => {
           ))}
       </Container>
       <div>
-        <Button onClick={handleUploadClick}><Add /> Add Files</Button>
+        <BaseButton onClick={handleUploadClick}>
+          <Add /> Add Files
+        </BaseButton>
         <FileUpload
           folder={assetFolderId}
           open={uploadOpen}

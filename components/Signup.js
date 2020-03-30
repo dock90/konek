@@ -11,8 +11,8 @@ import { auth } from "../config/firebase";
 // components
 import { H1 } from "./styles/Typography";
 import AuthLayout from "./styles/AuthLayout";
-import { StyledButton } from "./material/StyledButton";
 import { StyledTextField } from "./material/StyledTextField";
+import {StyledButton} from "./styles/Button";
 
 // styles
 const SignupWrapper = styled.div`

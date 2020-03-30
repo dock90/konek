@@ -14,7 +14,6 @@ import {
 import { ROLES_QUERY } from "../../queries/RoleQueries";
 
 // components
-import { BorderButton } from "../material/StyledButton";
 import {
   Grid,
   Card,
@@ -28,6 +27,7 @@ import { H1, H4 } from "../styles/Typography";
 import GroupDetails from "./Details";
 import { useGroupList } from "../../hooks/useGroupList";
 import AvatarUpload from "../assets/AvatarUpload";
+import {BaseButton} from "../styles/Button";
 
 const Header = styled.div`
   display: flex;
@@ -184,9 +184,9 @@ export default ({ groupId }) => {
       <Header>
         <H1>{!editMode ? "" : isNew ? "New" : "Edit"} Group</H1>
         {!editMode && !isNew && (
-          <BorderButton onClick={() => setEditMode(true)}>
+          <BaseButton onClick={() => setEditMode(true)}>
             Edit Group
-          </BorderButton>
+          </BaseButton>
         )}
       </Header>
       <form onSubmit={handleSubmit}>
@@ -273,7 +273,7 @@ export default ({ groupId }) => {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <BorderButton type="submit">Save Group</BorderButton>
+                      <BaseButton type="submit">Save Group</BaseButton>
                     </Grid>
                   </Grid>
                 </CardContent>

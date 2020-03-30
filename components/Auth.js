@@ -7,12 +7,16 @@ import { useRouter } from "next/router";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
+  grid-template-areas: "branding content";
   @media (max-width: 800px) {
     grid-template-columns: auto;
+    grid-template-areas: "content" "branding";
   }
+  height: 100vh;
 `;
 
 const Layout = styled.div`
+  grid-area: branding;
   display: flex;
   align-items: flex-end;
   background: url("https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png");
@@ -26,6 +30,10 @@ const Branding = styled.div`
   h1 {
     margin-bottom: 0;
   }
+`;
+
+const ContentContainer = styled.div`
+  grid-area: content;
 `;
 
 const Auth = ({ children }) => {
@@ -46,7 +54,9 @@ const Auth = ({ children }) => {
           <H1>Konek Beta</H1>
         </Branding>
       </Layout>
-      {children}
+      <ContentContainer>
+        {children}
+      </ContentContainer>
     </Container>
   );
 };

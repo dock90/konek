@@ -32,6 +32,7 @@ import AvatarUpload from "../assets/AvatarUpload";
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const GroupH4 = styled(H4)`

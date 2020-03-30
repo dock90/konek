@@ -126,7 +126,11 @@ const MessageContainer = () => {
   }, [roomId]);
 
   if (!roomId) {
-    return <Information>Select a conversation to display details</Information>;
+    return (
+      <Information style={{ marginLeft: 10, marginRight: 10 }}>
+        Select a conversation to display details
+      </Information>
+    );
   }
 
   if (!pnStateData.pnConnected) {
@@ -202,8 +206,8 @@ const MessageContainer = () => {
         <MLContainer onScroll={handleScroll}>
           <InfiniteScroll
             loader={
-              <Information key="loader" noPad>
-                <Loading noPad />
+              <Information>
+                <Loading />
               </Information>
             }
             useWindow={false}

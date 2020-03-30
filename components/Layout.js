@@ -13,7 +13,7 @@ import Loading from "./Loading";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 240px auto;
+  grid-template-columns: 200px auto;
   grid-template-rows: 64px auto;
   grid-template-areas:
     "header header"
@@ -55,15 +55,7 @@ const Layout = ({ children }) => {
     skip: !authenticated
   });
 
-  const iOs = useMemo(() => {
-    if (!process.browser) {
-      return false;
-    }
-    if (!navigator || !navigator.userAgent) {
-      return false;
-    }
-    return /iPad|iPhone|iPod/.test(navigator.userAgent);
-  }, []);
+  let iOs = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   if (loading) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;

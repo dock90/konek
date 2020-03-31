@@ -12,7 +12,7 @@ import { auth } from "../config/firebase";
 import { H1 } from "./styles/Typography";
 import AuthLayout from "./styles/AuthLayout";
 import { StyledTextField } from "./material/StyledTextField";
-import {StyledButton} from "./styles/Button";
+import {BigButton} from "./styles/Button";
 
 // styles
 const SignupWrapper = styled.div`
@@ -110,13 +110,14 @@ const Signup = () => {
             label="I have read the Terms and Conditions"
           />
         </FormGroup>
-        <StyledButton
+        <BigButton
           disabled={!state.acceptedTerms}
           onClick={handleSubmit}
           variant="contained"
+          primary
         >
           Sign Up
-        </StyledButton>
+        </BigButton>
         <Divider style={{ marginBottom: 15 }} />
         <Link href="/auth/login">
           <a>Have an account?</a>

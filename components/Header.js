@@ -1,16 +1,14 @@
 import PropTypes from "prop-types";
 import Router from "next/router";
 import styled from "styled-components";
-import { auth } from "../config/firebase";
-
+import {auth} from "../config/firebase";
 // material
-import { NotificationsOutlined, Menu, Input } from "@material-ui/icons";
-import { Hidden, IconButton, Badge, Avatar } from "@material-ui/core";
-
+import {Input, Menu, NotificationsOutlined} from "@material-ui/icons";
+import {Badge, Hidden, IconButton} from "@material-ui/core";
 // components
-import { H4 } from "./styles/Typography";
 import Search from "./search";
 import {BaseButton} from "./styles/Button";
+import {Logo} from "./styles/Logo";
 
 // styles
 const MenuToggle = styled.div`
@@ -31,11 +29,6 @@ const Branding = styled.div`
   display: flex;
   align-items: center;
   margin-left: 22px;
-`;
-
-const Logo = styled.img`
-  width: 133px;
-  height: 40px;
 `;
 
 const Actions = styled.div`
@@ -67,7 +60,7 @@ const Header = ({ drawerToggle }) => {
         </MenuToggle>
       </Hidden>
       <Branding>
-        <Logo alt="Konek Logo" src="/logo-name.png" />
+        <Logo />
       </Branding>
       <Actions>
         <Search />

@@ -24,15 +24,20 @@ export const BaseButton = styled(Button)`
 `;
 
 export const DeleteButton = styled(BaseButton)`
-  &&, &&:hover {
+  &&,
+  &&:hover {
     background-color: ${props => props.theme.error};
     color: ${props => props.theme.white};
     border: 1px solid ${props => props.theme.black};
   }
 `;
 
-export const StyledButton = styled(BaseButton)`
-  height: 40px;
-  margin: 0;
-  padding: 0;
+export const BigButton = styled(BaseButton)`
+  && {
+    height: 40px;
+
+    margin: 0;
+    padding: 0;
+    font-size: 1.3rem;
+  }
 `;

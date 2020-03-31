@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { H1, H5 } from './styles/Typography';
 import AuthLayout from './styles/AuthLayout';
 import { StyledTextField } from './material/StyledTextField';
-import {StyledButton} from "./styles/Button";
+import {BigButton} from "./styles/Button";
 
 // styles
 const ResetPassWrapper = styled.div`
@@ -29,9 +29,9 @@ const ResetPass = () => {
           margin="normal"
           variant="outlined"
         />
-        <StyledButton onClick={handleResetPass} variant="contained">
+        <BigButton onClick={handleResetPass} variant="contained" primary>
           Reset
-        </StyledButton>
+        </BigButton>
       </ResetPassWrapper>
     </AuthLayout>
   );

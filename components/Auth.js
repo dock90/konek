@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { H1 } from "./styles/Typography";
 import { useAuthenticated } from "../hooks/useAuthenticated";
 import { useRouter } from "next/router";
+import { Logo } from "./styles/Logo";
 
 // styles
 const Container = styled.div`
@@ -10,26 +11,18 @@ const Container = styled.div`
   grid-template-areas: "branding content";
   @media (max-width: 800px) {
     grid-template-columns: auto;
-    grid-template-areas: "content" "branding";
+    grid-template-areas: "branding" "content";
+    grid-template-rows: 150px auto;
   }
   height: 100vh;
 `;
 
-const Layout = styled.div`
+const Branding = styled.div`
   grid-area: branding;
   display: flex;
-  align-items: flex-end;
-  background: url("https://raw.githubusercontent.com/EdwardGoomba/imgHost/master/crmBeta/bg.png");
-`;
-
-const Branding = styled.div`
-  color: #ffffff;
-  margin-left: 3rem;
-  margin-bottom: 5rem;
-  max-width: 300px;
-  h1 {
-    margin-bottom: 0;
-  }
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.gray};
 `;
 
 const ContentContainer = styled.div`
@@ -49,14 +42,10 @@ const Auth = ({ children }) => {
   }
   return (
     <Container>
-      <Layout>
-        <Branding>
-          <H1>Konek</H1>
-        </Branding>
-      </Layout>
-      <ContentContainer>
-        {children}
-      </ContentContainer>
+      <Branding>
+        <Logo size={100} />
+      </Branding>
+      <ContentContainer>{children}</ContentContainer>
     </Container>
   );
 };

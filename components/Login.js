@@ -10,7 +10,7 @@ import { auth } from "../config/firebase";
 import { H1 } from "./styles/Typography";
 import AuthLayout from "./styles/AuthLayout";
 import { StyledTextField } from "./material/StyledTextField";
-import {StyledButton} from "./styles/Button";
+import {BigButton} from "./styles/Button";
 
 // styles
 const LoginWrapper = styled.div`
@@ -80,9 +80,9 @@ const Login = () => {
             value={state.password}
             onChange={handleChange}
           />
-          <StyledButton variant="contained" type="submit">
+          <BigButton primary variant="contained" type="submit">
             Login
-          </StyledButton>
+          </BigButton>
         </FormWrapper>
         <Divider style={{ marginBottom: 15 }} />
         <Actions>

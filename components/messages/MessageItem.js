@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const MessageContainer = styled.div`
-  background-color: ${props => (props.isMe ? "#ffffff" : "#3F51B5")};
-  color: ${props => (props.isMe ? "#37474F" : "#ffffff")};
+  background-color: ${props => (props.isMe ? props.theme.white : props.theme.accentDark)};
+  color: ${props => (props.isMe ? "#37474F" : props.theme.white)};
   margin-left: ${props => (props.isMe ? "5" : "1")}rem;
   margin-right: ${props => (props.isMe ? "1" : "5")}rem;
   margin-top: 1rem;

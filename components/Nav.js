@@ -37,6 +37,12 @@ const NavLayout = styled.div`
   flex-grow: 1;
 `;
 
+const StyledListItemText = styled(ListItemText)`
+  .MuiListItemText-primary {
+    font-size: 12px;
+  }
+`;
+
 const ProfileLayout = styled.div`
   display: flex;
   align-items: center;
@@ -91,7 +97,7 @@ const Nav = ({ children }) => {
                 <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary="Contacts" />
+                <StyledListItemText primary="Contacts" />
                 <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
@@ -102,10 +108,10 @@ const Nav = ({ children }) => {
                 <ListItemIcon>
                   <ChatIcon />
                 </ListItemIcon>
-                <ListItemText>
+                <StyledListItemText>
                   Messages
                   <span style={{ float: "right" }}></span>
-                </ListItemText>
+                </StyledListItemText>
                 {qtyUnread <= 0 && (
                   <ArrowForwardIosIcon style={arrowIconStyle} />
                 )}
@@ -119,7 +125,7 @@ const Nav = ({ children }) => {
                 <ListItemIcon>
                   <SupervisedUserCircleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Groups" />
+                <StyledListItemText primary="Groups" />
                 <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
@@ -130,7 +136,7 @@ const Nav = ({ children }) => {
                 <ListItemIcon>
                   <TagsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Tags" />
+                <StyledListItemText primary="Tags" />
                 <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
@@ -142,7 +148,7 @@ const Nav = ({ children }) => {
                   <ListItemIcon>
                     <WorkOutlineIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Events" />
+                  <StyledListItemText primary="Events" />
                   <ArrowForwardIosIcon style={arrowIconStyle} />
                 </ListItem>
               </Link>
@@ -151,7 +157,7 @@ const Nav = ({ children }) => {
                   <ListItemIcon>
                     <CalendarTodayIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Calendar" />
+                  <StyledListItemText primary="Calendar" />
                   <ArrowForwardIosIcon style={arrowIconStyle} />
                 </ListItem>
               </Link>
@@ -166,7 +172,7 @@ const Nav = ({ children }) => {
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Settings" />
+                <StyledListItemText primary="Settings" />
                 <ArrowForwardIosIcon style={arrowIconStyle} />
               </ListItem>
             </Link>
@@ -176,7 +182,7 @@ const Nav = ({ children }) => {
               <ListItemIcon>
                 <EmailIcon />
               </ListItemIcon>
-              <ListItemText primary="Invitations" />
+              <StyledListItemText primary="Invitations" />
               <ArrowForwardIosIcon style={arrowIconStyle} />
             </ListItem>
           </Link>

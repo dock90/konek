@@ -31,9 +31,7 @@ import {BaseButton} from "../styles/Button";
 const Container = styled.div`
   max-width: 1200px;
 `;
-const Header = styled(H1)`
-  margin-bottom: 1.5rem;
-`;
+const Header = styled(H1)``;
 const FormContainer = styled(Paper)`
   padding: 10px;
 `;

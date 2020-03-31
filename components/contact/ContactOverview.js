@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useQuery } from "react-apollo";
 // material
 import { Facebook, Refresh, Edit } from "@material-ui/icons";
-import { CardContent, Grid } from "@material-ui/core";
+import { CardContent, Grid, AppBar, Tab, Tabs } from "@material-ui/core";
 // components
 import styled from "styled-components";
 import TabPanel from "../TabPanel";
@@ -34,7 +34,7 @@ import {
   Detail,
   BioContent
 } from "../styles/ContactProfile";
-import {BaseButton} from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 
 const Container = styled.div``;
 const ContactInfo = styled.div``;
@@ -71,14 +71,19 @@ const ContactOverview = ({ id }) => {
             <h2>{contact.name}</h2>
             {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
           </Name>
-            <BaseButton onClick={refreshContact}><Refresh /> Refresh Contact</BaseButton>
-            <Link
-              href={`/contacts/[id]/edit`}
-              as={`/contacts/${contact.contactId}/edit`}
-              passHref
-            >
-              <BaseButton><Edit />Edit Contact</BaseButton>
-            </Link>
+          <BaseButton onClick={refreshContact}>
+            <Refresh /> Refresh Contact
+          </BaseButton>
+          <Link
+            href={`/contacts/[id]/edit`}
+            as={`/contacts/${contact.contactId}/edit`}
+            passHref
+          >
+            <BaseButton>
+              <Edit />
+              Edit Contact
+            </BaseButton>
+          </Link>
         </Header>
         <Detail>
           <CardContent>
@@ -108,30 +113,30 @@ const ContactOverview = ({ id }) => {
             </Grid>
           </CardContent>
         </Detail>
-        <StyledAppBar position="static">
+        <StyledAppBar>
           <StyledTabs value={activeTab} onChange={handleTabChange}>
             <StyledTab label="Summary" />
             <StyledTab label="Notes" />
             <StyledTab label="Messages" />
-            <StyledTab label="Tasks" />
-            <StyledTab label="Files" />
+            {false && <StyledTab label="Tasks" />}
+            {false && <StyledTab label="Files" />}
           </StyledTabs>
         </StyledAppBar>
-        <TabPanel value={activeTab} index={0}>
-          <Summary />
-        </TabPanel>
-        <TabPanel value={activeTab} index={1}>
-          <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />
-        </TabPanel>
-        <TabPanel value={activeTab} index={2}>
-          <Entries contactId={id} type={TYPE_CONVERSATION} />
-        </TabPanel>
-        <TabPanel value={activeTab} index={3}>
-          <Tasks />
-        </TabPanel>
-        <TabPanel value={activeTab} index={4}>
-          <Files />
-        </TabPanel>
+        {/*<TabPanel value={activeTab} index={0}>*/}
+        {/*  <Summary />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={activeTab} index={1}>*/}
+        {/*  <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={activeTab} index={2}>*/}
+        {/*  <Entries contactId={id} type={TYPE_CONVERSATION} />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={activeTab} index={3}>*/}
+        {/*  <Tasks />*/}
+        {/*</TabPanel>*/}
+        {/*<TabPanel value={activeTab} index={4}>*/}
+        {/*  <Files />*/}
+        {/*</TabPanel>*/}
       </Container>
     </ContactContext.Provider>
   );

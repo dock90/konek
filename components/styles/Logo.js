@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const Logo = styled.img.attrs(props => ({
   alt: "Konek Logo",
-  src: "/logo-name.png"
+  src: "/logo-name.png",
+  size: props.size ? props.size : 40
 }))`
-  width: ${props => props.size ? props.size * 3.325: 133}px;
-  height: ${props => props.size ? props.size : 40}px;
+  width: ${props => props.size * 3.325}px;
+  height: ${props => props.size}px;
 `;

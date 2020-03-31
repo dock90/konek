@@ -4,7 +4,7 @@ const H1 = styled.h1`
   font-size: 35px;
   margin: 0;
   padding: 0;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   color: ${props => props.color};
   padding-left: ${props => props.pLeft};
 `;

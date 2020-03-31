@@ -8,7 +8,7 @@ import AvatarPicture from "../assets/AvatarPicture";
 
 const Container = styled.div`
   padding: 8px 8px 8px ${props => (props.active ? "8px" : "13px")};
-  border-left: ${props => (props.active ? "solid 5px #4A4A4A" : "")};
+  border-left: ${props => (props.active ? `solid 5px ${props.theme.primary}` : "")};
   cursor: pointer;
   display: flex;
   background-color: #fafafa;

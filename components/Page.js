@@ -21,6 +21,9 @@ Router.onRouteChangeError = () => {
 const StyledPage = styled.div`
   background: ${props => props.theme.white};
   color: ${props => props.theme.black};
+  // so the search results don't cause scroll bars on small screens.
+  position: relative;
+  overflow: hidden;
 `;
 
 const GlobalStyle = createGlobalStyle`

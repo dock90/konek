@@ -11,16 +11,17 @@ import Results from "./Results";
 import ContactResult from "./ContactResult";
 import EntryResult from "./EntryResult";
 
-const SearchResults = styled.div`
+const ResultsContainer = styled(Paper)`
   position: absolute;
   opacity: ${props => (props.isOpen ? 1 : 0)};
   visibility: ${props => (props.isOpen ? "visible" : "hidden")};
   transition: opacity 150ms ease-in-out,
-    visibility 0s linear ${props => (props.isOpen ? '0s' : "150ms")};
+    visibility 0s linear ${props => (props.isOpen ? "0s" : "150ms")};
   // Required so it is on top of other stuff.
   z-index: 2000;
-`;
-const ResultsContainer = styled(Paper)`
+
+  overflow-y: auto;
+  max-height: calc(100% - 60px);
   max-width: 550px;
   min-width: 100px;
   padding: 5px;
@@ -53,22 +54,20 @@ const Search = () => {
         <InstantSearch searchClient={client} indexName="contacts">
           <Configure hitsPerPage={10} />
           <SearchBox open={handleOpen} close={handleClose} />
-          <SearchResults isOpen={isOpen}>
-            <ResultsContainer>
+          <ResultsContainer isOpen={isOpen}>
+            <Results
+              component={ContactResult}
+              header="Contacts"
+              hideEmpty={false}
+            />
+            <Index indexName="entries">
               <Results
-                component={ContactResult}
-                header="Contacts"
-                hideEmpty={false}
+                component={EntryResult}
+                header="Other"
+                hideEmpty={true}
               />
-              <Index indexName="entries">
-                <Results
-                  component={EntryResult}
-                  header="Other"
-                  hideEmpty={true}
-                />
-              </Index>
-            </ResultsContainer>
-          </SearchResults>
+            </Index>
+          </ResultsContainer>
         </InstantSearch>
       </div>
     </ClickAwayListener>

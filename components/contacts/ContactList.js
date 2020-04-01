@@ -1,7 +1,7 @@
 import { Query } from "react-apollo";
 import styled from "styled-components";
 // components
-import ListItem from "./ListItem";
+import ContactListItem from "./ContactListItem";
 import Loading from "../Loading";
 import { ALL_CONTACTS_QUERY } from "../../queries/ContactQueries";
 
@@ -16,7 +16,7 @@ const ContactList = () => (
       return (
         <ListContainer>
           {data.contacts.data.map(contact => (
-            <ListItem contactData={contact} key={contact.contactId} />
+            <ContactListItem contactData={contact} key={contact.contactId} />
           ))}
         </ListContainer>
       );

@@ -45,6 +45,9 @@ const CONTACT_FIELDS = gql`
     fbProfile
     profile {
       ...ProfileFields
+      contacts {
+        ...ContactSummaryFields
+      }
     }
     emails {
       email
@@ -68,6 +71,7 @@ const CONTACT_FIELDS = gql`
   ${TAG_FIELDS}
   ${ASSET_FIELDS}
   ${PROFILE_FIELDS}
+  ${CONTACT_SUMMARY_FIELDS}
 `;
 
 export const ALL_CONTACTS_QUERY = gql`

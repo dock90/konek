@@ -9,12 +9,21 @@ import { ENTRIES_QUERY } from "../../queries/EntryQueries";
 import EntryList from "./EntryList";
 import Loading from "../Loading";
 import { ContactContext } from "../../contexts/ContactContext";
-import {BaseButton} from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 
 // styles
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+const NoneFound = styled.div.attrs(() => ({
+  children: "None found"
+}))`
+  text-align: center;
+  font-size: 1.3em;
+  font-style: italic;
+  color: ${props => props.grayer};
+  margin-top: 15px;
 `;
 
 const Entries = ({ type, NewFormComponent }) => {
@@ -37,7 +46,11 @@ const Entries = ({ type, NewFormComponent }) => {
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <p>Error: {error}</p>;
-          return <EntryList entries={data.entries} />;
+          return data.entries.length > 0 ? (
+            <EntryList entries={data.entries} />
+          ) : (
+            <NoneFound />
+          );
         }}
       </Query>
     </div>

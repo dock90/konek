@@ -7,7 +7,7 @@ import { Paper, Grid } from "@material-ui/core";
 import AvatarPicture from "../assets/AvatarPicture";
 import MessageAction from "../actions/MessageAction";
 // styles
-import { H4, H5 } from "../styles/Typography";
+import {H2, H4, H5} from "../styles/Typography";
 import { Header, Name } from "../styles/ContactProfile";
 // queries
 import {
@@ -15,9 +15,13 @@ import {
   GENERATE_INVITATION_CODE
 } from "../../queries/ContactQueries";
 import {BaseButton} from "../styles/Button";
+import ContactListItem from "../contacts/ContactListItem";
 
 const SummaryContainer = styled(Paper)`
   padding: 10px;
+`;
+const ProfileContactsContainer = styled.div`
+  margin-top: 10px;
 `;
 const InvitationCodeInstructions = styled.span`
   padding: 10px;
@@ -116,6 +120,10 @@ const Summary = () => {
                 <Grid item>Language: {profile.language}</Grid>
               )}
             </Grid>
+            {profile.contacts.length > 1 && (<ProfileContactsContainer>
+              <H4>Other Contacts</H4>
+              {profile.contacts.filter(c => c.contactId !== contactId).map(c => <ContactListItem key={c.contactId} contactData={c}/>)}
+            </ProfileContactsContainer>)}
           </SummaryContainer>
         </>
       )}

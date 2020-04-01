@@ -6,7 +6,9 @@ import { H5, H6, AltText } from "../styles/Typography";
 import AvatarPicture from "../assets/AvatarPicture";
 import MessageAction from "../actions/MessageAction";
 import TagsList from "../tags/TagsList";
-import {BaseButton} from "../styles/Button";
+import { BaseButton } from "../styles/Button";
+import { useContext } from "react";
+import { ContactContext } from "../../contexts/ContactContext";
 
 // styles
 const ListCard = styled.div`
@@ -29,7 +31,7 @@ const Overview = styled.div`
 
 const Location = styled.div``;
 
-const ListItem = ({ contactData }) => {
+const ContactListItem = ({ contactData }) => {
   const { contactId, name, country, picture } = contactData;
   return (
     <ListCard>
@@ -61,7 +63,7 @@ const ListItem = ({ contactData }) => {
   );
 };
 
-ListItem.propTypes = {
+ContactListItem.propTypes = {
   contactData: PropTypes.shape({
     contactId: PropTypes.string.isRequired,
     country: PropTypes.string,
@@ -69,4 +71,4 @@ ListItem.propTypes = {
   }).isRequired
 };
 
-export default ListItem;
+export default ContactListItem;

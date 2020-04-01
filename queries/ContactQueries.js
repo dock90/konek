@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import { TAG_FIELDS } from "./TagQueries";
 import { ASSET_FIELDS } from "./AssetQueries";
-import {PROFILE_FIELDS} from "./ProfileQueries";
+import { PROFILE_FIELDS } from "./ProfileQueries";
 
 const CONTACT_SUMMARY_FIELDS = gql`
   fragment ContactSummaryFields on Contact {
@@ -207,6 +207,6 @@ export const ADD_CONTACT_GROUP = gql`
 
 export const GENERATE_INVITATION_CODE = gql`
   mutation GENERATE_INVITATION_CODE($contactId: ID!) {
-    generateInvitationCode(input: {contactId: $contactId})
+    generateInvitationCode(input: { contactId: $contactId })
   }
 `;

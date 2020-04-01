@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import { MEMBER_FIELDS } from "./MemberQueries";
 import { ROOM_FIELDS } from "./RoomQueries";
 
-const QUERY_FIELDS = gql`
+export const MESSAGE_FIELDS = gql`
   fragment MessageFields on Message {
     messageId
     body
@@ -27,7 +27,7 @@ export const MESSAGES_QUERY = gql`
       }
     }
   }
-  ${QUERY_FIELDS}
+  ${MESSAGE_FIELDS}
 `;
 
 export const SEND_MESSAGE_MUTATION = gql`
@@ -36,7 +36,7 @@ export const SEND_MESSAGE_MUTATION = gql`
       ...MessageFields
     }
   }
-  ${QUERY_FIELDS}
+  ${MESSAGE_FIELDS}
 `;
 
 export const SET_READ_THROUGH = gql`

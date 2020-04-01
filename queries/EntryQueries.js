@@ -27,6 +27,10 @@ export const ENTRY_FIELDS = gql`
         }
       }
     }
+    ... on Conversation {
+      startDate
+      endDate
+    }
     access
   }
   ${TAG_FIELDS}

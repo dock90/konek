@@ -122,21 +122,21 @@ const ContactOverview = ({ id }) => {
             {false && <StyledTab label="Files" />}
           </StyledTabs>
         </StyledAppBar>
-        {/*<TabPanel value={activeTab} index={0}>*/}
-        {/*  <Summary />*/}
-        {/*</TabPanel>*/}
-        {/*<TabPanel value={activeTab} index={1}>*/}
-        {/*  <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />*/}
-        {/*</TabPanel>*/}
-        {/*<TabPanel value={activeTab} index={2}>*/}
-        {/*  <Entries contactId={id} type={TYPE_CONVERSATION} />*/}
-        {/*</TabPanel>*/}
-        {/*<TabPanel value={activeTab} index={3}>*/}
-        {/*  <Tasks />*/}
-        {/*</TabPanel>*/}
-        {/*<TabPanel value={activeTab} index={4}>*/}
-        {/*  <Files />*/}
-        {/*</TabPanel>*/}
+        <TabPanel value={activeTab} index={0}>
+          <Summary />
+        </TabPanel>
+        <TabPanel value={activeTab} index={1}>
+          <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          <Entries contactId={id} type={TYPE_CONVERSATION} />
+        </TabPanel>
+        <TabPanel value={activeTab} index={3}>
+          <Tasks />
+        </TabPanel>
+        <TabPanel value={activeTab} index={4}>
+          <Files />
+        </TabPanel>
       </Container>
     </ContactContext.Provider>
   );

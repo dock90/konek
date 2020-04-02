@@ -2,22 +2,17 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import styled from "styled-components";
 // components
+import { Paper } from "@material-ui/core";
 import { H5, H6, AltText } from "../styles/Typography";
 import AvatarPicture from "../assets/AvatarPicture";
-import MessageAction from "../actions/MessageAction";
 import TagsList from "../tags/TagsList";
 import { BaseButton } from "../styles/Button";
-import { useContext } from "react";
-import { ContactContext } from "../../contexts/ContactContext";
 
 // styles
-const ListCard = styled.div`
+const ListCard = styled(Paper)`
   background: ${props => props.theme.white};
-  box-shadow: 0px 1px 3px rgba(63, 63, 68, 0.15),
-    0px 0px 0px rgba(63, 63, 68, 0.05);
-  border-radius: 4px;
   height: 80px;
-  margin-bottom: 1.6rem;
+  margin-bottom: 8px;
   padding: 1rem;
   display: flex;
   justify-content: space-between;

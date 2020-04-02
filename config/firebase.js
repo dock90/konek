@@ -19,4 +19,6 @@ if (!fb.apps.length) {
 }
 
 export const auth = fb.auth();
+auth.useDeviceLanguage();
+
 export const firebase = fb;

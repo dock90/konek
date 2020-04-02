@@ -1,17 +1,24 @@
-import React from "react";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import styled from "styled-components";
+import { auth, firebase } from "../../config/firebase";
 // material
-import Checkbox from "@material-ui/core/Checkbox";
-import Divider from "@material-ui/core/Divider";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { auth } from "../../config/firebase";
+import {
+  Checkbox,
+  Divider,
+  FormGroup,
+  FormControlLabel
+} from "@material-ui/core";
+
 // components
 import { H1 } from "../styles/Typography";
 import { StyledTextField } from "../material/StyledTextField";
 import { BigButton } from "../styles/Button";
+import StyledAppBar from "../material/StyledAppBar";
+import StyledTabs from "../material/StyledTabs";
+import StyledTab from "../material/StyledTab";
+import TabPanel from "../TabPanel";
 
 // styles
 const SignupWrapper = styled.div`
@@ -20,96 +27,170 @@ const SignupWrapper = styled.div`
   justify-content: flex-start;
   width: 350px;
 `;
+const ReCaptchaContainer = styled.div`
+  min-height: 78px;
+  display: flex;
+  justify-content: center;
+`;
+
+const TAB_EMAIL = 0;
+const TAB_PHONE = 1;
 
 const Signup = () => {
-  const [state, setState] = React.useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    acceptedTerms: false
-  });
+  const [state, setState] = useState({
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      captcha: false,
+      acceptedTerms: false
+    }),
+    [processing, setProcessing] = useState(false),
+    [activeTab, setActiveTab] = useState(TAB_EMAIL);
   const router = useRouter();
 
-  const handleTermsChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
+  const [recaptcha, setRecaptcha] = useState(null),
+    [phoneConfRes, setPhoneConfRes] = useState(null);
+
+  useEffect(() => {
+    if (activeTab !== TAB_PHONE) {
+      return;
+    }
+
+    const re = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
+      size: "normal",
+      callback: () => {
+        setState({ ...state, captcha: true });
+      },
+      "expired-callback": () => {
+        setState({ ...state, captcha: false });
+      }
+    });
+
+    re.render();
+    setRecaptcha(re);
+    setState({ ...state, captcha: false });
+  }, [activeTab]);
+
+  const handleTabChange = (e, newVal) => {
+    setActiveTab(newVal);
   };
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.value });
+  const handleTermsChange = e => {
+    setState({ ...state, [e.target.name]: e.target.checked });
   };
 
-  const handleSubmit = () => {
+  const handleFieldChange = e => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
+
+  let allowSubmit = state.acceptedTerms && !processing;
+  if (activeTab === TAB_PHONE) {
+    allowSubmit = allowSubmit && state.captcha;
+  }
+
+  const handleSubmit = async () => {
     // TODO: better email validation
     // TODO: better password validation
-    const email = state.email.length > 0;
-    const password = state.password.length > 0;
-    email && password
-      ? auth
-          .createUserWithEmailAndPassword(state.email, state.password)
-          .then(() => {
-            let target = "/";
-            if (router.query.target) {
-              target = decodeURIComponent(router.query.target);
-            }
-            router.push(target);
-          })
-          .catch(error => {
-            console.log("Signup Error: ", error);
-          })
-      : console.log("TOO BAD SAUSAGE");
+    setProcessing(true);
+    try {
+      if (activeTab === TAB_EMAIL) {
+        await auth.createUserWithEmailAndPassword(state.email, state.password);
+      } else if (activeTab === TAB_PHONE) {
+        const confirmationResult = await auth.signInWithPhoneNumber(state.phone, recaptcha);
+        let target = `/auth/phone-confirm?verificationId=${confirmationResult.verificationId}`;
+        if (router.query.target) {
+          target = `${target}&target=${router.query.target}`;
+        }
+        await router.push(target);
+      }
+      await auth.currentUser.updateProfile({
+        displayName: state.name
+      });
+    } catch (e) {
+      setProcessing(false);
+      console.log("Signup Error: ", e);
+      return;
+    }
+    let target = "/";
+    if (router.query.target) {
+      target = decodeURIComponent(router.query.target);
+    }
+    await router.push(target);
   };
 
   return (
     <SignupWrapper>
       <H1>Sign Up</H1>
       <StyledTextField
-        id="outlined-basic"
-        label="First Name"
+        label="Name"
+        name="name"
         margin="normal"
-        variant="outlined"
-        value={state.firstName}
-        onChange={handleChange("firstName")}
-      />
-      <StyledTextField
-        id="outlined-basic"
-        label="Last Name"
-        margin="normal"
-        variant="outlined"
         value={state.lastName}
-        onChange={handleChange("lastName")}
+        onChange={handleFieldChange}
+        disabled={processing}
       />
-      <StyledTextField
-        id="outlined-basic"
-        label="Email"
-        margin="normal"
-        variant="outlined"
-        value={state.email}
-        onChange={handleChange("email")}
-      />
-      <StyledTextField
-        id="outlined-basic"
-        label="Password"
-        margin="normal"
-        type="password"
-        variant="outlined"
-        value={state.password}
-        onChange={handleChange("password")}
-      />
+      <StyledAppBar>
+        <StyledTabs value={activeTab} onChange={handleTabChange}>
+          <StyledTab label="Email" disabled={!!phoneConfRes} />
+          <StyledTab label="Phone Number" />
+        </StyledTabs>
+      </StyledAppBar>
+      <TabPanel value={activeTab} index={TAB_EMAIL}>
+        <SignupWrapper>
+          <StyledTextField
+            name="email"
+            label="Email"
+            margin="normal"
+            value={state.email}
+            onChange={handleFieldChange}
+            disabled={processing}
+            required={activeTab === TAB_EMAIL}
+          />
+          <StyledTextField
+            name="password"
+            label="Password"
+            margin="normal"
+            type="password"
+            value={state.password}
+            onChange={handleFieldChange}
+            disabled={processing}
+            required={activeTab === TAB_EMAIL}
+          />
+        </SignupWrapper>
+      </TabPanel>
+      <TabPanel value={activeTab} index={TAB_PHONE}>
+        <SignupWrapper>
+          <StyledTextField
+            name="phone"
+            label="Phone Number"
+            margin="normal"
+            value={state.phone}
+            onChange={handleFieldChange}
+            disabled={processing}
+            required={activeTab === TAB_PHONE}
+          />
+          <ReCaptchaContainer id="recaptcha-container" />
+        </SignupWrapper>
+      </TabPanel>
       <FormGroup row style={{ marginBottom: 20 }}>
         <FormControlLabel
           control={
             <Checkbox
+              name="acceptedTerms"
               checked={state.acceptedTerms}
-              onChange={handleTermsChange("acceptedTerms")}
+              onChange={handleTermsChange}
               value="acceptedTerms"
+              disabled={processing}
             />
           }
           label="I have read the Terms and Conditions"
         />
       </FormGroup>
       <BigButton
-        disabled={!state.acceptedTerms}
+        id="sign-up"
+        disabled={!allowSubmit}
         onClick={handleSubmit}
         variant="contained"
         primary

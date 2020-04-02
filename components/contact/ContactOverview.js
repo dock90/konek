@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useQuery } from "react-apollo";
 // material
 import { Facebook, Refresh, Edit } from "@material-ui/icons";
-import { CardContent, Grid, AppBar, Tab, Tabs } from "@material-ui/core";
+import { CardContent, Grid } from "@material-ui/core";
 // components
 import styled from "styled-components";
 import TabPanel from "../TabPanel";

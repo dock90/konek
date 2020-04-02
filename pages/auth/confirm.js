@@ -1,11 +1,11 @@
 // components
-import Auth from '../../components/Auth';
-import SignupConfirm from '../../components/SignupConfirm';
+import Layout from '../../components/auth/Layout';
+import SignupConfirm from '../../components/auth/SignupConfirm';
 
 const SignupWrapper = () => (
-  <Auth>
+  <Layout>
     <SignupConfirm />
-  </Auth>
+  </Layout>
 );
 
 export default SignupWrapper;

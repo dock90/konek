@@ -1,11 +1,11 @@
 // components
-import Auth from '../../components/Auth';
-import ResetPass from '../../components/ResetPass';
+import Layout from '../../components/auth/Layout';
+import ResetPass from '../../components/auth/ResetPass';
 
 const Reset = () => (
-  <Auth>
+  <Layout>
     <ResetPass />
-  </Auth>
+  </Layout>
 );
 
 export default Reset;

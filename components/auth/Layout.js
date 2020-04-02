@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { H1 } from "./styles/Typography";
-import { useAuthenticated } from "../hooks/useAuthenticated";
+import { H1 } from "../styles/Typography";
+import { useAuthenticated } from "../../hooks/useAuthenticated";
 import { useRouter } from "next/router";
-import { Logo } from "./styles/Logo";
+import { Logo } from "../styles/Logo";
+import { Hidden } from "@material-ui/core";
 
 // styles
 const Container = styled.div`
@@ -13,6 +14,9 @@ const Container = styled.div`
     grid-template-columns: auto;
     grid-template-areas: "branding" "content";
     grid-template-rows: 150px auto;
+  }
+  @media (max-width: 600px) {
+    grid-template-rows: 75px auto;
   }
   height: 100vh;
 `;
@@ -27,9 +31,15 @@ const Branding = styled.div`
 
 const ContentContainer = styled.div`
   grid-area: content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
 `;
 
-const Auth = ({ children }) => {
+const Layout = ({ children }) => {
   const authenticated = useAuthenticated(false);
   const router = useRouter();
 
@@ -43,11 +53,16 @@ const Auth = ({ children }) => {
   return (
     <Container>
       <Branding>
-        <Logo size={100} />
+        <Hidden xsDown>
+          <Logo size={100} />
+        </Hidden>
+        <Hidden smUp>
+          <Logo size={50} />
+        </Hidden>
       </Branding>
       <ContentContainer>{children}</ContentContainer>
     </Container>
   );
 };
 
-export default Auth;
+export default Layout;

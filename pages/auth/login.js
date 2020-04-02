@@ -1,11 +1,11 @@
 // components
-import Auth from '../../components/Auth';
-import Login from '../../components/Login';
+import Layout from '../../components/auth/Layout';
+import Login from '../../components/auth/Login';
 
 const LoginWrapper = () => (
-  <Auth>
+  <Layout>
     <Login />
-  </Auth>
+  </Layout>
 );
 
 export default LoginWrapper;

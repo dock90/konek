@@ -1,4 +1,4 @@
-import * as firebase from "firebase/app";
+import * as fb from "firebase/app";
 import "firebase/auth";
 
 // initialize config
@@ -14,8 +14,9 @@ const config = {
 };
 
 // initialize firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+if (!fb.apps.length) {
+  fb.initializeApp(config);
 }
 
-export const auth = firebase.auth();
+export const auth = fb.auth();
+export const firebase = fb;

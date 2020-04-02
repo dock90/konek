@@ -3,7 +3,7 @@ import algoliaSearch from "algoliasearch/lite";
 import { InstantSearch, Index, Configure } from "react-instantsearch-dom";
 import { MeContext } from "../../contexts/MeContext";
 
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 import { ClickAwayListener, Paper } from "@material-ui/core";
 import SearchBox from "./SearchBox";
@@ -11,7 +11,7 @@ import Results from "./Results";
 import ContactResult from "./ContactResult";
 import EntryResult from "./EntryResult";
 
-const ResultsContainer = styled(Paper)`
+const ResultsContainer = styled.div`
   position: absolute;
   opacity: ${props => (props.isOpen ? 1 : 0)};
   visibility: ${props => (props.isOpen ? "visible" : "hidden")};
@@ -24,7 +24,10 @@ const ResultsContainer = styled(Paper)`
   max-height: calc(100% - 60px);
   max-width: 550px;
   min-width: 100px;
-  padding: 5px;
+  
+`;
+const ResultsWrapper = styled(Paper)`
+padding: 5px;
 `;
 
 const Search = () => {
@@ -55,18 +58,20 @@ const Search = () => {
           <Configure hitsPerPage={10} />
           <SearchBox open={handleOpen} close={handleClose} />
           <ResultsContainer isOpen={isOpen}>
-            <Results
-              component={ContactResult}
-              header="Contacts"
-              hideEmpty={false}
-            />
-            <Index indexName="entries">
+            <ResultsWrapper>
               <Results
-                component={EntryResult}
-                header="Other"
-                hideEmpty={true}
+                component={ContactResult}
+                header="Contacts"
+                hideEmpty={false}
               />
-            </Index>
+              <Index indexName="entries">
+                <Results
+                  component={EntryResult}
+                  header="Other"
+                  hideEmpty={true}
+                />
+              </Index>
+            </ResultsWrapper>
           </ResultsContainer>
         </InstantSearch>
       </div>

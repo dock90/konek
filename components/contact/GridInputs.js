@@ -13,7 +13,7 @@ const InputField = styled(TextField)`
   width: 100%;
 `;
 
-const GridInputs = ({ value, onChange, columns, rowOneLabel, disabled }) => {
+const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
   const addRow = () => {
     const row = {};
     for (const col of columns) {
@@ -49,8 +49,8 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel, disabled }) => {
           <tr key={rowKey}>
             {columns.map((col, colKey) => (
               <td key={colKey}>
-                {rowOneLabel && rowKey === 0 && colKey === 1 ? (
-                  rowOneLabel
+                {rowOneDisabled && rowKey === 0 ? (
+                  val[col.name]
                 ) : (
                   <InputField
                     label={`${col.label} ${rowKey + 1}`}
@@ -64,7 +64,7 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel, disabled }) => {
               </td>
             ))}
             <td>
-              {(!rowOneLabel || (rowOneLabel && rowKey > 0)) && (
+              {(!rowOneDisabled || (rowOneDisabled && rowKey > 0)) && (
                 <Button
                   onClick={() => handleRemoveRow(rowKey)}
                   style={{ minWidth: 0 }}
@@ -81,7 +81,7 @@ const GridInputs = ({ value, onChange, columns, rowOneLabel, disabled }) => {
         <tr>
           <td colSpan={columns.length + 1}>
             <Button onClick={handleAddRow} disabled={disabled}>
-              <Add /> Add Row
+              <Add /> Add {columns[0].label}
             </Button>
           </td>
         </tr>
@@ -94,7 +94,7 @@ GridInputs.propTypes = {
   value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
-  rowOneLabel: PropTypes.string,
+  rowOneDisabled: PropTypes.string,
   disabled: PropTypes.bool
 };
 

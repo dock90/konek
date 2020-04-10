@@ -1,20 +1,22 @@
 import { useContext, useState } from "react";
-import styled from "styled-components";
 import { MeContext } from "../../contexts/MeContext";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // material
-import { Card, CardContent, Grid, TextField } from "@material-ui/core";
+import { Card, CardContent, Grid } from "@material-ui/core";
 // styles
 import { BaseButton } from "../styles/Button";
 import { auth, firebase } from "../../config/firebase";
 import { H4 } from "../styles/Typography";
-
-const StyledInput = styled(TextField).attrs({
-  variant: "outlined"
-})`
-  width: 100%;
-`;
+import { StyledTextField } from "../material/StyledTextField";
+import { hasEmailLogin } from "./helpers";
+import { isEmailValid, isPasswordOk } from "../auth/validation";
+import {
+  INVALID_EMAIL,
+  PASSWORD_NOT_STRONG,
+  PASSWORDS_DONT_MATCH
+} from "../auth/messages";
+import {SuccessMessage} from "../styles/Messages";
 
 const LoginInformation = () => {
   const me = useContext(MeContext);
@@ -27,11 +29,18 @@ const LoginInformation = () => {
       pass: "",
       newPass: ""
     }),
-    [error, setError] = useState({ noMatch: "", invalidPassword: "" }),
-    [processing, setProcessing] = useState(false);
+    [error, setError] = useState({
+      email: "",
+      noMatch: "",
+      invalidPassword: ""
+    }),
+    [processing, setProcessing] = useState(false),
+    [success, setSuccess] = useState("");
+
+  const hasPwLogin = hasEmailLogin(auth.currentUser);
 
   const resetError = () => {
-      setError({ noMatch: "", invalidPassword: "" });
+      setError({ email: "", noMatch: "", invalidPassword: "" });
     },
     resetLoginInfo = newEmail => {
       setLoginInfo({
@@ -61,11 +70,25 @@ const LoginInformation = () => {
     resetError();
   };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault();
     const fbUser = auth.currentUser;
 
-    if (hasNewPassword || hasNewEmail) {
+    if (hasNewEmail && !isEmailValid(loginInfo.email)) {
+      setError({ ...error, email: INVALID_EMAIL });
+      return;
+    }
+
+    if (!hasPwLogin && hasNewEmail && !isPasswordOk(state.curPass)) {
+      // We're adding an email/password to an existing login.
+    }
+
+    if (hasNewPassword && !isPasswordOk(loginInfo.pass)) {
+      setError({ ...error, invalidPassword: PASSWORD_NOT_STRONG });
+      return;
+    }
+
+    if (hasPwLogin && (hasNewPassword || hasNewEmail)) {
       setProcessing(true);
       try {
         const credential = firebase.auth.EmailAuthProvider.credential(
@@ -80,6 +103,8 @@ const LoginInformation = () => {
         setProcessing(false);
         return;
       }
+    } else if (!hasPwLogin) {
+      setProcessing(true);
     } else {
       return;
     }
@@ -99,17 +124,32 @@ const LoginInformation = () => {
         console.log("Password Change Success");
       } else {
         setProcessing(false);
-        setError({ ...error, noMatch: "Passwords do not match" });
+        setError({ ...error, noMatch: PASSWORDS_DONT_MATCH });
         return;
       }
     } else if (hasNewEmail) {
       try {
-        await fbUser.updateEmail(loginInfo.email);
+        if (hasPwLogin) {
+          await fbUser.updateEmail(loginInfo.email);
+          setSuccess("Email successfully updated.");
+        } else {
+          const credential = new firebase.auth.EmailAuthProvider.credential(
+            loginInfo.email,
+            loginInfo.curPass
+          );
+          await auth.currentUser.linkWithCredential(credential);
+          setSuccess("You may not log in with the supplied email and password!");
+        }
         const emails = me.emails;
         emails[0].email = loginInfo.email;
         await updateMeMutation({ variables: { emails } });
       } catch (e) {
         setProcessing(false);
+        switch (e.code) {
+          case "auth/requires-recent-login":
+          case "auth/email-already-in-use":
+            setError({ ...error, email: e.message });
+        }
         console.log("Email change error");
         console.log(e);
         return;
@@ -123,20 +163,29 @@ const LoginInformation = () => {
     <Card>
       <CardContent>
         <H4 style={{ marginBottom: 15 }}>Login Information</H4>
+        {!hasPwLogin && (
+          <p>
+            Supply a email address and password below to enable login to your
+            account with a email address.
+          </p>
+        )}
+        {success && <SuccessMessage>{success}</SuccessMessage>}
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <StyledInput
+              <StyledTextField
                 label="Login Email"
                 name="email"
                 value={loginInfo.email}
                 onChange={handleLoginInfoChange}
-                disabled={hasNewPassword | processing}
+                disabled={hasNewPassword || processing}
+                error={!!error.email}
+                helperText={error.email}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <StyledInput
-                label="Current Password"
+              <StyledTextField
+                label={hasPwLogin ? "Current Password" : "New Password"}
                 name="curPass"
                 onChange={handleLoginInfoChange}
                 value={loginInfo.curPass}
@@ -147,31 +196,35 @@ const LoginInformation = () => {
                 helperText={error.invalidPassword}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <StyledInput
-                label="New Password"
-                name="pass"
-                onChange={handleLoginInfoChange}
-                type="password"
-                value={loginInfo.pass}
-                disabled={processing || hasNewEmail}
-                required={hasNewPassword}
-                error={!!error.noMatch}
-                helperText={error.noMatch}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <StyledInput
-                label="Repeat Password"
-                name="newPass"
-                onChange={handleLoginInfoChange}
-                type="password"
-                value={loginInfo.newPass}
-                disabled={processing || hasNewEmail}
-                required={hasNewPassword}
-                error={!!error.noMatch}
-              />
-            </Grid>
+            {hasPwLogin && (
+              <>
+                <Grid item xs={12} sm={6} md={4}>
+                  <StyledTextField
+                    label="New Password"
+                    name="pass"
+                    onChange={handleLoginInfoChange}
+                    type="password"
+                    value={loginInfo.pass}
+                    disabled={processing || hasNewEmail}
+                    required={hasNewPassword}
+                    error={!!error.noMatch}
+                    helperText={error.noMatch}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <StyledTextField
+                    label="Repeat Password"
+                    name="newPass"
+                    onChange={handleLoginInfoChange}
+                    type="password"
+                    value={loginInfo.newPass}
+                    disabled={processing || hasNewEmail}
+                    required={hasNewPassword}
+                    error={!!error.noMatch}
+                  />
+                </Grid>
+              </>
+            )}
             <Grid item xs={12}>
               <BaseButton primary type="submit" disabled={processing}>
                 Save Changes

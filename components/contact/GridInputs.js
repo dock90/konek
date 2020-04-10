@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, IconButton } from "@material-ui/core";
 import { Add, Delete } from "@material-ui/icons";
+import {BaseButton} from "../styles/Button";
 
 const Table = styled.table`
   width: 100%;
+  margin-bottom: 10px;
   td {
     width: ${props => Math.round(100 / props.cols)}%;
   }
@@ -22,7 +24,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
     value.push(row);
   };
 
-  const handleChange = (e, rowKey) => {
+  const handleChange = rowKey => e => {
     value[rowKey][e.target.name] = e.target.value;
     onChange(value);
   };
@@ -30,7 +32,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
     addRow();
     onChange(value);
   };
-  const handleRemoveRow = rowId => {
+  const handleRemoveRow = rowId => () => {
     value.splice(rowId, 1);
     onChange(value);
   };
@@ -56,7 +58,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
                     label={`${col.label} ${rowKey + 1}`}
                     name={col.name}
                     value={val[col.name] || ""}
-                    onChange={e => handleChange(e, rowKey)}
+                    onChange={handleChange(rowKey)}
                     required={col.required}
                     disabled={disabled}
                   />
@@ -65,13 +67,13 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
             ))}
             <td>
               {(!rowOneDisabled || (rowOneDisabled && rowKey > 0)) && (
-                <Button
-                  onClick={() => handleRemoveRow(rowKey)}
+                <IconButton
+                  onClick={handleRemoveRow(rowKey)}
                   style={{ minWidth: 0 }}
                   disabled={disabled}
                 >
                   <Delete />
-                </Button>
+                </IconButton>
               )}
             </td>
           </tr>
@@ -80,9 +82,9 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
       <tfoot>
         <tr>
           <td colSpan={columns.length + 1}>
-            <Button onClick={handleAddRow} disabled={disabled}>
+            <BaseButton onClick={handleAddRow} disabled={disabled} size="small">
               <Add /> Add {columns[0].label}
-            </Button>
+            </BaseButton>
           </td>
         </tr>
       </tfoot>
@@ -94,7 +96,7 @@ GridInputs.propTypes = {
   value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
-  rowOneDisabled: PropTypes.string,
+  rowOneDisabled: PropTypes.bool,
   disabled: PropTypes.bool
 };
 

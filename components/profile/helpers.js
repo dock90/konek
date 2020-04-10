@@ -8,7 +8,7 @@ function hasType(providers, type) {
 }
 
 export function hasEmailLogin(fbUser) {
-  return hasType(fbUser.providerData, 'email');
+  return hasType(fbUser.providerData, 'password');
 }
 
 export function hasPhoneLogin(fbUser) {

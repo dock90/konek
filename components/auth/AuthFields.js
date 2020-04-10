@@ -11,6 +11,7 @@ import TabPanel from "../TabPanel";
 import { Divider, InputAdornment } from "@material-ui/core";
 import { BigButton } from "../styles/Button";
 import styled from "styled-components";
+import {FIELD_REQUIRED, INVALID_EMAIL, INVALID_PHONE, PASSWORD_NOT_STRONG} from "./messages";
 
 export const MODE_SIGN_UP = "signup";
 export const MODE_LOG_IN = 'login';
@@ -121,21 +122,20 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     e.preventDefault();
     if (activeTab === TAB_EMAIL) {
       if (!state.email) {
-        setErrors({ ...errors, email: "This field is required" });
+        setErrors({ ...errors, email: FIELD_REQUIRED });
         return;
       } else if (!isEmailValid(state.email)) {
-        setErrors({ ...errors, email: "Invalid email address" });
+        setErrors({ ...errors, email: INVALID_EMAIL });
         return;
       }
 
       if (!state.password) {
-        setErrors({ ...errors, pass: "This field is required" });
+        setErrors({ ...errors, pass: FIELD_REQUIRED });
         return;
       } else if (isSignUp && !isPasswordOk(state.password)) {
         setErrors({
           ...errors,
-          pass:
-            "This password is not strong enough.\nPlease make sure it is at least 6 characters long."
+          pass: PASSWORD_NOT_STRONG,
         });
         return;
       }
@@ -169,7 +169,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       await router.push(target);
     } else if (activeTab === TAB_PHONE) {
       if (!state.phone) {
-        setErrors({ ...errors, phone: "\nThis field is required" });
+        setErrors({ ...errors, phone: "\n" + FIELD_REQUIRED });
         return;
       }
       try {
@@ -191,7 +191,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       } catch (e) {
         setErrors({
           ...errors,
-          phone: "\nInvalid phone number. Please try again."
+          phone: "\n" + INVALID_PHONE
         });
         setProcessing(false);
         return;

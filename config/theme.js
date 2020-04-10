@@ -10,6 +10,7 @@ export const theme = {
   accentDark: "#5AA179",
 
   error: "#FF0000",
+  success: "green",
 
   light: "F2F2F2",
   gray: "#ADADAD",

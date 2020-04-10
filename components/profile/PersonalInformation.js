@@ -1,18 +1,28 @@
+import styled from "styled-components";
 import { useContext, useState } from "react";
 import { useMutation } from "react-apollo";
+import { MeContext } from "../../contexts/MeContext";
 import { auth } from "../../config/firebase";
 import { hasEmailLogin, hasPhoneLogin } from "./helpers";
 // material
-import { Card, CardContent, TextField, Grid } from "@material-ui/core";
+import { Card, CardContent, Grid } from "@material-ui/core";
 // graphql
 import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // styles
 import { BaseButton } from "../styles/Button";
-import { H4, H5, H6 } from "../styles/Typography";
+import { H4 } from "../styles/Typography";
 import AvatarUpload from "../assets/AvatarUpload";
 import Loading from "../Loading";
 import GridInputs from "../contact/GridInputs";
-import { MeContext } from "../../contexts/MeContext";
+import { StyledTextField } from "../material/StyledTextField";
+
+const DetailTextField = styled(StyledTextField)`
+  && {
+    width: auto;
+    margin-bottom: 12px;
+    margin-right: 12px;
+  }
+`;
 
 const PersonalInformation = ({ style }) => {
   const [profile, setProfile] = useState();
@@ -128,19 +138,13 @@ const PersonalInformation = ({ style }) => {
               />
             </Grid>
             <Grid item xs={12} sm={8} md={10}>
-              <TextField
+              <StyledTextField
                 name="name"
                 label="Name"
                 required
                 disabled={mutationLoading}
                 value={profile.name || ""}
                 onChange={handleChange}
-                variant="outlined"
-                style={{
-                  marginRight: 12,
-                  marginBottom: 12,
-                  width: "100%"
-                }}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
@@ -168,56 +172,46 @@ const PersonalInformation = ({ style }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <DetailTextField
                 id="city"
                 name="city"
                 label="City"
                 value={profile.city || ""}
                 onChange={handleChange}
-                variant="outlined"
-                style={{ marginRight: 12, marginBottom: 12 }}
                 disabled={mutationLoading}
               />
-              <TextField
+              <DetailTextField
                 id="state"
                 name="state"
                 label="State"
                 value={profile.state || ""}
                 onChange={handleChange}
-                variant="outlined"
-                style={{ marginRight: 12, marginBottom: 12 }}
                 disabled={mutationLoading}
               />
-              <TextField
+              <DetailTextField
                 id="postalCode"
                 name="postalCode"
                 value={profile.postalCode || ""}
                 onChange={handleChange}
                 label="Postal Code"
-                variant="outlined"
-                style={{ marginRight: 12, marginBottom: 12 }}
                 disabled={mutationLoading}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <DetailTextField
                 id="country"
                 name="country"
                 value={profile.country || ""}
                 onChange={handleChange}
                 label="Country"
-                variant="outlined"
-                style={{ marginRight: 12, marginBottom: 12 }}
                 disabled={mutationLoading}
               />
-              <TextField
+              <DetailTextField
                 id="language"
                 name="language"
                 value={profile.language || ""}
                 onChange={handleChange}
                 label="Primary Language"
-                variant="outlined"
-                style={{ marginRight: 12, marginBottom: 12 }}
                 disabled={mutationLoading}
               />
             </Grid>

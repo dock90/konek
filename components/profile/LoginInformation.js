@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { MeContext } from "../../contexts/MeContext";
 import { useMutation } from "@apollo/react-hooks";
+import { useStateTimeout } from "../../hooks/useStateTimeout";
 import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
 // material
 import { Card, CardContent, Grid } from "@material-ui/core";
@@ -16,7 +17,7 @@ import {
   PASSWORD_NOT_STRONG,
   PASSWORDS_DONT_MATCH
 } from "../auth/messages";
-import {SuccessMessage} from "../styles/Messages";
+import { SuccessMessage } from "../styles/Messages";
 
 const LoginInformation = () => {
   const me = useContext(MeContext);
@@ -35,7 +36,7 @@ const LoginInformation = () => {
       invalidPassword: ""
     }),
     [processing, setProcessing] = useState(false),
-    [success, setSuccess] = useState("");
+    [success, setSuccess] = useStateTimeout("", 2500);
 
   const hasPwLogin = hasEmailLogin(auth.currentUser);
 
@@ -114,6 +115,7 @@ const LoginInformation = () => {
         try {
           await fbUser.updatePassword(loginInfo.pass);
           resetLoginInfo();
+          setSuccess("Password successfully updated.");
         } catch (e) {
           setProcessing(false);
           console.log("Password Change Error");
@@ -138,7 +140,9 @@ const LoginInformation = () => {
             loginInfo.curPass
           );
           await auth.currentUser.linkWithCredential(credential);
-          setSuccess("You may not log in with the supplied email and password!");
+          setSuccess(
+            "You may not log in with the supplied email and password!"
+          );
         }
         const emails = me.emails;
         emails[0].email = loginInfo.email;

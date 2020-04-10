@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { H1 } from "../styles/Typography";
 import { useAuthenticated } from "../../hooks/useAuthenticated";
 import { useRouter } from "next/router";
 import { Logo } from "../styles/Logo";
@@ -10,6 +9,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-areas: "branding content";
+  height: 100vh;
   @media (max-width: 800px) {
     grid-template-columns: auto;
     grid-template-areas: "branding" "content";
@@ -18,7 +18,6 @@ const Container = styled.div`
   @media (max-width: 600px) {
     grid-template-rows: 75px auto;
   }
-  height: 100vh;
 `;
 
 const Branding = styled.div`

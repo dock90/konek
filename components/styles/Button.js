@@ -18,7 +18,8 @@ export const BaseButton = styled(Button)`
     }
 
     :disabled {
-      background: ${props => (props.primary ? props.theme.gray : "none")};
+      background-color: ${props => (props.primary ? props.theme.gray : "none")};
+      border-color: ${props => (props.primary ? props.theme.grayer : "none")};
     }
   }
 `;

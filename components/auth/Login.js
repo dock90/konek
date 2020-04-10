@@ -65,7 +65,7 @@ const Login = () => {
   return (
     <LoginWrapper>
       <H1>Login</H1>
-      <FormWrapper onSubmit={event => handleSubmit(event)}>
+      <FormWrapper onSubmit={handleSubmit}>
         <StyledTextField
           label="Email"
           name="email"

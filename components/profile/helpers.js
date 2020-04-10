@@ -1,7 +1,16 @@
+function hasType(providers, type) {
+  for (const provider of providers) {
+    if (provider.providerId === type) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function hasEmailLogin(fbUser) {
-  return true;
+  return hasType(fbUser.providerData, 'email');
 }
 
 export function hasPhoneLogin(fbUser) {
-  return false;
+  return hasType(fbUser.providerData, 'phone');
 }

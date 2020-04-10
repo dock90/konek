@@ -14,8 +14,14 @@ export function useAuthenticated(requireAuth) {
       if (user) {
         setAuthenticated(true);
       } else if (requireAuth) {
-        let target = encodeURIComponent(router.asPath);
-        router.push(`/auth/login?target=${target}`);
+        let url = '/auth/login';
+
+        if (router.asPath !== '/') {
+          const target = encodeURIComponent(router.asPath);
+          url = `${url}?target=${target}`;
+        }
+
+        router.push(url);
       }
     });
   });

@@ -8,7 +8,8 @@ import {
   Checkbox,
   Divider,
   FormGroup,
-  FormControlLabel
+  FormControlLabel,
+  InputAdornment
 } from "@material-ui/core";
 
 // components
@@ -37,33 +38,44 @@ const TAB_EMAIL = 0;
 const TAB_PHONE = 1;
 
 const Signup = () => {
+  const router = useRouter();
   const [state, setState] = useState({
       name: "",
       email: "",
       password: "",
       phone: "",
-      captcha: false,
       acceptedTerms: false
     }),
+    [captchaPass, setCaptchaPass] = useState(false),
+    [recaptcha, setRecaptcha] = useState(null),
     [processing, setProcessing] = useState(false),
-    [activeTab, setActiveTab] = useState(TAB_EMAIL);
-  const router = useRouter();
-
-  const [recaptcha, setRecaptcha] = useState(null),
-    [phoneConfRes, setPhoneConfRes] = useState(null);
+    [activeTab, setActiveTab] = useState(TAB_EMAIL),
+    [errors, setErrors] = useState({
+      email: "",
+      pass: "",
+      phone: ""
+    }),
+    clearErrors = () => {
+      setErrors({
+        email: "",
+        pass: "",
+        phone: ""
+      });
+    };
 
   useEffect(() => {
     if (activeTab !== TAB_PHONE) {
+      setRecaptcha(null);
       return;
     }
 
     const re = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
       size: "normal",
       callback: () => {
-        setState({ ...state, captcha: true });
+        setCaptchaPass(true);
       },
       "expired-callback": () => {
-        setState({ ...state, captcha: false });
+        setCaptchaPass(false);
       }
     });
 
@@ -74,50 +86,102 @@ const Signup = () => {
 
   const handleTabChange = (e, newVal) => {
     setActiveTab(newVal);
+    clearErrors();
   };
 
   const handleTermsChange = e => {
     setState({ ...state, [e.target.name]: e.target.checked });
   };
 
+  const handlePhoneChange = e => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    if (value[0] === "1") {
+      // Format US numbers nicely.
+      const parts = value.match(/(.)(.{0,3})(.{0,3})(.{0,4})/);
+
+      // Splice off the full match. Join with space. Trim trailing space.
+      value = parts
+        .splice(1)
+        .join(" ")
+        .trim();
+    }
+
+    setState({ ...state, phone: value });
+  };
+
   const handleFieldChange = e => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
+    clearErrors();
   };
 
   let allowSubmit = state.acceptedTerms && !processing;
   if (activeTab === TAB_PHONE) {
-    allowSubmit = allowSubmit && state.captcha;
+    allowSubmit = allowSubmit && captchaPass;
   }
 
   const handleSubmit = async () => {
-    // TODO: better email validation
-    // TODO: better password validation
-    setProcessing(true);
-    try {
-      if (activeTab === TAB_EMAIL) {
+    if (activeTab === TAB_EMAIL) {
+      if (!state.email) {
+        setErrors({ ...errors, email: "This field is required" });
+        return;
+      }
+      if (!state.password) {
+        setErrors({ ...errors, pass: "This field is required" });
+        return;
+      }
+      // TODO: better email validation
+      // TODO: better password validation
+
+      try {
+        setProcessing(true);
         await auth.createUserWithEmailAndPassword(state.email, state.password);
-      } else if (activeTab === TAB_PHONE) {
-        const confirmationResult = await auth.signInWithPhoneNumber(state.phone, recaptcha);
-        let target = `/auth/phone-confirm?verificationId=${confirmationResult.verificationId}`;
+      } catch (e) {
+        setErrors({ ...errors, email: e.message });
+        setProcessing(false);
+        return;
+      }
+      try {
+        await auth.currentUser.updateProfile({
+          displayName: state.name
+        });
+      } catch (e) {
+        console.log("Error updating profile name.", e);
+      }
+
+      let target = "/";
+      if (router.query.target) {
+        target = decodeURIComponent(router.query.target);
+      }
+      await router.push(target);
+    } else if (activeTab === TAB_PHONE) {
+      if (!state.phone) {
+        setErrors({ ...errors, phone: "\nThis field is required" });
+        return;
+      }
+      try {
+        setProcessing(true);
+        const confirmationResult = await auth.signInWithPhoneNumber(
+          "+" + state.phone.replace(/\s/g, ""),
+          recaptcha
+        );
+        let target = `/auth/phone-confirm?verificationId=${
+          confirmationResult.verificationId
+        }&name=${encodeURIComponent(state.name)}`;
         if (router.query.target) {
           target = `${target}&target=${router.query.target}`;
         }
         await router.push(target);
+      } catch (e) {
+        setErrors({
+          ...errors,
+          phone: "\nInvalid phone number. Please try again."
+        });
+        setProcessing(false);
+        return;
       }
-      await auth.currentUser.updateProfile({
-        displayName: state.name
-      });
-    } catch (e) {
-      setProcessing(false);
-      console.log("Signup Error: ", e);
-      return;
     }
-    let target = "/";
-    if (router.query.target) {
-      target = decodeURIComponent(router.query.target);
-    }
-    await router.push(target);
   };
 
   return (
@@ -133,7 +197,7 @@ const Signup = () => {
       />
       <StyledAppBar>
         <StyledTabs value={activeTab} onChange={handleTabChange}>
-          <StyledTab label="Email" disabled={!!phoneConfRes} />
+          <StyledTab label="Email" />
           <StyledTab label="Phone Number" />
         </StyledTabs>
       </StyledAppBar>
@@ -147,6 +211,8 @@ const Signup = () => {
             onChange={handleFieldChange}
             disabled={processing}
             required={activeTab === TAB_EMAIL}
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <StyledTextField
             name="password"
@@ -157,19 +223,33 @@ const Signup = () => {
             onChange={handleFieldChange}
             disabled={processing}
             required={activeTab === TAB_EMAIL}
+            error={!!errors.pass}
+            helperText={errors.pass}
           />
         </SignupWrapper>
       </TabPanel>
       <TabPanel value={activeTab} index={TAB_PHONE}>
         <SignupWrapper>
+          <p>
+            You will be sent an SMS for verification purposes. Standard rates
+            will apply.
+          </p>
           <StyledTextField
             name="phone"
             label="Phone Number"
             margin="normal"
             value={state.phone}
-            onChange={handleFieldChange}
+            type="tel"
+            onChange={handlePhoneChange}
             disabled={processing}
             required={activeTab === TAB_PHONE}
+            error={!!errors.phone}
+            helperText={`Enter your full phone number including the country code.${errors.phone}`}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">+</InputAdornment>
+              )
+            }}
           />
           <ReCaptchaContainer id="recaptcha-container" />
         </SignupWrapper>
@@ -189,7 +269,6 @@ const Signup = () => {
         />
       </FormGroup>
       <BigButton
-        id="sign-up"
         disabled={!allowSubmit}
         onClick={handleSubmit}
         variant="contained"

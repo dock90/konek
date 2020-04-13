@@ -46,7 +46,7 @@ const Entries = ({ type, NewFormComponent }) => {
         {({ data, loading, error }) => {
           if (loading) return <Loading />;
           if (error) return <p>Error: {error}</p>;
-          return data.entries.length > 0 ? (
+          return data.entries.data.length > 0 ? (
             <EntryList entries={data.entries} />
           ) : (
             <NoneFound />

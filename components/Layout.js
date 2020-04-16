@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { ME_QUERY } from "../queries/MeQueries";
 import { MeContext } from "../contexts/MeContext";
 import { useAuthenticated } from "../hooks/useAuthenticated";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+// Material UI
 import { SwipeableDrawer, Hidden, IconButton } from "@material-ui/core";
 import { ChevronLeft } from "@material-ui/icons";
 // components

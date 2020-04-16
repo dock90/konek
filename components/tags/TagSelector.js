@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import Autocomplete, {
   createFilterOptions
 } from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
 import { Cancel } from "@material-ui/icons";
 import { useQuery } from "@apollo/react-hooks";
 import { TAGS_QUERY } from "../../queries/TagQueries";
@@ -10,6 +9,7 @@ import CreateTagDialog from "./CreateTagDialog";
 import { useState } from "react";
 import styled from "styled-components";
 import TagItem from "./TagItem";
+import {StyledTextField} from "../material/StyledTextField";
 
 const filter = createFilterOptions();
 
@@ -90,7 +90,7 @@ const TagSelector = ({ value, onChange, variant }) => {
         filterSelectedOptions={true}
         loading={loading}
         renderInput={params => (
-          <TextField {...params} label="Tags" variant={variant} />
+          <StyledTextField {...params} label="Tags" variant={variant} />
         )}
         renderOption={t => <TagItem tag={t} />}
         renderTags={(value, getTagProps) =>

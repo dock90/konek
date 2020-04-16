@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Container } from "./EntryStyles";
-import { Card, IconButton } from "@material-ui/core";
+import { Card, Divider } from "@material-ui/core";
 import { ChevronLeft } from "@material-ui/icons";
 import FormattedDate from "../FormattedDate";
 import styled from "styled-components";
@@ -9,10 +9,11 @@ import { useQuery } from "@apollo/react-hooks";
 import Loading from "../Loading";
 import { CONVERSATION_QUERY } from "../../queries/ConversationQueries";
 import MessageItem from "../messages/MessageItem";
+import { BaseIconButton } from "../styles/IconButton";
 
 const HeaderContainer = styled.div`
   display: flex;
-  padding: 15px 15px 0;
+  padding: 15px 15px 5px;
   justify-content: space-between;
 `;
 const HeaderText = styled.div`
@@ -25,6 +26,9 @@ const HeaderSubText = styled.div`
 const Expander = styled.div`
   transform: rotate(${props => (props.isExpanded ? "90deg" : "-90deg")});
   transition: transform 150ms linear;
+  .MuiSvgIcon-root {
+    display: block;
+  }
 `;
 const MessagesContainer = styled.div`
   margin-bottom: 15px;
@@ -36,7 +40,12 @@ const ConversationContent = ({ conversationId }) => {
   });
   console.log(data, loading, error);
 
-  if (loading) return <MessagesContainer><Loading noPad /></MessagesContainer>;
+  if (loading)
+    return (
+      <MessagesContainer>
+        <Loading noPad />
+      </MessagesContainer>
+    );
   if (error) return <MessagesContainer>error</MessagesContainer>;
 
   const messages = [...data.entry.messages].reverse();
@@ -76,15 +85,18 @@ const ConversationItem = ({ conversation }) => {
             </HeaderSubText>
           </div>
           <div>
-            <IconButton onClick={handleClick}>
+            <BaseIconButton onClick={handleClick}>
               <Expander isExpanded={expanded}>
                 <ChevronLeft fontSize="large" />
               </Expander>
-            </IconButton>
+            </BaseIconButton>
           </div>
         </HeaderContainer>
         {expanded && (
-          <ConversationContent conversationId={conversation.entryId} />
+          <>
+            <Divider />
+            <ConversationContent conversationId={conversation.entryId} />
+          </>
         )}
       </Card>
     </Container>

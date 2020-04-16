@@ -10,6 +10,9 @@ export const ENTRY_FIELDS = gql`
     entryId
     title
     pinned
+    createdBy {
+      isMe
+    }
     tags {
       ...TagFields
     }

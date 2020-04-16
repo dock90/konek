@@ -339,12 +339,12 @@ const ContactEdit = ({ id }) => {
                           <tr>
                             <td> </td>
                             <td colSpan={2}>
-                              <Button
+                              <BaseButton
                                 onClick={e => setOpenAddGroup(true)}
                                 disabled={saving}
                               >
                                 <Add /> Add Group
-                              </Button>
+                              </BaseButton>
                               <AddMembership
                                 roles={rolesData.roles}
                                 groups={groupsData}

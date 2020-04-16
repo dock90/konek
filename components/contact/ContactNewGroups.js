@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import { Button, TextField, MenuItem } from "@material-ui/core";
+import { IconButton, TextField, MenuItem } from "@material-ui/core";
 import { Add, Delete } from "@material-ui/icons";
+import { BaseButton } from "../styles/Button";
 
 const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
   value = value || [{ groupId: "", roleId: "" }];
@@ -62,9 +63,13 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
               </TextField>
             </td>
             <td>
-              <Button onClick={() => removeGroup(k)} style={{minWidth: 0}} disabled={disabled}>
+              <IconButton
+                onClick={() => removeGroup(k)}
+                style={{ minWidth: 0 }}
+                disabled={disabled}
+              >
                 <Delete />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         ))}
@@ -73,9 +78,9 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
         <tr>
           <td>&nbsp;</td>
           <td colSpan={2}>
-            <Button onClick={addGroup} disabled={disabled}>
+            <BaseButton onClick={addGroup} disabled={disabled}>
               <Add /> Add Group
-            </Button>
+            </BaseButton>
           </td>
         </tr>
       </tfoot>

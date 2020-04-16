@@ -57,7 +57,7 @@ type Contact {
   country: String
   emails: [Email!]!
   entryList(
-    #Cursor from previous query
+    "Cursor from previous query"
     after: String,
     first: Float = 10.0,
     type: EntryTypes
@@ -255,6 +255,8 @@ type Profile {
   dateCreated: DateTime
   emails: [Email!]
   gender: Gender
+  "If I am the owner of this entry or not."
+  isMe: Boolean!
   language: String
   name: String!
   phones: [Phone!]
@@ -284,13 +286,13 @@ type Query {
   contact(contactId: ID!): Contact
   "All available contacts"
   contacts(
-    #Cursor from previous query.
+    "Cursor from previous query."
     after: String,
-    #How many results to return, max of 100.
+    "How many results to return, max of 100."
     first: Float = 25.0
   ): ContactList!
   entries(
-    #Cursor from previous query
+    "Cursor from previous query"
     after: String,
     contactId: ID!,
     first: Float = 10.0,

@@ -72,7 +72,7 @@ const ContactOverview = ({ id }) => {
             {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
           </Name>
           <BaseButton onClick={refreshContact}>
-            <Refresh /> Refresh Contact
+            <Refresh />&nbsp;Refresh Contact
           </BaseButton>
           <Link
             href={`/contacts/[id]/edit`}
@@ -81,7 +81,7 @@ const ContactOverview = ({ id }) => {
           >
             <BaseButton>
               <Edit />
-              Edit Contact
+              &nbsp;Edit Contact
             </BaseButton>
           </Link>
         </Header>

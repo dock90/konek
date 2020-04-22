@@ -5,11 +5,11 @@ import Autocomplete, {
 import { Cancel } from "@material-ui/icons";
 import { useQuery } from "@apollo/react-hooks";
 import { TAGS_QUERY } from "../../queries/TagQueries";
-import CreateTagDialog from "./CreateTagDialog";
 import { useState } from "react";
 import styled from "styled-components";
 import TagItem from "./TagItem";
-import {StyledTextField} from "../material/StyledTextField";
+import { StyledTextField } from "../material/StyledTextField";
+import EditTagDialog, { NewTag } from "./EditTagDialog";
 
 const filter = createFilterOptions();
 
@@ -26,11 +26,11 @@ const RemoveTag = styled.span`
 
 const TagSelector = ({ value, onChange, variant }) => {
   if (!variant) {
-    variant = 'outlined';
+    variant = "outlined";
   }
   const { loading, data, error } = useQuery(TAGS_QUERY);
   const [dialogOpen, toggleDialog] = useState(false);
-  const [dialogName, setDialogName] = useState("");
+  const [newTag, setNewTag] = useState("");
 
   let options = [];
   if (!loading) {
@@ -45,7 +45,10 @@ const TagSelector = ({ value, onChange, variant }) => {
     const addItem = newValue.find(v => !!v.inputValue);
     if (addItem) {
       toggleDialog(true);
-      setDialogName(addItem.inputValue);
+      setNewTag({
+        ...NewTag(),
+        name: addItem.inputValue
+      });
       return;
     }
 
@@ -59,7 +62,7 @@ const TagSelector = ({ value, onChange, variant }) => {
       filtered.push({
         inputValue: params.inputValue,
         name: `Add "${params.inputValue}"`,
-        color: 'ffffff',
+        color: "ffffff"
       });
     }
 
@@ -68,7 +71,6 @@ const TagSelector = ({ value, onChange, variant }) => {
 
   const dialogClose = newTag => {
     toggleDialog(false);
-    setDialogName("");
     if (newTag) {
       onChange([...value, newTag]);
     }
@@ -107,11 +109,7 @@ const TagSelector = ({ value, onChange, variant }) => {
         onChange={handleChange}
         getOptionSelected={(a, b) => a.tagId === b.tagId}
       />
-      <CreateTagDialog
-        open={dialogOpen}
-        name={dialogName}
-        onClose={dialogClose}
-      />
+      <EditTagDialog open={dialogOpen} tag={newTag} onClose={dialogClose} />
     </>
   );
 };

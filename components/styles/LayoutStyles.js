@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
-export const VCentered = styled.div.attrs(props => ({
+export const FlexContainer = styled.div`
+  display: flex;
+`;
+
+export const VCentered = styled(FlexContainer).attrs(props => ({
   children: <div>{props.children}</div>
 }))`
-  display: flex;
   align-items: center;
   height: 100%;
 `;

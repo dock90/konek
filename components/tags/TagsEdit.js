@@ -4,11 +4,13 @@ import { TAGS_QUERY } from "../../queries/TagQueries";
 import Loading from "../Loading";
 import TagItem from "./TagItem";
 import { useState } from "react";
-import EditTagDialog from "./EditTagDialog";
+import EditTagDialog, { NewTag } from "./EditTagDialog";
 import { Checkbox, FormControlLabel, Popover } from "@material-ui/core";
-import { People, Person, Edit, Search } from "@material-ui/icons";
+import { People, Person, Edit, Search, Add } from "@material-ui/icons";
 import { BaseIconButton } from "../styles/IconButton";
 import Link from "next/link";
+import { BaseButton } from "../styles/Button";
+import { FlexContainer } from "../styles/LayoutStyles";
 
 const TagsListContainer = styled.div`
   display: flex;
@@ -39,7 +41,7 @@ const TagWrapper = styled.div`
 const TagDetails = styled.div`
   text-align: center;
 `;
-const Info = styled.div`
+const Info = styled(FlexContainer)`
   margin-bottom: 1em;
 `;
 
@@ -58,12 +60,17 @@ const TagsEdit = () => {
     toggleDialogOpen(true);
   };
 
+  const handleNewClick = () => {
+    setEditTag(NewTag());
+    toggleDialogOpen(true);
+  };
+
   const handleTagSelect = tag => e => {
     setEditTag(tag);
     setTargetEl(e.currentTarget);
   };
 
-  const handleTagLeave = e => {
+  const handleTagLeave = () => {
     setTargetEl(null);
   };
 
@@ -75,25 +82,23 @@ const TagsEdit = () => {
   return (
     <div>
       <Info>
-        Click a tag to edit it.
-        <div>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={showHidden}
-                onChange={e => toggleShowHidden(e.target.checked)}
-              />
-            }
-            label="Show Hidden"
-          />
-        </div>
+        <BaseButton onClick={handleNewClick}>
+          <Add />
+          &nbsp;New Tag
+        </BaseButton>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={showHidden}
+              onChange={e => toggleShowHidden(e.target.checked)}
+            />
+          }
+          label="Show Hidden"
+        />
       </Info>
       <TagsListContainer>
         {tags.map(t => (
-          <TagWrapper
-            key={t.tagId}
-            onClick={handleTagSelect(t)}
-          >
+          <TagWrapper key={t.tagId} onClick={handleTagSelect(t)}>
             <TagWidget>
               <TagItem tag={t} />
             </TagWidget>

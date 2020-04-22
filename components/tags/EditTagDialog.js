@@ -9,8 +9,13 @@ import {
   DialogTitle,
   FormControlLabel
 } from "@material-ui/core";
+import { Save, Cancel } from "@material-ui/icons";
 import { useMutation } from "@apollo/react-hooks";
-import { TAGS_QUERY, UPDATE_TAG_MUTATION } from "../../queries/TagQueries";
+import {
+  CREATE_TAG_MUTATION,
+  TAGS_QUERY,
+  UPDATE_TAG_MUTATION
+} from "../../queries/TagQueries";
 import { BaseButton } from "../styles/Button";
 import { StyledTextField } from "../material/StyledTextField";
 import styled from "styled-components";
@@ -24,11 +29,22 @@ const accessToggle = {
   SHARED: "PRIVATE"
 };
 
+export const NewTag = () => ({
+  tagId: null,
+  name: "New Tag",
+  access: "PRIVATE",
+  color: "FFFFFF",
+  isMine: true
+});
+
 const EditTagDialog = ({ tag, open, onClose }) => {
   const [tagState, setTagState] = useState({});
   const [hasChange, setHasChange] = useState(false);
   const [isSaving, setSaving] = useState(false);
   const [updateTag] = useMutation(UPDATE_TAG_MUTATION, {
+    refetchQueries: [{ query: TAGS_QUERY }]
+  });
+  const [createTag] = useMutation(CREATE_TAG_MUTATION, {
     refetchQueries: [{ query: TAGS_QUERY }]
   });
 
@@ -39,7 +55,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
 
     setTagState(t);
     setHasChange(false);
-  }, [tag]);
+  }, [tag, open]);
 
   const toggleAccess = () => {
     const access = accessToggle[tagState.access];
@@ -48,7 +64,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
       access
     });
     setHasChange(true);
-  }
+  };
 
   const handleChange = e => {
     let { name, value } = e.target;
@@ -67,9 +83,15 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   const handleSave = async () => {
     if (hasChange) {
       setSaving(true);
-      await updateTag({
-        variables: tagState
-      });
+      if (!tag.tagId) {
+        await createTag({
+          variables: tagState
+        });
+      } else {
+        await updateTag({
+          variables: tagState
+        });
+      }
       setSaving(false);
     }
 
@@ -78,7 +100,9 @@ const EditTagDialog = ({ tag, open, onClose }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Tag "{tagState.name}"</DialogTitle>
+      <DialogTitle>
+        {tagState.tagId ? `Edit Tag "${tagState.name}"` : 'New Tag'}
+      </DialogTitle>
       <DialogContent>
         <FieldWrapper>
           <StyledTextField
@@ -100,16 +124,23 @@ const EditTagDialog = ({ tag, open, onClose }) => {
             disabled={isSaving}
           />
         </FieldWrapper>
-        {tag.isMine ? <FieldWrapper>
-          <FormControlLabel control={
-            <Switch
-              checked={tagState.access === "SHARED"}
-              onChange={toggleAccess}
-              color="primary"
-              disabled={isSaving}
+        {tag.isMine ? (
+          <FieldWrapper>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={tagState.access === "SHARED"}
+                  onChange={toggleAccess}
+                  color="primary"
+                  disabled={isSaving}
+                />
+              }
+              label={tagState.access}
             />
-          } label={tagState.access}/>
-        </FieldWrapper>: tag.access}
+          </FieldWrapper>
+        ) : (
+          tag.access
+        )}
         <FieldWrapper>
           <FormControlLabel
             control={
@@ -126,9 +157,13 @@ const EditTagDialog = ({ tag, open, onClose }) => {
       </DialogContent>
       <DialogActions>
         <BaseButton primary onClick={handleSave} disabled={isSaving}>
-          Save
+          <Save />
+          &nbsp;Save
         </BaseButton>
-        <BaseButton onClick={() => onClose()} disabled={isSaving}>Cancel</BaseButton>
+        <BaseButton onClick={() => onClose()} disabled={isSaving}>
+          <Cancel />
+          &nbsp;Cancel
+        </BaseButton>
       </DialogActions>
     </Dialog>
   );

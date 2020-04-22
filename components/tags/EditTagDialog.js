@@ -1,5 +1,12 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import {
+  CREATE_TAG_MUTATION,
+  TAGS_QUERY,
+  UPDATE_TAG_MUTATION
+} from "../../queries/TagQueries";
 import {
   Checkbox,
   Switch,
@@ -7,21 +14,19 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel
+  FormControlLabel,
+  Popover
 } from "@material-ui/core";
-import { Save, Cancel } from "@material-ui/icons";
-import { useMutation } from "@apollo/react-hooks";
-import {
-  CREATE_TAG_MUTATION,
-  TAGS_QUERY,
-  UPDATE_TAG_MUTATION
-} from "../../queries/TagQueries";
+import { Save, Cancel, Check } from "@material-ui/icons";
+import { SketchPicker } from "react-color";
 import { BaseButton } from "../styles/Button";
 import { StyledTextField } from "../material/StyledTextField";
-import styled from "styled-components";
+import { BaseIconButton } from "../styles/IconButton";
+import TagItem from "./TagItem";
+import { FlexContainer } from "../styles/LayoutStyles";
 
 const FieldWrapper = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 `;
 
 const accessToggle = {
@@ -38,9 +43,11 @@ export const NewTag = () => ({
 });
 
 const EditTagDialog = ({ tag, open, onClose }) => {
-  const [tagState, setTagState] = useState({});
-  const [hasChange, setHasChange] = useState(false);
-  const [isSaving, setSaving] = useState(false);
+  const [tagState, setTagState] = useState({}),
+    [hasChange, setHasChange] = useState(false),
+    [isSaving, setSaving] = useState(false),
+    [colorPickOpen, setColorPickOpen] = useState(false);
+  const colorSelector = useRef(null);
   const [updateTag] = useMutation(UPDATE_TAG_MUTATION, {
     refetchQueries: [{ query: TAGS_QUERY }]
   });
@@ -55,6 +62,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
 
     setTagState(t);
     setHasChange(false);
+    setColorPickOpen(false);
   }, [tag, open]);
 
   const toggleAccess = () => {
@@ -80,6 +88,21 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     });
   };
 
+  const handleColorChange = color => {
+    setHasChange(true);
+    setTagState({
+      ...tagState,
+      color: color.hex.replace("#", "")
+    });
+  };
+
+  const handleToggleColorPickOpen = () => {
+      setColorPickOpen(!colorPickOpen);
+    },
+    handleColorPickClose = () => {
+      setColorPickOpen(false);
+    };
+
   const handleSave = async () => {
     if (hasChange) {
       setSaving(true);
@@ -101,7 +124,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
-        {tagState.tagId ? `Edit Tag "${tagState.name}"` : 'New Tag'}
+        {tagState.tagId ? `Edit Tag "${tagState.name}"` : "New Tag"}
       </DialogTitle>
       <DialogContent>
         <FieldWrapper>
@@ -115,14 +138,44 @@ const EditTagDialog = ({ tag, open, onClose }) => {
           />
         </FieldWrapper>
         <FieldWrapper>
-          <StyledTextField
-            name="color"
-            label="Color"
-            value={tagState.color || ""}
-            onChange={handleChange}
-            required
-            disabled={isSaving}
-          />
+          <FlexContainer>
+            <BaseButton
+              ref={colorSelector}
+              style={{
+                backgroundColor: tagState.color
+              }}
+              onClick={handleToggleColorPickOpen}
+              disabled={isSaving}
+            >
+              Set Color
+            </BaseButton>
+            <TagItem style={{ alignSelf: "center" }} tag={tagState} />
+          </FlexContainer>
+          <Popover
+            open={colorPickOpen}
+            anchorEl={colorSelector.current}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center"
+            }}
+            onClose={handleColorPickClose}
+          >
+            <SketchPicker
+              onChange={handleColorChange}
+              color={tagState.color}
+              disableAlpha={true}
+            />
+            <BaseIconButton
+              style={{ float: "right" }}
+              onClick={handleToggleColorPickOpen}
+            >
+              <Check />
+            </BaseIconButton>
+          </Popover>
         </FieldWrapper>
         {tag.isMine ? (
           <FieldWrapper>

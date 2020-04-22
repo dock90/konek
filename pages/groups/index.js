@@ -1,5 +1,4 @@
 import Layout from "../../components/Layout";
-// components
 import { H1, LinkText } from "../../components/styles/Typography";
 import GroupList from "../../components/groups/GroupList";
 import Link from "next/link";

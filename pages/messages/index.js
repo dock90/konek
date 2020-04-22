@@ -1,17 +1,16 @@
 import styled from "styled-components";
-import Layout from "../../components/Layout";
 import { useState } from "react";
 // components
+import Layout from "../../components/Layout";
 import RoomList from "../../components/messages/RoomList";
 import { useRouter } from "next/router";
 import MessageContainer from "../../components/messages/MessageContainer";
 import { RoomIdContext } from "../../contexts/RoomIdContext";
+import { ContentContainer } from "../../components/styles/PageStyles";
 
 // styles
-const Container = styled.div`
-  grid-area: main;
-  background: #f4f6f8;
-
+const Container = styled(ContentContainer)`
+  padding: 0;
   display: grid;
   grid-template-columns: 300px auto;
   grid-template-areas: "rooms messages";

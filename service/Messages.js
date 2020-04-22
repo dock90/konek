@@ -5,11 +5,7 @@ import {
   SET_READ_THROUGH
 } from "../queries/MessagesQueries";
 import { MEMBER_FIELDS, MEMBER_QUERY } from "../queries/MemberQueries";
-import {
-  ROOM_FIELDS,
-  ROOM_QUERY,
-  ROOMS_QUERY
-} from "../queries/RoomQueries";
+import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
 
 /**
  *
@@ -54,7 +50,7 @@ export async function sendMessage(roomId, body) {
       const roomInfo = proxy.readFragment({
         id: roomId,
         fragment: ROOM_FIELDS,
-        fragmentName:"RoomFields"
+        fragmentName: "RoomFields"
       });
 
       roomInfo.readThrough = data.sendMessage.messageId;
@@ -96,7 +92,7 @@ export async function addMessage(messageId, roomId, body, authorId) {
     client.writeFragment({
       id: roomId,
       fragment: ROOM_FIELDS,
-      fragmentName: 'RoomFields',
+      fragmentName: "RoomFields",
       data: roomInfo
     });
   }

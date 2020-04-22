@@ -8,7 +8,7 @@ export const CREATE_NOTE_MUTATION = gql`
     $title: String!
     $message: String!
     $tags: [ID!]
-    $access: AccessType
+    $access: EntryAccessType
     $assets: [NoteAssetInput!]
   ) {
     createNote(
@@ -33,7 +33,7 @@ export const UPDATE_NOTE_MUTATION = gql`
     $title: String
     $message: String
     $tags: [ID!]
-    $access: AccessType
+    $access: EntryAccessType
     $assets: [NoteAssetInput!]
   ) {
     updateNote(

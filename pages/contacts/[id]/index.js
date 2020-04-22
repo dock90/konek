@@ -1,20 +1,12 @@
-import styled from "styled-components";
-// components
 import Layout from "../../../components/Layout";
 import ContactOverview from "../../../components/contact/ContactOverview";
-
-// styles
-const Container = styled.div`
-  grid-area: main;
-  background: #f4f6f8;
-  padding: 2rem;
-`;
+import { ContentContainer } from "../../../components/styles/PageStyles";
 
 const Contact = ({ query }) => (
   <Layout>
-    <Container>
+    <ContentContainer>
       <ContactOverview id={query.id} />
-    </Container>
+    </ContentContainer>
   </Layout>
 );
 

@@ -7,6 +7,8 @@ export const TAG_FIELDS = gql`
     name
     color
     hidden
+    access
+    isMine
   }
 `;
 
@@ -34,9 +36,10 @@ export const UPDATE_TAG_MUTATION = gql`
     $name: String
     $color: String
     $hidden: Boolean
+    $access: TagAccessType
   ) {
     updateTag(
-      input: { tagId: $tagId, name: $name, color: $color, hidden: $hidden }
+      input: { tagId: $tagId, name: $name, color: $color, hidden: $hidden, access: $access }
     ) {
       ...TagFields
     }

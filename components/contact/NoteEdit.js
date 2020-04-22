@@ -23,6 +23,7 @@ import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
 import TagSelector from "../tags/TagSelector";
 import NoteEditAssets from "./NoteEditAssets";
 import { ContactContext } from "../../contexts/ContactContext";
+import {VCentered} from "../styles/LayoutStyles";
 
 // styles
 const Container = styled.div`
@@ -31,13 +32,6 @@ const Container = styled.div`
 const Title = styled.div`
   padding: 1rem;
   border-bottom: 1px solid rgb(238, 238, 238);
-`;
-const Centered = styled.div.attrs(props => ({
-  children: <div>{props.children}</div>
-}))`
-  display: flex;
-  align-items: center;
-  height: 100%;
 `;
 
 const accessToggle = {
@@ -170,7 +164,7 @@ const NoteEdit = ({ note, setEdit }) => {
                       label={noteState.access}
                     />
                   ) : (
-                    <Centered>{note.access}</Centered>
+                    <VCentered>{note.access}</VCentered>
                   )}
                 </Grid>
                 <Grid item xs={12}>

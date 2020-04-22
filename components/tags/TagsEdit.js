@@ -5,9 +5,12 @@ import Loading from "../Loading";
 import TagItem from "./TagItem";
 import { useState } from "react";
 import EditTagDialog from "./EditTagDialog";
-import { Checkbox, FormControlLabel } from "@material-ui/core";
+import { Checkbox, FormControlLabel, Popover } from "@material-ui/core";
+import { People, Person, Edit, Search } from "@material-ui/icons";
+import { BaseIconButton } from "../styles/IconButton";
+import Link from "next/link";
 
-const TagContainer = styled.div`
+const TagsListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
@@ -15,14 +18,27 @@ const TagWidget = styled.div`
   margin: 2px 4px;
   cursor: pointer;
   transition: opacity linear 150ms;
-  // So they are all the same height.
-  display: flex;
-  
+
   :hover {
-    opacity: 65%;
+    opacity: 60%;
   }
 `;
-
+const TagActions = styled.div`
+  display: none;
+`;
+const TagWrapper = styled.div`
+  // So they are all the same height.
+  display: flex;
+  margin: 4px;
+  :hover {
+    ${TagActions} {
+      display: block;
+    }
+  }
+`;
+const TagDetails = styled.div`
+  text-align: center;
+`;
 const Info = styled.div`
   margin-bottom: 1em;
 `;
@@ -32,13 +48,23 @@ const TagsEdit = () => {
   const [dialogOpen, toggleDialogOpen] = useState(false);
   const [editTag, setEditTag] = useState({});
   const [showHidden, toggleShowHidden] = useState(false);
+  const [targetEl, setTargetEl] = useState(null);
 
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
-  const handleClick = tag => {
-    setEditTag(tag);
+  const handleEditClick = e => {
+    setTargetEl(null);
     toggleDialogOpen(true);
+  };
+
+  const handleTagSelect = tag => e => {
+    setEditTag(tag);
+    setTargetEl(e.currentTarget);
+  };
+
+  const handleTagLeave = e => {
+    setTargetEl(null);
   };
 
   let tags = data.tags;
@@ -62,13 +88,49 @@ const TagsEdit = () => {
           />
         </div>
       </Info>
-      <TagContainer>
+      <TagsListContainer>
         {tags.map(t => (
-          <TagWidget key={t.tagId} onClick={() => handleClick(t)}>
-            <TagItem tag={t} />
-          </TagWidget>
+          <TagWrapper
+            key={t.tagId}
+            onClick={handleTagSelect(t)}
+          >
+            <TagWidget>
+              <TagItem tag={t} />
+            </TagWidget>
+          </TagWrapper>
         ))}
-      </TagContainer>
+      </TagsListContainer>
+      <Popover
+        open={!!targetEl}
+        anchorEl={targetEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center"
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center"
+        }}
+        onClose={handleTagLeave}
+      >
+        <div>
+          <Link
+            href={{ pathname: "/contacts", query: { tagId: editTag.tagId } }}
+            passHref={true}
+          >
+            <BaseIconButton>
+              <Search />
+            </BaseIconButton>
+          </Link>
+          <BaseIconButton onClick={handleEditClick}>
+            <Edit />
+          </BaseIconButton>
+        </div>
+        <TagDetails>
+          {editTag.access === "SHARED" ? <People /> : <Person />}&nbsp;
+          {editTag.access}
+        </TagDetails>
+      </Popover>
       <EditTagDialog
         tag={editTag}
         onClose={() => toggleDialogOpen(false)}

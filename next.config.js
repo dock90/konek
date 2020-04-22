@@ -1,7 +1,7 @@
 module.exports = {
-  webpack: (config, {dev}) => {
+  webpack: (config, { dev }) => {
     if (dev) {
-      config.devtool = 'cheap-module-source-map';
+      config.devtool = "eval";
     }
 
     return config;

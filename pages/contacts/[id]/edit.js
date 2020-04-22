@@ -1,20 +1,12 @@
-import styled from "styled-components";
-// components
 import Layout from "../../../components/Layout";
 import ContactEdit from "../../../components/contact/ContactEdit";
-
-// styles
-const Container = styled.div`
-  grid-area: main;
-  background: #f4f6f8;
-  padding: 2rem;
-`;
+import { ContentContainer } from "../../../components/styles/PageStyles";
 
 const EditContact = ({ query }) => (
   <Layout>
-    <Container>
+    <ContentContainer>
       <ContactEdit id={query.id} />
-    </Container>
+    </ContentContainer>
   </Layout>
 );
 export default EditContact;

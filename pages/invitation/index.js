@@ -1,23 +1,17 @@
-import styled from "styled-components";
 import Layout from "../../components/Layout";
 import AcceptInvitation from "../../components/invitation/AcceptInvitation";
 import { H2 } from "../../components/styles/Typography";
-import {useRouter} from "next/router";
-
-const Container = styled.div`
-  grid-area: main;
-  padding: 2rem;
-  background: #f4f6f8;
-`;
+import { useRouter } from "next/router";
+import { ContentContainer } from "../../components/styles/PageStyles";
 
 const Invitation = () => {
   const router = useRouter();
   return (
     <Layout>
-      <Container>
+      <ContentContainer>
         <H2>Accept Invitation</H2>
         <AcceptInvitation code={router.query.code} />
-      </Container>
+      </ContentContainer>
     </Layout>
   );
 };

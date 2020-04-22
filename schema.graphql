@@ -6,7 +6,7 @@ schema {
 }
 
 interface EntryTypeInterface {
-  access: AccessType!
+  access: EntryAccessType!
   "The contact that this entry is related to."
   contact: Contact!
   createdAt: DateTime!
@@ -92,7 +92,7 @@ type ContactList {
 
 "Record of messages sent in a room."
 type Conversation implements EntryTypeInterface {
-  access: AccessType!
+  access: EntryAccessType!
   contact: Contact!
   createdAt: DateTime!
   createdBy: Profile!
@@ -183,8 +183,6 @@ type Mutation {
   acceptInvitation(code: String!): Me
   "Adds a group to a contact"
   addContactGroup(input: AddContactGroupInput!): Contact
-  "Adds a tag to a contact"
-  addContactTag(input: TagInput!): Contact
   "Associates an orphan profile to a contact."
   associateProfile(input: AssociateProfileInput!): Profile
   "Creates a new contact record."
@@ -199,8 +197,6 @@ type Mutation {
   generateInvitationCode(input: GenerateInvitationCodeInput!): String
   "Removes a group from a contact."
   removeContactGroup(input: RemoveContactGroupInput!): Contact
-  "Removes a tag from a contact."
-  removeContactTag(input: TagInput!): Contact
   "Sends a message and sets it as the most recently read for the sender."
   sendMessage(input: SendMessageInput!): Message!
   setNotificationPreference(input: SetNotificationPreferenceInput!): Room!
@@ -220,7 +216,7 @@ type Mutation {
 }
 
 type Note implements EntryTypeInterface {
-  access: AccessType!
+  access: EntryAccessType!
   assets: [NoteAsset!]
   contact: Contact!
   createdAt: DateTime!
@@ -289,7 +285,9 @@ type Query {
     "Cursor from previous query."
     after: String,
     "How many results to return, max of 100."
-    first: Float = 25.0
+    first: Float = 25.0,
+    "Limit the contacts to certain tags."
+    tags: [String!]
   ): ContactList!
   entries(
     "Cursor from previous query"
@@ -338,15 +336,18 @@ type Room {
 
 "Tag to be added to a contact or action."
 type Tag {
+  access: TagAccessType!
   "Color of the tag in the UI."
   color: String!
   "If the tag should be unavailable for adding to an entity. (It may still exist where previously used.)"
   hidden: Boolean!
+  "If I own the current tag and can therefore toggle the access or not."
+  isMine: Boolean!
   name: String!
   tagId: ID!
 }
 
-enum AccessType {
+enum EntryAccessType {
   PRIVATE
   SHARED
 }
@@ -368,6 +369,11 @@ enum NotificationPreference {
   ALL
   MENTIONS
   NONE
+}
+
+enum TagAccessType {
+  PRIVATE
+  SHARED
 }
 
 input AddContactGroupInput {
@@ -437,7 +443,7 @@ input CreateContactInput {
 }
 
 input CreateConversationInput {
-  access: AccessType = PRIVATE
+  access: EntryAccessType = PRIVATE
   contactId: ID!
   endDate: DateTime!
   pinned: Boolean = false
@@ -448,7 +454,7 @@ input CreateConversationInput {
 }
 
 input CreateEntryInput {
-  access: AccessType = PRIVATE
+  access: EntryAccessType = PRIVATE
   contactId: ID!
   pinned: Boolean = false
   tags: [ID!]
@@ -466,7 +472,7 @@ input CreateGroupInput {
 }
 
 input CreateNoteInput {
-  access: AccessType = PRIVATE
+  access: EntryAccessType = PRIVATE
   assets: [NoteAssetInput!]
   contactId: ID!
   message: String!
@@ -476,6 +482,7 @@ input CreateNoteInput {
 }
 
 input CreateTagInput {
+  access: TagAccessType = PRIVATE
   "Color of the tag in the UI."
   color: String!
   "If the tag should be hidden when adding tags to an item."
@@ -540,12 +547,6 @@ input SetReadThroughInput {
   roomId: ID!
 }
 
-input TagInput {
-  contactId: ID!
-  "Tag ID."
-  tagId: ID!
-}
-
 input UpdateContactGroupInput {
   contactId: ID!
   groupId: ID!
@@ -573,7 +574,7 @@ input UpdateContactInput {
 }
 
 input UpdateConversationInput {
-  access: AccessType
+  access: EntryAccessType
   endDate: DateTime!
   entryId: ID!
   pinned: Boolean
@@ -583,7 +584,7 @@ input UpdateConversationInput {
 }
 
 input UpdateEntryInput {
-  access: AccessType
+  access: EntryAccessType
   entryId: ID!
   pinned: Boolean
   tags: [ID!]
@@ -615,7 +616,7 @@ input UpdateMeInput {
 }
 
 input UpdateNoteInput {
-  access: AccessType
+  access: EntryAccessType
   "If this field is included, it will replace all previous values."
   assets: [NoteAssetInput!]
   entryId: ID!
@@ -626,6 +627,7 @@ input UpdateNoteInput {
 }
 
 input UpdateTagInput {
+  access: TagAccessType
   color: String
   hidden: Boolean
   name: String

@@ -50,7 +50,7 @@ const ContactListItem = ({ contactData }) => {
         </Location>
       )}
       <div>
-        <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`}>
+        <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`} passHref={true}>
           <BaseButton>View</BaseButton>
         </Link>
       </div>

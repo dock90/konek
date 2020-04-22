@@ -10,7 +10,6 @@ const Tag = styled.span`
   display: inline-flex;
   align-items: center;
 `;
-
 const Hidden = styled.span`
   font-style: italic;
   margin-left: 4px;

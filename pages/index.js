@@ -3,7 +3,7 @@ import { ME_QUERY } from "../queries/MeQueries";
 import Loading from "../components/Loading";
 import Messages from "./messages";
 import Invitation from "./invitation";
-import {useAuthenticated} from "../hooks/useAuthenticated";
+import { useAuthenticated } from "../hooks/useAuthenticated";
 
 const Index = () => {
   const authenticated = useAuthenticated();
@@ -14,14 +14,14 @@ const Index = () => {
   });
 
   if (loading || !data) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   if (data.me.access.messages) {
-    return <Messages/>
+    return <Messages />;
   }
 
-  return <Invitation />
+  return <Invitation />;
 };
 
 export default Index;

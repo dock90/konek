@@ -12,7 +12,7 @@ import Header from "./Header";
 import Nav from "./Nav";
 import Loading from "./Loading";
 
-const Container = styled.div`
+const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 200px auto;
   grid-template-rows: 64px auto;
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
   if (authenticated) {
     return (
       <MeContext.Provider value={data.me}>
-        <Container>
+        <MainContainer>
           <Header drawerToggle={handleDrawerToggle} />
           {/* The mobile nav */}
           <Hidden smUp implementation="js">
@@ -96,7 +96,7 @@ const Layout = ({ children }) => {
             </NavContainer>
           </Hidden>
           {children}
-        </Container>
+        </MainContainer>
       </MeContext.Provider>
     );
   }

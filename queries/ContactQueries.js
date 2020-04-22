@@ -75,8 +75,8 @@ const CONTACT_FIELDS = gql`
 `;
 
 export const ALL_CONTACTS_QUERY = gql`
-  query ALL_CONTACTS_QUERY {
-    contacts {
+  query ALL_CONTACTS_QUERY ($tags: [String!]) {
+    contacts(tags: $tags) {
       data {
         ...ContactSummaryFields
       }

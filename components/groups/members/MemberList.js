@@ -5,19 +5,19 @@ import { GROUP_MEMBERS_QUERY } from "../../../queries/GroupQueries";
 import MemberItem from "./MemberItem";
 import { useMemo, useState } from "react";
 import { Paper } from "@material-ui/core";
-import { H3 } from '../../styles/Typography';
+import { H3 } from "../../styles/Typography";
 
 const Group = styled(Paper)`
   background-color: white;
   border-radius: 5px;
   padding: 5px;
-  
+
   :not(:first-child) {
     margin-top: 15px;
   }
 `;
 const GroupHeader = styled(H3)`
- margin: 0 15px 5px;
+  margin: 0 15px 5px;
 `;
 
 const MemberList = ({ groupId }) => {
@@ -35,7 +35,7 @@ const MemberList = ({ groupId }) => {
       members = [];
 
     for (const member of data.group.members) {
-      if (["admin", "mananger"].includes(member.role.roleId)) {
+      if (["admin", "manager"].includes(member.role.roleId)) {
         admins.push(member);
       } else {
         members.push(member);
@@ -55,12 +55,14 @@ const MemberList = ({ groupId }) => {
 
   return (
     <div>
-      {admins.length > 0 && <Group>
-        <GroupHeader>Admins & Managers</GroupHeader>
-        {admins.map(m => (
-          <MemberItem key={m.memberId} member={m} />
-        ))}
-      </Group>}
+      {admins.length > 0 && (
+        <Group>
+          <GroupHeader>Admins & Managers</GroupHeader>
+          {admins.map(m => (
+            <MemberItem key={m.memberId} member={m} />
+          ))}
+        </Group>
+      )}
       {members.length > 0 && (
         <Group>
           <GroupHeader>Members</GroupHeader>

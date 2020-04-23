@@ -5,8 +5,11 @@ import { H4, H5 } from "../../styles/Typography";
 import { Header, Name } from "../../styles/ContactProfile";
 import AvatarPicture from "../../assets/AvatarPicture";
 import MessageAction from "../../actions/MessageAction";
-import { Grid, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import ContactListItem from "../../contacts/ContactListItem";
+import { ContentHeader } from "../../styles/PageStyles";
+import { CopyProfileToContact } from "./CopyProfileToContact";
+import { ContactInformation } from "../ContactInformation";
 
 const ProfileContactsContainer = styled.div`
   margin-top: 10px;
@@ -24,7 +27,10 @@ const ProfileInfo = () => {
 
   return (
     <div>
-      <H4>Profile</H4>
+      <ContentHeader>
+        <H4>Profile</H4>
+        <CopyProfileToContact />
+      </ContentHeader>
       <SummaryContainer>
         <Header>
           <AvatarPicture
@@ -41,33 +47,7 @@ const ProfileInfo = () => {
             </div>
           </Name>
         </Header>
-        <Grid container spacing={2}>
-          <Grid item>
-            <H5>Emails</H5>
-            {profile.emails.map((e, k) => (
-              <div key={k}>
-                {e.label && e.label + ":"} {e.email}
-              </div>
-            ))}
-          </Grid>
-
-          {profile.phones && profile.phones.length > 0 && (
-            <Grid item>
-              <H5>Phone Numbers</H5>
-              {profile.phones.map((p, k) => (
-                <div key={k}>
-                  {p.number} {p.label}
-                </div>
-              ))}
-            </Grid>
-          )}
-
-          <Grid item>
-            {profile.city} {profile.state} {profile.postalCode}
-          </Grid>
-
-          {profile.language && <Grid item>Language: {profile.language}</Grid>}
-        </Grid>
+        <ContactInformation info={profile} />
         {profile.contacts.length > 1 && (
           <ProfileContactsContainer>
             <H4>Other Contacts</H4>

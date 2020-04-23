@@ -1,43 +1,26 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
-import Link from "next/link";
-// gql
+import { useState } from "react";
 import { useQuery } from "react-apollo";
-// material
-import { Facebook, Refresh, Edit } from "@material-ui/icons";
-import { CardContent, Grid } from "@material-ui/core";
+import { CONTACT_QUERY } from "../../queries/ContactQueries";
+import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 // components
-import styled from "styled-components";
+import Link from "next/link";
+import { Refresh, Edit } from "@material-ui/icons";
+import { CardContent, Grid } from "@material-ui/core";
 import TabPanel from "../TabPanel";
 import Summary from "./Summary";
 import Entries from "./Entries";
-import Tasks from "./Tasks";
-import Files from "./Files";
-
-// styled
+// styles
 import StyledAppBar from "../material/StyledAppBar";
 import StyledTabs from "../material/StyledTabs";
 import StyledTab from "../material/StyledTab";
-
-import { CONTACT_QUERY } from "../../queries/ContactQueries";
 import Loading from "../Loading";
 import AvatarPicture from "../assets/AvatarPicture";
-import TagsList from "../tags/TagsList";
-import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 import NoteEdit from "./NoteEdit";
 import { ContactContext } from "../../contexts/ContactContext";
-// styles
-import {
-  Header,
-  Name,
-  LegalName,
-  Detail,
-  BioContent
-} from "../styles/ContactProfile";
+import { Header, Name, LegalName, Detail } from "../styles/ContactProfile";
 import { BaseButton } from "../styles/Button";
-
-const Container = styled.div``;
-const ContactInfo = styled.div``;
+import { ContactInformation } from "./ContactInformation";
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error, refetch } = useQuery(CONTACT_QUERY, {
@@ -60,7 +43,7 @@ const ContactOverview = ({ id }) => {
   const contact = data.contact;
   return (
     <ContactContext.Provider value={contact}>
-      <Container>
+      <div>
         <Header>
           <AvatarPicture
             size={40}
@@ -72,7 +55,8 @@ const ContactOverview = ({ id }) => {
             {contact.legalName && <LegalName>{contact.legalName}</LegalName>}
           </Name>
           <BaseButton onClick={refreshContact}>
-            <Refresh />&nbsp;Refresh Contact
+            <Refresh />
+            &nbsp;Refresh Contact
           </BaseButton>
           <Link
             href={`/contacts/[id]/edit`}
@@ -87,30 +71,7 @@ const ContactOverview = ({ id }) => {
         </Header>
         <Detail>
           <CardContent>
-            <Grid container spacing={1}>
-              {contact.bio && (
-                <Grid item xs={12}>
-                  <BioContent>{contact.bio}</BioContent>
-                </Grid>
-              )}
-              {contact.fbProfile && (
-                <Grid item xs={12}>
-                  <a href={contact.fbProfile} target="_blank">
-                    <Facebook /> {contact.fbProfile}
-                  </a>
-                </Grid>
-              )}
-              <Grid item xs={12}>
-                <ContactInfo>
-                  {contact.city && <div> City: {contact.city}</div>}
-                  {contact.state && <div> State: {contact.state}</div>}
-                  {contact.country && <div> Country: {contact.country}</div>}
-                </ContactInfo>
-              </Grid>
-              <Grid item xs={12}>
-                <TagsList tags={contact.tags} />
-              </Grid>
-            </Grid>
+            <ContactInformation info={contact} />
           </CardContent>
         </Detail>
         <StyledAppBar>
@@ -118,8 +79,6 @@ const ContactOverview = ({ id }) => {
             <StyledTab label="Summary" />
             <StyledTab label="Notes" />
             <StyledTab label="Messages" />
-            {false && <StyledTab label="Tasks" />}
-            {false && <StyledTab label="Files" />}
           </StyledTabs>
         </StyledAppBar>
         <TabPanel value={activeTab} index={0}>
@@ -131,13 +90,7 @@ const ContactOverview = ({ id }) => {
         <TabPanel value={activeTab} index={2}>
           <Entries contactId={id} type={TYPE_CONVERSATION} />
         </TabPanel>
-        <TabPanel value={activeTab} index={3}>
-          <Tasks />
-        </TabPanel>
-        <TabPanel value={activeTab} index={4}>
-          <Files />
-        </TabPanel>
-      </Container>
+      </div>
     </ContactContext.Provider>
   );
 };

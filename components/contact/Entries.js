@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-// hooks
 import { useContext, useState } from "react";
-// gql
 import { useQuery } from "react-apollo";
 import { ENTRIES_QUERY } from "../../queries/EntryQueries";
 // components
@@ -10,7 +8,7 @@ import EntryList from "./EntryList";
 import Loading from "../Loading";
 import { ContactContext } from "../../contexts/ContactContext";
 import { BaseButton } from "../styles/Button";
-import { Add } from '@material-ui/icons';
+import { Add } from "@material-ui/icons";
 
 // styles
 const Actions = styled.div`
@@ -27,7 +25,7 @@ const NoneFound = styled.div.attrs(() => ({
   margin-top: 15px;
 `;
 
-const Entries = ({ type, NewFormComponent }) => {
+const Entries = ({ type, header }) => {
   const [showNewForm, toggleNewForm] = useState(false);
   const { contactId } = useContext(ContactContext);
   const { loading, error, data } = useQuery(ENTRIES_QUERY, {
@@ -36,16 +34,7 @@ const Entries = ({ type, NewFormComponent }) => {
 
   return (
     <div>
-      {NewFormComponent && (
-        <>
-          <Actions>
-            <BaseButton onClick={() => toggleNewForm(true)}>
-              <Add />&nbsp;New {type}
-            </BaseButton>
-          </Actions>
-          {showNewForm ? <NewFormComponent setEdit={toggleNewForm} /> : null}
-        </>
-      )}
+      {header}
       {(() => {
         if (loading) return <Loading />;
         if (error) return <p>{error}</p>;
@@ -61,7 +50,7 @@ const Entries = ({ type, NewFormComponent }) => {
 
 Entries.propTypes = {
   type: PropTypes.string.isRequired,
-  NewFormComponent: PropTypes.func
+  header: PropTypes.element
 };
 
 export default Entries;

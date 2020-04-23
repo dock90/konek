@@ -38,7 +38,6 @@ const ConversationContent = ({ conversationId }) => {
   const { data, loading, error } = useQuery(CONVERSATION_QUERY, {
     variables: { entryId: conversationId }
   });
-  console.log(data, loading, error);
 
   if (loading)
     return (

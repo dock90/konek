@@ -6,7 +6,7 @@ import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
 // components
 import Link from "next/link";
 import { Refresh, Edit } from "@material-ui/icons";
-import { CardContent, Grid } from "@material-ui/core";
+import { CardContent } from "@material-ui/core";
 import TabPanel from "../TabPanel";
 import Summary from "./Summary";
 import Entries from "./Entries";
@@ -16,11 +16,12 @@ import StyledTabs from "../material/StyledTabs";
 import StyledTab from "../material/StyledTab";
 import Loading from "../Loading";
 import AvatarPicture from "../assets/AvatarPicture";
-import NoteEdit from "./NoteEdit";
 import { ContactContext } from "../../contexts/ContactContext";
 import { Header, Name, LegalName, Detail } from "../styles/ContactProfile";
 import { BaseButton } from "../styles/Button";
 import { ContactInformation } from "./ContactInformation";
+import { NoteActions } from "./NoteActions";
+import { MessageActions } from "./MessageActions";
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error, refetch } = useQuery(CONTACT_QUERY, {
@@ -78,18 +79,20 @@ const ContactOverview = ({ id }) => {
           <StyledTabs value={activeTab} onChange={handleTabChange}>
             <StyledTab label="Summary" />
             <StyledTab label="Notes" />
-            <StyledTab label="Messages" />
+            {contact.profile && <StyledTab label="Messages" />}
           </StyledTabs>
         </StyledAppBar>
         <TabPanel value={activeTab} index={0}>
           <Summary />
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
-          <Entries type={TYPE_NOTE} NewFormComponent={NoteEdit} />
+          <Entries type={TYPE_NOTE} header={<NoteActions />} />
         </TabPanel>
-        <TabPanel value={activeTab} index={2}>
-          <Entries contactId={id} type={TYPE_CONVERSATION} />
-        </TabPanel>
+        {contact.profile && (
+          <TabPanel value={activeTab} index={2}>
+            <Entries type={TYPE_CONVERSATION} header={<MessageActions />} />
+          </TabPanel>
+        )}
       </div>
     </ContactContext.Provider>
   );

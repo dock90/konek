@@ -80,7 +80,8 @@ export function Invitation() {
       )}
       <div style={{ marginTop: 5 }}>
         <BaseButton disabled={loading} onClick={handleGenerateCode}>
-          Generate Code
+          {invitationCode ? "Regenerate " : "Generate "}
+          Code
         </BaseButton>
       </div>
     </SummaryContainer>

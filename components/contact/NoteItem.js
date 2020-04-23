@@ -66,7 +66,10 @@ const NoteItem = ({ note }) => {
             <CardTitle
               title={
                 <span>
-                  <AccessIcon isShared={note.access === "SHARED"}>
+                  <AccessIcon
+                    isShared={note.access === "SHARED"}
+                    title={note.access[0] + note.access.substr(1).toLowerCase()}
+                  >
                     {note.access === "SHARED" ? <People /> : <Person />}
                   </AccessIcon>
                   {title}

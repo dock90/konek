@@ -23,7 +23,9 @@ import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
 import TagSelector from "../tags/TagSelector";
 import NoteEditAssets from "./NoteEditAssets";
 import { ContactContext } from "../../contexts/ContactContext";
-import {VCentered} from "../styles/LayoutStyles";
+import { VCentered } from "../styles/LayoutStyles";
+import { CONTACT_QUERY } from "../../queries/ContactQueries";
+import { resolveFieldValueOrError } from "graphql/execution/execute";
 
 // styles
 const Container = styled.div`
@@ -46,19 +48,42 @@ const NoteEdit = ({ note, setEdit }) => {
   const [noteState, setNoteState] = useState(
     note || {
       // Defaults
-      access: "PRIVATE"
+      access: "PRIVATE",
+      pinned: false
     }
   );
   const [changed, setChanged] = useState({});
   const [updateNoteMutation, { loading: updateLoading }] = useMutation(
-    UPDATE_NOTE_MUTATION
+    UPDATE_NOTE_MUTATION,
+    {
+      refetchQueries: () => {
+        if (noteState.pinned !== note.pinned) {
+          // the pinned state changed, so we need to refresh the contact, and the entry list.
+          return [
+            { query: CONTACT_QUERY, variables: { contactId } },
+            { query: ENTRIES_QUERY, variables: { type: TYPE_NOTE, contactId } }
+          ];
+        }
+      }
+    }
   );
   const [createNoteMutation, { loading: createLoading }] = useMutation(
     CREATE_NOTE_MUTATION,
     {
-      refetchQueries: [
-        { query: ENTRIES_QUERY, variables: { type: TYPE_NOTE, contactId } }
-      ]
+      refetchQueries: () => {
+        const refresh = [];
+
+        if (changed.pinned === true) {
+          refresh.push({ query: CONTACT_QUERY, variables: { contactId } });
+        } else {
+          refresh.push({
+            query: ENTRIES_QUERY,
+            variables: { type: TYPE_NOTE, contactId }
+          });
+        }
+
+        return refresh;
+      }
     }
   );
 
@@ -89,6 +114,17 @@ const NoteEdit = ({ note, setEdit }) => {
     setChanged({
       ...changed,
       access
+    });
+  };
+  const togglePinned = () => {
+    const newPinned = !noteState.pinned;
+    setNoteState({
+      ...noteState,
+      pinned: newPinned
+    });
+    setChanged({
+      ...changed,
+      pinned: newPinned
     });
   };
 
@@ -144,14 +180,14 @@ const NoteEdit = ({ note, setEdit }) => {
             </Title>
             <CardContent>
               <Grid container spacing={2}>
-                <Grid item xs={12} md={9}>
+                <Grid item xs={12} md={8}>
                   <TagSelector
                     value={noteState.tags || []}
                     onChange={handleTagsChange}
                     variant="standard"
                   />
                 </Grid>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={6} md={4}>
                   {isMe ? (
                     <FormControlLabel
                       control={
@@ -166,6 +202,16 @@ const NoteEdit = ({ note, setEdit }) => {
                   ) : (
                     <VCentered>{note.access}</VCentered>
                   )}
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={noteState.pinned}
+                        onChange={togglePinned}
+                        color="primary"
+                      />
+                    }
+                    label={noteState.pinned ? "PINNED" : "UN-PINNED"}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <StyledTextField
@@ -188,7 +234,8 @@ const NoteEdit = ({ note, setEdit }) => {
             </CardContent>
             <CardActions>
               <BaseButton primary type="submit">
-                <Save />&nbsp;Save
+                <Save />
+                &nbsp;Save
               </BaseButton>
               <BaseButton onClick={() => setEdit(false)}>Cancel</BaseButton>
             </CardActions>

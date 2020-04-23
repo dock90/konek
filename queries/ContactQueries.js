@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 import { TAG_FIELDS } from "./TagQueries";
 import { ASSET_FIELDS } from "./AssetQueries";
 import { PROFILE_FIELDS } from "./ProfileQueries";
+import { ENTRY_FIELDS } from "./EntryQueries";
 
 const CONTACT_SUMMARY_FIELDS = gql`
   fragment ContactSummaryFields on Contact {
@@ -67,15 +68,19 @@ const CONTACT_FIELDS = gql`
         roleId
       }
     }
+    pinnedEntries {
+      ...EntryFields
+    }
   }
   ${TAG_FIELDS}
   ${ASSET_FIELDS}
   ${PROFILE_FIELDS}
   ${CONTACT_SUMMARY_FIELDS}
+  ${ENTRY_FIELDS}
 `;
 
 export const ALL_CONTACTS_QUERY = gql`
-  query ALL_CONTACTS_QUERY ($tags: [String!]) {
+  query ALL_CONTACTS_QUERY($tags: [String!]) {
     contacts(tags: $tags) {
       data {
         ...ContactSummaryFields

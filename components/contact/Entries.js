@@ -26,7 +26,6 @@ const NoneFound = styled.div.attrs(() => ({
 `;
 
 const Entries = ({ type, header }) => {
-  const [showNewForm, toggleNewForm] = useState(false);
   const { contactId } = useContext(ContactContext);
   const { loading, error, data } = useQuery(ENTRIES_QUERY, {
     variables: { contactId, type }

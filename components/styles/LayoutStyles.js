@@ -9,6 +9,7 @@ export const JustifyRight = styled(FlexContainer)`
 `;
 
 export const VCentered = styled(FlexContainer).attrs(props => ({
+  // I'm not sure if this is necessary or not. Think about when children are text-only, not an element.
   children: <div>{props.children}</div>
 }))`
   align-items: center;

@@ -7,10 +7,12 @@ import RoomItem from "./RoomItem";
 import Loading from "../Loading";
 import { useState } from "react";
 import { BodyText } from "../styles/Typography";
+import { FlexContainer } from "../styles/LayoutStyles";
 
-const RoomContainer = styled.div`
+const RoomContainer = styled(FlexContainer)`
   grid-area: rooms;
   background-color: #eeeeee;
+  flex-direction: column;
 `;
 
 const SearchInput = styled(Input)`
@@ -18,13 +20,25 @@ const SearchInput = styled(Input)`
   padding: 5px;
   background-color: #ffffff;
 `;
+const RoomsContainer = styled.div`
+  position: relative;
+  flex-grow: 1;
+`;
+const RoomsWrapper = styled(FlexContainer)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  flex-direction: column;
+  overflow-y: auto;
+`;
 
 const Info = styled(BodyText)`
   text-align: center;
   margin-top: 10%;
 `;
 
-const RoomList = () => {
+export function RoomList() {
   const roomsQuery = useQuery(ROOMS_QUERY);
   const [search, setSearch] = useState("");
 
@@ -71,12 +85,14 @@ const RoomList = () => {
         onChange={searchChange}
         value={search}
       />
-      {rooms.map(room => (
-        <RoomItem room={room} key={room.roomId} />
-      ))}
-      {rooms.length === 0 && (<Info>No matches found.</Info>)}
+      <RoomsContainer>
+        <RoomsWrapper>
+          {rooms.map(room => (
+            <RoomItem room={room} key={room.roomId} />
+          ))}
+        </RoomsWrapper>
+      </RoomsContainer>
+      {rooms.length === 0 && <Info>No matches found.</Info>}
     </RoomContainer>
   );
-};
-
-export default RoomList;
+}

@@ -7,8 +7,9 @@ import { Badge } from "@material-ui/core";
 import AvatarPicture from "../assets/AvatarPicture";
 
 const Container = styled.div`
-  padding: 8px 8px 8px ${props => (props.active ? "8px" : "13px")};
-  border-left: ${props => (props.active ? `solid 5px ${props.theme.primary}` : "")};
+  padding: 8px 8px 8px ${props => (props.active ? "9px" : "13px")};
+  border-left: ${props =>
+    props.active ? `solid 4px ${props.theme.primary}` : ""};
   cursor: pointer;
   display: flex;
   background-color: #fafafa;
@@ -26,11 +27,10 @@ const QtyUnread = styled(Badge)`
 `;
 
 const RoomItem = ({ room }) => {
-  const roomIdContext = useContext(RoomIdContext),
-    roomId = roomIdContext.roomId;
+  const { roomId, setRoomId } = useContext(RoomIdContext);
 
   function selectRoom() {
-    roomIdContext.setRoomId(room.roomId);
+    setRoomId(room.roomId);
   }
 
   return (

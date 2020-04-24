@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 // components
 import Layout from "../../components/Layout";
-import RoomList from "../../components/messages/RoomList";
+import { RoomList } from "../../components/messages/RoomList";
 import { useRouter } from "next/router";
 import MessageContainer from "../../components/messages/MessageContainer";
 import { RoomIdContext } from "../../contexts/RoomIdContext";
@@ -34,12 +34,12 @@ const Messages = () => {
 
   return (
     <Layout>
-      <Container>
-        <RoomIdContext.Provider value={roomValue}>
+      <RoomIdContext.Provider value={roomValue}>
+        <Container>
           <RoomList />
           <MessageContainer />
-        </RoomIdContext.Provider>
-      </Container>
+        </Container>
+      </RoomIdContext.Provider>
     </Layout>
   );
 };

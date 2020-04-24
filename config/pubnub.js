@@ -11,7 +11,7 @@ import { auth } from "./firebase";
 
 const LOCAL_STORAGE_UUID_KEY = "pnuuid";
 
-auth.onAuthStateChanged(async (user) => {
+auth.onAuthStateChanged(async user => {
   if (user) {
     await initPubNub();
   } else {
@@ -37,6 +37,11 @@ function getUuid() {
 
   return uuid;
 }
+function setConnected(connected) {
+  client.writeData({
+    data: { pnConnected: connected }
+  });
+}
 
 const listeners = {
   message: async message => {
@@ -49,20 +54,22 @@ const listeners = {
 
     await addMessage(data.messageId, data.roomId, data.body, data.authorId);
   },
-  status(s) {
+  status: async function(s) {
+    console.log(s);
     switch (s.category) {
       case "PNNetworkUpCategory":
       case "PNConnectedCategory":
       case "PNReconnectedCategory":
-        client.writeData({
-          data: { pnConnected: true }
-        });
+        setConnected(true);
         break;
       case "PNNetworkDownCategory":
       case "PNNetworkIssuesCategory":
-        client.writeData({
-          data: { pnConnected: false }
-        });
+      case "PNAccessDeniedCategory":
+        setConnected(false);
+        await closePubNub();
+        // Force a re-load of "me" so that it gets a new key, etc.
+        await client.query({ query: ME_QUERY, fetchPolicy: "network-only" });
+        await initPubNub();
         break;
       default:
         console.log(s);

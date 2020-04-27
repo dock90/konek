@@ -23,7 +23,6 @@ export const CONVERSATION_QUERY = gql`
     }
   }
   ${TAG_FIELDS}
-  ${ASSET_FIELDS}
   ${ROOM_FIELDS}
   ${MESSAGE_FIELDS}
 `;

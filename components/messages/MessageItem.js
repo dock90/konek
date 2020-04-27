@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import AssetDisplay from "../assets/AssetDisplay";
 
 const MessageContainer = styled.div`
   background-color: ${props =>
@@ -17,24 +18,37 @@ const Meta = styled.div`
   justify-content: space-between;
   font-size: 0.9rem;
 `;
-
 const Date = styled.div``;
-
 const Author = styled.div`
   font-weight: bold;
 `;
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Asset = styled.div`
+  margin: 5px;
+`;
 
-const Body = styled.div``;
-
-const MessageItem = props => (
-  <MessageContainer
-    isMe={props.message.author.memberId === props.room.memberId}
-  >
+const MessageItem = ({ message, room }) => (
+  <MessageContainer isMe={message.author.memberId === room.memberId}>
     <Meta>
-      <Author>{props.message.author.name}</Author>
-      <Date>{props.message.createdAt}</Date>
+      <Author>{message.author.name}</Author>
+      <Date>{message.createdAt}</Date>
     </Meta>
-    <Body>{props.message.body}</Body>
+    <Body>
+      {message.asset && (
+        <Asset>
+          <AssetDisplay
+            size={100}
+            asset={message.asset}
+            description={message.body || ""}
+            descriptionDialogOnly
+          />
+        </Asset>
+      )}
+      {message.body && <div>{message.body}</div>}
+    </Body>
   </MessageContainer>
 );
 
@@ -47,7 +61,8 @@ MessageItem.propTypes = {
       name: PropTypes.string
     }),
     createdAt: PropTypes.string,
-    body: PropTypes.string
+    body: PropTypes.string,
+    asset: PropTypes.object
   }).isRequired
 };
 

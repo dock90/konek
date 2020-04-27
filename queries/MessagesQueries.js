@@ -1,23 +1,28 @@
 import gql from "graphql-tag";
 import { MEMBER_FIELDS } from "./MemberQueries";
 import { ROOM_FIELDS } from "./RoomQueries";
+import { ASSET_FIELDS } from "./AssetQueries";
 
 export const MESSAGE_FIELDS = gql`
   fragment MessageFields on Message {
+    __typename
     messageId
     body
     createdAt
     author {
       ...MemberFields
     }
-    __typename
+    asset {
+      ...AssetFields
+    }
   }
   ${MEMBER_FIELDS}
+  ${ASSET_FIELDS}
 `;
 
 export const MESSAGES_QUERY = gql`
   query MESSAGES_QUERY($roomId: ID!, $after: String) {
-    messages(input: { roomId: $roomId, after: $after, first: 45 }) {
+    messages(input: { roomId: $roomId, after: $after, first: 75 }) {
       data {
         ...MessageFields
       }
@@ -31,8 +36,12 @@ export const MESSAGES_QUERY = gql`
 `;
 
 export const SEND_MESSAGE_MUTATION = gql`
-  mutation SEND_MESSAGE_MUTATION($roomId: ID!, $body: String!) {
-    sendMessage(input: { roomId: $roomId, body: $body }) {
+  mutation SEND_MESSAGE_MUTATION(
+    $roomId: ID!
+    $body: String
+    $asset: AssetInput
+  ) {
+    sendMessage(input: { roomId: $roomId, body: $body, asset: $asset }) {
       ...MessageFields
     }
   }

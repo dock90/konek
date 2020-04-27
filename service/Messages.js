@@ -11,12 +11,13 @@ import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
  *
  * @param roomId {String}
  * @param body {String}
+ * @param asset
  * @return {Promise<void>}
  */
-export async function sendMessage(roomId, body) {
+export async function sendMessage(roomId, body, asset) {
   await client.mutate({
     mutation: SEND_MESSAGE_MUTATION,
-    variables: { roomId, body },
+    variables: { roomId, body, asset },
     update(proxy, { data }) {
       const { messages } = proxy.readQuery({
         query: MESSAGES_QUERY,

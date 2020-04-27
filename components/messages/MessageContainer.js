@@ -177,7 +177,8 @@ const MessageContainer = () => {
   };
 
   if (error) {
-    return <Information>{error}</Information>;
+    console.error(error);
+    return <Information>{JSON.stringify(error)}</Information>;
   }
 
   if (loading || !data) {
@@ -224,7 +225,7 @@ const MessageContainer = () => {
               flexDirection: "column"
             }}
           >
-            {!hasMore && <Beginning label="Beginning of chat" />}
+            {!hasMore && <Beginning key={0} label="Beginning of chat" />}
             {messages.map(m => {
               const isLastRead =
                 roomData.room.qtyUnread > 0 &&

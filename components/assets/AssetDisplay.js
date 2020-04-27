@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Image, Video, Transformation } from "cloudinary-react";
+import { Image, Video } from "cloudinary-react";
 import cloudinary from "cloudinary-core";
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   DialogContent,
   Paper
 } from "@material-ui/core";
-import { Close, CloudDownload, PlayArrow } from "@material-ui/icons";
+import { Close, CloudDownload, Videocam } from "@material-ui/icons";
 import { useContext, useState } from "react";
 import { MeContext } from "../../contexts/MeContext";
 
@@ -35,10 +35,13 @@ const Filename = styled.span`
   padding: 4px;
 `;
 const PlayIcon = styled.div`
+  font-size: 24px;
   position: absolute;
   bottom: 0;
   right: 0;
   color: white;
+  margin-right: 4px;
+  margin-bottom: -3px;
 `;
 const Description = styled.div`
   width: ${props => props.size}px;
@@ -52,8 +55,14 @@ const VideoView = styled(Video)`
   max-width: 100%;
   max-height: 100%;
 `;
+const Content = styled(DialogContent)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
-const AssetDisplay = ({ asset, description, size }) => {
+const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
   if (!size) {
     size = 100;
   }
@@ -84,7 +93,7 @@ const AssetDisplay = ({ asset, description, size }) => {
             />
             {asset.resourceType === "video" && (
               <PlayIcon>
-                <PlayArrow />
+                <Videocam fontSize="inherit" />
               </PlayIcon>
             )}
           </ThumbWrapper>
@@ -111,7 +120,9 @@ const AssetDisplay = ({ asset, description, size }) => {
   return (
     <Container style={{ width: size }}>
       {thumb}
-      {description && <Description>{description}</Description>}
+      {description && !descriptionDialogOnly && (
+        <Description>{description}</Description>
+      )}
       <Dialog
         open={isOpen}
         onClose={handleClose}
@@ -124,7 +135,7 @@ const AssetDisplay = ({ asset, description, size }) => {
             <Close />
           </Button>
         </DialogActions>
-        <DialogContent>
+        <Content>
           {(asset.resourceType === "image" && (
             <ImageView
               publicId={asset.publicId}
@@ -145,7 +156,7 @@ const AssetDisplay = ({ asset, description, size }) => {
             />
           )}
           {description && <Description>{description}</Description>}
-        </DialogContent>
+        </Content>
       </Dialog>
     </Container>
   );
@@ -156,7 +167,12 @@ AssetDisplay.propTypes = {
   asset: PropTypes.shape({
     publicId: PropTypes.string.isRequired
   }),
-  description: PropTypes.string
+  description: PropTypes.string,
+  descriptionDialogOnly: PropTypes.bool
+};
+
+AssetDisplay.defaults = {
+  descriptionDialogOnly: false
 };
 
 export default AssetDisplay;

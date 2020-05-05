@@ -35,6 +35,8 @@ type AlgoliaInfo {
 
 type Asset {
   format: String
+  "If the asset is audio only. Only applicable to the \"video\" resource type."
+  isAudio: Boolean!
   originalFilename: String
   publicId: String!
   resourceType: String!
@@ -385,6 +387,7 @@ input AddContactGroupInput {
 
 input AssetInput {
   format: String
+  isAudio: Boolean = false
   originalFilename: String
   publicId: String!
   resourceType: String!

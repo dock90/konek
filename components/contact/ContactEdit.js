@@ -25,7 +25,7 @@ import ContactNewGroups from "./ContactNewGroups";
 import GridInputs from "./GridInputs";
 import AvatarUpload from "../assets/AvatarUpload";
 import TagSelector from "../tags/TagSelector";
-import {BaseButton} from "../styles/Button";
+import { BaseButton } from "../styles/Button";
 
 // styles
 const Container = styled.div`
@@ -149,7 +149,7 @@ const ContactEdit = ({ id }) => {
       return;
     }
     if (!contact.groups || contact.groups.length === 0) {
-      alert('The contact must be in at least one group!');
+      alert("The contact must be in at least one group!");
       return;
     }
 
@@ -371,11 +371,7 @@ const ContactEdit = ({ id }) => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <BaseButton
-                disabled={saving}
-                type="submit"
-                primary
-              >
+              <BaseButton disabled={saving} type="submit" primary>
                 Save
               </BaseButton>
             </Grid>

@@ -74,7 +74,7 @@ export async function sendMessage(roomId, body, asset) {
  * @param authorId {String}
  * @return {Promise<void>}
  */
-export async function addMessage(messageId, roomId, body, authorId) {
+export async function addMessage(messageId, roomId, body, authorId, asset) {
   let roomInfo = getRoomInfo(roomId);
 
   if (!roomInfo) {
@@ -134,10 +134,18 @@ export async function addMessage(messageId, roomId, body, authorId) {
 
     authorInfo = data.member;
   }
+  let assetField = null;
+  if (asset) {
+    assetField = {
+      ...asset,
+      __typename: "Asset"
+    };
+  }
 
   const newMessage = {
-    messageId: messageId,
-    body: body,
+    messageId,
+    body,
+    asset: assetField,
     createdAt: new Date().toISOString(),
     author: authorInfo,
     __typename: "Message"
@@ -180,7 +188,10 @@ export async function markAllRead(roomId, updateServer) {
     });
     messages = data.messages;
   } catch (e) {
-    console.log("💥 This really should never happen, but you never know. 💥");
+    console.log(
+      "💥 This really should never happen, but you never know. 💥",
+      e
+    );
     return;
   }
 

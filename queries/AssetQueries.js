@@ -7,6 +7,7 @@ export const ASSET_FIELDS = gql`
     publicId
     resourceType
     type
+    isAudio
   }
 `;
 

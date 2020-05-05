@@ -3,15 +3,22 @@ import styled from "styled-components";
 import { Image, Video } from "cloudinary-react";
 import cloudinary from "cloudinary-core";
 import {
-  Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   Paper
 } from "@material-ui/core";
-import { Close, CloudDownload, Videocam } from "@material-ui/icons";
+import {
+  Close,
+  CloudDownload,
+  Videocam,
+  PlayArrow,
+  Pause
+} from "@material-ui/icons";
 import { useContext, useState } from "react";
 import { MeContext } from "../../contexts/MeContext";
+import { BaseIconButton } from "../styles/IconButton";
 
 const Container = styled(Paper)`
   // So the image respects the rounded borders of the Paper.
@@ -62,20 +69,79 @@ const Content = styled(DialogContent)`
   flex-direction: column;
 `;
 
+const STATE_NONE = 0,
+  STATE_LOADING = 1,
+  STATE_PLAYING = 2;
+
 const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
   if (!size) {
     size = 100;
   }
   const { cloudinaryInfo } = useContext(MeContext);
-  const [isOpen, toggleIsOpen] = useState(false);
+  const [isOpen, toggleIsOpen] = useState(false),
+    [playing, setPlaying] = useState(STATE_NONE),
+    [audio, setAudio] = useState(null);
 
-  const handleClose = () => {
+  function handleClose() {
     toggleIsOpen(false);
-  };
+  }
+
+  function handlePlay() {
+    if (playing === STATE_PLAYING && audio) {
+      audio.pause();
+      setPlaying(STATE_NONE);
+      return;
+    }
+
+    if (playing === STATE_LOADING) {
+      return;
+    }
+
+    setPlaying(STATE_LOADING);
+    if (audio) {
+      audio.play();
+    } else {
+      const core = new cloudinary.Cloudinary({
+        cloud_name: cloudinaryInfo.cloudName,
+        resource_type: asset.resourceType
+      });
+
+      const url = core.url(asset.publicId, {});
+
+      const a = new Audio(url);
+      a.preload = "auto";
+
+      a.addEventListener("ended", () => {
+        setPlaying(STATE_NONE);
+      });
+      a.addEventListener("play", () => {
+        setPlaying(STATE_PLAYING);
+      });
+
+      setAudio(a);
+      a.play();
+    }
+  }
 
   let thumb = null;
   switch (asset.resourceType) {
     case "video":
+      if (asset.isAudio) {
+        let icon;
+        if (playing === STATE_LOADING) {
+          icon = <CircularProgress size="small" />;
+        } else if (playing === STATE_PLAYING) {
+          icon = <Pause />;
+        } else {
+          icon = <PlayArrow />;
+        }
+        thumb = (
+          <ThumbItem>
+            <BaseIconButton onClick={handlePlay}>{icon}</BaseIconButton>
+          </ThumbItem>
+        );
+        break;
+      }
     case "image":
       thumb = (
         <ThumbItem>
@@ -109,9 +175,9 @@ const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
       thumb = (
         <ThumbItem>
           <Filename>{asset.originalFilename}</Filename>
-          <Button href={url} target="blank">
+          <BaseIconButton href={url} target="blank">
             <CloudDownload />
-          </Button>
+          </BaseIconButton>
         </ThumbItem>
       );
       break;
@@ -131,9 +197,9 @@ const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
         maxWidth={false}
       >
         <DialogActions>
-          <Button onClick={handleClose}>
+          <BaseIconButton onClick={handleClose}>
             <Close />
-          </Button>
+          </BaseIconButton>
         </DialogActions>
         <Content>
           {(asset.resourceType === "image" && (

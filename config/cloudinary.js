@@ -3,13 +3,7 @@ import { SIGN_ARGS_MUTATION } from "../queries/AssetQueries";
 
 let isLoaded = false;
 
-/**
- * See https://cloudinary.com/documentation/upload_widget#upload_widget_options for available options.
- * @param config
- * @param callback
- * @return {Promise<{open: Function, close: Function}>}
- */
-export async function getWidget(config, callback) {
+async function initWidget(config) {
   if (!config.folder) {
     throw new Error("'folder' configuration parameter required");
   }
@@ -35,8 +29,16 @@ export async function getWidget(config, callback) {
 
     isLoaded = true;
   }
+}
 
-  // console.log("NEW CLOUDINARY UPLOADER", config);
+/**
+ * See https://cloudinary.com/documentation/upload_widget#upload_widget_options for available options.
+ * @param config
+ * @param callback
+ * @return {Promise<{open: Function, close: Function}>}
+ */
+export async function getWidget(config, callback) {
+  await initWidget(config);
 
   return cloudinary.createUploadWidget(
     {
@@ -45,12 +47,12 @@ export async function getWidget(config, callback) {
       ...config,
       cloudName: config.cloudName,
       secure: true,
-      uploadSignature: async function (cb, paramsToSign) {
+      uploadSignature: async function(cb, paramsToSign) {
         const res = await client.mutate({
           mutation: SIGN_ARGS_MUTATION,
           variables: {
             args: paramsToSign
-          },
+          }
         });
 
         cb(res.data.signUpload);
@@ -61,3 +63,52 @@ export async function getWidget(config, callback) {
 }
 
 export function destroy(widget) {}
+
+export const RESOURCE_TYPE_AUDIO = "video";
+
+export async function uploadFile(config, file) {
+  await initWidget(config);
+  const timestamp = Math.round(Date.now() / 1000),
+    params = {
+      timestamp,
+      folder: config.folder,
+      tags: config.tags
+    };
+
+  if (config.tags) {
+    if (config.tags.length > 0) {
+      params.tags = config.tags.join(",");
+    }
+  }
+
+  const signed = await client.mutate({
+    mutation: SIGN_ARGS_MUTATION,
+    variables: { args: params }
+  });
+
+  const data = new FormData();
+  data.append("timestamp", params.timestamp);
+  data.append("api_key", config.apiKey);
+  data.append("file", file);
+  data.append("signature", signed.data.signUpload);
+  data.append("folder", config.folder);
+  if (params.tags) {
+    data.append("tags", params.tags);
+  }
+
+  const url = `https://api.cloudinary.com/v1_1/${config.cloudName}/${config.resourceType}/upload`;
+
+  const response = await fetch(url, {
+      method: "post",
+      body: data
+    }),
+    resData = await response.json();
+
+  return {
+    format: resData.format,
+    publicId: resData.public_id,
+    resourceType: resData.resource_type,
+    type: resData.type,
+    isAudio: !!resData.is_audio
+  };
+}

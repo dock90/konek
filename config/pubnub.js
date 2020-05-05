@@ -52,7 +52,13 @@ const listeners = {
       return;
     }
 
-    await addMessage(data.messageId, data.roomId, data.body, data.authorId);
+    await addMessage(
+      data.messageId,
+      data.roomId,
+      data.body,
+      data.authorId,
+      data.asset
+    );
   },
   status: async function(s) {
     console.log(s);

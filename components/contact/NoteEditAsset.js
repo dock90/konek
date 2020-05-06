@@ -5,7 +5,7 @@ import { Image } from "cloudinary-react";
 import { DeleteButton } from "../styles/Button";
 import { TextField, Paper } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
-import { MeContext } from "../../contexts/MeContext";
+import AssetDisplay from "../assets/AssetDisplay";
 
 const Container = styled.div`
   display: flex;
@@ -16,9 +16,6 @@ const DisplayWrapper = styled.div`
   flex-grow: 1;
   text-align: center;
 `;
-const Filename = styled(Paper)`
-  padding: 4px;
-`;
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -26,8 +23,6 @@ const Actions = styled.div`
 `;
 
 const NoteEditAsset = ({ asset, onChange }) => {
-  const { cloudinaryInfo } = useContext(MeContext);
-
   const handleDelete = e => {
     e.preventDefault();
     onChange(null);
@@ -42,21 +37,15 @@ const NoteEditAsset = ({ asset, onChange }) => {
   return (
     <Container>
       <DisplayWrapper>
-        {asset.asset &&
-          ((asset.asset.resourceType === "raw" && (
-            <Filename>{asset.asset.originalFilename}</Filename>
-          )) || (
-            <Image
-              publicId={asset.asset.publicId}
-              cloudName={cloudinaryInfo.cloudName}
-              resourceType={asset.asset.resourceType}
-              dpr="auto"
-              width={100}
-              crop="limit"
-              fetchFormat="auto"
-              quality="auto"
-            />
-          ))}
+        {asset.asset && (
+          <AssetDisplay
+            description={asset.description}
+            asset={asset.asset}
+            descriptionDialogOnly
+            noPaper
+            size={150}
+          />
+        )}
       </DisplayWrapper>
       <div style={{ padding: 5 }}>
         <TextField

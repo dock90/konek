@@ -61,7 +61,6 @@ const listeners = {
     );
   },
   status: async function(s) {
-    console.log(s);
     switch (s.category) {
       case "PNNetworkUpCategory":
       case "PNConnectedCategory":

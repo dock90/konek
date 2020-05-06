@@ -26,6 +26,10 @@ const Container = styled(Paper)`
   display: flex;
   flex-direction: column;
 `;
+const ContainerNoPaper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const ThumbItem = styled.div`
   text-align: center;
   // So it pushes the description to the bottom.
@@ -73,7 +77,13 @@ const STATE_NONE = 0,
   STATE_LOADING = 1,
   STATE_PLAYING = 2;
 
-const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
+const AssetDisplay = ({
+  asset,
+  description,
+  size,
+  descriptionDialogOnly,
+  noPaper
+}) => {
   if (!size) {
     size = 100;
   }
@@ -114,12 +124,14 @@ const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
       a.addEventListener("ended", () => {
         setPlaying(STATE_NONE);
       });
+      a.addEventListener("canplaythrough", () => {
+        a.play();
+      });
       a.addEventListener("play", () => {
         setPlaying(STATE_PLAYING);
       });
 
       setAudio(a);
-      a.play();
     }
   }
 
@@ -182,9 +194,13 @@ const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
       );
       break;
   }
+  let Ctnr = Container;
+  if (noPaper) {
+    Ctnr = ContainerNoPaper;
+  }
 
   return (
-    <Container style={{ width: size }}>
+    <Ctnr style={{ width: size }}>
       {thumb}
       {description && !descriptionDialogOnly && (
         <Description>{description}</Description>
@@ -224,7 +240,7 @@ const AssetDisplay = ({ asset, description, size, descriptionDialogOnly }) => {
           {description && <Description>{description}</Description>}
         </Content>
       </Dialog>
-    </Container>
+    </Ctnr>
   );
 };
 
@@ -234,11 +250,13 @@ AssetDisplay.propTypes = {
     publicId: PropTypes.string.isRequired
   }),
   description: PropTypes.string,
-  descriptionDialogOnly: PropTypes.bool
+  descriptionDialogOnly: PropTypes.bool,
+  noPaper: PropTypes.bool
 };
 
 AssetDisplay.defaults = {
-  descriptionDialogOnly: false
+  descriptionDialogOnly: false,
+  noPaper: false
 };
 
 export default AssetDisplay;

@@ -187,7 +187,8 @@ const ContactEdit = ({ id }) => {
       publicId: info.public_id,
       resourceType: info.resource_type,
       type: info.type,
-      originalFilename: info.original_filename
+      originalFilename: info.original_filename,
+      isAudio: info.is_audio
     };
 
     setContact({

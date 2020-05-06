@@ -16,7 +16,7 @@ export const ENTRY_FIELDS = gql`
     tags {
       ...TagFields
     }
-    ...on Note {
+    ... on Note {
       message
       assets {
         description
@@ -27,6 +27,7 @@ export const ENTRY_FIELDS = gql`
           resourceType
           type
           originalFilename
+          isAudio
         }
       }
     }

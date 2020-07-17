@@ -9,11 +9,11 @@ export function isSupported() {
     return false;
   }
 
-  if (!MediaRecorder) {
+  if (!window.MediaRecorder) {
     return false;
   }
 
-  return MediaRecorder.isTypeSupported(MIME_TYPE);
+  return window.MediaRecorder.isTypeSupported(MIME_TYPE);
 }
 
 const STATUS_INITIALIZING = "initializing",
@@ -39,7 +39,7 @@ export function Recorder() {
         video: false
       });
 
-      this._recorder = new MediaRecorder(stream, {
+      this._recorder = new window.MediaRecorder(stream, {
         mimeType: MIME_TYPE,
         audioBitsPerSecond: 128000
       });

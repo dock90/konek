@@ -72,6 +72,7 @@ export async function sendMessage(roomId, body, asset) {
  * @param roomId {String}
  * @param body {String}
  * @param authorId {String}
+ * @param asset {Object}
  * @return {Promise<void>}
  */
 export async function addMessage(messageId, roomId, body, authorId, asset) {

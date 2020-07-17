@@ -8,7 +8,7 @@ import {
 } from "apollo-cache-inmemory";
 import { auth } from "./firebase";
 import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
-import introspectionResultData from "./fragmenTypes";
+import introspectionResultData from "./fragmentTypes";
 
 const httpLink = createHttpLink({
   uri: "https://equipter-crm-staging.herokuapp.com/graphql"

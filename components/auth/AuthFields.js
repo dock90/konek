@@ -15,7 +15,7 @@ import {
   FIELD_REQUIRED,
   INVALID_EMAIL,
   INVALID_PHONE,
-  PASSWORD_NOT_STRONG
+  PASSWORD_NOT_STRONG,
 } from './messages';
 
 export const MODE_SIGN_UP = 'signup';
@@ -50,7 +50,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
   const [state, setState] = useState({
       email: '',
       password: '',
-      phone: ''
+      phone: '',
     }),
     [captchaPass, setCaptchaPass] = useState(false),
     [recaptcha, setRecaptcha] = useState(null),
@@ -59,13 +59,13 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     [errors, setErrors] = useState({
       email: '',
       pass: '',
-      phone: ''
+      phone: '',
     }),
     clearErrors = () => {
       setErrors({
         email: '',
         pass: '',
-        phone: ''
+        phone: '',
       });
     };
 
@@ -82,7 +82,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       },
       'expired-callback': () => {
         setCaptchaPass(false);
-      }
+      },
     });
 
     re.render();
@@ -95,7 +95,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     clearErrors();
   };
 
-  const handlePhoneChange = e => {
+  const handlePhoneChange = (e) => {
     let value = e.target.value.replace(/\D/g, '');
 
     if (value[0] === '1') {
@@ -103,16 +103,13 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       const parts = value.match(/(.)(.{0,3})(.{0,3})(.{0,4})/);
 
       // Splice off the full match. Join with space. Trim trailing space.
-      value = parts
-        .splice(1)
-        .join(' ')
-        .trim();
+      value = parts.splice(1).join(' ').trim();
     }
 
     setState({ ...state, phone: value });
   };
 
-  const handleFieldChange = e => {
+  const handleFieldChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
     clearErrors();
@@ -123,7 +120,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     allowSubmit = allowSubmit && captchaPass;
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (activeTab === TAB_EMAIL) {
       if (!state.email) {
@@ -140,7 +137,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       } else if (isSignUp && !isPasswordOk(state.password)) {
         setErrors({
           ...errors,
-          pass: PASSWORD_NOT_STRONG
+          pass: PASSWORD_NOT_STRONG,
         });
         return;
       }
@@ -150,7 +147,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
         if (isSignUp) {
           await auth.createUserWithEmailAndPassword(
             state.email,
-            state.password
+            state.password,
           );
         } else if (isLogIn) {
           await auth.signInWithEmailAndPassword(state.email, state.password);
@@ -163,7 +160,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       if (isSignUp && name) {
         try {
           await auth.currentUser.updateProfile({
-            displayName: name
+            displayName: name,
           });
         } catch (e) {
           console.log('Error updating profile name.', e);
@@ -184,7 +181,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
         setProcessing(true);
         const confirmationResult = await auth.signInWithPhoneNumber(
           '+' + state.phone.replace(/\s/g, ''),
-          recaptcha
+          recaptcha,
         );
         let url = `/auth/phone-confirm?verificationId=${confirmationResult.verificationId}`;
         if (name) {
@@ -197,7 +194,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       } catch (e) {
         setErrors({
           ...errors,
-          phone: '\n' + INVALID_PHONE
+          phone: '\n' + INVALID_PHONE,
         });
         setProcessing(false);
         return;
@@ -272,7 +269,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">+</InputAdornment>
-              )
+              ),
             }}
           />
           <ReCaptchaContainer id="recaptcha-container" />
@@ -302,7 +299,7 @@ AuthFields.propTypes = {
   name: PropTypes.string,
   prefix: PropTypes.func,
   infix: PropTypes.func,
-  suffix: PropTypes.element
+  suffix: PropTypes.element,
 };
 
 export default AuthFields;

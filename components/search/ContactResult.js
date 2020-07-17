@@ -14,7 +14,7 @@ const ContactResult = ({ hit }) => {
             style={{
               height: 30,
               width: 30,
-              marginRight: 10
+              marginRight: 10,
             }}
           />
           <Highlight attribute="name" hit={hit} />

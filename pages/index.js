@@ -10,7 +10,7 @@ const Index = () => {
 
   const { loading, data } = useQuery(ME_QUERY, {
     // Only load the me query if we have a user.
-    skip: !authenticated
+    skip: !authenticated,
   });
 
   if (loading || !data) {

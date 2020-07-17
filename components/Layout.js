@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
   // We run this query at the top level so that the cache is populated. Future queries will never
   // be in the loading state and can use the data directly.
   const { loading, error, data } = useQuery(ME_QUERY, {
-    skip: !authenticated
+    skip: !authenticated,
   });
 
   let iOs = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);

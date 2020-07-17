@@ -45,7 +45,7 @@ const Header = ({ drawerToggle }) => {
         console.log('User Signed Out');
         Router.push('/auth/login');
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('There was an error signing out: ', error);
       });
   };
@@ -81,7 +81,7 @@ const Header = ({ drawerToggle }) => {
 };
 
 Header.propTypes = {
-  drawerToggle: PropTypes.func
+  drawerToggle: PropTypes.func,
 };
 
 export default Header;

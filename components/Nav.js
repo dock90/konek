@@ -54,7 +54,7 @@ const ProfileTitle = styled.div`
 
 const arrowIconStyle = {
   width: 13,
-  height: 13
+  height: 13,
 };
 
 const Nav = ({ children }) => {

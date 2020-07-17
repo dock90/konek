@@ -23,7 +23,7 @@ export const ResultContainer = styled(Paper)`
 export const ResultTitle = styled.div`
   display: flex;
   font-size: 1.5rem;
-  flex-direction: ${props => (props.direction ? props.direction : 'row')};
+  flex-direction: ${(props) => (props.direction ? props.direction : 'row')};
 `;
 
 export const ResultDetail = styled.div`

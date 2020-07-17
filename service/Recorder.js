@@ -36,12 +36,12 @@ export function Recorder() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: false
+        video: false,
       });
 
       this._recorder = new window.MediaRecorder(stream, {
         mimeType: MIME_TYPE,
-        audioBitsPerSecond: 128000
+        audioBitsPerSecond: 128000,
       });
     } catch (e) {
       reject(e);
@@ -49,7 +49,7 @@ export function Recorder() {
     }
 
     this._chunks = [];
-    this._recorder.ondataavailable = e => {
+    this._recorder.ondataavailable = (e) => {
       this._chunks.push(e.data);
     };
 
@@ -57,12 +57,12 @@ export function Recorder() {
     resolve();
   });
 
-  this._init.catch(e => {
+  this._init.catch((e) => {
     console.error(e);
   });
 }
 
-Recorder.prototype.length = function() {
+Recorder.prototype.length = function () {
   if (!this.startTime) {
     return 0;
   }
@@ -72,7 +72,7 @@ Recorder.prototype.length = function() {
   return this.stopTime - this.startTime;
 };
 
-Recorder.prototype.start = async function() {
+Recorder.prototype.start = async function () {
   await this._init;
 
   if (this.status !== STATUS_READY) {
@@ -85,27 +85,27 @@ Recorder.prototype.start = async function() {
   this.status = STATUS_RECORDING;
 };
 
-Recorder.prototype.stop = function() {
+Recorder.prototype.stop = function () {
   this._recorder.stop();
   this.stopTime = Date.now();
   this.status = STATUS_STOPPED;
 };
 
-Recorder.prototype.getFile = async function() {
+Recorder.prototype.getFile = async function () {
   if (this._blob) {
     return this._blob;
   }
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     this._recorder.onstop = () => {
       this._blob = new File(this._chunks, 'recording.ogg', {
-        type: MIME_TYPE
+        type: MIME_TYPE,
       });
       resolve(this._blob);
     };
   });
 };
 
-Recorder.prototype.destroy = function() {
+Recorder.prototype.destroy = function () {
   for (const audioTrack of this._recorder.stream.getAudioTracks()) {
     audioTrack.stop();
   }

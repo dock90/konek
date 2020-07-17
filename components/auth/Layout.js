@@ -25,7 +25,7 @@ const Branding = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.gray};
+  background-color: ${(props) => props.theme.gray};
 `;
 
 const ContentContainer = styled.div`

@@ -55,7 +55,7 @@ const TagsEdit = () => {
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
-  const handleEditClick = e => {
+  const handleEditClick = (e) => {
     setTargetEl(null);
     toggleDialogOpen(true);
   };
@@ -65,7 +65,7 @@ const TagsEdit = () => {
     toggleDialogOpen(true);
   };
 
-  const handleTagSelect = tag => e => {
+  const handleTagSelect = (tag) => (e) => {
     setEditTag(tag);
     setTargetEl(e.currentTarget);
   };
@@ -76,7 +76,7 @@ const TagsEdit = () => {
 
   let tags = data.tags;
   if (!showHidden) {
-    tags = tags.filter(t => !t.hidden);
+    tags = tags.filter((t) => !t.hidden);
   }
 
   return (
@@ -90,14 +90,14 @@ const TagsEdit = () => {
           control={
             <Checkbox
               checked={showHidden}
-              onChange={e => toggleShowHidden(e.target.checked)}
+              onChange={(e) => toggleShowHidden(e.target.checked)}
             />
           }
           label="Show Hidden"
         />
       </Info>
       <TagsListContainer>
-        {tags.map(t => (
+        {tags.map((t) => (
           <TagWrapper key={t.tagId} onClick={handleTagSelect(t)}>
             <TagWidget>
               <TagItem tag={t} />
@@ -110,11 +110,11 @@ const TagsEdit = () => {
         anchorEl={targetEl}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'center'
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center'
+          horizontal: 'center',
         }}
         onClose={handleTagLeave}
       >

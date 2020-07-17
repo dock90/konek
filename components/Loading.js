@@ -3,7 +3,7 @@ import { CircularProgress } from '@material-ui/core';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  padding-top: ${props => (props.noPad ? 0 : '10%')};
+  padding-top: ${(props) => (props.noPad ? 0 : '10%')};
   width: 100%;
   text-align: center;
 `;
@@ -15,11 +15,11 @@ const Loading = ({ noPad }) => (
 );
 
 Loading.propTypes = {
-  noPad: PropTypes.bool
+  noPad: PropTypes.bool,
 };
 
 Loading.defaultProps = {
-  noPad: false
+  noPad: false,
 };
 
 export default Loading;

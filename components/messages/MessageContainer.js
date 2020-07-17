@@ -72,7 +72,7 @@ const MessageContainer = () => {
   const roomId = roomIdContext.roomId;
   const variables = {
     roomId,
-    after: null
+    after: null,
   };
   const { loading: messagesLoading, error, data, fetchMore } = useQuery(
     MESSAGES_QUERY,
@@ -81,13 +81,13 @@ const MessageContainer = () => {
       // Don't execute if we don't have a room id or if PubNub isn't connected.
       // We don't want to load the message list until after PN is connected because any message sent between when we
       // get the list and we successfully connect will get missed.
-      skip: !roomId || !pnStateData.pnConnected
-    }
+      skip: !roomId || !pnStateData.pnConnected,
+    },
   );
 
   const { loading: roomLoading, data: roomData } = useQuery(ROOM_QUERY, {
     variables: { roomId },
-    skip: !roomId
+    skip: !roomId,
   });
 
   const loading = messagesLoading || roomLoading;
@@ -167,11 +167,11 @@ const MessageContainer = () => {
 
         results.messages.data = [
           ...prev.messages.data,
-          ...results.messages.data
+          ...results.messages.data,
         ];
 
         return results;
-      }
+      },
     });
     setIsLoadingMore(false);
   };
@@ -197,7 +197,7 @@ const MessageContainer = () => {
 
   function handleScroll(e) {
     setIsAtBottom(
-      e.target.scrollHeight - e.target.scrollTop - 10 <= e.target.clientHeight
+      e.target.scrollHeight - e.target.scrollTop - 10 <= e.target.clientHeight,
     );
   }
 
@@ -222,11 +222,11 @@ const MessageContainer = () => {
               minHeight: '100%',
               display: 'flex',
               justifyContent: 'flex-end',
-              flexDirection: 'column'
+              flexDirection: 'column',
             }}
           >
             {!hasMore && <Beginning key={0} label="Beginning of chat" />}
-            {messages.map(m => {
+            {messages.map((m) => {
               const isLastRead =
                 roomData.room.qtyUnread > 0 &&
                 m.messageId === roomData.room.readThrough;
@@ -242,7 +242,7 @@ const MessageContainer = () => {
                           (roomData.room.qtyUnread > 1 ? 's' : '')
                         }
                         style={{
-                          marginBottom: '5px'
+                          marginBottom: '5px',
                         }}
                       />
                     </UnreadInfo>

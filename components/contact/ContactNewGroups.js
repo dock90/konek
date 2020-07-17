@@ -11,7 +11,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
     onChange(value);
   };
 
-  const removeGroup = key => {
+  const removeGroup = (key) => {
     value.splice(key, 1);
     if (value.length === 0) {
       addGroup();
@@ -35,11 +35,11 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
                 select
                 name="groupId"
                 value={cg.groupId}
-                onChange={e => handleUpdate(e, k)}
+                onChange={(e) => handleUpdate(e, k)}
                 style={{ width: '100%' }}
                 disabled={disabled}
               >
-                {groups.map(g => (
+                {groups.map((g) => (
                   <MenuItem key={g.groupId} value={g.groupId}>
                     {g.hierarchy}
                   </MenuItem>
@@ -51,11 +51,11 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
                 select
                 name="roleId"
                 value={cg.roleId}
-                onChange={e => handleUpdate(e, k)}
+                onChange={(e) => handleUpdate(e, k)}
                 style={{ width: '100%' }}
                 disabled={disabled}
               >
-                {roles.map(r => (
+                {roles.map((r) => (
                   <MenuItem key={r.roleId} value={r.roleId}>
                     {r.name}
                   </MenuItem>
@@ -93,7 +93,7 @@ ContactNewGroups.propTypes = {
   value: PropTypes.array,
   groups: PropTypes.array.isRequired,
   roles: PropTypes.array.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default ContactNewGroups;

@@ -22,7 +22,7 @@ const GroupHeader = styled(H3)`
 
 const MemberList = ({ groupId }) => {
   const { loading, data, error } = useQuery(GROUP_MEMBERS_QUERY, {
-    variables: { groupId }
+    variables: { groupId },
   });
   const [admins, setAdmins] = useState([]),
     [members, setMembers] = useState([]);
@@ -58,7 +58,7 @@ const MemberList = ({ groupId }) => {
       {admins.length > 0 && (
         <Group>
           <GroupHeader>Admins & Managers</GroupHeader>
-          {admins.map(m => (
+          {admins.map((m) => (
             <MemberItem key={m.memberId} member={m} />
           ))}
         </Group>
@@ -66,7 +66,7 @@ const MemberList = ({ groupId }) => {
       {members.length > 0 && (
         <Group>
           <GroupHeader>Members</GroupHeader>
-          {members.map(m => (
+          {members.map((m) => (
             <MemberItem key={m.memberId} member={m} />
           ))}
         </Group>

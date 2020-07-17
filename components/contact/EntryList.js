@@ -5,7 +5,7 @@ import ConversationItem from './ConversationItem';
 
 const EntryList = ({ entries }) => {
   const { data } = entries;
-  return data.map(entry => {
+  return data.map((entry) => {
     switch (entry.__typename) {
       case TYPE_NOTE:
         return <NoteItem key={entry.entryId} note={entry} />;
@@ -18,7 +18,7 @@ const EntryList = ({ entries }) => {
 
 EntryList.propTypes = {
   // TODO: add shape to proptype
-  entries: PropTypes.object.isRequired
+  entries: PropTypes.object.isRequired,
 };
 
 export default EntryList;

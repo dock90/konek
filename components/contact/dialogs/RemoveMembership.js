@@ -3,7 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from '@material-ui/core';
 import { ErrorMessage } from '../../styles/Messages';
 import { useState } from 'react';
@@ -34,13 +34,13 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
       await removeMembership({
         variables: {
           contactId,
-          groupId: group.groupId
-        }
+          groupId: group.groupId,
+        },
       });
     } catch (e) {
       if (e.graphQLErrors) {
         // Probably access denied.
-        setError(e.graphQLErrors.map(e => e.message).join('\n'));
+        setError(e.graphQLErrors.map((e) => e.message).join('\n'));
       }
       setIsExecuting(false);
       return;
@@ -72,7 +72,7 @@ RemoveMembership.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   contactId: PropTypes.string.isRequired,
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
 };
 
 export default RemoveMembership;

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import AssetDisplay from '../assets/AssetDisplay';
 
 const MessageContainer = styled.div`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isMe ? props.theme.white : props.theme.accentDark};
-  color: ${props => (props.isMe ? '#37474F' : props.theme.white)};
-  margin-left: ${props => (props.isMe ? '5' : '1')}rem;
-  margin-right: ${props => (props.isMe ? '1' : '5')}rem;
+  color: ${(props) => (props.isMe ? '#37474F' : props.theme.white)};
+  margin-left: ${(props) => (props.isMe ? '5' : '1')}rem;
+  margin-right: ${(props) => (props.isMe ? '1' : '5')}rem;
   margin-top: 1rem;
   padding: 3px;
   border-radius: 4px;
@@ -54,16 +54,16 @@ const MessageItem = ({ message, room }) => (
 
 MessageItem.propTypes = {
   room: PropTypes.shape({
-    memberId: PropTypes.string.isRequired
+    memberId: PropTypes.string.isRequired,
   }).isRequired,
   message: PropTypes.shape({
     author: PropTypes.shape({
-      name: PropTypes.string
+      name: PropTypes.string,
     }),
     createdAt: PropTypes.string,
     body: PropTypes.string,
-    asset: PropTypes.object
-  }).isRequired
+    asset: PropTypes.object,
+  }).isRequired,
 };
 
 export default MessageItem;

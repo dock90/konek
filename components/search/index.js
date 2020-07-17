@@ -13,10 +13,10 @@ import EntryResult from './EntryResult';
 
 const ResultsContainer = styled.div`
   position: absolute;
-  opacity: ${props => (props.isOpen ? 1 : 0)};
-  visibility: ${props => (props.isOpen ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.isOpen ? 'visible' : 'hidden')};
   transition: opacity 150ms ease-in-out,
-    visibility 0s linear ${props => (props.isOpen ? '0s' : '150ms')};
+    visibility 0s linear ${(props) => (props.isOpen ? '0s' : '150ms')};
   // Required so it is on top of other stuff.
   z-index: 2000;
 
@@ -40,7 +40,7 @@ const Search = () => {
 
   const client = algoliaSearch(algoliaInfo.appId, algoliaInfo.searchKey);
 
-  const handleOpen = e => {
+  const handleOpen = (e) => {
     setIsOpen(true);
   };
   const handleClose = () => {

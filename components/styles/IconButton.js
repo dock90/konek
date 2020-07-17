@@ -3,7 +3,7 @@ import { IconButton } from '@material-ui/core';
 
 export const BaseIconButton = styled(IconButton)`
   && {
-    border: 1px solid ${props => props.theme.primary};
+    border: 1px solid ${(props) => props.theme.primary};
     padding: 6px;
     margin: 3px;
     .MuiSvgIcon-root {

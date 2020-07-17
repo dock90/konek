@@ -4,7 +4,7 @@ import GroupList from '../../components/groups/GroupList';
 import Link from 'next/link';
 import {
   ContentContainer,
-  ContentHeader
+  ContentHeader,
 } from '../../components/styles/PageStyles';
 import { BaseButton } from '../../components/styles/Button';
 

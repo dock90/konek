@@ -9,7 +9,7 @@ const Table = styled.table`
   width: 100%;
   margin-bottom: 10px;
   td {
-    width: ${props => Math.round(100 / props.cols)}%;
+    width: ${(props) => Math.round(100 / props.cols)}%;
   }
 `;
 
@@ -22,7 +22,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
     value.push(row);
   };
 
-  const handleChange = rowKey => e => {
+  const handleChange = (rowKey) => (e) => {
     value[rowKey][e.target.name] = e.target.value;
     onChange(value);
   };
@@ -30,7 +30,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
     addRow();
     onChange(value);
   };
-  const handleRemoveRow = rowId => () => {
+  const handleRemoveRow = (rowId) => () => {
     value.splice(rowId, 1);
     onChange(value);
   };
@@ -95,7 +95,7 @@ GridInputs.propTypes = {
   onChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
   rowOneDisabled: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default GridInputs;

@@ -56,9 +56,9 @@ BaseAction.propTypes = {
   icon: PropTypes.element,
   as: PropTypes.any,
   children: PropTypes.array,
-  href: PropTypes.any
+  href: PropTypes.any,
 };
 
 BaseAction.defaults = {
-  type: ACTION_TYPE_ICON
+  type: ACTION_TYPE_ICON,
 };

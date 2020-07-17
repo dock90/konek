@@ -6,20 +6,22 @@ export const BaseButton = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${props => (props.primary ? props.theme.primary : 'none')};
-    color: ${props => (props.primary ? props.theme.white : props.theme.black)};
+    background: ${(props) => (props.primary ? props.theme.primary : 'none')};
+    color: ${(props) =>
+      props.primary ? props.theme.white : props.theme.black};
     margin-right: 1rem;
 
-    border: 1px solid ${props => props.theme.primary};
+    border: 1px solid ${(props) => props.theme.primary};
 
     :hover {
-      background-color: ${props =>
+      background-color: ${(props) =>
         props.primary ? props.theme.primaryDarker : props.theme.light};
     }
 
     :disabled {
-      background-color: ${props => (props.primary ? props.theme.gray : 'none')};
-      border-color: ${props => (props.primary ? props.theme.grayer : 'none')};
+      background-color: ${(props) =>
+        props.primary ? props.theme.gray : 'none'};
+      border-color: ${(props) => (props.primary ? props.theme.grayer : 'none')};
     }
   }
 `;
@@ -27,9 +29,9 @@ export const BaseButton = styled(Button)`
 export const DeleteButton = styled(BaseButton)`
   &&,
   &&:hover {
-    background-color: ${props => props.theme.error};
-    color: ${props => props.theme.white};
-    border: 1px solid ${props => props.theme.black};
+    background-color: ${(props) => props.theme.error};
+    color: ${(props) => props.theme.white};
+    border: 1px solid ${(props) => props.theme.black};
   }
 `;
 

@@ -5,7 +5,7 @@ const BaseMessage = styled.div`
   margin-bottom: 1em;
   font-weight: bold;
   font-size: 1.2em;
-  color: ${props => props.theme.white};
+  color: ${(props) => props.theme.white};
   width: 100%;
   border-radius: 3px;
   white-space: pre-wrap;
@@ -13,9 +13,9 @@ const BaseMessage = styled.div`
 `;
 
 export const SuccessMessage = styled(BaseMessage)`
-  background-color: ${props => props.theme.success};
+  background-color: ${(props) => props.theme.success};
 `;
 
 export const ErrorMessage = styled(BaseMessage)`
-  background-color: ${props => props.theme.error};
+  background-color: ${(props) => props.theme.error};
 `;

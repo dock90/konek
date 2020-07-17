@@ -10,7 +10,7 @@ const config = {
   storageBucket: 'equiptercrm.appspot.com',
   messagingSenderId: '696329386413',
   appId: '1:696329386413:web:58d6f07a93260918024924',
-  measurementId: 'G-D4702DD6V3'
+  measurementId: 'G-D4702DD6V3',
 };
 
 // initialize firebase

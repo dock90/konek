@@ -11,14 +11,14 @@ import AuthFields, { MODE_SIGN_UP } from './AuthFields';
 const Signup = () => {
   const [state, setState] = useState({
     name: '',
-    acceptedTerms: false
+    acceptedTerms: false,
   });
 
-  const handleNameChange = e => {
+  const handleNameChange = (e) => {
     setState({ ...state, name: e.target.value });
   };
 
-  const handleTermsChange = e => {
+  const handleTermsChange = (e) => {
     setState({ ...state, acceptedTerms: e.target.checked });
   };
 
@@ -27,7 +27,7 @@ const Signup = () => {
       mode={MODE_SIGN_UP}
       valid={state.acceptedTerms}
       name={state.name}
-      prefix={processing => (
+      prefix={(processing) => (
         <>
           <H1>Sign Up</H1>
           <StyledTextField
@@ -40,7 +40,7 @@ const Signup = () => {
           />
         </>
       )}
-      infix={processing => (
+      infix={(processing) => (
         <FormGroup row style={{ marginBottom: 10, marginTop: -10 }}>
           <FormControlLabel
             control={

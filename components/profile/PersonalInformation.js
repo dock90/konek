@@ -29,7 +29,7 @@ const PersonalInformation = ({ style }) => {
   const [profileChanged, setProfileChanged] = useState({});
   const me = useContext(MeContext);
   const [updateMeMutation, { loading: mutationLoading }] = useMutation(
-    UPDATE_ME_MUTATION
+    UPDATE_ME_MUTATION,
   );
 
   if (!profile && me) {
@@ -37,30 +37,30 @@ const PersonalInformation = ({ style }) => {
     return <Loading />;
   }
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setProfile({
       ...profile,
-      [name]: value
+      [name]: value,
     });
     setProfileChanged({
       ...profileChanged,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleGridChange = (field, value) => {
     setProfile({
       ...profile,
-      [field]: value
+      [field]: value,
     });
     setProfileChanged({
       ...profileChanged,
-      [field]: value
+      [field]: value,
     });
   };
 
-  const handleUpload = async info => {
+  const handleUpload = async (info) => {
     await updateMeMutation({
       variables: {
         picture: {
@@ -69,15 +69,15 @@ const PersonalInformation = ({ style }) => {
           resourceType: info.resource_type,
           type: info.type,
           originalFilename: info.original_filename,
-          isAudio: info.is_audio
-        }
-      }
+          isAudio: info.is_audio,
+        },
+      },
     });
   };
 
   const fbUser = auth.currentUser;
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { emails, phones, name } = profileChanged;
 
@@ -103,7 +103,7 @@ const PersonalInformation = ({ style }) => {
     if (name) {
       try {
         await fbUser.updateProfile({
-          displayName: name
+          displayName: name,
         });
       } catch (e) {
         console.log('FB User name update fail');
@@ -118,8 +118,8 @@ const PersonalInformation = ({ style }) => {
 
     await updateMeMutation({
       variables: {
-        ...profileChanged
-      }
+        ...profileChanged,
+      },
     });
   };
 
@@ -150,10 +150,10 @@ const PersonalInformation = ({ style }) => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange('emails', v)}
+                onChange={(v) => handleGridChange('emails', v)}
                 columns={[
                   { label: 'Email', name: 'email' },
-                  { label: 'Label', name: 'label' }
+                  { label: 'Label', name: 'label' },
                 ]}
                 value={profile.emails || []}
                 disabled={mutationLoading}
@@ -162,10 +162,10 @@ const PersonalInformation = ({ style }) => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange('phones', v)}
+                onChange={(v) => handleGridChange('phones', v)}
                 columns={[
                   { label: 'Phone Number', name: 'number', required: true },
-                  { label: 'Label', name: 'label' }
+                  { label: 'Label', name: 'label' },
                 ]}
                 value={profile.phones || []}
                 disabled={mutationLoading}

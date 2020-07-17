@@ -20,12 +20,12 @@ const Item = styled(Paper)`
 const NoteEditAssets = ({ assets, onChange }) => {
   const { assetFolderId } = useContext(ContactContext);
   const [uploadOpen, toggleUpload] = useState(false);
-  const handleAddFile = e => {
+  const handleAddFile = (e) => {
     e.preventDefault();
     onChange([...(assets || []), {}]);
   };
 
-  const handleChange = key => asset => {
+  const handleChange = (key) => (asset) => {
     const items = [...assets];
     if (asset) {
       items[key] = asset;
@@ -35,11 +35,11 @@ const NoteEditAssets = ({ assets, onChange }) => {
     }
     onChange(items);
   };
-  const handleUploadClick = e => {
+  const handleUploadClick = (e) => {
     e.preventDefault();
     toggleUpload(true);
   };
-  const handleUploadSuccess = info => {
+  const handleUploadSuccess = (info) => {
     if (!assets) {
       assets = [];
     }
@@ -54,8 +54,8 @@ const NoteEditAssets = ({ assets, onChange }) => {
         resourceType: info.resource_type,
         type: info.type,
         originalFilename: info.original_filename,
-        isAudio: info.is_audio
-      }
+        isAudio: info.is_audio,
+      },
     });
     onChange(assets);
   };
@@ -90,7 +90,7 @@ const NoteEditAssets = ({ assets, onChange }) => {
 
 NoteEditAssets.propTypes = {
   assets: PropTypes.array,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default NoteEditAssets;

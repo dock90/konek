@@ -8,7 +8,7 @@ import {
   ALL_CONTACTS_QUERY,
   CONTACT_QUERY,
   CREATE_CONTACT_MUTATION,
-  UPDATE_CONTACT_MUTATION
+  UPDATE_CONTACT_MUTATION,
 } from '../../queries/ContactQueries';
 // material
 import { Grid, TextField, Button, Paper } from '@material-ui/core';
@@ -75,17 +75,17 @@ const ContactEdit = ({ id }) => {
   const router = useRouter();
   const { loading, data, error } = useQuery(CONTACT_QUERY, {
       variables: { contactId: id },
-      skip: isNew
+      skip: isNew,
     }),
     { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY),
     [updateContactMutation] = useMutation(UPDATE_CONTACT_MUTATION),
     [createContactMutation] = useMutation(CREATE_CONTACT_MUTATION, {
-      refetchQueries: [{ query: ALL_CONTACTS_QUERY }]
+      refetchQueries: [{ query: ALL_CONTACTS_QUERY }],
     });
 
   const { loading: groupsLoading, data: groupsData } = useGroupList({
     manageOnly: false,
-    includeGroupName: true
+    includeGroupName: true,
   });
 
   const [contact, setContact] = useState({}),
@@ -107,41 +107,41 @@ const ContactEdit = ({ id }) => {
   if (loading || groupsLoading || rolesLoading || !contact) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setContact({
       ...contact,
-      [name]: value
+      [name]: value,
     });
     setUpdatedFields({
       ...updatedFields,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleGridChange = (field, value) => {
     setContact({
       ...contact,
-      [field]: value
+      [field]: value,
     });
     setUpdatedFields({
       ...updatedFields,
-      [field]: value
+      [field]: value,
     });
   };
 
-  const newContactGroupsChange = value => {
+  const newContactGroupsChange = (value) => {
     setContact({
       ...contact,
-      groups: value
+      groups: value,
     });
     setUpdatedFields({
       ...updatedFields,
-      groups: value
+      groups: value,
     });
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (Object.keys(updatedFields).length === 0) {
       // Nothing updated, nothing to do.
@@ -157,16 +157,16 @@ const ContactEdit = ({ id }) => {
     let tags = [];
 
     if (updatedFields.tags && updatedFields.tags.length > 0) {
-      tags = updatedFields.tags.map(t => t.tagId);
+      tags = updatedFields.tags.map((t) => t.tagId);
     }
 
     if (isNew) {
       const res = await createContactMutation({
-        variables: { ...updatedFields, tags }
+        variables: { ...updatedFields, tags },
       });
       await router.replace(
         '/contacts/[id]',
-        `/contacts/${res.data.createContact.contactId}`
+        `/contacts/${res.data.createContact.contactId}`,
       );
       return;
     }
@@ -175,32 +175,32 @@ const ContactEdit = ({ id }) => {
       variables: {
         contactId: id,
         ...updatedFields,
-        tags
-      }
+        tags,
+      },
     });
     router.push('/contacts/[id]', `/contacts/${id}`);
   };
 
-  const handleUpdatePicture = async info => {
+  const handleUpdatePicture = async (info) => {
     const picture = {
       format: info.format,
       publicId: info.public_id,
       resourceType: info.resource_type,
       type: info.type,
       originalFilename: info.original_filename,
-      isAudio: info.is_audio
+      isAudio: info.is_audio,
     };
 
     setContact({
       ...contact,
-      picture
+      picture,
     });
 
     await updateContactMutation({
       variables: {
         contactId: id,
-        picture
-      }
+        picture,
+      },
     });
   };
 
@@ -262,7 +262,7 @@ const ContactEdit = ({ id }) => {
             <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
               <TagSelector
                 value={contact.tags || []}
-                onChange={val => handleGridChange('tags', val)}
+                onChange={(val) => handleGridChange('tags', val)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -287,10 +287,10 @@ const ContactEdit = ({ id }) => {
               <Grid container>
                 <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                   <GridInputs
-                    onChange={v => handleGridChange('emails', v)}
+                    onChange={(v) => handleGridChange('emails', v)}
                     columns={[
                       { label: 'Email', name: 'email' },
-                      { label: 'Label', name: 'label' }
+                      { label: 'Label', name: 'label' },
                     ]}
                     value={contact.emails || []}
                     disabled={saving}
@@ -298,10 +298,10 @@ const ContactEdit = ({ id }) => {
                 </Grid>
                 <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                   <GridInputs
-                    onChange={v => handleGridChange('phones', v)}
+                    onChange={(v) => handleGridChange('phones', v)}
                     columns={[
                       { label: 'Phone Number', name: 'number' },
-                      { label: 'Label', name: 'label' }
+                      { label: 'Label', name: 'label' },
                     ]}
                     value={contact.phones || []}
                     disabled={saving}
@@ -325,7 +325,7 @@ const ContactEdit = ({ id }) => {
                       <>
                         <tbody>
                           {contact.groups &&
-                            contact.groups.map(cg => (
+                            contact.groups.map((cg) => (
                               <ContactGroupEdit
                                 key={cg.group.groupId}
                                 contactId={contact.contactId}
@@ -341,7 +341,7 @@ const ContactEdit = ({ id }) => {
                             <td> </td>
                             <td colSpan={2}>
                               <BaseButton
-                                onClick={e => setOpenAddGroup(true)}
+                                onClick={(e) => setOpenAddGroup(true)}
                                 disabled={saving}
                               >
                                 <Add /> Add Group
@@ -384,7 +384,7 @@ const ContactEdit = ({ id }) => {
 };
 
 ContactEdit.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ContactEdit;

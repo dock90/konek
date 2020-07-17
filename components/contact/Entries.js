@@ -16,19 +16,19 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 const NoneFound = styled.div.attrs(() => ({
-  children: 'None found'
+  children: 'None found',
 }))`
   text-align: center;
   font-size: 1.3em;
   font-style: italic;
-  color: ${props => props.grayer};
+  color: ${(props) => props.grayer};
   margin-top: 15px;
 `;
 
 const Entries = ({ type, header }) => {
   const { contactId } = useContext(ContactContext);
   const { loading, error, data } = useQuery(ENTRIES_QUERY, {
-    variables: { contactId, type }
+    variables: { contactId, type },
   });
 
   return (
@@ -49,7 +49,7 @@ const Entries = ({ type, header }) => {
 
 Entries.propTypes = {
   type: PropTypes.string.isRequired,
-  header: PropTypes.element
+  header: PropTypes.element,
 };
 
 export default Entries;

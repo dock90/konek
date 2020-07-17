@@ -9,7 +9,7 @@ import {
   DialogTitle,
   TextField,
   MenuItem,
-  Grid
+  Grid,
 } from '@material-ui/core';
 import { ErrorMessage } from '../../styles/Messages';
 import { Cancel, Save } from '@material-ui/icons';
@@ -25,7 +25,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
     [error, setError] = useState(''),
     [contactGroup, setContactGroup] = useState({
       groupId: '',
-      roleId: ''
+      roleId: '',
     });
 
   const [addMembership] = useMutation(ADD_CONTACT_GROUP);
@@ -37,7 +37,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
     setError('');
     setContactGroup({
       groupId: '',
-      roleId: ''
+      roleId: '',
     });
     onClose();
   };
@@ -59,13 +59,13 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
       await addMembership({
         variables: {
           ...contactGroup,
-          contactId
-        }
+          contactId,
+        },
       });
     } catch (e) {
       if (e.graphQLErrors) {
         // Probably access denied.
-        setError(e.graphQLErrors.map(e => e.message).join('\n'));
+        setError(e.graphQLErrors.map((e) => e.message).join('\n'));
       }
       setIsExecuting(false);
       return;
@@ -74,11 +74,11 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
     onClose();
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setContactGroup({
       ...contactGroup,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -98,7 +98,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
               onChange={handleChange}
               style={{ width: '100%' }}
             >
-              {groups.map(g => (
+              {groups.map((g) => (
                 <MenuItem key={g.groupId} value={g.groupId}>
                   {g.hierarchy}
                 </MenuItem>
@@ -115,7 +115,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
               onChange={handleChange}
               style={{ width: '100%' }}
             >
-              {roles.map(r => (
+              {roles.map((r) => (
                 <MenuItem key={r.roleId} value={r.roleId}>
                   {r.name}
                 </MenuItem>
@@ -141,7 +141,7 @@ AddMembership.propTypes = {
   roles: PropTypes.array.isRequired,
   contactId: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default AddMembership;

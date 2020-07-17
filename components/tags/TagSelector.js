@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Autocomplete, {
-  createFilterOptions
+  createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
 import { Cancel } from '@material-ui/icons';
 import { useQuery } from '@apollo/react-hooks';
@@ -42,12 +42,12 @@ const TagSelector = ({ value, onChange, variant }) => {
   }
 
   const handleChange = (e, newValue) => {
-    const addItem = newValue.find(v => !!v.inputValue);
+    const addItem = newValue.find((v) => !!v.inputValue);
     if (addItem) {
       toggleDialog(true);
       setNewTag({
         ...NewTag(),
-        name: addItem.inputValue
+        name: addItem.inputValue,
       });
       return;
     }
@@ -56,28 +56,28 @@ const TagSelector = ({ value, onChange, variant }) => {
   };
 
   const filterOptions = (options, params) => {
-    const filtered = filter(options, params).filter(t => !t.hidden);
+    const filtered = filter(options, params).filter((t) => !t.hidden);
 
     if (params.inputValue !== '') {
       filtered.push({
         inputValue: params.inputValue,
         name: `Add "${params.inputValue}"`,
-        color: 'ffffff'
+        color: 'ffffff',
       });
     }
 
     return filtered;
   };
 
-  const dialogClose = newTag => {
+  const dialogClose = (newTag) => {
     toggleDialog(false);
     if (newTag) {
       onChange([...value, newTag]);
     }
   };
 
-  const removeItem = tagId => {
-    const newValue = value.filter(t => t.tagId !== tagId);
+  const removeItem = (tagId) => {
+    const newValue = value.filter((t) => t.tagId !== tagId);
     onChange(newValue);
   };
 
@@ -87,16 +87,16 @@ const TagSelector = ({ value, onChange, variant }) => {
         multiple={true}
         value={value || []}
         options={options}
-        getOptionLabel={t => t.name}
+        getOptionLabel={(t) => t.name}
         filterOptions={filterOptions}
         filterSelectedOptions={true}
         loading={loading}
-        renderInput={params => (
+        renderInput={(params) => (
           <StyledTextField {...params} label="Tags" variant={variant} />
         )}
-        renderOption={t => <TagItem tag={t} />}
+        renderOption={(t) => <TagItem tag={t} />}
         renderTags={(value, getTagProps) =>
-          value.map(t => (
+          value.map((t) => (
             <TagItemWrapper key={t.tagId}>
               <TagItem tag={t}>
                 <RemoveTag onClick={() => removeItem(t.tagId)}>
@@ -117,7 +117,7 @@ const TagSelector = ({ value, onChange, variant }) => {
 TagSelector.propTypes = {
   value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  variant: PropTypes.string
+  variant: PropTypes.string,
 };
 
 export default TagSelector;

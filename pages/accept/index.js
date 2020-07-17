@@ -15,11 +15,11 @@ const Index = () => {
     }
 
     acceptInvitation({
-      variables: { code: router.query.code }
+      variables: { code: router.query.code },
     }).then(() => {
       router.replace('/');
     });
-  }, [authenticated]);
+  }, [authenticated, acceptInvitation, router]);
 
   return null;
 };

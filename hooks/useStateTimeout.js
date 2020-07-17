@@ -15,7 +15,7 @@ export function useStateTimeout(initialState, timeoutMs) {
     return () => {
       clearTimeout(timerId);
     };
-  }, [state]);
+  }, [state, initialState, timeoutMs]);
 
   return [state, setState];
 }

@@ -25,7 +25,7 @@ import { MessageActions } from './MessageActions';
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error, refetch } = useQuery(CONTACT_QUERY, {
-    variables: { contactId: id }
+    variables: { contactId: id },
   });
   const [activeTab, setActiveTab] = useState(0);
 
@@ -36,7 +36,7 @@ const ContactOverview = ({ id }) => {
     setActiveTab(newValue);
   };
 
-  const refreshContact = async e => {
+  const refreshContact = async (e) => {
     e.preventDefault();
     await refetch();
   };
@@ -99,7 +99,7 @@ const ContactOverview = ({ id }) => {
 };
 
 ContactOverview.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ContactOverview;

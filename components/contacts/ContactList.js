@@ -32,10 +32,10 @@ const ContactList = () => {
     }
   }
   const { data, loading, error } = useQuery(ALL_CONTACTS_QUERY, {
-    variables: { tags }
+    variables: { tags },
   });
   const { data: tagData, loading: tagsLoading } = useQuery(TAGS_QUERY, {
-    skip: tags.length === 0
+    skip: tags.length === 0,
   });
 
   if (loading || tagsLoading) return <Loading />;
@@ -43,7 +43,7 @@ const ContactList = () => {
 
   let selectedTags = [];
   if (tags.length > 0 && tagData && tagData.tags) {
-    selectedTags = tagData.tags.filter(t => tags.includes(t.tagId));
+    selectedTags = tagData.tags.filter((t) => tags.includes(t.tagId));
   }
 
   return (
@@ -62,7 +62,7 @@ const ContactList = () => {
         </Link>
       </ContentHeader>
       <div>
-        {data.contacts.data.map(contact => (
+        {data.contacts.data.map((contact) => (
           <ContactListItem contactData={contact} key={contact.contactId} />
         ))}
       </div>

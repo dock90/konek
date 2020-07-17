@@ -5,7 +5,7 @@ import TagItem from './TagItem';
 const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  font-size: ${props => props.size}em;
+  font-size: ${(props) => props.size}em;
 `;
 const TagWidget = styled.div`
   margin: 2px 4px;
@@ -22,7 +22,7 @@ const TagsList = ({ tags, size }) => {
   }
   return (
     <TagContainer size={size}>
-      {tags.map(t => (
+      {tags.map((t) => (
         <TagWidget key={t.tagId}>
           <TagItem tag={t} />
         </TagWidget>
@@ -33,7 +33,7 @@ const TagsList = ({ tags, size }) => {
 
 TagsList.propTypes = {
   tags: PropTypes.array,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 export default TagsList;

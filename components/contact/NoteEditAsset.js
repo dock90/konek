@@ -23,14 +23,14 @@ const Actions = styled.div`
 `;
 
 const NoteEditAsset = ({ asset, onChange }) => {
-  const handleDelete = e => {
+  const handleDelete = (e) => {
     e.preventDefault();
     onChange(null);
   };
-  const handleDescrChange = e => {
+  const handleDescrChange = (e) => {
     onChange({
       ...asset,
-      description: e.target.value
+      description: e.target.value,
     });
   };
 
@@ -66,7 +66,7 @@ const NoteEditAsset = ({ asset, onChange }) => {
 
 NoteEditAsset.propTypes = {
   asset: PropTypes.object,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default NoteEditAsset;

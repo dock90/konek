@@ -10,7 +10,7 @@ const AvatarPicture = ({ picture, size, style }) => {
   let url = '';
   if (picture) {
     const core = new cloudinary.Cloudinary({
-      cloud_name: cloudinaryInfo.cloudName
+      cloud_name: cloudinaryInfo.cloudName,
     });
 
     url = core.url(picture.publicId, {
@@ -18,7 +18,7 @@ const AvatarPicture = ({ picture, size, style }) => {
       quality: 'auto',
       width: 100,
       height: 100,
-      crop: 'fit'
+      crop: 'fit',
     });
   }
   return (
@@ -32,9 +32,9 @@ AvatarPicture.propTypes = {
     format: PropTypes.string,
     publicId: PropTypes.string,
     resourceType: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
   }),
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default AvatarPicture;

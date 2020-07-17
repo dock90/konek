@@ -72,9 +72,9 @@ export function ContactInformation({ info, fullWidth }) {
 
 ContactInformation.propTypes = {
   info: PropTypes.object.isRequired,
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
 };
 
 ContactInformation.defaults = {
-  fullWidth: false
+  fullWidth: false,
 };

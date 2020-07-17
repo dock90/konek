@@ -2,7 +2,7 @@ import { client } from '../config/apollo';
 import {
   MESSAGES_QUERY,
   SEND_MESSAGE_MUTATION,
-  SET_READ_THROUGH
+  SET_READ_THROUGH,
 } from '../queries/MessagesQueries';
 import { MEMBER_FIELDS, MEMBER_QUERY } from '../queries/MemberQueries';
 import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from '../queries/RoomQueries';
@@ -21,7 +21,7 @@ export async function sendMessage(roomId, body, asset) {
     update(proxy, { data }) {
       const { messages } = proxy.readQuery({
         query: MESSAGES_QUERY,
-        variables: { roomId: roomId, after: null }
+        variables: { roomId: roomId, after: null },
       });
 
       if (hasPreviousMessage(messages, data.sendMessage.messageId)) {
@@ -35,13 +35,13 @@ export async function sendMessage(roomId, body, asset) {
         data: {
           messages: {
             ...messages,
-            data: [data.sendMessage, ...messages.data]
-          }
+            data: [data.sendMessage, ...messages.data],
+          },
         },
         variables: {
           roomId: roomId,
-          after: null
-        }
+          after: null,
+        },
       });
 
       orderRooms(roomId, proxy);
@@ -51,7 +51,7 @@ export async function sendMessage(roomId, body, asset) {
       const roomInfo = proxy.readFragment({
         id: roomId,
         fragment: ROOM_FIELDS,
-        fragmentName: 'RoomFields'
+        fragmentName: 'RoomFields',
       });
 
       roomInfo.readThrough = data.sendMessage.messageId;
@@ -60,9 +60,9 @@ export async function sendMessage(roomId, body, asset) {
         id: roomId,
         fragment: ROOM_FIELDS,
         fragmentName: 'RoomFields',
-        data: roomInfo
+        data: roomInfo,
       });
-    }
+    },
   });
 }
 
@@ -82,7 +82,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
     const roomQuery = await client.query({
       fetchPolicy: 'cache-only',
       query: ROOM_QUERY,
-      variables: { roomId }
+      variables: { roomId },
     });
     roomInfo = roomQuery.data.room;
   }
@@ -95,7 +95,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
       id: roomId,
       fragment: ROOM_FIELDS,
       fragmentName: 'RoomFields',
-      data: roomInfo
+      data: roomInfo,
     });
   }
 
@@ -105,7 +105,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
   try {
     query = client.readQuery({
       query: MESSAGES_QUERY,
-      variables: { roomId, after: null }
+      variables: { roomId, after: null },
     });
   } catch (e) {
     // There are no messages loaded for this room, so we can exit without updating anything.
@@ -120,7 +120,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
   let authorInfo = client.readFragment({
     fragment: MEMBER_FIELDS,
     id: authorId,
-    fragmentName: 'MemberFields'
+    fragmentName: 'MemberFields',
   });
 
   if (!authorInfo) {
@@ -129,8 +129,8 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
       query: MEMBER_QUERY,
       variables: {
         memberId: authorId,
-        roomId: roomId
-      }
+        roomId: roomId,
+      },
     });
 
     authorInfo = data.member;
@@ -139,7 +139,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
   if (asset) {
     assetField = {
       ...asset,
-      __typename: 'Asset'
+      __typename: 'Asset',
     };
   }
 
@@ -149,7 +149,7 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
     asset: assetField,
     createdAt: new Date().toISOString(),
     author: authorInfo,
-    __typename: 'Message'
+    __typename: 'Message',
   };
 
   client.writeQuery({
@@ -158,9 +158,9 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
     data: {
       messages: {
         ...query.messages,
-        data: [newMessage, ...query.messages.data]
-      }
-    }
+        data: [newMessage, ...query.messages.data],
+      },
+    },
   });
 }
 
@@ -185,13 +185,13 @@ export async function markAllRead(roomId, updateServer) {
     // get the local message list.
     const data = await client.readQuery({
       query: MESSAGES_QUERY,
-      variables: { roomId, after: null }
+      variables: { roomId, after: null },
     });
     messages = data.messages;
   } catch (e) {
     console.log(
       '💥 This really should never happen, but you never know. 💥',
-      e
+      e,
     );
     return;
   }
@@ -209,7 +209,7 @@ export async function markAllRead(roomId, updateServer) {
 
   const results = await client.mutate({
     mutation: SET_READ_THROUGH,
-    variables: { roomId, messageId }
+    variables: { roomId, messageId },
   });
 
   writeRoomInfo(roomId, results.data.setReadThrough);
@@ -219,7 +219,7 @@ function getRoomInfo(roomId) {
   return client.readFragment({
     id: roomId,
     fragment: ROOM_FIELDS,
-    fragmentName: 'RoomFields'
+    fragmentName: 'RoomFields',
   });
 }
 
@@ -228,13 +228,13 @@ function writeRoomInfo(roomId, info) {
     id: roomId,
     fragment: ROOM_FIELDS,
     fragmentName: 'RoomFields',
-    data: info
+    data: info,
   });
 }
 
 function orderRooms(topRoomId, client) {
   const { rooms } = client.readQuery({
-    query: ROOMS_QUERY
+    query: ROOMS_QUERY,
   });
 
   const newRooms = [...rooms];
@@ -254,10 +254,10 @@ function orderRooms(topRoomId, client) {
 
   client.writeQuery({
     query: ROOMS_QUERY,
-    data: { rooms: newRooms }
+    data: { rooms: newRooms },
   });
 }
 
 function hasPreviousMessage(messages, messageId) {
-  return !!messages.data.find(m => m.messageId === messageId);
+  return !!messages.data.find((m) => m.messageId === messageId);
 }

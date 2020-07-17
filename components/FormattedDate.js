@@ -5,14 +5,14 @@ const FormattedDate = ({ date }) => {
     formatted = new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     }).format(d);
 
   return <span>{formatted}</span>;
 };
 
 FormattedDate.propTypes = {
-  date: propTypes.string.isRequired
+  date: propTypes.string.isRequired,
 };
 
 export default FormattedDate;

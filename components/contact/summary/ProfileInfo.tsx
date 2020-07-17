@@ -52,8 +52,8 @@ const ProfileInfo = () => {
           <ProfileContactsContainer>
             <H4>Other Contacts</H4>
             {profile.contacts
-              .filter(c => c.contactId !== contactId)
-              .map(c => (
+              .filter((c) => c.contactId !== contactId)
+              .map((c) => (
                 <ContactListItem key={c.contactId} contactData={c} />
               ))}
           </ProfileContactsContainer>

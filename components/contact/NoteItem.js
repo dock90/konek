@@ -20,8 +20,8 @@ const CardTitle = styled(CardHeader)`
 const AccessIcon = styled.span`
   padding: 2px;
   // TODO: These colors are ugly.
-  background-color: ${props => (props.isShared ? 'lightpink' : 'lightgray')};
-  border: 1px solid ${props => (props.isShared ? 'deeppink' : 'grey')};
+  background-color: ${(props) => (props.isShared ? 'lightpink' : 'lightgray')};
+  border: 1px solid ${(props) => (props.isShared ? 'deeppink' : 'grey')};
   border-radius: 4px;
   margin-right: 10px;
   // To vertically align the icon in the span.
@@ -113,7 +113,7 @@ const NoteItem = ({ note }) => {
 
 NoteItem.propTypes = {
   // TODO: add shape to prop type
-  note: PropTypes.object.isRequired
+  note: PropTypes.object.isRequired,
 };
 
 export default NoteItem;

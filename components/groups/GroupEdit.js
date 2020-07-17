@@ -9,7 +9,7 @@ import {
   GROUP_UPDATE_MUTATION,
   GROUP_QUERY,
   GROUP_CREATE_MUTATION,
-  GROUPS_QUERY
+  GROUPS_QUERY,
 } from '../../queries/GroupQueries';
 import { ROLES_QUERY } from '../../queries/RoleQueries';
 
@@ -19,7 +19,7 @@ import {
   Card,
   CardContent,
   TextField,
-  MenuItem
+  MenuItem,
 } from '@material-ui/core';
 import GroupItem from './GroupItem';
 import Loading from '../Loading';
@@ -45,25 +45,25 @@ export default ({ groupId }) => {
   const router = useRouter();
   const { loading, data } = useQuery(GROUP_QUERY, {
     variables: { groupId },
-    skip: isNew
+    skip: isNew,
   });
   const { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY);
   const { loading: groupsLoading, data: manageGroups, groups } = useGroupList({
     manageOnly: true,
     excludeGroupId: isNew ? false : groupId,
-    includeGroupName: true
+    includeGroupName: true,
   });
 
   const [saveGroup] = useMutation(GROUP_UPDATE_MUTATION);
   const [createGroup] = useMutation(GROUP_CREATE_MUTATION, {
-    refetchQueries: [{ query: GROUPS_QUERY }]
+    refetchQueries: [{ query: GROUPS_QUERY }],
   });
 
   const [group, setGroup] = useState({
     name: '',
     description: '',
     defaultRoleId: '',
-    parentGroupId: ''
+    parentGroupId: '',
   });
   const [updatedGroup, setUpdatedGroup] = useState({});
   const [editMode, setEditMode] = useState(isNew);
@@ -81,7 +81,7 @@ export default ({ groupId }) => {
       if (manageGroups.length > 0 && data.group.ancestors) {
         const pGID =
           data.group.ancestors[data.group.ancestors.length - 1].groupId;
-        if (manageGroups.find(g => g.groupId === pGID)) {
+        if (manageGroups.find((g) => g.groupId === pGID)) {
           // We can only set the parent group ID if we can manage the parent.
           parentGroupId = pGID;
         }
@@ -89,7 +89,7 @@ export default ({ groupId }) => {
       setGroup({
         ...data.group,
         defaultRoleId,
-        parentGroupId
+        parentGroupId,
       });
     }
   }, [data, manageGroups]);
@@ -107,7 +107,7 @@ export default ({ groupId }) => {
     editRowOneWidth = 3;
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (Object.keys(updatedGroup).length === 0) {
@@ -118,11 +118,11 @@ export default ({ groupId }) => {
 
     if (isNew) {
       const { data } = await createGroup({
-        variables: updatedGroup
+        variables: updatedGroup,
       });
       await router.replace(
         '/groups/[id]',
-        `/groups/${data.createGroup.groupId}`
+        `/groups/${data.createGroup.groupId}`,
       );
       setEditMode(false);
       return;
@@ -132,41 +132,41 @@ export default ({ groupId }) => {
     await saveGroup({
       variables: {
         ...updatedGroup,
-        groupId
-      }
+        groupId,
+      },
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     setGroup({
       ...group,
-      [name]: value
+      [name]: value,
     });
 
     setUpdatedGroup({
       ...updatedGroup,
-      [name]: value
+      [name]: value,
     });
   };
 
-  const updateAvatar = async info => {
+  const updateAvatar = async (info) => {
     const picture = {
       format: info.format,
       publicId: info.public_id,
       resourceType: info.resource_type,
-      type: info.type
+      type: info.type,
     };
 
     setGroup({
       ...group,
-      picture
+      picture,
     });
 
     setUpdatedGroup({
       ...updatedGroup,
-      picture
+      picture,
     });
 
     if (isNew) return;
@@ -174,8 +174,8 @@ export default ({ groupId }) => {
     await saveGroup({
       variables: {
         groupId,
-        picture
-      }
+        picture,
+      },
     });
   };
 
@@ -231,7 +231,7 @@ export default ({ groupId }) => {
                         variant="outlined"
                         style={{ width: '100%' }}
                       >
-                        {rolesData.roles.map(r => (
+                        {rolesData.roles.map((r) => (
                           <MenuItem key={r.roleId} value={r.roleId}>
                             {r.name}
                           </MenuItem>
@@ -251,7 +251,7 @@ export default ({ groupId }) => {
                           variant="outlined"
                           style={{ width: '100%' }}
                         >
-                          {manageGroups.map(g => (
+                          {manageGroups.map((g) => (
                             <MenuItem key={g.groupId} value={g.groupId}>
                               {g.hierarchy}
                             </MenuItem>

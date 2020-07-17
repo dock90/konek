@@ -8,7 +8,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
 } from '@material-ui/core';
 import { BaseButton } from '../../styles/Button';
 import Loading from '../../Loading';
@@ -24,14 +24,14 @@ const fields = [
     'state',
     'country',
     'postalCode',
-    'language'
+    'language',
   ],
   merge = ['phones', 'emails'],
-  doMerge = contact => {
+  doMerge = (contact) => {
     const c = {
-        contactId: contact.contactId
+        contactId: contact.contactId,
       },
-      clean = val => {
+      clean = (val) => {
         if (val.__typename !== undefined) {
           const newVal = { ...val };
           delete newVal.__typename;

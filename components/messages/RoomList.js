@@ -75,7 +75,7 @@ export function RoomList() {
   }
 
   let rooms = search
-    ? roomsQuery.data.rooms.filter(r => r.name.toLowerCase().includes(search))
+    ? roomsQuery.data.rooms.filter((r) => r.name.toLowerCase().includes(search))
     : roomsQuery.data.rooms;
 
   return (
@@ -87,7 +87,7 @@ export function RoomList() {
       />
       <RoomsContainer>
         <RoomsWrapper>
-          {rooms.map(room => (
+          {rooms.map((room) => (
             <RoomItem room={room} key={room.roomId} />
           ))}
         </RoomsWrapper>

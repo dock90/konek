@@ -48,7 +48,7 @@ export function useGroupList(options) {
         groupId: group.groupId,
         name: group.name,
         hierarchy: hierarchyLabel(group, data.groups, includeGroupName),
-        group: group
+        group: group,
       });
     }
 
@@ -63,11 +63,11 @@ export function useGroupList(options) {
       }
       return 0;
     });
-  }, [loading, data]);
+  }, [loading, data, excludeGroupId, includeGroupName, manageOnly]);
 
   return {
     loading,
     data: result,
-    groups: loading ? [] : data.groups
+    groups: loading ? [] : data.groups,
   };
 }

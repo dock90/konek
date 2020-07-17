@@ -46,7 +46,7 @@ function reducer(state, action) {
         input: '',
         asset: null,
         sending: true,
-        allowRecord: recordingSupported
+        allowRecord: recordingSupported,
       };
     case SEND_COMPLETE:
       return { ...state, sending: false };
@@ -72,7 +72,7 @@ function reducer(state, action) {
       return {
         ...state,
         recording: false,
-        recorder: null
+        recorder: null,
       };
     case RECORD_CANCEL:
       return {
@@ -80,14 +80,14 @@ function reducer(state, action) {
         sending: false,
         recording: false,
         recorder: null,
-        allowRecord: recordingSupported
+        allowRecord: recordingSupported,
       };
   }
   console.error(`Unknown action type ${action.type}`);
   return state;
 }
 
-const MessageInput = props => {
+const MessageInput = (props) => {
   const [state, dispatch] = useReducer(reducer, {
     input: '',
     asset: null,
@@ -95,7 +95,7 @@ const MessageInput = props => {
     open: false,
     allowRecord: recordingSupported,
     recording: false,
-    recorder: null
+    recorder: null,
   });
   const { roomId } = useContext(RoomIdContext),
     { cloudinaryInfo } = useContext(MeContext);
@@ -142,8 +142,8 @@ const MessageInput = props => {
         resourceType: info.resource_type,
         type: info.type,
         originalFilename: info.original_filename,
-        isAudio: info.is_audio
-      }
+        isAudio: info.is_audio,
+      },
     });
   }
   function removeAsset() {
@@ -169,7 +169,7 @@ const MessageInput = props => {
         return;
       }
       dispatch({ type: SEND_MESSAGE });
-      state.recorder.getFile().then(async file => {
+      state.recorder.getFile().then(async (file) => {
         state.recorder.destroy();
 
         const upload = await uploadFile(
@@ -178,9 +178,9 @@ const MessageInput = props => {
             folder: roomId,
             cloudName: cloudinaryInfo.cloudName,
             resourceType: RESOURCE_TYPE_AUDIO,
-            tags: ['recording', roomId]
+            tags: ['recording', roomId],
           },
-          file
+          file,
         );
 
         await sendMessage(roomId, '', upload);

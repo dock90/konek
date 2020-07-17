@@ -18,7 +18,7 @@ const NoResults = styled.div`
   font-style: italic;
 `;
 
-const Results = connectHits(props => {
+const Results = connectHits((props) => {
   const hideEmpty = props.hideEmpty !== undefined ? props.hideEmpty : true;
   if (props.hits.length === 0 && hideEmpty) {
     return <span />;
@@ -28,7 +28,7 @@ const Results = connectHits(props => {
       <TypeHeader>{props.header}</TypeHeader>
       <ResultList>
         {props.hits.length === 0 && <NoResults>No matches found</NoResults>}
-        {props.hits.map(hit => (
+        {props.hits.map((hit) => (
           <li key={hit.objectID}>
             <props.component hit={hit} />
           </li>
@@ -42,7 +42,7 @@ Results.propTypes = {
   header: PropTypes.string.isRequired,
   hits: PropTypes.array,
   component: PropTypes.func.isRequired,
-  hideEmpty: PropTypes.bool
+  hideEmpty: PropTypes.bool,
 };
 
 export default Results;

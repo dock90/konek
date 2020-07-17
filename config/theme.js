@@ -14,5 +14,5 @@ export const theme = {
 
   light: 'F2F2F2',
   gray: '#ADADAD',
-  grayer: '#606060'
+  grayer: '#606060',
 };

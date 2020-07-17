@@ -20,7 +20,7 @@ const ResetPass = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleEmailChange = e => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 

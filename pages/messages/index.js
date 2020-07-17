@@ -27,9 +27,9 @@ const Messages = () => {
 
   const roomValue = {
     roomId: roomId,
-    setRoomId: newRoomId => {
+    setRoomId: (newRoomId) => {
       setRoomId(newRoomId);
-    }
+    },
   };
 
   return (

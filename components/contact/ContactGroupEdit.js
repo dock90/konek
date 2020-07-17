@@ -22,16 +22,16 @@ const ContactGroupEdit = ({
   roles,
   groups,
   contactId,
-  disabled
+  disabled,
 }) => {
   const [isEditing, setIsEditing] = useState(false),
     [isDeleting, setIsDeleting] = useState(false);
 
   const role = useMemo(() => {
-      return roles.find(r => r.roleId === contactGroup.role.roleId);
+      return roles.find((r) => r.roleId === contactGroup.role.roleId);
     }, [contactGroup]),
     group = useMemo(() => {
-      return groups.find(g => g.groupId === contactGroup.group.groupId);
+      return groups.find((g) => g.groupId === contactGroup.group.groupId);
     }, [contactGroup]);
 
   const handleOpenEdit = () => {
@@ -99,7 +99,7 @@ ContactGroupEdit.propTypes = {
   contactGroup: PropTypes.object.isRequired,
   groups: PropTypes.array.isRequired,
   roles: PropTypes.array.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default ContactGroupEdit;

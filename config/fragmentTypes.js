@@ -7,17 +7,17 @@ export default {
           name: 'EntryTypeInterface',
           possibleTypes: [
             {
-              name: 'Conversation'
+              name: 'Conversation',
             },
             {
-              name: 'Note'
+              name: 'Note',
             },
             {
-              name: 'Log'
-            }
-          ]
-        }
-      ]
-    }
-  }
+              name: 'Log',
+            },
+          ],
+        },
+      ],
+    },
+  },
 };

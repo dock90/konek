@@ -23,7 +23,7 @@ export function textColor(hex) {
   const rgb = {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
+    b: parseInt(result[3], 16),
   };
 
   const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 255000;
@@ -47,7 +47,7 @@ const TagItem = ({ tag, children, style }) => {
 };
 
 TagItem.propTypes = {
-  tag: PropTypes.object.isRequired
+  tag: PropTypes.object.isRequired,
 };
 
 export default TagItem;

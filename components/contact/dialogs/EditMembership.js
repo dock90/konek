@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   MenuItem,
-  TextField
+  TextField,
 } from '@material-ui/core';
 import { Cancel, Save } from '@material-ui/icons';
 import { ErrorMessage } from '../../styles/Messages';
@@ -22,7 +22,7 @@ export const EditMembership = ({
   open,
   contactId,
   group,
-  roles
+  roles,
 }) => {
   const [isSaving, setIsSaving] = useState(false),
     [currentRole, setCurrentRole] = useState(contactGroup.role.roleId),
@@ -37,7 +37,7 @@ export const EditMembership = ({
     setError('');
     onClose();
   };
-  const selectRole = e => {
+  const selectRole = (e) => {
     setCurrentRole(e.target.value);
   };
   const handleSave = async () => {
@@ -47,8 +47,8 @@ export const EditMembership = ({
         variables: {
           contactId,
           groupId: group.groupId,
-          roleId: currentRole
-        }
+          roleId: currentRole,
+        },
       });
     } catch (e) {
       if (
@@ -58,7 +58,7 @@ export const EditMembership = ({
         e.networkError.result.errors
       ) {
         // Probably access denied.
-        setError(e.networkError.result.errors.map(e => e.message).join('\n'));
+        setError(e.networkError.result.errors.map((e) => e.message).join('\n'));
       }
       setIsSaving(false);
       setCurrentRole(contactGroup.role.roleId);
@@ -78,7 +78,7 @@ export const EditMembership = ({
           value={currentRole}
           onChange={selectRole}
         >
-          {roles.map(r => (
+          {roles.map((r) => (
             <MenuItem key={r.roleId} value={r.roleId}>
               {r.name}
             </MenuItem>
@@ -103,5 +103,5 @@ EditMembership.propTypes = {
   group: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  roles: PropTypes.array.isRequired
+  roles: PropTypes.array.isRequired,
 };

@@ -6,21 +6,21 @@ import { useAcceptInvitation } from '../../hooks/useAcceptInvitation';
 import { TextField, Button, Grid, CircularProgress } from '@material-ui/core';
 import { Email } from '@material-ui/icons';
 
-const AcceptInvitation = props => {
+const AcceptInvitation = (props) => {
   const router = useRouter();
   const [code, setCode] = useState(props.code ? props.code : '');
   const [errorMessage, setErrorMessage] = useState('');
   const [doAccept, { loading }] = useAcceptInvitation();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setCode(e.target.value);
     setErrorMessage('');
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await doAccept({
-      variables: { code }
+      variables: { code },
     });
     if (!res.data.acceptInvitation) {
       setErrorMessage('Invalid invitation code');

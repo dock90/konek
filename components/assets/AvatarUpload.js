@@ -52,11 +52,11 @@ const AvatarUpload = ({
   onSuccess,
   avatarType,
   folder,
-  disabled
+  disabled,
 }) => {
   const [open, setOpen] = useState(false);
 
-  const openUploader = e => {
+  const openUploader = (e) => {
     e.preventDefault();
     if (disabled) {
       return;
@@ -100,7 +100,7 @@ AvatarUpload.propTypes = {
     format: PropTypes.string,
     publicId: PropTypes.string,
     resourceType: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
   }),
   /**
    * Will be something like "contact", "profile" or "group".
@@ -109,7 +109,7 @@ AvatarUpload.propTypes = {
   avatarType: PropTypes.string.isRequired,
   folder: PropTypes.string.isRequired,
   onSuccess: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default AvatarUpload;

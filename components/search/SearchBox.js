@@ -44,7 +44,7 @@ const PoweredByContainer = styled.div`
 
 const SearchBox = connectSearchBox(
   ({ close, open, refine, currentRefinement }) => {
-    const onKeyPress = e => {
+    const onKeyPress = (e) => {
       if (e.keyCode === 27) {
         close();
         refine('');
@@ -60,7 +60,7 @@ const SearchBox = connectSearchBox(
           disableUnderline
           placeholder="Search"
           value={currentRefinement}
-          onChange={e => refine(e.target.value)}
+          onChange={(e) => refine(e.target.value)}
           onFocus={open}
           onKeyDown={onKeyPress}
         />
@@ -69,12 +69,12 @@ const SearchBox = connectSearchBox(
         </PoweredByContainer>
       </Container>
     );
-  }
+  },
 );
 
 SearchBox.propTypes = {
   open: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
 };
 
 export default SearchBox;

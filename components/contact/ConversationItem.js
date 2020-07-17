@@ -21,10 +21,10 @@ const HeaderText = styled.div`
 `;
 const HeaderSubText = styled.div`
   font-size: 0.9rem;
-  color: ${props => props.theme.grayer};
+  color: ${(props) => props.theme.grayer};
 `;
 const Expander = styled.div`
-  transform: rotate(${props => (props.isExpanded ? '90deg' : '-90deg')});
+  transform: rotate(${(props) => (props.isExpanded ? '90deg' : '-90deg')});
   transition: transform 150ms linear;
   .MuiSvgIcon-root {
     display: block;
@@ -36,7 +36,7 @@ const MessagesContainer = styled.div`
 
 const ConversationContent = ({ conversationId }) => {
   const { data, loading, error } = useQuery(CONVERSATION_QUERY, {
-    variables: { entryId: conversationId }
+    variables: { entryId: conversationId },
   });
 
   if (loading)
@@ -50,7 +50,7 @@ const ConversationContent = ({ conversationId }) => {
   const messages = [...data.entry.messages].reverse();
   return (
     <MessagesContainer>
-      {messages.map(m => (
+      {messages.map((m) => (
         <MessageItem key={m.messageId} message={m} room={data.entry.room} />
       ))}
     </MessagesContainer>
@@ -60,7 +60,7 @@ const ConversationContent = ({ conversationId }) => {
 const ConversationItem = ({ conversation }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault();
     setExpanded(!expanded);
   };
@@ -103,7 +103,7 @@ const ConversationItem = ({ conversation }) => {
 };
 
 ConversationItem.propTypes = {
-  conversation: PropTypes.object.isRequired
+  conversation: PropTypes.object.isRequired,
 };
 
 export default ConversationItem;

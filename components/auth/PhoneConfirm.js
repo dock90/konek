@@ -24,17 +24,17 @@ const PhoneConfirm = ({ verificationId }) => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSetCode = e => {
+  const handleSetCode = (e) => {
     setCode(e.target.value);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
     try {
       const credential = firebase.auth.PhoneAuthProvider.credential(
         verificationId,
-        code
+        code,
       );
       await auth.signInWithCredential(credential);
     } catch (e) {
@@ -46,7 +46,7 @@ const PhoneConfirm = ({ verificationId }) => {
     if (router.query.name) {
       try {
         await auth.currentUser.updateProfile({
-          displayName: decodeURIComponent(router.query.name)
+          displayName: decodeURIComponent(router.query.name),
         });
       } catch (e) {
         console.log('Error updating profile name.', e);
@@ -87,7 +87,7 @@ const PhoneConfirm = ({ verificationId }) => {
 };
 
 PhoneConfirm.propTypes = {
-  verificationId: PropTypes.string.isRequired
+  verificationId: PropTypes.string.isRequired,
 };
 
 export default PhoneConfirm;

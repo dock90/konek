@@ -19,8 +19,8 @@ Router.onRouteChangeError = () => {
 
 // styles
 const StyledPage = styled.div`
-  background: ${props => props.theme.white};
-  color: ${props => props.theme.black};
+  background: ${(props) => props.theme.white};
+  color: ${(props) => props.theme.black};
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: ${props => props.theme.black};
+    color: ${(props) => props.theme.black};
   }
 `;
 

@@ -7,7 +7,7 @@ import { Paper } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
 import {
   CONTACT_QUERY,
-  GENERATE_INVITATION_CODE
+  GENERATE_INVITATION_CODE,
 } from '../../../queries/ContactQueries';
 
 const SummaryContainer = styled(Paper)`
@@ -33,7 +33,7 @@ export function Invitation() {
       update(proxy, { data }) {
         const { contact } = proxy.readQuery({
           query: CONTACT_QUERY,
-          variables: { contactId }
+          variables: { contactId },
         });
 
         // Update the contact, the new code will trickle down through the context.
@@ -42,21 +42,21 @@ export function Invitation() {
         proxy.writeQuery({
           query: CONTACT_QUERY,
           variables: { contactId },
-          data: { contact }
+          data: { contact },
         });
-      }
-    }
+      },
+    },
   );
 
   const invitationLink = `${window.location.origin}/invitation?code=${invitationCode}`;
 
-  const handleGenerateCode = async e => {
+  const handleGenerateCode = async (e) => {
     e.preventDefault();
 
     await generateCodeMutation();
   };
 
-  const handleCodeFocus = e => {
+  const handleCodeFocus = (e) => {
     e.target.select();
   };
 

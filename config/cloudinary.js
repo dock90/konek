@@ -51,18 +51,16 @@ export async function getWidget(config, callback) {
         const res = await client.mutate({
           mutation: SIGN_ARGS_MUTATION,
           variables: {
-            args: paramsToSign
-          }
+            args: paramsToSign,
+          },
         });
 
         cb(res.data.signUpload);
-      }
+      },
     },
-    callback
+    callback,
   );
 }
-
-export function destroy(widget) {}
 
 export const RESOURCE_TYPE_AUDIO = 'video';
 
@@ -72,7 +70,7 @@ export async function uploadFile(config, file) {
     params = {
       timestamp,
       folder: config.folder,
-      tags: config.tags
+      tags: config.tags,
     };
 
   if (config.tags) {
@@ -83,7 +81,7 @@ export async function uploadFile(config, file) {
 
   const signed = await client.mutate({
     mutation: SIGN_ARGS_MUTATION,
-    variables: { args: params }
+    variables: { args: params },
   });
 
   const data = new FormData();
@@ -100,7 +98,7 @@ export async function uploadFile(config, file) {
 
   const response = await fetch(url, {
       method: 'post',
-      body: data
+      body: data,
     }),
     resData = await response.json();
 
@@ -109,6 +107,6 @@ export async function uploadFile(config, file) {
     publicId: resData.public_id,
     resourceType: resData.resource_type,
     type: resData.type,
-    isAudio: !!resData.is_audio
+    isAudio: !!resData.is_audio,
   };
 }

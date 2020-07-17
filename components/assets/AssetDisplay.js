@@ -7,14 +7,14 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  Paper
+  Paper,
 } from '@material-ui/core';
 import {
   Close,
   CloudDownload,
   Videocam,
   PlayArrow,
-  Pause
+  Pause,
 } from '@material-ui/icons';
 import { useContext, useState } from 'react';
 import { MeContext } from '../../contexts/MeContext';
@@ -55,7 +55,7 @@ const PlayIcon = styled.div`
   margin-bottom: -3px;
 `;
 const Description = styled.div`
-  width: ${props => props.size}px;
+  width: ${(props) => props.size}px;
   padding: 5px;
 `;
 const ImageView = styled(Image)`
@@ -82,7 +82,7 @@ const AssetDisplay = ({
   description,
   size,
   descriptionDialogOnly,
-  noPaper
+  noPaper,
 }) => {
   if (!size) {
     size = 100;
@@ -113,7 +113,7 @@ const AssetDisplay = ({
     } else {
       const core = new cloudinary.Cloudinary({
         cloud_name: cloudinaryInfo.cloudName,
-        resource_type: asset.resourceType
+        resource_type: asset.resourceType,
       });
 
       const url = core.url(asset.publicId, {});
@@ -181,7 +181,7 @@ const AssetDisplay = ({
     case 'raw':
       const core = new cloudinary.Cloudinary({
           cloud_name: cloudinaryInfo.cloudName,
-          resource_type: asset.resourceType
+          resource_type: asset.resourceType,
         }),
         url = core.url(asset.publicId, {});
       thumb = (
@@ -247,16 +247,16 @@ const AssetDisplay = ({
 AssetDisplay.propTypes = {
   size: PropTypes.number,
   asset: PropTypes.shape({
-    publicId: PropTypes.string.isRequired
+    publicId: PropTypes.string.isRequired,
   }),
   description: PropTypes.string,
   descriptionDialogOnly: PropTypes.bool,
-  noPaper: PropTypes.bool
+  noPaper: PropTypes.bool,
 };
 
 AssetDisplay.defaults = {
   descriptionDialogOnly: false,
-  noPaper: false
+  noPaper: false,
 };
 
 export default AssetDisplay;

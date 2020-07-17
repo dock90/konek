@@ -16,7 +16,7 @@ const GroupList = () => {
 
   return (
     <Grid container spacing={2}>
-      {data.groups.map(group => (
+      {data.groups.map((group) => (
         <Grid key={group.groupId} item xs={12} sm={6} md={4} lg={3} xl={2}>
           <GroupItem group={group} groupList={data.groups} />
         </Grid>

@@ -10,7 +10,7 @@ import { BaseButton } from '../styles/Button';
 
 // styles
 const ListCard = styled(Paper)`
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   height: 80px;
   margin-bottom: 8px;
   padding: 1rem;
@@ -35,7 +35,7 @@ const ContactListItem = ({ contactData }) => {
           size={40}
           picture={picture}
           style={{
-            marginRight: 10
+            marginRight: 10,
           }}
         />
         <div>
@@ -66,8 +66,8 @@ ContactListItem.propTypes = {
   contactData: PropTypes.shape({
     contactId: PropTypes.string.isRequired,
     country: PropTypes.string,
-    name: PropTypes.string.isRequired
-  }).isRequired
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ContactListItem;

@@ -11,7 +11,7 @@ import { auth } from './firebase';
 
 const LOCAL_STORAGE_UUID_KEY = 'pnuuid';
 
-auth.onAuthStateChanged(async user => {
+auth.onAuthStateChanged(async (user) => {
   if (user) {
     await initPubNub();
   } else {
@@ -25,9 +25,7 @@ function getUuid() {
   if (!uuid) {
     uuid = '';
     while (uuid.length < 15) {
-      uuid += Math.random()
-        .toString(36)
-        .substring(16);
+      uuid += Math.random().toString(36).substring(16);
     }
 
     uuid = uuid.substring(0, 15);
@@ -39,12 +37,12 @@ function getUuid() {
 }
 function setConnected(connected) {
   client.writeData({
-    data: { pnConnected: connected }
+    data: { pnConnected: connected },
   });
 }
 
 const listeners = {
-  message: async message => {
+  message: async (message) => {
     const data = message.message;
     if (data.type !== 'message') {
       console.log(message);
@@ -57,10 +55,10 @@ const listeners = {
       data.roomId,
       data.body,
       data.authorId,
-      data.asset
+      data.asset,
     );
   },
-  status: async function(s) {
+  status: async function (s) {
     switch (s.category) {
       case 'PNNetworkUpCategory':
       case 'PNConnectedCategory':
@@ -79,7 +77,7 @@ const listeners = {
       default:
         console.log(s);
     }
-  }
+  },
 };
 
 let pn;
@@ -95,23 +93,23 @@ export async function initPubNub() {
 
   const {
     data: {
-      me: { pubNubInfo }
-    }
+      me: { pubNubInfo },
+    },
   } = await client.query({
-    query: ME_QUERY
+    query: ME_QUERY,
   });
 
   pn = new PubNub({
     subscribeKey: pubNubInfo.subscribeKey,
     authKey: pubNubInfo.authKey,
     ssl: true,
-    uuid: getUuid()
+    uuid: getUuid(),
   });
 
   pn.addListener(listeners);
 
   pn.subscribe({
-    channelGroups: [pubNubInfo.channelGroup]
+    channelGroups: [pubNubInfo.channelGroup],
   });
 }
 

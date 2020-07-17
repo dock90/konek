@@ -10,7 +10,7 @@ export function useAuthenticated(requireAuth) {
     router = useRouter();
 
   useEffect(() => {
-    return auth.onAuthStateChanged(user => {
+    return auth.onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
       } else if (requireAuth) {

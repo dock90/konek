@@ -19,7 +19,7 @@ const FileUpload = ({
   maxFiles,
   folder,
   tags,
-  resourceType
+  resourceType,
 }) => {
   const [widget, setWidget] = useState();
   const [loading, setLoading] = useState(false);
@@ -45,9 +45,9 @@ const FileUpload = ({
         multiple: maxFiles && maxFiles > 1,
         apiKey: cloudinaryInfo.apiKey,
         cloudName: cloudinaryInfo.cloudName,
-        resourceType: resourceType || 'auto'
+        resourceType: resourceType || 'auto',
       },
-      function(error, result) {
+      function (error, result) {
         if (result) {
           switch (result.event) {
             case 'display-changed':
@@ -69,8 +69,8 @@ const FileUpload = ({
               break;
           }
         }
-      }
-    ).then(w => setWidget(w));
+      },
+    ).then((w) => setWidget(w));
   }
 
   return null;
@@ -83,7 +83,7 @@ FileUpload.propTypes = {
   folder: PropTypes.string.isRequired,
   maxFiles: PropTypes.number,
   tags: PropTypes.array,
-  resourceType: PropTypes.string
+  resourceType: PropTypes.string,
 };
 
 export default FileUpload;

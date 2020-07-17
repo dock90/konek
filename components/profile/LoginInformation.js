@@ -15,7 +15,7 @@ import { isEmailValid, isPasswordOk } from '../auth/validation';
 import {
   INVALID_EMAIL,
   PASSWORD_NOT_STRONG,
-  PASSWORDS_DONT_MATCH
+  PASSWORDS_DONT_MATCH,
 } from '../auth/messages';
 import { SuccessMessage } from '../styles/Messages';
 
@@ -28,12 +28,12 @@ const LoginInformation = () => {
       email,
       curPass: '',
       pass: '',
-      newPass: ''
+      newPass: '',
     }),
     [error, setError] = useState({
       email: '',
       noMatch: '',
-      invalidPassword: ''
+      invalidPassword: '',
     }),
     [processing, setProcessing] = useState(false),
     [success, setSuccess] = useStateTimeout('', 2500);
@@ -43,19 +43,19 @@ const LoginInformation = () => {
   const resetError = () => {
       setError({ email: '', noMatch: '', invalidPassword: '' });
     },
-    resetLoginInfo = newEmail => {
+    resetLoginInfo = (newEmail) => {
       setLoginInfo({
         email: newEmail || email,
         curPass: '',
         pass: '',
-        newPass: ''
+        newPass: '',
       });
       resetError();
     },
     hasNewPassword = !!(loginInfo.pass || loginInfo.newPass),
     hasNewEmail = loginInfo.email !== email;
 
-  const handleLoginInfoChange = e => {
+  const handleLoginInfoChange = (e) => {
     const { name, value } = e.target;
     const newState = { ...loginInfo, [name]: value };
     if (name === 'email' && hasNewPassword) {
@@ -71,7 +71,7 @@ const LoginInformation = () => {
     resetError();
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const fbUser = auth.currentUser;
 
@@ -94,7 +94,7 @@ const LoginInformation = () => {
       try {
         const credential = firebase.auth.EmailAuthProvider.credential(
           email,
-          loginInfo.curPass
+          loginInfo.curPass,
         );
         await fbUser.reauthenticateWithCredential(credential);
       } catch (e) {
@@ -137,11 +137,11 @@ const LoginInformation = () => {
         } else {
           const credential = new firebase.auth.EmailAuthProvider.credential(
             loginInfo.email,
-            loginInfo.curPass
+            loginInfo.curPass,
           );
           await auth.currentUser.linkWithCredential(credential);
           setSuccess(
-            'You may not log in with the supplied email and password!'
+            'You may not log in with the supplied email and password!',
           );
         }
         const emails = me.emails;

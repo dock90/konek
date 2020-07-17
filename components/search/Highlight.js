@@ -22,7 +22,7 @@ const Highlight = connectHighlight(
     const parsedHit = highlight({
       highlightProperty: isSnippet ? '_snippetResult' : '_highlightResult',
       attribute,
-      hit
+      hit,
     });
 
     return (
@@ -31,17 +31,17 @@ const Highlight = connectHighlight(
           Array.isArray(part) ? (
             <span key={index}>
               {part.map((partPart, partIndex) =>
-                highlighter(partPart, partIndex)
+                highlighter(partPart, partIndex),
               )}
               <br />
             </span>
           ) : (
             highlighter(part, index)
-          )
+          ),
         )}
       </span>
     );
-  }
+  },
 );
 
 export default Highlight;

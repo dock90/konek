@@ -7,8 +7,8 @@ import { Badge } from '@material-ui/core';
 import AvatarPicture from '../assets/AvatarPicture';
 
 const Container = styled.div`
-  padding: 8px 8px 8px ${props => (props.active ? '9px' : '13px')};
-  border-left: ${props =>
+  padding: 8px 8px 8px ${(props) => (props.active ? '9px' : '13px')};
+  border-left: ${(props) =>
     props.active ? `solid 4px ${props.theme.primary}` : ''};
   cursor: pointer;
   display: flex;
@@ -49,7 +49,7 @@ const RoomItem = ({ room }) => {
 };
 
 RoomItem.propTypes = {
-  room: PropTypes.object.isRequired
+  room: PropTypes.object.isRequired,
 };
 
 export default RoomItem;

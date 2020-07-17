@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import {
   CREATE_TAG_MUTATION,
   TAGS_QUERY,
-  UPDATE_TAG_MUTATION
+  UPDATE_TAG_MUTATION,
 } from '../../queries/TagQueries';
 import {
   Checkbox,
@@ -15,7 +15,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
-  Popover
+  Popover,
 } from '@material-ui/core';
 import { Save, Cancel, Check } from '@material-ui/icons';
 import { SketchPicker } from 'react-color';
@@ -31,7 +31,7 @@ const FieldWrapper = styled.div`
 
 const accessToggle = {
   PRIVATE: 'SHARED',
-  SHARED: 'PRIVATE'
+  SHARED: 'PRIVATE',
 };
 
 export const NewTag = () => ({
@@ -39,7 +39,7 @@ export const NewTag = () => ({
   name: 'New Tag',
   access: 'PRIVATE',
   color: 'FFFFFF',
-  isMine: true
+  isMine: true,
 });
 
 const EditTagDialog = ({ tag, open, onClose }) => {
@@ -49,10 +49,10 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     [colorPickOpen, setColorPickOpen] = useState(false);
   const colorSelector = useRef(null);
   const [updateTag] = useMutation(UPDATE_TAG_MUTATION, {
-    refetchQueries: [{ query: TAGS_QUERY }]
+    refetchQueries: [{ query: TAGS_QUERY }],
   });
   const [createTag] = useMutation(CREATE_TAG_MUTATION, {
-    refetchQueries: [{ query: TAGS_QUERY }]
+    refetchQueries: [{ query: TAGS_QUERY }],
   });
 
   useEffect(() => {
@@ -69,12 +69,12 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     const access = accessToggle[tagState.access];
     setTagState({
       ...tagState,
-      access
+      access,
     });
     setHasChange(true);
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     let { name, value } = e.target;
 
     if (name === 'hidden') {
@@ -84,15 +84,15 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     setHasChange(true);
     setTagState({
       ...tagState,
-      [name]: value
+      [name]: value,
     });
   };
 
-  const handleColorChange = color => {
+  const handleColorChange = (color) => {
     setHasChange(true);
     setTagState({
       ...tagState,
-      color: color.hex.replace('#', '')
+      color: color.hex.replace('#', ''),
     });
   };
 
@@ -108,11 +108,11 @@ const EditTagDialog = ({ tag, open, onClose }) => {
       setSaving(true);
       if (!tag.tagId) {
         await createTag({
-          variables: tagState
+          variables: tagState,
         });
       } else {
         await updateTag({
-          variables: tagState
+          variables: tagState,
         });
       }
       setSaving(false);
@@ -142,7 +142,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
             <BaseButton
               ref={colorSelector}
               style={{
-                backgroundColor: tagState.color
+                backgroundColor: tagState.color,
               }}
               onClick={handleToggleColorPickOpen}
               disabled={isSaving}
@@ -156,11 +156,11 @@ const EditTagDialog = ({ tag, open, onClose }) => {
             anchorEl={colorSelector.current}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'center'
+              horizontal: 'center',
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'center'
+              horizontal: 'center',
             }}
             onClose={handleColorPickClose}
           >
@@ -223,7 +223,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
 };
 
 EditTagDialog.propTypes = {
-  tag: PropTypes.object.isRequired
+  tag: PropTypes.object.isRequired,
 };
 
 export default EditTagDialog;

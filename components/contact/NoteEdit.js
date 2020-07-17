@@ -9,7 +9,7 @@ import {
   CardContent,
   CardActions,
   Switch,
-  FormControlLabel
+  FormControlLabel,
 } from '@material-ui/core';
 import { BaseButton } from '../styles/Button';
 import { StyledTextField } from '../material/StyledTextField';
@@ -17,7 +17,7 @@ import { Save } from '@material-ui/icons';
 // gql
 import {
   UPDATE_NOTE_MUTATION,
-  CREATE_NOTE_MUTATION
+  CREATE_NOTE_MUTATION,
 } from '../../queries/NoteQueries';
 import { ENTRIES_QUERY, TYPE_NOTE } from '../../queries/EntryQueries';
 import TagSelector from '../tags/TagSelector';
@@ -38,7 +38,7 @@ const Title = styled.div`
 
 const accessToggle = {
   PRIVATE: 'SHARED',
-  SHARED: 'PRIVATE'
+  SHARED: 'PRIVATE',
 };
 
 const NoteEdit = ({ note, setEdit }) => {
@@ -49,8 +49,8 @@ const NoteEdit = ({ note, setEdit }) => {
     note || {
       // Defaults
       access: 'PRIVATE',
-      pinned: false
-    }
+      pinned: false,
+    },
   );
   const [changed, setChanged] = useState({});
   const [updateNoteMutation, { loading: updateLoading }] = useMutation(
@@ -61,11 +61,11 @@ const NoteEdit = ({ note, setEdit }) => {
           // the pinned state changed, so we need to refresh the contact, and the entry list.
           return [
             { query: CONTACT_QUERY, variables: { contactId } },
-            { query: ENTRIES_QUERY, variables: { type: TYPE_NOTE, contactId } }
+            { query: ENTRIES_QUERY, variables: { type: TYPE_NOTE, contactId } },
           ];
         }
-      }
-    }
+      },
+    },
   );
   const [createNoteMutation, { loading: createLoading }] = useMutation(
     CREATE_NOTE_MUTATION,
@@ -78,13 +78,13 @@ const NoteEdit = ({ note, setEdit }) => {
         } else {
           refresh.push({
             query: ENTRIES_QUERY,
-            variables: { type: TYPE_NOTE, contactId }
+            variables: { type: TYPE_NOTE, contactId },
           });
         }
 
         return refresh;
-      }
-    }
+      },
+    },
   );
 
   const loading = updateLoading || createLoading,
@@ -93,15 +93,15 @@ const NoteEdit = ({ note, setEdit }) => {
         ? note.createdBy.isMe
         : true;
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setNoteState({
       ...noteState,
-      [name]: value
+      [name]: value,
     });
     setChanged({
       ...changed,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -109,47 +109,47 @@ const NoteEdit = ({ note, setEdit }) => {
     const access = accessToggle[noteState.access];
     setNoteState({
       ...noteState,
-      access
+      access,
     });
     setChanged({
       ...changed,
-      access
+      access,
     });
   };
   const togglePinned = () => {
     const newPinned = !noteState.pinned;
     setNoteState({
       ...noteState,
-      pinned: newPinned
+      pinned: newPinned,
     });
     setChanged({
       ...changed,
-      pinned: newPinned
+      pinned: newPinned,
     });
   };
 
-  const handleTagsChange = tags => {
+  const handleTagsChange = (tags) => {
     setNoteState({ ...noteState, tags });
     setChanged({ ...changed, tags });
   };
 
-  const handleAssetsChange = assets => {
+  const handleAssetsChange = (assets) => {
     setNoteState({ ...noteState, assets });
     setChanged({ ...changed, assets });
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     let tags = [];
     if (changed.tags !== undefined) {
-      tags = changed.tags.map(t => t.tagId);
+      tags = changed.tags.map((t) => t.tagId);
     }
 
     if (isNew) {
       await createNoteMutation({ variables: { ...changed, tags, contactId } });
     } else {
       await updateNoteMutation({
-        variables: { ...changed, tags, entryId: note.entryId }
+        variables: { ...changed, tags, entryId: note.entryId },
       });
     }
     setEdit(false);
@@ -164,7 +164,7 @@ const NoteEdit = ({ note, setEdit }) => {
           style={{
             border: 'none',
             margin: 0,
-            padding: 0
+            padding: 0,
           }}
         >
           <Card>
@@ -251,9 +251,9 @@ NoteEdit.propTypes = {
   note: PropTypes.shape({
     entryId: PropTypes.string,
     title: PropTypes.string,
-    message: PropTypes.string
+    message: PropTypes.string,
   }),
-  contactId: PropTypes.string
+  contactId: PropTypes.string,
 };
 
 export default NoteEdit;

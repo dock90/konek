@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { MeContext } from '../../contexts/MeContext';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useStateTimeout } from '../../hooks/useStateTimeout';
 import { UPDATE_ME_MUTATION } from '../../queries/MeQueries';
 // material

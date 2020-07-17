@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { MESSAGES_QUERY } from '../../queries/MessagesQueries';
 import { RoomIdContext } from '../../contexts/RoomIdContext';

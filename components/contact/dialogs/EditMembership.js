@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
 // queries
 import { UPDATE_CONTACT_GROUP } from '../../../queries/ContactQueries';

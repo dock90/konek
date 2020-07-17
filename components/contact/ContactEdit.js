@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // hooks
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-apollo';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 // queries
 import {

@@ -1,12 +1,10 @@
 import React, { useContext, useMemo, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useQuery } from 'react-apollo';
-// material
+import { useQuery } from '@apollo/client';
 import Divider from '@material-ui/core/Divider';
 import { Badge } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-// icons
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
@@ -17,7 +15,6 @@ import TagsIcon from '@material-ui/icons/LabelOutlined';
 import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EmailIcon from '@material-ui/icons/Email';
-// components
 import { H6, AltText } from './styles/Typography';
 import { ROOMS_QUERY } from '../queries/RoomQueries';
 import AvatarPicture from './assets/AvatarPicture';

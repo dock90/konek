@@ -5,7 +5,7 @@ import { ChevronLeft } from '@material-ui/icons';
 import FormattedDate from '../FormattedDate';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import Loading from '../Loading';
 import { CONVERSATION_QUERY } from '../../queries/ConversationQueries';
 import MessageItem from '../messages/MessageItem';

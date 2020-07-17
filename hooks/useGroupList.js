@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { GROUPS_QUERY } from '../queries/GroupQueries';
 import { useMemo } from 'react';
 import { hierarchyLabel } from '../components/groups/hierarchyLabel';
@@ -38,7 +38,7 @@ export function useGroupList(options) {
           group.groupId === excludeGroupId ||
           // Exclude when child of excluded group.
           (group.ancestors &&
-            group.ancestors.find(a => a.groupId === excludeGroupId))
+            group.ancestors.find((a) => a.groupId === excludeGroupId))
         ) {
           continue;
         }

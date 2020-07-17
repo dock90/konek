@@ -242,6 +242,14 @@ type PageInfo {
   hasNextPage: Boolean!
 }
 
+type Person {
+  contactId: ID
+  name: String!
+  picture: Asset
+  profileId: ID!
+  roomId: String!
+}
+
 type Phone {
   label: String
   number: String!
@@ -274,6 +282,8 @@ type PubNubInfo {
   authKey: String!
   "Channel group to subscribe to."
   channelGroup: String!
+  "List of all channels that the profile should be subscribed to. Primarily useful for contexts (push notifications) where channel groups aren't supported"
+  channels: [String!]!
   "New keys are valid for 5 days."
   expires: DateTime!
   "`subscribeKey` used when initializing PubNub"
@@ -289,6 +299,8 @@ type Query {
     after: String,
     "How many results to return, max of 100."
     first: Float = 25.0,
+    "If only contacts that can be messaged should be included."
+    messageOnly: Boolean = false,
     "Limit the contacts to certain tags."
     tags: [ID!]
   ): ContactList!
@@ -307,6 +319,8 @@ type Query {
   "List of messages sorted in descending order so the most recent messages are first."
   messages(input: MessagesInput!): MessageList!
   orphanProfiles: [Profile!]!
+  "List of contacts and profiles that current profile can message"
+  people: [Person!]!
   roles: [Role!]!
   "Info about a group or DM chat room."
   room(roomId: ID!): Room!
@@ -314,6 +328,7 @@ type Query {
   rooms: [Room!]!
   "List of all tags ordered by name."
   tags: [Tag!]!
+  pnConnected: Boolean
 }
 
 type Role {

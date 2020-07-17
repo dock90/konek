@@ -8,7 +8,7 @@ import {
 import { ErrorMessage } from '../../styles/Messages';
 import { useState } from 'react';
 import { Cancel, Delete } from '@material-ui/icons';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { REMOVE_CONTACT_GROUP } from '../../../queries/ContactQueries';
 import { BaseButton, DeleteButton } from '../../styles/Button';
 

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useContext, useState } from 'react';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import { ENTRIES_QUERY } from '../../queries/EntryQueries';
 // components
 import EntryList from './EntryList';

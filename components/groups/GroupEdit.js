@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';

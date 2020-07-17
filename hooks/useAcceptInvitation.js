@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { ACCEPT_INVITATION_MUTATION } from '../queries/InvitationQueries';
 import { ROOMS_QUERY } from '../queries/RoomQueries';
 

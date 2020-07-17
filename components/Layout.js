@@ -1,4 +1,4 @@
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import { ME_QUERY } from '../queries/MeQueries';
 import { MeContext } from '../contexts/MeContext';

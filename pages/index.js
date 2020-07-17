@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { ME_QUERY } from '../queries/MeQueries';
 import Loading from '../components/Loading';
 import Messages from './messages';

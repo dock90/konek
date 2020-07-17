@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import { CONTACT_QUERY } from '../../queries/ContactQueries';
 import { TYPE_CONVERSATION, TYPE_NOTE } from '../../queries/EntryQueries';
 // components

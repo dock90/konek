@@ -1,9 +1,8 @@
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useContext, useMemo, useState } from 'react';
 import { UPDATE_CONTACT_MUTATION } from '../../../queries/ContactQueries';
 import { ContactContext } from '../../../contexts/ContactContext';
 import { FileCopy, Cancel } from '@material-ui/icons';
-// components
 import {
   Dialog,
   DialogTitle,

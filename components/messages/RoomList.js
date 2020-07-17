@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import { Input } from '@material-ui/core';
 import { ROOMS_QUERY } from '../../queries/RoomQueries';

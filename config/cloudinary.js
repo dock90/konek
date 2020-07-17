@@ -1,4 +1,4 @@
-import { client } from '../config/apollo';
+import { client } from './apollo';
 import { SIGN_ARGS_MUTATION } from '../queries/AssetQueries';
 
 let isLoaded = false;
@@ -14,7 +14,7 @@ async function initWidget(config) {
     throw new Error("'apiKey' configuration parameter required");
   }
   if (!isLoaded) {
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve) => {
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
@@ -47,7 +47,7 @@ export async function getWidget(config, callback) {
       ...config,
       cloudName: config.cloudName,
       secure: true,
-      uploadSignature: async function(cb, paramsToSign) {
+      uploadSignature: async function (cb, paramsToSign) {
         const res = await client.mutate({
           mutation: SIGN_ARGS_MUTATION,
           variables: {

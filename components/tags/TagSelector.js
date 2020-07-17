@@ -3,7 +3,7 @@ import Autocomplete, {
   createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
 import { Cancel } from '@material-ui/icons';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { TAGS_QUERY } from '../../queries/TagQueries';
 import { useState } from 'react';
 import styled from 'styled-components';

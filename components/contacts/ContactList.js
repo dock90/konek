@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ALL_CONTACTS_QUERY } from '../../queries/ContactQueries';
 import { TAGS_QUERY } from '../../queries/TagQueries';

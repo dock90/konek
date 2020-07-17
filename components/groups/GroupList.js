@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Grid } from '@material-ui/core';
 import { GROUPS_QUERY } from '../../queries/GroupQueries';
 import Loading from '../Loading';

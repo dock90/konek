@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useContext, useState } from 'react';
-import { useMutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import { MeContext } from '../../contexts/MeContext';
 import { auth } from '../../config/firebase';
 import { hasEmailLogin, hasPhoneLogin } from './helpers';

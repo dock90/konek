@@ -1,6 +1,6 @@
 import React from 'react';
 import App from 'next/app';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
 import { client } from '../config/apollo';
 import '../config/pubnub';

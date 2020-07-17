@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import Loading from '../../Loading';
 import { GROUP_MEMBERS_QUERY } from '../../../queries/GroupQueries';
 import MemberItem from './MemberItem';

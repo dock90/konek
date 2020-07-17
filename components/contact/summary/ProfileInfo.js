@@ -19,7 +19,7 @@ const SummaryContainer = styled(Paper)`
 `;
 
 const ProfileInfo = () => {
-  const { profile } = useContext(ContactContext);
+  const { profile, contactId } = useContext(ContactContext);
 
   if (!profile) {
     return null;

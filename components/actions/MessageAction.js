@@ -14,7 +14,7 @@ const MessageAction = ({ roomId, children, type }) => (
 export default MessageAction;
 
 MessageAction.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.elementType,
   roomId: PropTypes.string.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
 };

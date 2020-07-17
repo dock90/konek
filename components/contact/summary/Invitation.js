@@ -1,6 +1,5 @@
 import { H4 } from '../../styles/Typography';
 import { BaseButton } from '../../styles/Button';
-import * as PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { ContactContext } from '../../../contexts/ContactContext';
 import styled from 'styled-components';

@@ -1,8 +1,8 @@
-import Link from "next/link";
+import Link from 'next/link';
 import Highlight from './Highlight';
 
-import { Avatar } from "@material-ui/core";
-import { ResultContainer, ResultTitle, ResultDetail  } from "./Styles";
+import { Avatar } from '@material-ui/core';
+import { ResultContainer, ResultTitle, ResultDetail } from './Styles';
 
 const ContactResult = ({ hit }) => {
   return (

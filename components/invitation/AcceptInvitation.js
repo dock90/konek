@@ -1,20 +1,20 @@
 // hooks
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { useAcceptInvitation } from "../../hooks/useAcceptInvitation";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useAcceptInvitation } from '../../hooks/useAcceptInvitation';
 // components
-import { TextField, Button, Grid, CircularProgress } from "@material-ui/core";
-import { Email } from "@material-ui/icons";
+import { TextField, Button, Grid, CircularProgress } from '@material-ui/core';
+import { Email } from '@material-ui/icons';
 
 const AcceptInvitation = props => {
   const router = useRouter();
-  const [code, setCode] = useState(props.code ? props.code : "");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [code, setCode] = useState(props.code ? props.code : '');
+  const [errorMessage, setErrorMessage] = useState('');
   const [doAccept, { loading }] = useAcceptInvitation();
 
   const handleChange = e => {
     setCode(e.target.value);
-    setErrorMessage("");
+    setErrorMessage('');
   };
 
   const handleSubmit = async e => {
@@ -23,12 +23,12 @@ const AcceptInvitation = props => {
       variables: { code }
     });
     if (!res.data.acceptInvitation) {
-      setErrorMessage("Invalid invitation code");
+      setErrorMessage('Invalid invitation code');
       return;
     }
-    setCode("");
+    setCode('');
     // TODO: There would probably be a better way to do this... There should be some indication of success.
-    router.push("/");
+    router.push('/');
   };
 
   return (

@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import { useAuthenticated } from "../../hooks/useAuthenticated";
-import { useEffect } from "react";
-import { useAcceptInvitation } from "../../hooks/useAcceptInvitation";
+import { useRouter } from 'next/router';
+import { useAuthenticated } from '../../hooks/useAuthenticated';
+import { useEffect } from 'react';
+import { useAcceptInvitation } from '../../hooks/useAcceptInvitation';
 
 const Index = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const Index = () => {
     acceptInvitation({
       variables: { code: router.query.code }
     }).then(() => {
-      router.replace("/");
+      router.replace('/');
     });
   }, [authenticated]);
 

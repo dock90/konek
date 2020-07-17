@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import cloudinary from "cloudinary-core";
-import { Avatar } from "@material-ui/core";
-import { useContext } from "react";
-import { MeContext } from "../../contexts/MeContext";
+import PropTypes from 'prop-types';
+import cloudinary from 'cloudinary-core';
+import { Avatar } from '@material-ui/core';
+import { useContext } from 'react';
+import { MeContext } from '../../contexts/MeContext';
 
 const AvatarPicture = ({ picture, size, style }) => {
   const { cloudinaryInfo } = useContext(MeContext);
 
-  let url = "";
+  let url = '';
   if (picture) {
     const core = new cloudinary.Cloudinary({
       cloud_name: cloudinaryInfo.cloudName
@@ -15,10 +15,10 @@ const AvatarPicture = ({ picture, size, style }) => {
 
     url = core.url(picture.publicId, {
       format: picture.format,
-      quality: "auto",
+      quality: 'auto',
       width: 100,
       height: 100,
-      crop: "fit"
+      crop: 'fit'
     });
   }
   return (

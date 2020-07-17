@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { firebase, auth } from "../../config/firebase";
-import { H1 } from "../styles/Typography";
-import { StyledTextField } from "../material/StyledTextField";
-import { useState } from "react";
-import { BigButton } from "../styles/Button";
-import { useRouter } from "next/router";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { firebase, auth } from '../../config/firebase';
+import { H1 } from '../styles/Typography';
+import { StyledTextField } from '../material/StyledTextField';
+import { useState } from 'react';
+import { BigButton } from '../styles/Button';
+import { useRouter } from 'next/router';
 
 const ConfirmWrapper = styled.div`
   display: flex;
@@ -19,9 +19,9 @@ const Form = styled.form`
 `;
 
 const PhoneConfirm = ({ verificationId }) => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
   const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleSetCode = e => {
@@ -38,7 +38,7 @@ const PhoneConfirm = ({ verificationId }) => {
       );
       await auth.signInWithCredential(credential);
     } catch (e) {
-      setError("Invalid verification code. Please try again.");
+      setError('Invalid verification code. Please try again.');
       setProcessing(false);
       return;
     }
@@ -46,14 +46,14 @@ const PhoneConfirm = ({ verificationId }) => {
     if (router.query.name) {
       try {
         await auth.currentUser.updateProfile({
-          displayName: decodeURIComponent(router.query.name),
+          displayName: decodeURIComponent(router.query.name)
         });
       } catch (e) {
-        console.log("Error updating profile name.", e);
+        console.log('Error updating profile name.', e);
       }
     }
 
-    let target = "/";
+    let target = '/';
     if (router.query.target) {
       target = decodeURIComponent(router.query.target);
     }

@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import Link from "next/link";
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import styled from 'styled-components';
 // components
-import { Paper } from "@material-ui/core";
-import { H5, H6, AltText } from "../styles/Typography";
-import AvatarPicture from "../assets/AvatarPicture";
-import TagsList from "../tags/TagsList";
-import { BaseButton } from "../styles/Button";
+import { Paper } from '@material-ui/core';
+import { H5, H6, AltText } from '../styles/Typography';
+import AvatarPicture from '../assets/AvatarPicture';
+import TagsList from '../tags/TagsList';
+import { BaseButton } from '../styles/Button';
 
 // styles
 const ListCard = styled(Paper)`
@@ -50,7 +50,11 @@ const ContactListItem = ({ contactData }) => {
         </Location>
       )}
       <div>
-        <Link href={`/contacts/[id]`} as={`/contacts/${contactId}`} passHref={true}>
+        <Link
+          href={`/contacts/[id]`}
+          as={`/contacts/${contactId}`}
+          passHref={true}
+        >
           <BaseButton>View</BaseButton>
         </Link>
       </div>

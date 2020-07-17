@@ -1,15 +1,15 @@
-import PropTypes from "prop-types";
-import { Container } from "./EntryStyles";
-import { Card, Divider } from "@material-ui/core";
-import { ChevronLeft } from "@material-ui/icons";
-import FormattedDate from "../FormattedDate";
-import styled from "styled-components";
-import { useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import Loading from "../Loading";
-import { CONVERSATION_QUERY } from "../../queries/ConversationQueries";
-import MessageItem from "../messages/MessageItem";
-import { BaseIconButton } from "../styles/IconButton";
+import PropTypes from 'prop-types';
+import { Container } from './EntryStyles';
+import { Card, Divider } from '@material-ui/core';
+import { ChevronLeft } from '@material-ui/icons';
+import FormattedDate from '../FormattedDate';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import Loading from '../Loading';
+import { CONVERSATION_QUERY } from '../../queries/ConversationQueries';
+import MessageItem from '../messages/MessageItem';
+import { BaseIconButton } from '../styles/IconButton';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const HeaderSubText = styled.div`
   color: ${props => props.theme.grayer};
 `;
 const Expander = styled.div`
-  transform: rotate(${props => (props.isExpanded ? "90deg" : "-90deg")});
+  transform: rotate(${props => (props.isExpanded ? '90deg' : '-90deg')});
   transition: transform 150ms linear;
   .MuiSvgIcon-root {
     display: block;
@@ -75,11 +75,11 @@ const ConversationItem = ({ conversation }) => {
               <FormattedDate date={conversation.startDate} />
               {conversation.endDate ? (
                 <>
-                  {" "}
+                  {' '}
                   - <FormattedDate date={conversation.endDate} />
                 </>
               ) : (
-                " through today"
+                ' through today'
               )}
             </HeaderSubText>
           </div>

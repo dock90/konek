@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import { Avatar } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
-import FileUpload from "./FileUpload";
-import styled from "styled-components";
-import { useState } from "react";
-import AvatarPicture from "./AvatarPicture";
+import PropTypes from 'prop-types';
+import { Avatar } from '@material-ui/core';
+import { Edit } from '@material-ui/icons';
+import FileUpload from './FileUpload';
+import styled from 'styled-components';
+import { useState } from 'react';
+import AvatarPicture from './AvatarPicture';
 
 const EditIcon = styled.div`
   position: absolute;
@@ -75,7 +75,7 @@ const AvatarUpload = ({
         folderId="avatar"
         open={open}
         onClose={closeUploader}
-        tags={["avatar", avatarType]}
+        tags={['avatar', avatarType]}
         folder={folder}
         resourceType="image"
         onSuccess={onSuccess}

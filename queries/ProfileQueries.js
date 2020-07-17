@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import {ASSET_FIELDS} from "./AssetQueries";
+import gql from 'graphql-tag';
+import { ASSET_FIELDS } from './AssetQueries';
 
 export const PROFILE_FIELDS = gql`
   fragment ProfileFields on Profile {

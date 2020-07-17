@@ -1,5 +1,5 @@
-import Layout from "../../components/auth/Layout";
-import { H3 } from "../../components/styles/Typography";
+import Layout from '../../components/auth/Layout';
+import { H3 } from '../../components/styles/Typography';
 
 const ResetConfirm = () => (
   <Layout>

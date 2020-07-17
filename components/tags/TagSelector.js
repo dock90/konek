@@ -1,15 +1,15 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Autocomplete, {
   createFilterOptions
-} from "@material-ui/lab/Autocomplete";
-import { Cancel } from "@material-ui/icons";
-import { useQuery } from "@apollo/react-hooks";
-import { TAGS_QUERY } from "../../queries/TagQueries";
-import { useState } from "react";
-import styled from "styled-components";
-import TagItem from "./TagItem";
-import { StyledTextField } from "../material/StyledTextField";
-import EditTagDialog, { NewTag } from "./EditTagDialog";
+} from '@material-ui/lab/Autocomplete';
+import { Cancel } from '@material-ui/icons';
+import { useQuery } from '@apollo/react-hooks';
+import { TAGS_QUERY } from '../../queries/TagQueries';
+import { useState } from 'react';
+import styled from 'styled-components';
+import TagItem from './TagItem';
+import { StyledTextField } from '../material/StyledTextField';
+import EditTagDialog, { NewTag } from './EditTagDialog';
 
 const filter = createFilterOptions();
 
@@ -26,16 +26,16 @@ const RemoveTag = styled.span`
 
 const TagSelector = ({ value, onChange, variant }) => {
   if (!variant) {
-    variant = "outlined";
+    variant = 'outlined';
   }
   const { loading, data, error } = useQuery(TAGS_QUERY);
   const [dialogOpen, toggleDialog] = useState(false);
-  const [newTag, setNewTag] = useState("");
+  const [newTag, setNewTag] = useState('');
 
   let options = [];
   if (!loading) {
     if (error) {
-      options.push({ name: error, color: "red" });
+      options.push({ name: error, color: 'red' });
     } else {
       options = data.tags;
     }
@@ -58,11 +58,11 @@ const TagSelector = ({ value, onChange, variant }) => {
   const filterOptions = (options, params) => {
     const filtered = filter(options, params).filter(t => !t.hidden);
 
-    if (params.inputValue !== "") {
+    if (params.inputValue !== '') {
       filtered.push({
         inputValue: params.inputValue,
         name: `Add "${params.inputValue}"`,
-        color: "ffffff"
+        color: 'ffffff'
       });
     }
 

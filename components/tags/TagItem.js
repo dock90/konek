@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const Tag = styled.span`
   border-radius: 4px;
@@ -18,7 +18,7 @@ const Hidden = styled.span`
 export function textColor(hex) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) {
-    return "#ffffff";
+    return '#ffffff';
   }
   const rgb = {
     r: parseInt(result[1], 16),
@@ -29,16 +29,16 @@ export function textColor(hex) {
   const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 255000;
 
   if (brightness >= 0.5) {
-    return "#000000";
+    return '#000000';
   }
-  return "#ffffff";
+  return '#ffffff';
 }
 
 const TagItem = ({ tag, children, style }) => {
   const color = textColor(tag.color);
 
   return (
-    <Tag style={{...style, backgroundColor: `#${tag.color}`, color }}>
+    <Tag style={{ ...style, backgroundColor: `#${tag.color}`, color }}>
       <span>{tag.name}</span>
       {tag.hidden && <Hidden>(hidden)</Hidden>}
       {children && <span>{children}</span>}

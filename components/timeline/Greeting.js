@@ -1,6 +1,6 @@
-import { H3, H5 } from "../styles/Typography";
-import { useContext } from "react";
-import { MeContext } from "../../contexts/MeContext";
+import { H3, H5 } from '../styles/Typography';
+import { useContext } from 'react';
+import { MeContext } from '../../contexts/MeContext';
 
 const Greeting = () => {
   const { name } = useContext(MeContext);

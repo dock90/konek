@@ -1,20 +1,20 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle
-} from "@material-ui/core";
-import { ErrorMessage } from "../../styles/Messages";
-import { useState } from "react";
-import { Cancel, Delete } from "@material-ui/icons";
-import { useMutation } from "@apollo/react-hooks";
-import { REMOVE_CONTACT_GROUP } from "../../../queries/ContactQueries";
-import { BaseButton, DeleteButton } from "../../styles/Button";
+} from '@material-ui/core';
+import { ErrorMessage } from '../../styles/Messages';
+import { useState } from 'react';
+import { Cancel, Delete } from '@material-ui/icons';
+import { useMutation } from '@apollo/react-hooks';
+import { REMOVE_CONTACT_GROUP } from '../../../queries/ContactQueries';
+import { BaseButton, DeleteButton } from '../../styles/Button';
 
 const RemoveMembership = ({ open, onClose, contactId, group }) => {
   const [isExecuting, setIsExecuting] = useState(false),
-    [error, setError] = useState("");
+    [error, setError] = useState('');
 
   const [removeMembership] = useMutation(REMOVE_CONTACT_GROUP);
 
@@ -22,7 +22,7 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
     if (isExecuting) {
       return;
     }
-    setError("");
+    setError('');
     onClose();
   };
   const handleDelete = async () => {
@@ -40,7 +40,7 @@ const RemoveMembership = ({ open, onClose, contactId, group }) => {
     } catch (e) {
       if (e.graphQLErrors) {
         // Probably access denied.
-        setError(e.graphQLErrors.map(e => e.message).join("\n"));
+        setError(e.graphQLErrors.map(e => e.message).join('\n'));
       }
       setIsExecuting(false);
       return;

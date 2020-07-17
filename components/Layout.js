@@ -1,32 +1,32 @@
-import { useQuery } from "react-apollo";
-import styled from "styled-components";
-import { ME_QUERY } from "../queries/MeQueries";
-import { MeContext } from "../contexts/MeContext";
-import { useAuthenticated } from "../hooks/useAuthenticated";
-import { useState } from "react";
+import { useQuery } from 'react-apollo';
+import styled from 'styled-components';
+import { ME_QUERY } from '../queries/MeQueries';
+import { MeContext } from '../contexts/MeContext';
+import { useAuthenticated } from '../hooks/useAuthenticated';
+import { useState } from 'react';
 // Material UI
-import { SwipeableDrawer, Hidden, IconButton } from "@material-ui/core";
-import { ChevronLeft } from "@material-ui/icons";
+import { SwipeableDrawer, Hidden, IconButton } from '@material-ui/core';
+import { ChevronLeft } from '@material-ui/icons';
 // components
-import Header from "./Header";
-import Nav from "./Nav";
-import Loading from "./Loading";
+import Header from './Header';
+import Nav from './Nav';
+import Loading from './Loading';
 
 const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 200px auto;
   grid-template-rows: 64px auto;
   grid-template-areas:
-    "header header"
-    "nav main";
+    'header header'
+    'nav main';
   height: 100vh;
 
   @media screen and (max-width: 600px) {
     // This isn't perfect, as it doesn't exactly align with the <Hidden> component, but it works.
     grid-template-columns: auto;
     grid-template-areas:
-      "header"
-      "main";
+      'header'
+      'main';
   }
 `;
 const NavContainer = styled.div`

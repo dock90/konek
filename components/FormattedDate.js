@@ -1,11 +1,11 @@
-import propTypes from "prop-types";
+import propTypes from 'prop-types';
 
 const FormattedDate = ({ date }) => {
   const d = new Date(date),
-    formatted = new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
+    formatted = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     }).format(d);
 
   return <span>{formatted}</span>;

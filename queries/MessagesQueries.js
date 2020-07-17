@@ -1,7 +1,7 @@
-import gql from "graphql-tag";
-import { MEMBER_FIELDS } from "./MemberQueries";
-import { ROOM_FIELDS } from "./RoomQueries";
-import { ASSET_FIELDS } from "./AssetQueries";
+import gql from 'graphql-tag';
+import { MEMBER_FIELDS } from './MemberQueries';
+import { ROOM_FIELDS } from './RoomQueries';
+import { ASSET_FIELDS } from './AssetQueries';
 
 export const MESSAGE_FIELDS = gql`
   fragment MessageFields on Message {

@@ -1,17 +1,17 @@
-import styled from "styled-components";
-import { useQuery } from "react-apollo";
-import { useRouter } from "next/router";
-import { ALL_CONTACTS_QUERY } from "../../queries/ContactQueries";
-import { TAGS_QUERY } from "../../queries/TagQueries";
+import styled from 'styled-components';
+import { useQuery } from 'react-apollo';
+import { useRouter } from 'next/router';
+import { ALL_CONTACTS_QUERY } from '../../queries/ContactQueries';
+import { TAGS_QUERY } from '../../queries/TagQueries';
 // components
-import Link from "next/link";
-import ContactListItem from "./ContactListItem";
-import Loading from "../Loading";
-import TagsList from "../tags/TagsList";
-import { H1 } from "../styles/Typography";
-import { BaseButton } from "../styles/Button";
-import { Add } from "@material-ui/icons";
-import {ContentHeader} from "../styles/PageStyles";
+import Link from 'next/link';
+import ContactListItem from './ContactListItem';
+import Loading from '../Loading';
+import TagsList from '../tags/TagsList';
+import { H1 } from '../styles/Typography';
+import { BaseButton } from '../styles/Button';
+import { Add } from '@material-ui/icons';
+import { ContentHeader } from '../styles/PageStyles';
 
 // styles
 const HeaderLeft = styled.div`

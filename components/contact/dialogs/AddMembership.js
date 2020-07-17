@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
-import { ADD_CONTACT_GROUP } from "../../../queries/ContactQueries";
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_CONTACT_GROUP } from '../../../queries/ContactQueries';
 import {
   Dialog,
   DialogActions,
@@ -10,11 +10,11 @@ import {
   TextField,
   MenuItem,
   Grid
-} from "@material-ui/core";
-import { ErrorMessage } from "../../styles/Messages";
-import { Cancel, Save } from "@material-ui/icons";
-import styled from "styled-components";
-import {BaseButton} from "../../styles/Button";
+} from '@material-ui/core';
+import { ErrorMessage } from '../../styles/Messages';
+import { Cancel, Save } from '@material-ui/icons';
+import styled from 'styled-components';
+import { BaseButton } from '../../styles/Button';
 
 const Container = styled(Grid)`
   width: 500px !important;
@@ -22,10 +22,10 @@ const Container = styled(Grid)`
 
 const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
   const [isExecuting, setIsExecuting] = useState(false),
-    [error, setError] = useState(""),
+    [error, setError] = useState(''),
     [contactGroup, setContactGroup] = useState({
-      groupId: "",
-      roleId: ""
+      groupId: '',
+      roleId: ''
     });
 
   const [addMembership] = useMutation(ADD_CONTACT_GROUP);
@@ -34,10 +34,10 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
     if (isExecuting) {
       return;
     }
-    setError("");
+    setError('');
     setContactGroup({
-      groupId: "",
-      roleId: ""
+      groupId: '',
+      roleId: ''
     });
     onClose();
   };
@@ -47,11 +47,11 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
       return;
     }
     if (!contactGroup.groupId) {
-      setError("Group is required");
+      setError('Group is required');
       return;
     }
     if (!contactGroup.roleId) {
-      setError("Role is required");
+      setError('Role is required');
       return;
     }
     setIsExecuting(true);
@@ -65,7 +65,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
     } catch (e) {
       if (e.graphQLErrors) {
         // Probably access denied.
-        setError(e.graphQLErrors.map(e => e.message).join("\n"));
+        setError(e.graphQLErrors.map(e => e.message).join('\n'));
       }
       setIsExecuting(false);
       return;
@@ -96,7 +96,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
               label="Group"
               value={contactGroup.groupId}
               onChange={handleChange}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             >
               {groups.map(g => (
                 <MenuItem key={g.groupId} value={g.groupId}>
@@ -113,7 +113,7 @@ const AddMembership = ({ groups, roles, contactId, open, onClose }) => {
               label="Role"
               value={contactGroup.roleId}
               onChange={handleChange}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             >
               {roles.map(r => (
                 <MenuItem key={r.roleId} value={r.roleId}>

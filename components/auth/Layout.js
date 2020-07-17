@@ -1,18 +1,18 @@
-import styled from "styled-components";
-import { useAuthenticated } from "../../hooks/useAuthenticated";
-import { useRouter } from "next/router";
-import { Logo } from "../styles/Logo";
-import { Hidden } from "@material-ui/core";
+import styled from 'styled-components';
+import { useAuthenticated } from '../../hooks/useAuthenticated';
+import { useRouter } from 'next/router';
+import { Logo } from '../styles/Logo';
+import { Hidden } from '@material-ui/core';
 
 // styles
 const Container = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-areas: "branding content";
+  grid-template-areas: 'branding content';
   height: 100vh;
   @media (max-width: 800px) {
     grid-template-columns: auto;
-    grid-template-areas: "branding" "content";
+    grid-template-areas: 'branding' 'content';
     grid-template-rows: 150px auto;
   }
   @media (max-width: 600px) {
@@ -43,7 +43,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   if (authenticated === true) {
-    let target = "/";
+    let target = '/';
     if (router.query.target) {
       target = decodeURIComponent(router.query.target);
     }

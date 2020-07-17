@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Tab from "@material-ui/core/Tab";
+import styled from 'styled-components';
+import Tab from '@material-ui/core/Tab';
 
 const StyledTab = styled(Tab)`
   && {

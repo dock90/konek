@@ -1,27 +1,27 @@
-import React, { useContext, useMemo, useState } from "react";
-import Link from "next/link";
-import styled from "styled-components";
-import { useQuery } from "react-apollo";
+import React, { useContext, useMemo, useState } from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { useQuery } from 'react-apollo';
 // material
-import Divider from "@material-ui/core/Divider";
-import { Badge } from "@material-ui/core";
-import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import Divider from '@material-ui/core/Divider';
+import { Badge } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 // icons
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import ChatIcon from "@material-ui/icons/ChatOutlined";
-import HomeIcon from "@material-ui/icons/HomeOutlined";
-import PersonIcon from "@material-ui/icons/PersonOutlined";
-import SettingsIcon from "@material-ui/icons/SettingsOutlined";
-import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircleOutlined";
-import TagsIcon from "@material-ui/icons/LabelOutlined";
-import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import EmailIcon from "@material-ui/icons/Email";
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import ChatIcon from '@material-ui/icons/ChatOutlined';
+import HomeIcon from '@material-ui/icons/HomeOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
+import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircleOutlined';
+import TagsIcon from '@material-ui/icons/LabelOutlined';
+import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import EmailIcon from '@material-ui/icons/Email';
 // components
-import { H6, AltText } from "./styles/Typography";
-import { ROOMS_QUERY } from "../queries/RoomQueries";
-import AvatarPicture from "./assets/AvatarPicture";
-import { MeContext } from "../contexts/MeContext";
+import { H6, AltText } from './styles/Typography';
+import { ROOMS_QUERY } from '../queries/RoomQueries';
+import AvatarPicture from './assets/AvatarPicture';
+import { MeContext } from '../contexts/MeContext';
 
 // styles
 const Container = styled.div`
@@ -110,7 +110,7 @@ const Nav = ({ children }) => {
                 </ListItemIcon>
                 <StyledListItemText>
                   Messages
-                  <span style={{ float: "right" }}></span>
+                  <span style={{ float: 'right' }}></span>
                 </StyledListItemText>
                 {qtyUnread <= 0 && (
                   <ArrowForwardIosIcon style={arrowIconStyle} />

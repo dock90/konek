@@ -1,14 +1,14 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { useContext, useState } from "react";
-import { useQuery } from "react-apollo";
-import { ENTRIES_QUERY } from "../../queries/EntryQueries";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useContext, useState } from 'react';
+import { useQuery } from 'react-apollo';
+import { ENTRIES_QUERY } from '../../queries/EntryQueries';
 // components
-import EntryList from "./EntryList";
-import Loading from "../Loading";
-import { ContactContext } from "../../contexts/ContactContext";
-import { BaseButton } from "../styles/Button";
-import { Add } from "@material-ui/icons";
+import EntryList from './EntryList';
+import Loading from '../Loading';
+import { ContactContext } from '../../contexts/ContactContext';
+import { BaseButton } from '../styles/Button';
+import { Add } from '@material-ui/icons';
 
 // styles
 const Actions = styled.div`
@@ -16,7 +16,7 @@ const Actions = styled.div`
   justify-content: flex-end;
 `;
 const NoneFound = styled.div.attrs(() => ({
-  children: "None found"
+  children: 'None found'
 }))`
   text-align: center;
   font-size: 1.3em;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useStateTimeout(initialState, timeoutMs) {
   const [state, setState] = useState(initialState);

@@ -1,22 +1,22 @@
-import styled from "styled-components";
-import algoliaSearch from "algoliasearch/lite";
-import { InstantSearch, Index, Configure } from "react-instantsearch-dom";
-import { MeContext } from "../../contexts/MeContext";
+import styled from 'styled-components';
+import algoliaSearch from 'algoliasearch/lite';
+import { InstantSearch, Index, Configure } from 'react-instantsearch-dom';
+import { MeContext } from '../../contexts/MeContext';
 
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 
-import { ClickAwayListener, Paper } from "@material-ui/core";
-import SearchBox from "./SearchBox";
-import Results from "./Results";
-import ContactResult from "./ContactResult";
-import EntryResult from "./EntryResult";
+import { ClickAwayListener, Paper } from '@material-ui/core';
+import SearchBox from './SearchBox';
+import Results from './Results';
+import ContactResult from './ContactResult';
+import EntryResult from './EntryResult';
 
 const ResultsContainer = styled.div`
   position: absolute;
   opacity: ${props => (props.isOpen ? 1 : 0)};
-  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  visibility: ${props => (props.isOpen ? 'visible' : 'hidden')};
   transition: opacity 150ms ease-in-out,
-    visibility 0s linear ${props => (props.isOpen ? "0s" : "150ms")};
+    visibility 0s linear ${props => (props.isOpen ? '0s' : '150ms')};
   // Required so it is on top of other stuff.
   z-index: 2000;
 
@@ -24,10 +24,9 @@ const ResultsContainer = styled.div`
   max-height: calc(100% - 60px);
   max-width: 550px;
   min-width: 100px;
-  
 `;
 const ResultsWrapper = styled(Paper)`
-padding: 5px;
+  padding: 5px;
 `;
 
 const Search = () => {

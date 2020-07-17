@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { useMutation } from "react-apollo";
+import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useMutation } from 'react-apollo';
 // material
 import {
   Grid,
@@ -10,22 +10,22 @@ import {
   CardActions,
   Switch,
   FormControlLabel
-} from "@material-ui/core";
-import { BaseButton } from "../styles/Button";
-import { StyledTextField } from "../material/StyledTextField";
-import { Save } from "@material-ui/icons";
+} from '@material-ui/core';
+import { BaseButton } from '../styles/Button';
+import { StyledTextField } from '../material/StyledTextField';
+import { Save } from '@material-ui/icons';
 // gql
 import {
   UPDATE_NOTE_MUTATION,
   CREATE_NOTE_MUTATION
-} from "../../queries/NoteQueries";
-import { ENTRIES_QUERY, TYPE_NOTE } from "../../queries/EntryQueries";
-import TagSelector from "../tags/TagSelector";
-import NoteEditAssets from "./NoteEditAssets";
-import { ContactContext } from "../../contexts/ContactContext";
-import { VCentered } from "../styles/LayoutStyles";
-import { CONTACT_QUERY } from "../../queries/ContactQueries";
-import { resolveFieldValueOrError } from "graphql/execution/execute";
+} from '../../queries/NoteQueries';
+import { ENTRIES_QUERY, TYPE_NOTE } from '../../queries/EntryQueries';
+import TagSelector from '../tags/TagSelector';
+import NoteEditAssets from './NoteEditAssets';
+import { ContactContext } from '../../contexts/ContactContext';
+import { VCentered } from '../styles/LayoutStyles';
+import { CONTACT_QUERY } from '../../queries/ContactQueries';
+import { resolveFieldValueOrError } from 'graphql/execution/execute';
 
 // styles
 const Container = styled.div`
@@ -37,8 +37,8 @@ const Title = styled.div`
 `;
 
 const accessToggle = {
-  PRIVATE: "SHARED",
-  SHARED: "PRIVATE"
+  PRIVATE: 'SHARED',
+  SHARED: 'PRIVATE'
 };
 
 const NoteEdit = ({ note, setEdit }) => {
@@ -48,7 +48,7 @@ const NoteEdit = ({ note, setEdit }) => {
   const [noteState, setNoteState] = useState(
     note || {
       // Defaults
-      access: "PRIVATE",
+      access: 'PRIVATE',
       pinned: false
     }
   );
@@ -162,7 +162,7 @@ const NoteEdit = ({ note, setEdit }) => {
           disabled={loading}
           aria-busy={loading}
           style={{
-            border: "none",
+            border: 'none',
             margin: 0,
             padding: 0
           }}
@@ -174,7 +174,7 @@ const NoteEdit = ({ note, setEdit }) => {
                 name="title"
                 label="Title"
                 required
-                value={noteState.title || ""}
+                value={noteState.title || ''}
                 onChange={handleChange}
               />
             </Title>
@@ -192,7 +192,7 @@ const NoteEdit = ({ note, setEdit }) => {
                     <FormControlLabel
                       control={
                         <Switch
-                          checked={noteState.access === "SHARED"}
+                          checked={noteState.access === 'SHARED'}
                           onChange={toggleAccess}
                           color="primary"
                         />
@@ -210,7 +210,7 @@ const NoteEdit = ({ note, setEdit }) => {
                         color="primary"
                       />
                     }
-                    label={noteState.pinned ? "PINNED" : "UN-PINNED"}
+                    label={noteState.pinned ? 'PINNED' : 'UN-PINNED'}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -220,7 +220,7 @@ const NoteEdit = ({ note, setEdit }) => {
                     label="Message"
                     multiline
                     required
-                    value={noteState.message || ""}
+                    value={noteState.message || ''}
                     onChange={handleChange}
                   />
                 </Grid>

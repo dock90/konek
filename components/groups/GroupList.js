@@ -1,8 +1,8 @@
-import { useQuery } from "@apollo/react-hooks";
-import { Grid } from "@material-ui/core";
-import { GROUPS_QUERY } from "../../queries/GroupQueries";
-import Loading from "../Loading";
-import GroupItem from "./GroupItem";
+import { useQuery } from '@apollo/react-hooks';
+import { Grid } from '@material-ui/core';
+import { GROUPS_QUERY } from '../../queries/GroupQueries';
+import Loading from '../Loading';
+import GroupItem from './GroupItem';
 
 const GroupList = () => {
   const { loading, data, error } = useQuery(GROUPS_QUERY);

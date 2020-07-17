@@ -1,16 +1,16 @@
-import { useState } from "react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
 // material
-import { Checkbox, FormGroup, FormControlLabel } from "@material-ui/core";
+import { Checkbox, FormGroup, FormControlLabel } from '@material-ui/core';
 
 // components
-import { H1 } from "../styles/Typography";
-import { StyledTextField } from "../material/StyledTextField";
-import AuthFields, { MODE_SIGN_UP } from "./AuthFields";
+import { H1 } from '../styles/Typography';
+import { StyledTextField } from '../material/StyledTextField';
+import AuthFields, { MODE_SIGN_UP } from './AuthFields';
 
 const Signup = () => {
   const [state, setState] = useState({
-    name: "",
+    name: '',
     acceptedTerms: false
   });
 

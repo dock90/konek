@@ -1,10 +1,10 @@
-import { Paper } from "@material-ui/core";
-import styled from "styled-components";
-import Link from "next/link";
-import MessageAction from "../actions/MessageAction";
-import { useMemo } from "react";
-import { hierarchyLabel } from "./hierarchyLabel";
-import AvatarPicture from "../assets/AvatarPicture";
+import { Paper } from '@material-ui/core';
+import styled from 'styled-components';
+import Link from 'next/link';
+import MessageAction from '../actions/MessageAction';
+import { useMemo } from 'react';
+import { hierarchyLabel } from './hierarchyLabel';
+import AvatarPicture from '../assets/AvatarPicture';
 
 const Container = styled(Paper)`
   width: 100%;
@@ -52,7 +52,7 @@ const Footer = styled(ContainerItem)`
 const GroupItem = ({ group, groupList }) => {
   const name = useMemo(() => {
     if (!groupList) {
-      return "";
+      return '';
     }
 
     return hierarchyLabel(group, groupList, false);

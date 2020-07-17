@@ -1,8 +1,8 @@
-import gql from "graphql-tag";
-import { TAG_FIELDS } from "./TagQueries";
+import gql from 'graphql-tag';
+import { TAG_FIELDS } from './TagQueries';
 
-export const TYPE_NOTE = "Note";
-export const TYPE_CONVERSATION = "Conversation";
+export const TYPE_NOTE = 'Note';
+export const TYPE_CONVERSATION = 'Conversation';
 
 export const ENTRY_FIELDS = gql`
   fragment EntryFields on EntryTypeInterface {

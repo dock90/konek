@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { ENTRY_FIELDS } from "./EntryQueries";
+import gql from 'graphql-tag';
+import { ENTRY_FIELDS } from './EntryQueries';
 
 // CREATE_NOTE_MUTATION
 export const CREATE_NOTE_MUTATION = gql`

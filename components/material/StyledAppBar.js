@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { AppBar } from "@material-ui/core";
+import styled from 'styled-components';
+import { AppBar } from '@material-ui/core';
 
 const StyledAppBar = styled(AppBar).attrs(props => ({
-  position: "static"
+  position: 'static'
 }))`
   && {
     background: none;

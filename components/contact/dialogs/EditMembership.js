@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import PropTypes from 'prop-types';
 // queries
-import { UPDATE_CONTACT_GROUP } from "../../../queries/ContactQueries";
+import { UPDATE_CONTACT_GROUP } from '../../../queries/ContactQueries';
 // components
 import {
   Dialog,
@@ -11,10 +11,10 @@ import {
   DialogTitle,
   MenuItem,
   TextField
-} from "@material-ui/core";
-import { Cancel, Save } from "@material-ui/icons";
-import {ErrorMessage} from "../../styles/Messages";
-import {BaseButton} from "../../styles/Button";
+} from '@material-ui/core';
+import { Cancel, Save } from '@material-ui/icons';
+import { ErrorMessage } from '../../styles/Messages';
+import { BaseButton } from '../../styles/Button';
 
 export const EditMembership = ({
   contactGroup,
@@ -26,7 +26,7 @@ export const EditMembership = ({
 }) => {
   const [isSaving, setIsSaving] = useState(false),
     [currentRole, setCurrentRole] = useState(contactGroup.role.roleId),
-    [error, setError] = useState("");
+    [error, setError] = useState('');
 
   const [updateContactGroup] = useMutation(UPDATE_CONTACT_GROUP);
 
@@ -34,7 +34,7 @@ export const EditMembership = ({
     if (isSaving) {
       return;
     }
-    setError("");
+    setError('');
     onClose();
   };
   const selectRole = e => {
@@ -58,7 +58,7 @@ export const EditMembership = ({
         e.networkError.result.errors
       ) {
         // Probably access denied.
-        setError(e.networkError.result.errors.map(e => e.message).join("\n"));
+        setError(e.networkError.result.errors.map(e => e.message).join('\n'));
       }
       setIsSaving(false);
       setCurrentRole(contactGroup.role.roleId);

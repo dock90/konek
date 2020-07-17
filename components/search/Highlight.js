@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { connectHighlight } from "react-instantsearch-dom";
+import styled from 'styled-components';
+import { connectHighlight } from 'react-instantsearch-dom';
 
 const Highlighted = styled.span`
   background-color: yellow;
@@ -20,7 +20,7 @@ const Highlight = connectHighlight(
     }
 
     const parsedHit = highlight({
-      highlightProperty: isSnippet ? "_snippetResult" : "_highlightResult",
+      highlightProperty: isSnippet ? '_snippetResult' : '_highlightResult',
       attribute,
       hit
     });

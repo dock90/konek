@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import { connectSearchBox, PoweredBy } from "react-instantsearch-dom";
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import { connectSearchBox, PoweredBy } from 'react-instantsearch-dom';
+import styled from 'styled-components';
 // material
-import { Search } from "@material-ui/icons";
+import { Search } from '@material-ui/icons';
 
 // components
-import { StyledInput } from "../material/StyledInput";
+import { StyledInput } from '../material/StyledInput';
 
 // styles
 const Container = styled.div`
@@ -47,7 +47,7 @@ const SearchBox = connectSearchBox(
     const onKeyPress = e => {
       if (e.keyCode === 27) {
         close();
-        refine("");
+        refine('');
       } else {
         open();
       }

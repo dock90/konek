@@ -1,16 +1,16 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 // material
-import { Card, CardContent, CardHeader } from "@material-ui/core";
-import { People, Person, Edit } from "@material-ui/icons";
-import NoteEdit from "./NoteEdit";
+import { Card, CardContent, CardHeader } from '@material-ui/core';
+import { People, Person, Edit } from '@material-ui/icons';
+import NoteEdit from './NoteEdit';
 // styled
-import { BodyText } from "../styles/Typography";
-import { Container } from "./EntryStyles";
-import styled from "styled-components";
-import AssetDisplay from "../assets/AssetDisplay";
-import TagsList from "../tags/TagsList";
-import { BaseIconButton } from "../styles/IconButton";
+import { BodyText } from '../styles/Typography';
+import { Container } from './EntryStyles';
+import styled from 'styled-components';
+import AssetDisplay from '../assets/AssetDisplay';
+import TagsList from '../tags/TagsList';
+import { BaseIconButton } from '../styles/IconButton';
 
 const CardTitle = styled(CardHeader)`
   && {
@@ -20,8 +20,8 @@ const CardTitle = styled(CardHeader)`
 const AccessIcon = styled.span`
   padding: 2px;
   // TODO: These colors are ugly.
-  background-color: ${props => (props.isShared ? "lightpink" : "lightgray")};
-  border: 1px solid ${props => (props.isShared ? "deeppink" : "grey")};
+  background-color: ${props => (props.isShared ? 'lightpink' : 'lightgray')};
+  border: 1px solid ${props => (props.isShared ? 'deeppink' : 'grey')};
   border-radius: 4px;
   margin-right: 10px;
   // To vertically align the icon in the span.
@@ -67,15 +67,15 @@ const NoteItem = ({ note }) => {
               title={
                 <span>
                   <AccessIcon
-                    isShared={note.access === "SHARED"}
+                    isShared={note.access === 'SHARED'}
                     title={note.access[0] + note.access.substr(1).toLowerCase()}
                   >
-                    {note.access === "SHARED" ? <People /> : <Person />}
+                    {note.access === 'SHARED' ? <People /> : <Person />}
                   </AccessIcon>
                   {title}
                 </span>
               }
-              style={{ borderBottom: "1px solid #EEEEEE" }}
+              style={{ borderBottom: '1px solid #EEEEEE' }}
               action={
                 <>
                   <BaseIconButton title="Edit Note" onClick={handleEdit}>

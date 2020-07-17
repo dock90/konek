@@ -1,31 +1,31 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 // hooks
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-apollo";
-import { useRouter } from "next/router";
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-apollo';
+import { useRouter } from 'next/router';
 // queries
 import {
   ALL_CONTACTS_QUERY,
   CONTACT_QUERY,
   CREATE_CONTACT_MUTATION,
   UPDATE_CONTACT_MUTATION
-} from "../../queries/ContactQueries";
+} from '../../queries/ContactQueries';
 // material
-import { Grid, TextField, Button, Paper } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Grid, TextField, Button, Paper } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 // components
-import styled from "styled-components";
-import { H1, H2 } from "../styles/Typography";
-import Loading from "../Loading";
-import { useGroupList } from "../../hooks/useGroupList";
-import ContactGroupEdit from "./ContactGroupEdit";
-import { ROLES_QUERY } from "../../queries/RoleQueries";
-import AddMembership from "./dialogs/AddMembership";
-import ContactNewGroups from "./ContactNewGroups";
-import GridInputs from "./GridInputs";
-import AvatarUpload from "../assets/AvatarUpload";
-import TagSelector from "../tags/TagSelector";
-import { BaseButton } from "../styles/Button";
+import styled from 'styled-components';
+import { H1, H2 } from '../styles/Typography';
+import Loading from '../Loading';
+import { useGroupList } from '../../hooks/useGroupList';
+import ContactGroupEdit from './ContactGroupEdit';
+import { ROLES_QUERY } from '../../queries/RoleQueries';
+import AddMembership from './dialogs/AddMembership';
+import ContactNewGroups from './ContactNewGroups';
+import GridInputs from './GridInputs';
+import AvatarUpload from '../assets/AvatarUpload';
+import TagSelector from '../tags/TagSelector';
+import { BaseButton } from '../styles/Button';
 
 // styles
 const Container = styled.div`
@@ -71,7 +71,7 @@ const Input = styled(TextField)`
 `;
 
 const ContactEdit = ({ id }) => {
-  const isNew = id === "new";
+  const isNew = id === 'new';
   const router = useRouter();
   const { loading, data, error } = useQuery(CONTACT_QUERY, {
       variables: { contactId: id },
@@ -145,11 +145,11 @@ const ContactEdit = ({ id }) => {
     event.preventDefault();
     if (Object.keys(updatedFields).length === 0) {
       // Nothing updated, nothing to do.
-      router.push("/contacts/[id]", `/contacts/${id}`);
+      router.push('/contacts/[id]', `/contacts/${id}`);
       return;
     }
     if (!contact.groups || contact.groups.length === 0) {
-      alert("The contact must be in at least one group!");
+      alert('The contact must be in at least one group!');
       return;
     }
 
@@ -165,7 +165,7 @@ const ContactEdit = ({ id }) => {
         variables: { ...updatedFields, tags }
       });
       await router.replace(
-        "/contacts/[id]",
+        '/contacts/[id]',
         `/contacts/${res.data.createContact.contactId}`
       );
       return;
@@ -178,7 +178,7 @@ const ContactEdit = ({ id }) => {
         tags
       }
     });
-    router.push("/contacts/[id]", `/contacts/${id}`);
+    router.push('/contacts/[id]', `/contacts/${id}`);
   };
 
   const handleUpdatePicture = async info => {
@@ -209,7 +209,7 @@ const ContactEdit = ({ id }) => {
     let value = contact[name];
     if (!value) {
       // So that it is controlled.
-      value = "";
+      value = '';
     }
     return (
       <Input
@@ -228,7 +228,7 @@ const ContactEdit = ({ id }) => {
 
   return (
     <Container>
-      <Header>{isNew ? "New" : "Edit"} Contact</Header>
+      <Header>{isNew ? 'New' : 'Edit'} Contact</Header>
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={1}>
@@ -248,49 +248,49 @@ const ContactEdit = ({ id }) => {
               </Grid>
             )}
             <Grid item xs={12} md={6}>
-              {fieldFactory("name", "Name", { required: true })}
+              {fieldFactory('name', 'Name', { required: true })}
             </Grid>
             <Grid item xs={12} md={5}>
-              {fieldFactory("legalName", "Legal Name")}
+              {fieldFactory('legalName', 'Legal Name')}
             </Grid>
             <Grid item xs={12}>
-              {fieldFactory("bio", "Bio", { multiline: true })}
+              {fieldFactory('bio', 'Bio', { multiline: true })}
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("fbProfile", "FaceBook Profile")}
+              {fieldFactory('fbProfile', 'FaceBook Profile')}
             </Grid>
             <Grid item xs={12} sm={12} md={9} lg={7} xl={5}>
               <TagSelector
                 value={contact.tags || []}
-                onChange={val => handleGridChange("tags", val)}
+                onChange={val => handleGridChange('tags', val)}
               />
             </Grid>
             <Grid item xs={12}>
               <SectionHeader>Contact Information</SectionHeader>
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("city", "City")}
+              {fieldFactory('city', 'City')}
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("state", "State")}
+              {fieldFactory('state', 'State')}
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("postalCode", "Postal Code")}
+              {fieldFactory('postalCode', 'Postal Code')}
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("country", "Country")}
+              {fieldFactory('country', 'Country')}
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2}>
-              {fieldFactory("language", "Language")}
+              {fieldFactory('language', 'Language')}
             </Grid>
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                   <GridInputs
-                    onChange={v => handleGridChange("emails", v)}
+                    onChange={v => handleGridChange('emails', v)}
                     columns={[
-                      { label: "Email", name: "email" },
-                      { label: "Label", name: "label" }
+                      { label: 'Email', name: 'email' },
+                      { label: 'Label', name: 'label' }
                     ]}
                     value={contact.emails || []}
                     disabled={saving}
@@ -298,10 +298,10 @@ const ContactEdit = ({ id }) => {
                 </Grid>
                 <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
                   <GridInputs
-                    onChange={v => handleGridChange("phones", v)}
+                    onChange={v => handleGridChange('phones', v)}
                     columns={[
-                      { label: "Phone Number", name: "number" },
-                      { label: "Label", name: "label" }
+                      { label: 'Phone Number', name: 'number' },
+                      { label: 'Label', name: 'label' }
                     ]}
                     value={contact.phones || []}
                     disabled={saving}

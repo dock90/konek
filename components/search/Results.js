@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { connectHits } from "react-instantsearch-dom";
-import PropTypes from "prop-types";
+import styled from 'styled-components';
+import { connectHits } from 'react-instantsearch-dom';
+import PropTypes from 'prop-types';
 
 const TypeHeader = styled.div`
   font-weight: bold;

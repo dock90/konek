@@ -1,12 +1,12 @@
-import Layout from "../../components/Layout";
-import { H1, LinkText } from "../../components/styles/Typography";
-import GroupList from "../../components/groups/GroupList";
-import Link from "next/link";
+import Layout from '../../components/Layout';
+import { H1, LinkText } from '../../components/styles/Typography';
+import GroupList from '../../components/groups/GroupList';
+import Link from 'next/link';
 import {
   ContentContainer,
   ContentHeader
-} from "../../components/styles/PageStyles";
-import {BaseButton} from "../../components/styles/Button";
+} from '../../components/styles/PageStyles';
+import { BaseButton } from '../../components/styles/Button';
 
 const Groups = () => (
   <Layout>

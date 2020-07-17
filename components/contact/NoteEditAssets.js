@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { BaseButton } from "../styles/Button";
-import { Paper } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
-import NoteEditAsset from "./NoteEditAsset";
-import FileUpload from "../assets/FileUpload";
-import { useContext, useState } from "react";
-import { ContactContext } from "../../contexts/ContactContext";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { BaseButton } from '../styles/Button';
+import { Paper } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
+import NoteEditAsset from './NoteEditAsset';
+import FileUpload from '../assets/FileUpload';
+import { useContext, useState } from 'react';
+import { ContactContext } from '../../contexts/ContactContext';
 
 // I'm not using the Material-UI Grid component because I want a fixed width.
 const Container = styled.div`
@@ -47,7 +47,7 @@ const NoteEditAssets = ({ assets, onChange }) => {
     // multiple assets that finish at the same time, the state update from the first asset may not be completed
     // when the second success callback gets called so the first one is lost.
     assets.push({
-      description: "",
+      description: '',
       asset: {
         format: info.format,
         publicId: info.public_id,
@@ -80,7 +80,7 @@ const NoteEditAssets = ({ assets, onChange }) => {
           open={uploadOpen}
           onClose={() => toggleUpload(false)}
           // maxFiles={}
-          tags={["contact", "note"]}
+          tags={['contact', 'note']}
           onSuccess={handleUploadSuccess}
         />
       </div>

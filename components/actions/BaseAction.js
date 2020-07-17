@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
-import Link from "next/link";
-import styled from "styled-components";
-import { useRef, useState } from "react";
-import { Paper, Popper } from "@material-ui/core";
-import { BaseButton } from "../styles/Button";
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { useRef, useState } from 'react';
+import { Paper, Popper } from '@material-ui/core';
+import { BaseButton } from '../styles/Button';
 
 const Content = styled(Paper)`
   padding: 4px;
   font-size: 0.9em;
 `;
 
-export const ACTION_TYPE_ICON = "icon";
-export const ACTION_TYPE_BUTTON = "button";
+export const ACTION_TYPE_ICON = 'icon';
+export const ACTION_TYPE_BUTTON = 'button';
 
 const BaseAction = ({ href, as, children, icon, type }) => {
   const [open, setOpen] = useState(false);

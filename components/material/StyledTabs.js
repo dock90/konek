@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { Tabs } from "@material-ui/core";
+import styled from 'styled-components';
+import { Tabs } from '@material-ui/core';
 
 const StyledTabs = styled(Tabs).attrs(props => ({
-  centered: true,
+  centered: true
 }))`
   && {
     margin: 0;

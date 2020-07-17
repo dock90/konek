@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import { useContext } from "react";
-import { ContactContext } from "../../../contexts/ContactContext";
-import { H4, H5 } from "../../styles/Typography";
-import { Header, Name } from "../../styles/ContactProfile";
-import AvatarPicture from "../../assets/AvatarPicture";
-import MessageAction from "../../actions/MessageAction";
-import { Paper } from "@material-ui/core";
-import ContactListItem from "../../contacts/ContactListItem";
-import { ContentHeader } from "../../styles/PageStyles";
-import { CopyProfileToContact } from "./CopyProfileToContact";
-import { ContactInformation } from "../ContactInformation";
+import styled from 'styled-components';
+import { useContext } from 'react';
+import { ContactContext } from '../../../contexts/ContactContext';
+import { H4 } from '../../styles/Typography';
+import { Header, Name } from '../../styles/ContactProfile';
+import AvatarPicture from '../../assets/AvatarPicture';
+import MessageAction from '../../actions/MessageAction';
+import { Paper } from '@material-ui/core';
+import ContactListItem from '../../contacts/ContactListItem';
+import { ContentHeader } from '../../styles/PageStyles';
+import { CopyProfileToContact } from './CopyProfileToContact';
+import { ContactInformation } from '../ContactInformation';
 
 const ProfileContactsContainer = styled.div`
   margin-top: 10px;

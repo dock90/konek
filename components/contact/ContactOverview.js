@@ -1,27 +1,27 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { useQuery } from "react-apollo";
-import { CONTACT_QUERY } from "../../queries/ContactQueries";
-import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useQuery } from 'react-apollo';
+import { CONTACT_QUERY } from '../../queries/ContactQueries';
+import { TYPE_CONVERSATION, TYPE_NOTE } from '../../queries/EntryQueries';
 // components
-import Link from "next/link";
-import { Refresh, Edit } from "@material-ui/icons";
-import { CardContent } from "@material-ui/core";
-import TabPanel from "../TabPanel";
-import Summary from "./Summary";
-import Entries from "./Entries";
+import Link from 'next/link';
+import { Refresh, Edit } from '@material-ui/icons';
+import { CardContent } from '@material-ui/core';
+import TabPanel from '../TabPanel';
+import Summary from './Summary';
+import Entries from './Entries';
 // styles
-import StyledAppBar from "../material/StyledAppBar";
-import StyledTabs from "../material/StyledTabs";
-import StyledTab from "../material/StyledTab";
-import Loading from "../Loading";
-import AvatarPicture from "../assets/AvatarPicture";
-import { ContactContext } from "../../contexts/ContactContext";
-import { Header, Name, LegalName, Detail } from "../styles/ContactProfile";
-import { BaseButton } from "../styles/Button";
-import { ContactInformation } from "./ContactInformation";
-import { NoteActions } from "./NoteActions";
-import { MessageActions } from "./MessageActions";
+import StyledAppBar from '../material/StyledAppBar';
+import StyledTabs from '../material/StyledTabs';
+import StyledTab from '../material/StyledTab';
+import Loading from '../Loading';
+import AvatarPicture from '../assets/AvatarPicture';
+import { ContactContext } from '../../contexts/ContactContext';
+import { Header, Name, LegalName, Detail } from '../styles/ContactProfile';
+import { BaseButton } from '../styles/Button';
+import { ContactInformation } from './ContactInformation';
+import { NoteActions } from './NoteActions';
+import { MessageActions } from './MessageActions';
 
 const ContactOverview = ({ id }) => {
   const { loading, data, error, refetch } = useQuery(CONTACT_QUERY, {
@@ -41,7 +41,7 @@ const ContactOverview = ({ id }) => {
     await refetch();
   };
 
-  const contact = data.contact;
+  const { contact } = data;
   return (
     <ContactContext.Provider value={contact}>
       <div>

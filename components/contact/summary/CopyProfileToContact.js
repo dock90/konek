@@ -1,32 +1,32 @@
-import { useMutation } from "@apollo/react-hooks";
-import { useContext, useMemo, useState } from "react";
-import { UPDATE_CONTACT_MUTATION } from "../../../queries/ContactQueries";
-import { ContactContext } from "../../../contexts/ContactContext";
-import { FileCopy, Cancel } from "@material-ui/icons";
+import { useMutation } from '@apollo/react-hooks';
+import { useContext, useMemo, useState } from 'react';
+import { UPDATE_CONTACT_MUTATION } from '../../../queries/ContactQueries';
+import { ContactContext } from '../../../contexts/ContactContext';
+import { FileCopy, Cancel } from '@material-ui/icons';
 // components
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions
-} from "@material-ui/core";
-import { BaseButton } from "../../styles/Button";
-import Loading from "../../Loading";
-import { ContactInformation } from "../ContactInformation";
-import AvatarPicture from "../../assets/AvatarPicture";
-import { FlexContainer } from "../../styles/LayoutStyles";
-import { H5 } from "../../styles/Typography";
+} from '@material-ui/core';
+import { BaseButton } from '../../styles/Button';
+import Loading from '../../Loading';
+import { ContactInformation } from '../ContactInformation';
+import AvatarPicture from '../../assets/AvatarPicture';
+import { FlexContainer } from '../../styles/LayoutStyles';
+import { H5 } from '../../styles/Typography';
 
 const fields = [
-    "name",
-    "picture",
-    "city",
-    "state",
-    "country",
-    "postalCode",
-    "language"
+    'name',
+    'picture',
+    'city',
+    'state',
+    'country',
+    'postalCode',
+    'language'
   ],
-  merge = ["phones", "emails"],
+  merge = ['phones', 'emails'],
   doMerge = contact => {
     const c = {
         contactId: contact.contactId

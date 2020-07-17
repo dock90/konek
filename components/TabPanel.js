@@ -6,10 +6,7 @@ const TabPanel = props => {
 
   if (value !== index) return null;
   return (
-    <Typography
-      component="div"
-      role="tabpanel"
-    >
+    <Typography component="div" role="tabpanel">
       {children}
     </Typography>
   );
@@ -18,12 +15,12 @@ const TabPanel = props => {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number,
-  value: PropTypes.number,
+  value: PropTypes.number
 };
 
 TabPanel.defaultProps = {
   index: 1,
-  value: 1,
+  value: 1
 };
 
 export default TabPanel;

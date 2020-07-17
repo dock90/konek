@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import styled from "styled-components";
-import TagItem from "./TagItem";
+import styled from 'styled-components';
+import TagItem from './TagItem';
 
 const TagContainer = styled.div`
   display: flex;

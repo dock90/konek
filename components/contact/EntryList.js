@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import NoteItem from "./NoteItem";
-import { TYPE_CONVERSATION, TYPE_NOTE } from "../../queries/EntryQueries";
-import ConversationItem from "./ConversationItem";
+import PropTypes from 'prop-types';
+import NoteItem from './NoteItem';
+import { TYPE_CONVERSATION, TYPE_NOTE } from '../../queries/EntryQueries';
+import ConversationItem from './ConversationItem';
 
 const EntryList = ({ entries }) => {
   const { data } = entries;

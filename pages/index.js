@@ -1,9 +1,9 @@
-import { useQuery } from "@apollo/react-hooks";
-import { ME_QUERY } from "../queries/MeQueries";
-import Loading from "../components/Loading";
-import Messages from "./messages";
-import Invitation from "./invitation";
-import { useAuthenticated } from "../hooks/useAuthenticated";
+import { useQuery } from '@apollo/react-hooks';
+import { ME_QUERY } from '../queries/MeQueries';
+import Loading from '../components/Loading';
+import Messages from './messages';
+import Invitation from './invitation';
+import { useAuthenticated } from '../hooks/useAuthenticated';
 
 const Index = () => {
   const authenticated = useAuthenticated();

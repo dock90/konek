@@ -1,8 +1,8 @@
-import gql from "graphql-tag";
-import { ASSET_FIELDS } from "./AssetQueries";
-import { TAG_FIELDS } from "./TagQueries";
-import { MESSAGE_FIELDS } from "./MessagesQueries";
-import { ROOM_FIELDS } from "./RoomQueries";
+import gql from 'graphql-tag';
+import { ASSET_FIELDS } from './AssetQueries';
+import { TAG_FIELDS } from './TagQueries';
+import { MESSAGE_FIELDS } from './MessagesQueries';
+import { ROOM_FIELDS } from './RoomQueries';
 
 export const CONVERSATION_QUERY = gql`
   query CONVERSATION_QUERY($entryId: ID!) {

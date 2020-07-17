@@ -1,4 +1,4 @@
-const MIME_TYPE = "audio/webm";
+const MIME_TYPE = 'audio/webm';
 
 export function isSupported() {
   if (
@@ -16,11 +16,11 @@ export function isSupported() {
   return window.MediaRecorder.isTypeSupported(MIME_TYPE);
 }
 
-const STATUS_INITIALIZING = "initializing",
-  STATUS_UNSUPPORTED = "unsupported",
-  STATUS_READY = "ready",
-  STATUS_RECORDING = "recording",
-  STATUS_STOPPED = "stopped";
+const STATUS_INITIALIZING = 'initializing',
+  STATUS_UNSUPPORTED = 'unsupported',
+  STATUS_READY = 'ready',
+  STATUS_RECORDING = 'recording',
+  STATUS_STOPPED = 'stopped';
 
 export function Recorder() {
   this.status = STATUS_INITIALIZING;
@@ -29,7 +29,7 @@ export function Recorder() {
   this._init = new Promise(async (resolve, reject) => {
     if (!isSupported()) {
       this.status = STATUS_UNSUPPORTED;
-      reject("Recording not supported on this browser.");
+      reject('Recording not supported on this browser.');
       return;
     }
 
@@ -97,7 +97,7 @@ Recorder.prototype.getFile = async function() {
   }
   return new Promise(resolve => {
     this._recorder.onstop = () => {
-      this._blob = new File(this._chunks, "recording.ogg", {
+      this._blob = new File(this._chunks, 'recording.ogg', {
         type: MIME_TYPE
       });
       resolve(this._blob);

@@ -9,7 +9,7 @@
     "start": "next start",
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
-    "lint": "eslint components pages --fix -c .eslintrc --ignore-pattern '/node_modules/'",
+    "lint": "eslint . --ext .js,.ts,.tsx",
     "build": "next build && next export"
   },
   "dependencies": {
@@ -52,7 +52,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-react-hooks": "^4.0.8",
     "prettier": "^1.19.1"
   },
   "babel": {

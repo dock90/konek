@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { ROLE_FIELDS } from "./RoleQueries";
-import { ASSET_FIELDS } from "./AssetQueries";
+import gql from 'graphql-tag';
+import { ROLE_FIELDS } from './RoleQueries';
+import { ASSET_FIELDS } from './AssetQueries';
 
 export const MEMBER_FIELDS = gql`
   fragment MemberFields on Member {

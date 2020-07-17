@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { ASSET_FIELDS } from "./AssetQueries";
+import gql from 'graphql-tag';
+import { ASSET_FIELDS } from './AssetQueries';
 
 export const ME_FIELDS = gql`
   fragment MeFields on Me {

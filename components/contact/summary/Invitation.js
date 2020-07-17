@@ -1,15 +1,15 @@
-import { H4 } from "../../styles/Typography";
-import { BaseButton } from "../../styles/Button";
-import * as PropTypes from "prop-types";
-import { useContext } from "react";
-import { ContactContext } from "../../../contexts/ContactContext";
-import styled from "styled-components";
-import { Paper } from "@material-ui/core";
-import { useMutation } from "@apollo/react-hooks";
+import { H4 } from '../../styles/Typography';
+import { BaseButton } from '../../styles/Button';
+import * as PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { ContactContext } from '../../../contexts/ContactContext';
+import styled from 'styled-components';
+import { Paper } from '@material-ui/core';
+import { useMutation } from '@apollo/react-hooks';
 import {
   CONTACT_QUERY,
   GENERATE_INVITATION_CODE
-} from "../../../queries/ContactQueries";
+} from '../../../queries/ContactQueries';
 
 const SummaryContainer = styled(Paper)`
   padding: 10px;
@@ -80,7 +80,7 @@ export function Invitation() {
       )}
       <div style={{ marginTop: 5 }}>
         <BaseButton disabled={loading} onClick={handleGenerateCode}>
-          {invitationCode ? "Regenerate " : "Generate "}
+          {invitationCode ? 'Regenerate ' : 'Generate '}
           Code
         </BaseButton>
       </div>

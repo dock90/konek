@@ -1,8 +1,8 @@
-import gql from "graphql-tag";
-import { TAG_FIELDS } from "./TagQueries";
-import { ASSET_FIELDS } from "./AssetQueries";
-import { PROFILE_FIELDS } from "./ProfileQueries";
-import { ENTRY_FIELDS } from "./EntryQueries";
+import gql from 'graphql-tag';
+import { TAG_FIELDS } from './TagQueries';
+import { ASSET_FIELDS } from './AssetQueries';
+import { PROFILE_FIELDS } from './ProfileQueries';
+import { ENTRY_FIELDS } from './EntryQueries';
 
 const CONTACT_SUMMARY_FIELDS = gql`
   fragment ContactSummaryFields on Contact {

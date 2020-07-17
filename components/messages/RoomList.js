@@ -1,13 +1,13 @@
-import { useQuery } from "@apollo/react-hooks";
-import styled from "styled-components";
-import { Input } from "@material-ui/core";
-import { ROOMS_QUERY } from "../../queries/RoomQueries";
+import { useQuery } from '@apollo/react-hooks';
+import styled from 'styled-components';
+import { Input } from '@material-ui/core';
+import { ROOMS_QUERY } from '../../queries/RoomQueries';
 // components
-import RoomItem from "./RoomItem";
-import Loading from "../Loading";
-import { useState } from "react";
-import { BodyText } from "../styles/Typography";
-import { FlexContainer } from "../styles/LayoutStyles";
+import RoomItem from './RoomItem';
+import Loading from '../Loading';
+import { useState } from 'react';
+import { BodyText } from '../styles/Typography';
+import { FlexContainer } from '../styles/LayoutStyles';
 
 const RoomContainer = styled(FlexContainer)`
   grid-area: rooms;
@@ -40,7 +40,7 @@ const Info = styled(BodyText)`
 
 export function RoomList() {
   const roomsQuery = useQuery(ROOMS_QUERY);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   if (roomsQuery.loading) {
     return (
@@ -70,7 +70,7 @@ export function RoomList() {
     if (e.target.value) {
       setSearch(e.target.value.toLowerCase());
     } else {
-      setSearch("");
+      setSearch('');
     }
   }
 

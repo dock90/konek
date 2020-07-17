@@ -1,17 +1,17 @@
-import "isomorphic-fetch";
-import { createHttpLink } from "apollo-link-http";
-import { setContext } from "apollo-link-context";
-import { ApolloClient } from "apollo-client";
+import 'isomorphic-fetch';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher
-} from "apollo-cache-inmemory";
-import { auth } from "./firebase";
-import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from "../queries/RoomQueries";
-import introspectionResultData from "./fragmentTypes";
+} from 'apollo-cache-inmemory';
+import { auth } from './firebase';
+import { ROOM_FIELDS, ROOM_QUERY, ROOMS_QUERY } from '../queries/RoomQueries';
+import introspectionResultData from './fragmentTypes';
 
 const httpLink = createHttpLink({
-  uri: "https://equipter-crm-staging.herokuapp.com/graphql"
+  uri: 'https://equipter-crm-staging.herokuapp.com/graphql'
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -23,7 +23,7 @@ const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ""
+      authorization: token ? `Bearer ${token}` : ''
     }
   };
 });
@@ -36,13 +36,13 @@ const cache = new InMemoryCache({
       return null;
     }
     switch (typeName) {
-      case "Asset":
+      case 'Asset':
         return null;
-      case "Me":
+      case 'Me':
         // Will only ever be one, so a static ID is fine.
         return typeName;
-      case "Note":
-      case "Conversation":
+      case 'Note':
+      case 'Conversation':
         return object.entryId;
       default:
         const idField = `${typeName.charAt(0).toLowerCase() +
@@ -71,7 +71,7 @@ export const client = new ApolloClient({
 
         const roomInfo = ctx.cache.readFragment({
           fragment: ROOM_FIELDS,
-          fragmentName: "RoomFields",
+          fragmentName: 'RoomFields',
           id: args.roomId
         });
 

@@ -1,5 +1,5 @@
-import Layout from "../../components/auth/Layout";
-import PhoneConfirm from "../../components/auth/PhoneConfirm";
+import Layout from '../../components/auth/Layout';
+import PhoneConfirm from '../../components/auth/PhoneConfirm';
 
 export default props => {
   return (

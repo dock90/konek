@@ -1,6 +1,6 @@
-import Layout from "../../components/Layout";
-import ContactEdit from "../../components/contact/ContactEdit";
-import { ContentContainer } from "../../components/styles/PageStyles";
+import Layout from '../../components/Layout';
+import ContactEdit from '../../components/contact/ContactEdit';
+import { ContentContainer } from '../../components/styles/PageStyles';
 
 const NewContact = () => (
   <Layout>

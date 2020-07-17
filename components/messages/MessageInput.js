@@ -1,18 +1,18 @@
-import styled from "styled-components";
-import { useContext, useReducer } from "react";
-import { RoomIdContext } from "../../contexts/RoomIdContext";
+import styled from 'styled-components';
+import { useContext, useReducer } from 'react';
+import { RoomIdContext } from '../../contexts/RoomIdContext';
 // components
-import { CircularProgress } from "@material-ui/core";
-import { Send, Image, Delete, Mic, Adjust } from "@material-ui/icons";
-import { sendMessage } from "../../service/Messages";
-import { BaseIconButton } from "../styles/IconButton";
-import { StyledTextField } from "../material/StyledTextField";
-import FileUpload from "../assets/FileUpload";
-import { FlexContainer } from "../styles/LayoutStyles";
-import AssetDisplay from "../assets/AssetDisplay";
-import { isSupported, Recorder } from "../../service/Recorder";
-import { MeContext } from "../../contexts/MeContext";
-import { RESOURCE_TYPE_AUDIO, uploadFile } from "../../config/cloudinary";
+import { CircularProgress } from '@material-ui/core';
+import { Send, Image, Delete, Mic, Adjust } from '@material-ui/icons';
+import { sendMessage } from '../../service/Messages';
+import { BaseIconButton } from '../styles/IconButton';
+import { StyledTextField } from '../material/StyledTextField';
+import FileUpload from '../assets/FileUpload';
+import { FlexContainer } from '../styles/LayoutStyles';
+import AssetDisplay from '../assets/AssetDisplay';
+import { isSupported, Recorder } from '../../service/Recorder';
+import { MeContext } from '../../contexts/MeContext';
+import { RESOURCE_TYPE_AUDIO, uploadFile } from '../../config/cloudinary';
 
 const Container = styled(FlexContainer)`
   flex-direction: column;
@@ -22,19 +22,19 @@ const InputArea = styled(FlexContainer)`
   justify-content: center;
 `;
 
-const SEND_MESSAGE = "send",
-  SEND_COMPLETE = "send_done",
-  MESSAGE_INPUT = "input";
+const SEND_MESSAGE = 'send',
+  SEND_COMPLETE = 'send_done',
+  MESSAGE_INPUT = 'input';
 
-const ATTACH_OPEN = "open",
-  ATTACH_CLOSE = "close";
+const ATTACH_OPEN = 'open',
+  ATTACH_CLOSE = 'close';
 
-const ASSET_ADD = "asset_add",
-  ASSET_REMOVE = "asset_remove";
+const ASSET_ADD = 'asset_add',
+  ASSET_REMOVE = 'asset_remove';
 
-const RECORD_START = "r_start",
-  RECORD_CANCEL = "cancel",
-  RECORD_STOP = "r_stop";
+const RECORD_START = 'r_start',
+  RECORD_CANCEL = 'cancel',
+  RECORD_STOP = 'r_stop';
 
 const recordingSupported = isSupported();
 
@@ -43,7 +43,7 @@ function reducer(state, action) {
     case SEND_MESSAGE:
       return {
         ...state,
-        input: "",
+        input: '',
         asset: null,
         sending: true,
         allowRecord: recordingSupported
@@ -89,7 +89,7 @@ function reducer(state, action) {
 
 const MessageInput = props => {
   const [state, dispatch] = useReducer(reducer, {
-    input: "",
+    input: '',
     asset: null,
     sending: false,
     open: false,
@@ -119,7 +119,7 @@ const MessageInput = props => {
   }
 
   async function handleKeyPress(e) {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       await processMessage();
     }
@@ -178,12 +178,12 @@ const MessageInput = props => {
             folder: roomId,
             cloudName: cloudinaryInfo.cloudName,
             resourceType: RESOURCE_TYPE_AUDIO,
-            tags: ["recording", roomId]
+            tags: ['recording', roomId]
           },
           file
         );
 
-        await sendMessage(roomId, "", upload);
+        await sendMessage(roomId, '', upload);
         dispatch({ type: SEND_COMPLETE });
       });
     }
@@ -223,7 +223,7 @@ const MessageInput = props => {
           onClose={handleAttachClose}
           onSuccess={attachSuccess}
           maxFiles={1}
-          tags={["message"]}
+          tags={['message']}
         />
         <StyledTextField
           placeholder="Message..."

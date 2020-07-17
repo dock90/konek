@@ -3,17 +3,17 @@ export default {
     __schema: {
       types: [
         {
-          kind: "INTERFACE",
-          name: "EntryTypeInterface",
+          kind: 'INTERFACE',
+          name: 'EntryTypeInterface',
           possibleTypes: [
             {
-              name: "Conversation"
+              name: 'Conversation'
             },
             {
-              name: "Note"
+              name: 'Note'
             },
             {
-              name: "Log"
+              name: 'Log'
             }
           ]
         }

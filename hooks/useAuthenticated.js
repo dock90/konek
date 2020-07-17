@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { auth } from "../config/firebase";
-import { useRouter } from "next/router";
+import { useEffect, useState } from 'react';
+import { auth } from '../config/firebase';
+import { useRouter } from 'next/router';
 
 export function useAuthenticated(requireAuth) {
   if (requireAuth === undefined) {

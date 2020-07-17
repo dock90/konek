@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import { BioContent } from "../styles/ContactProfile";
-import { Facebook } from "@material-ui/icons";
-import { H5 } from "../styles/Typography";
-import TagsList from "../tags/TagsList";
+import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
+import { BioContent } from '../styles/ContactProfile';
+import { Facebook } from '@material-ui/icons';
+import { H5 } from '../styles/Typography';
+import TagsList from '../tags/TagsList';
 
 export function ContactInformation({ info, fullWidth }) {
   const hasAddressInfo =
@@ -44,7 +44,7 @@ export function ContactInformation({ info, fullWidth }) {
               <H5>Emails</H5>
               {info.emails.map((e, k) => (
                 <div key={k}>
-                  {e.label && e.label + ":"} {e.email}
+                  {e.label && e.label + ':'} {e.email}
                 </div>
               ))}
             </div>
@@ -54,7 +54,7 @@ export function ContactInformation({ info, fullWidth }) {
               <H5>Phone Numbers</H5>
               {info.phones.map((p, k) => (
                 <div key={k}>
-                  {p.label && p.label + ":"} {p.number}
+                  {p.label && p.label + ':'} {p.number}
                 </div>
               ))}
             </div>

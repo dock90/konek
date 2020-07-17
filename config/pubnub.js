@@ -1,15 +1,15 @@
-import PubNub from "pubnub";
-import { client } from "./apollo";
-import { ME_QUERY } from "../queries/MeQueries";
-import { addMessage } from "../service/Messages";
-import { auth } from "./firebase";
+import PubNub from 'pubnub';
+import { client } from './apollo';
+import { ME_QUERY } from '../queries/MeQueries';
+import { addMessage } from '../service/Messages';
+import { auth } from './firebase';
 
 /*
  * When in an HMR environment, PN can end up with multiple simultaneous connections, which can cause
  * weird issues with the qty unread messages counts. Do a full page refresh to resolve.
  */
 
-const LOCAL_STORAGE_UUID_KEY = "pnuuid";
+const LOCAL_STORAGE_UUID_KEY = 'pnuuid';
 
 auth.onAuthStateChanged(async user => {
   if (user) {
@@ -23,7 +23,7 @@ function getUuid() {
   let uuid = window.localStorage.getItem(LOCAL_STORAGE_UUID_KEY);
 
   if (!uuid) {
-    uuid = "";
+    uuid = '';
     while (uuid.length < 15) {
       uuid += Math.random()
         .toString(36)
@@ -46,7 +46,7 @@ function setConnected(connected) {
 const listeners = {
   message: async message => {
     const data = message.message;
-    if (data.type !== "message") {
+    if (data.type !== 'message') {
       console.log(message);
       // We don't (yet) know how to do anything other than handle messages.
       return;
@@ -62,18 +62,18 @@ const listeners = {
   },
   status: async function(s) {
     switch (s.category) {
-      case "PNNetworkUpCategory":
-      case "PNConnectedCategory":
-      case "PNReconnectedCategory":
+      case 'PNNetworkUpCategory':
+      case 'PNConnectedCategory':
+      case 'PNReconnectedCategory':
         setConnected(true);
         break;
-      case "PNNetworkDownCategory":
-      case "PNNetworkIssuesCategory":
-      case "PNAccessDeniedCategory":
+      case 'PNNetworkDownCategory':
+      case 'PNNetworkIssuesCategory':
+      case 'PNAccessDeniedCategory':
         setConnected(false);
         await closePubNub();
         // Force a re-load of "me" so that it gets a new key, etc.
-        await client.query({ query: ME_QUERY, fetchPolicy: "network-only" });
+        await client.query({ query: ME_QUERY, fetchPolicy: 'network-only' });
         await initPubNub();
         break;
       default:

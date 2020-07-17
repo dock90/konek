@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
-import Loading from "../../Loading";
-import { GROUP_MEMBERS_QUERY } from "../../../queries/GroupQueries";
-import MemberItem from "./MemberItem";
-import { useMemo, useState } from "react";
-import { Paper } from "@material-ui/core";
-import { H3 } from "../../styles/Typography";
+import styled from 'styled-components';
+import { useQuery } from '@apollo/react-hooks';
+import Loading from '../../Loading';
+import { GROUP_MEMBERS_QUERY } from '../../../queries/GroupQueries';
+import MemberItem from './MemberItem';
+import { useMemo, useState } from 'react';
+import { Paper } from '@material-ui/core';
+import { H3 } from '../../styles/Typography';
 
 const Group = styled(Paper)`
   background-color: white;
@@ -35,7 +35,7 @@ const MemberList = ({ groupId }) => {
       members = [];
 
     for (const member of data.group.members) {
-      if (["admin", "manager"].includes(member.role.roleId)) {
+      if (['admin', 'manager'].includes(member.role.roleId)) {
         admins.push(member);
       } else {
         members.push(member);

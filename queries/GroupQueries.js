@@ -1,7 +1,7 @@
-import gql from "graphql-tag";
-import { ROLE_FIELDS } from "./RoleQueries";
-import { MEMBER_FIELDS } from "./MemberQueries";
-import { ASSET_FIELDS } from "./AssetQueries";
+import gql from 'graphql-tag';
+import { ROLE_FIELDS } from './RoleQueries';
+import { MEMBER_FIELDS } from './MemberQueries';
+import { ASSET_FIELDS } from './AssetQueries';
 
 const GROUP_FIELDS = gql`
   fragment GroupFields on Group {

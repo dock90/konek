@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { useContext } from "react";
-import { RoomIdContext } from "../../contexts/RoomIdContext";
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { RoomIdContext } from '../../contexts/RoomIdContext';
 // material
-import { Badge } from "@material-ui/core";
-import AvatarPicture from "../assets/AvatarPicture";
+import { Badge } from '@material-ui/core';
+import AvatarPicture from '../assets/AvatarPicture';
 
 const Container = styled.div`
-  padding: 8px 8px 8px ${props => (props.active ? "9px" : "13px")};
+  padding: 8px 8px 8px ${props => (props.active ? '9px' : '13px')};
   border-left: ${props =>
-    props.active ? `solid 4px ${props.theme.primary}` : ""};
+    props.active ? `solid 4px ${props.theme.primary}` : ''};
   cursor: pointer;
   display: flex;
   background-color: #fafafa;

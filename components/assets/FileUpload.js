@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import { getWidget } from "../../config/cloudinary";
-import { useContext, useEffect, useState } from "react";
-import { MeContext } from "../../contexts/MeContext";
+import PropTypes from 'prop-types';
+import { getWidget } from '../../config/cloudinary';
+import { useContext, useEffect, useState } from 'react';
+import { MeContext } from '../../contexts/MeContext';
 
 function getExtension(publicId) {
-  let ext = "";
+  let ext = '';
   for (let i = publicId.length - 1; i >= 0; i--) {
-    if (publicId[i] === ".") break;
+    if (publicId[i] === '.') break;
     ext = publicId[i] + ext;
   }
   return ext;
@@ -45,21 +45,21 @@ const FileUpload = ({
         multiple: maxFiles && maxFiles > 1,
         apiKey: cloudinaryInfo.apiKey,
         cloudName: cloudinaryInfo.cloudName,
-        resourceType: resourceType || "auto"
+        resourceType: resourceType || 'auto'
       },
       function(error, result) {
         if (result) {
           switch (result.event) {
-            case "display-changed":
-              if (result.info === "hidden") {
+            case 'display-changed':
+              if (result.info === 'hidden') {
                 onClose();
               }
               break;
-            case "success":
+            case 'success':
               if (onSuccess) {
                 result.info.original_filename =
                   result.info.original_filename +
-                  "." +
+                  '.' +
                   getExtension(result.info.public_id);
                 onSuccess(result.info);
               }

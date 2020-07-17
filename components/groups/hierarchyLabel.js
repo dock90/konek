@@ -1,4 +1,3 @@
-
 function join(names, group, includeGroupName) {
   if (includeGroupName) {
     names.push(group.name);

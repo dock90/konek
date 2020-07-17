@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { IconButton } from "@material-ui/core";
-import { Add, Delete } from "@material-ui/icons";
-import { BaseButton } from "../styles/Button";
-import { StyledTextField } from "../material/StyledTextField";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { IconButton } from '@material-ui/core';
+import { Add, Delete } from '@material-ui/icons';
+import { BaseButton } from '../styles/Button';
+import { StyledTextField } from '../material/StyledTextField';
 
 const Table = styled.table`
   width: 100%;
@@ -17,7 +17,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
   const addRow = () => {
     const row = {};
     for (const col of columns) {
-      row[col.name] = "";
+      row[col.name] = '';
     }
     value.push(row);
   };
@@ -55,7 +55,7 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
                   <StyledTextField
                     label={`${col.label} ${rowKey + 1}`}
                     name={col.name}
-                    value={val[col.name] || ""}
+                    value={val[col.name] || ''}
                     onChange={handleChange(rowKey)}
                     required={col.required}
                     disabled={disabled}

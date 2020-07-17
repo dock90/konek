@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { useContext } from "react";
-import { Image } from "cloudinary-react";
-import { DeleteButton } from "../styles/Button";
-import { TextField, Paper } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
-import AssetDisplay from "../assets/AssetDisplay";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useContext } from 'react';
+import { Image } from 'cloudinary-react';
+import { DeleteButton } from '../styles/Button';
+import { TextField, Paper } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
+import AssetDisplay from '../assets/AssetDisplay';
 
 const Container = styled.div`
   display: flex;
@@ -49,10 +49,10 @@ const NoteEditAsset = ({ asset, onChange }) => {
       </DisplayWrapper>
       <div style={{ padding: 5 }}>
         <TextField
-          value={asset.description || ""}
+          value={asset.description || ''}
           onChange={handleDescrChange}
           label="Description"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         />
       </div>
       <Actions>

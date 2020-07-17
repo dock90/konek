@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import Link from "next/link";
+import styled from 'styled-components';
+import Link from 'next/link';
 
-import { ResultContainer, ResultTitle, ResultDetail } from "./Styles";
-import Highlight from "./Highlight";
+import { ResultContainer, ResultTitle, ResultDetail } from './Styles';
+import Highlight from './Highlight';
 
 const NoteMessage = styled.div`
   max-width: 100px;
@@ -20,16 +20,19 @@ const ContactResult = ({ hit }) => {
     >
       <ResultContainer variant="outlined">
         <ResultTitle direction="column">
-          <div><TypeLabel>{hit.type}: </TypeLabel>{hit.contact}</div>
+          <div>
+            <TypeLabel>{hit.type}: </TypeLabel>
+            {hit.contact}
+          </div>
           <div>
             <Highlight attribute="title" hit={hit} />
           </div>
         </ResultTitle>
         <ResultDetail>
-          {hit.type === "Conversation" && (
+          {hit.type === 'Conversation' && (
             <Highlight attribute="message" hit={hit} isSnippet={true} />
           )}
-          {hit.type === "Note" && (
+          {hit.type === 'Note' && (
             <NoteMessage>
               <Highlight attribute="message" hit={hit} isSnippet={true} />
             </NoteMessage>

@@ -1,54 +1,54 @@
-import { useContext, useState } from "react";
-import { MeContext } from "../../contexts/MeContext";
-import { useMutation } from "@apollo/react-hooks";
-import { useStateTimeout } from "../../hooks/useStateTimeout";
-import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
+import { useContext, useState } from 'react';
+import { MeContext } from '../../contexts/MeContext';
+import { useMutation } from '@apollo/react-hooks';
+import { useStateTimeout } from '../../hooks/useStateTimeout';
+import { UPDATE_ME_MUTATION } from '../../queries/MeQueries';
 // material
-import { Card, CardContent, Grid } from "@material-ui/core";
+import { Card, CardContent, Grid } from '@material-ui/core';
 // styles
-import { BaseButton } from "../styles/Button";
-import { auth, firebase } from "../../config/firebase";
-import { H4 } from "../styles/Typography";
-import { StyledTextField } from "../material/StyledTextField";
-import { hasEmailLogin } from "./helpers";
-import { isEmailValid, isPasswordOk } from "../auth/validation";
+import { BaseButton } from '../styles/Button';
+import { auth, firebase } from '../../config/firebase';
+import { H4 } from '../styles/Typography';
+import { StyledTextField } from '../material/StyledTextField';
+import { hasEmailLogin } from './helpers';
+import { isEmailValid, isPasswordOk } from '../auth/validation';
 import {
   INVALID_EMAIL,
   PASSWORD_NOT_STRONG,
   PASSWORDS_DONT_MATCH
-} from "../auth/messages";
-import { SuccessMessage } from "../styles/Messages";
+} from '../auth/messages';
+import { SuccessMessage } from '../styles/Messages';
 
 const LoginInformation = () => {
   const me = useContext(MeContext);
   const [updateMeMutation] = useMutation(UPDATE_ME_MUTATION);
 
-  const email = me.emails && me.emails.length > 0 ? me.emails[0].email : "";
+  const email = me.emails && me.emails.length > 0 ? me.emails[0].email : '';
   const [loginInfo, setLoginInfo] = useState({
       email,
-      curPass: "",
-      pass: "",
-      newPass: ""
+      curPass: '',
+      pass: '',
+      newPass: ''
     }),
     [error, setError] = useState({
-      email: "",
-      noMatch: "",
-      invalidPassword: ""
+      email: '',
+      noMatch: '',
+      invalidPassword: ''
     }),
     [processing, setProcessing] = useState(false),
-    [success, setSuccess] = useStateTimeout("", 2500);
+    [success, setSuccess] = useStateTimeout('', 2500);
 
   const hasPwLogin = hasEmailLogin(auth.currentUser);
 
   const resetError = () => {
-      setError({ email: "", noMatch: "", invalidPassword: "" });
+      setError({ email: '', noMatch: '', invalidPassword: '' });
     },
     resetLoginInfo = newEmail => {
       setLoginInfo({
         email: newEmail || email,
-        curPass: "",
-        pass: "",
-        newPass: ""
+        curPass: '',
+        pass: '',
+        newPass: ''
       });
       resetError();
     },
@@ -58,12 +58,12 @@ const LoginInformation = () => {
   const handleLoginInfoChange = e => {
     const { name, value } = e.target;
     const newState = { ...loginInfo, [name]: value };
-    if (name === "email" && hasNewPassword) {
+    if (name === 'email' && hasNewPassword) {
       // Clear password reset.
-      newState.pass = "";
-      newState.newPass = "";
+      newState.pass = '';
+      newState.newPass = '';
     }
-    if (name === "pass" && hasNewEmail) {
+    if (name === 'pass' && hasNewEmail) {
       // Reset password if we change the email.
       newState.email = email;
     }
@@ -98,7 +98,7 @@ const LoginInformation = () => {
         );
         await fbUser.reauthenticateWithCredential(credential);
       } catch (e) {
-        console.log("Unable to re-authenticate");
+        console.log('Unable to re-authenticate');
         console.log(e);
         setError({ ...error, invalidPassword: e.message });
         setProcessing(false);
@@ -115,15 +115,15 @@ const LoginInformation = () => {
         try {
           await fbUser.updatePassword(loginInfo.pass);
           resetLoginInfo();
-          setSuccess("Password successfully updated.");
+          setSuccess('Password successfully updated.');
         } catch (e) {
           setProcessing(false);
-          console.log("Password Change Error");
+          console.log('Password Change Error');
           console.log(error);
           return;
         }
 
-        console.log("Password Change Success");
+        console.log('Password Change Success');
       } else {
         setProcessing(false);
         setError({ ...error, noMatch: PASSWORDS_DONT_MATCH });
@@ -133,7 +133,7 @@ const LoginInformation = () => {
       try {
         if (hasPwLogin) {
           await fbUser.updateEmail(loginInfo.email);
-          setSuccess("Email successfully updated.");
+          setSuccess('Email successfully updated.');
         } else {
           const credential = new firebase.auth.EmailAuthProvider.credential(
             loginInfo.email,
@@ -141,7 +141,7 @@ const LoginInformation = () => {
           );
           await auth.currentUser.linkWithCredential(credential);
           setSuccess(
-            "You may not log in with the supplied email and password!"
+            'You may not log in with the supplied email and password!'
           );
         }
         const emails = me.emails;
@@ -150,11 +150,11 @@ const LoginInformation = () => {
       } catch (e) {
         setProcessing(false);
         switch (e.code) {
-          case "auth/requires-recent-login":
-          case "auth/email-already-in-use":
+          case 'auth/requires-recent-login':
+          case 'auth/email-already-in-use':
             setError({ ...error, email: e.message });
         }
-        console.log("Email change error");
+        console.log('Email change error');
         console.log(e);
         return;
       }
@@ -189,7 +189,7 @@ const LoginInformation = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <StyledTextField
-                label={hasPwLogin ? "Current Password" : "New Password"}
+                label={hasPwLogin ? 'Current Password' : 'New Password'}
                 name="curPass"
                 onChange={handleLoginInfoChange}
                 value={loginInfo.curPass}

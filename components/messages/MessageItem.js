@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import AssetDisplay from "../assets/AssetDisplay";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import AssetDisplay from '../assets/AssetDisplay';
 
 const MessageContainer = styled.div`
   background-color: ${props =>
     props.isMe ? props.theme.white : props.theme.accentDark};
-  color: ${props => (props.isMe ? "#37474F" : props.theme.white)};
-  margin-left: ${props => (props.isMe ? "5" : "1")}rem;
-  margin-right: ${props => (props.isMe ? "1" : "5")}rem;
+  color: ${props => (props.isMe ? '#37474F' : props.theme.white)};
+  margin-left: ${props => (props.isMe ? '5' : '1')}rem;
+  margin-right: ${props => (props.isMe ? '1' : '5')}rem;
   margin-top: 1rem;
   padding: 3px;
   border-radius: 4px;
@@ -42,7 +42,7 @@ const MessageItem = ({ message, room }) => (
           <AssetDisplay
             size={100}
             asset={message.asset}
-            description={message.body || ""}
+            description={message.body || ''}
             descriptionDialogOnly
           />
         </Asset>

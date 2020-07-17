@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { ASSET_FIELDS } from "./AssetQueries";
+import gql from 'graphql-tag';
+import { ASSET_FIELDS } from './AssetQueries';
 
 export const ROOM_FIELDS = gql`
   fragment RoomFields on Room {

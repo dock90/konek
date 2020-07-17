@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import MessageAction from "../../actions/MessageAction";
-import ContactView from "../../actions/ContactView";
-import AvatarPicture from "../../assets/AvatarPicture";
+import styled from 'styled-components';
+import MessageAction from '../../actions/MessageAction';
+import ContactView from '../../actions/ContactView';
+import AvatarPicture from '../../assets/AvatarPicture';
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +28,11 @@ const MemberItem = ({ member }) => {
   return (
     <Container>
       <Overview>
-        <AvatarPicture size={35} picture={member.picture} style={{ marginRight: 15 }} />
+        <AvatarPicture
+          size={35}
+          picture={member.picture}
+          style={{ marginRight: 15 }}
+        />
         <div>
           <div>{member.name}</div>
           <div>{member.role.name}</div>

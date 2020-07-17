@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Paper } from "@material-ui/core";
+import styled from 'styled-components';
+import { Paper } from '@material-ui/core';
 
 export const ResultContainer = styled(Paper)`
   margin: 2px;
@@ -23,11 +23,11 @@ export const ResultContainer = styled(Paper)`
 export const ResultTitle = styled.div`
   display: flex;
   font-size: 1.5rem;
-  flex-direction: ${props => (props.direction ? props.direction : "row")};
+  flex-direction: ${props => (props.direction ? props.direction : 'row')};
 `;
 
 export const ResultDetail = styled.div`
   display: flex;
   font-size: 1rem;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 `;

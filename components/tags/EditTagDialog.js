@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import {
   CREATE_TAG_MUTATION,
   TAGS_QUERY,
   UPDATE_TAG_MUTATION
-} from "../../queries/TagQueries";
+} from '../../queries/TagQueries';
 import {
   Checkbox,
   Switch,
@@ -16,29 +16,29 @@ import {
   DialogTitle,
   FormControlLabel,
   Popover
-} from "@material-ui/core";
-import { Save, Cancel, Check } from "@material-ui/icons";
-import { SketchPicker } from "react-color";
-import { BaseButton } from "../styles/Button";
-import { StyledTextField } from "../material/StyledTextField";
-import { BaseIconButton } from "../styles/IconButton";
-import TagItem from "./TagItem";
-import { FlexContainer } from "../styles/LayoutStyles";
+} from '@material-ui/core';
+import { Save, Cancel, Check } from '@material-ui/icons';
+import { SketchPicker } from 'react-color';
+import { BaseButton } from '../styles/Button';
+import { StyledTextField } from '../material/StyledTextField';
+import { BaseIconButton } from '../styles/IconButton';
+import TagItem from './TagItem';
+import { FlexContainer } from '../styles/LayoutStyles';
 
 const FieldWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
 const accessToggle = {
-  PRIVATE: "SHARED",
-  SHARED: "PRIVATE"
+  PRIVATE: 'SHARED',
+  SHARED: 'PRIVATE'
 };
 
 export const NewTag = () => ({
   tagId: null,
-  name: "New Tag",
-  access: "PRIVATE",
-  color: "FFFFFF",
+  name: 'New Tag',
+  access: 'PRIVATE',
+  color: 'FFFFFF',
   isMine: true
 });
 
@@ -77,7 +77,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   const handleChange = e => {
     let { name, value } = e.target;
 
-    if (name === "hidden") {
+    if (name === 'hidden') {
       value = e.target.checked;
     }
 
@@ -92,7 +92,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     setHasChange(true);
     setTagState({
       ...tagState,
-      color: color.hex.replace("#", "")
+      color: color.hex.replace('#', '')
     });
   };
 
@@ -124,14 +124,14 @@ const EditTagDialog = ({ tag, open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
-        {tagState.tagId ? `Edit Tag "${tagState.name}"` : "New Tag"}
+        {tagState.tagId ? `Edit Tag "${tagState.name}"` : 'New Tag'}
       </DialogTitle>
       <DialogContent>
         <FieldWrapper>
           <StyledTextField
             name="name"
             label="Name"
-            value={tagState.name || ""}
+            value={tagState.name || ''}
             onChange={handleChange}
             required
             disabled={isSaving}
@@ -149,18 +149,18 @@ const EditTagDialog = ({ tag, open, onClose }) => {
             >
               Set Color
             </BaseButton>
-            <TagItem style={{ alignSelf: "center" }} tag={tagState} />
+            <TagItem style={{ alignSelf: 'center' }} tag={tagState} />
           </FlexContainer>
           <Popover
             open={colorPickOpen}
             anchorEl={colorSelector.current}
             anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center"
+              vertical: 'bottom',
+              horizontal: 'center'
             }}
             transformOrigin={{
-              vertical: "top",
-              horizontal: "center"
+              vertical: 'top',
+              horizontal: 'center'
             }}
             onClose={handleColorPickClose}
           >
@@ -170,7 +170,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
               disableAlpha={true}
             />
             <BaseIconButton
-              style={{ float: "right" }}
+              style={{ float: 'right' }}
               onClick={handleToggleColorPickOpen}
             >
               <Check />
@@ -182,7 +182,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={tagState.access === "SHARED"}
+                  checked={tagState.access === 'SHARED'}
                   onChange={toggleAccess}
                   color="primary"
                   disabled={isSaving}

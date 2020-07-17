@@ -1,8 +1,8 @@
-import Router from "next/router";
-import NProgress from "nprogress";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-import Meta from "./Meta";
-import { theme } from "../config/theme";
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import Meta from './Meta';
+import { theme } from '../config/theme';
 
 // visualize route changes
 Router.onRouteChangeStart = () => {

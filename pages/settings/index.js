@@ -1,6 +1,6 @@
-import Layout from "../../components/Layout";
-import { H1 } from "../../components/styles/Typography";
-import { ContentContainer } from "../../components/styles/PageStyles";
+import Layout from '../../components/Layout';
+import { H1 } from '../../components/styles/Typography';
+import { ContentContainer } from '../../components/styles/PageStyles';
 
 const Settings = () => (
   <Layout>

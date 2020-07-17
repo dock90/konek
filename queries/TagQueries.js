@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const TAG_FIELDS = gql`
   fragment TagFields on Tag {
@@ -39,7 +39,13 @@ export const UPDATE_TAG_MUTATION = gql`
     $access: TagAccessType
   ) {
     updateTag(
-      input: { tagId: $tagId, name: $name, color: $color, hidden: $hidden, access: $access }
+      input: {
+        tagId: $tagId
+        name: $name
+        color: $color
+        hidden: $hidden
+        access: $access
+      }
     ) {
       ...TagFields
     }

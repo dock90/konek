@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { Button } from "@material-ui/core";
+import styled from 'styled-components';
+import { Button } from '@material-ui/core';
 
 export const BaseButton = styled(Button)`
   && {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${props => (props.primary ? props.theme.primary : "none")};
+    background: ${props => (props.primary ? props.theme.primary : 'none')};
     color: ${props => (props.primary ? props.theme.white : props.theme.black)};
     margin-right: 1rem;
 
@@ -18,8 +18,8 @@ export const BaseButton = styled(Button)`
     }
 
     :disabled {
-      background-color: ${props => (props.primary ? props.theme.gray : "none")};
-      border-color: ${props => (props.primary ? props.theme.grayer : "none")};
+      background-color: ${props => (props.primary ? props.theme.gray : 'none')};
+      border-color: ${props => (props.primary ? props.theme.grayer : 'none')};
     }
   }
 `;

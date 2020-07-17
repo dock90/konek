@@ -1,17 +1,17 @@
-import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
-import { useContext, useEffect, useRef, useState } from "react";
-import { MESSAGES_QUERY } from "../../queries/MessagesQueries";
-import { RoomIdContext } from "../../contexts/RoomIdContext";
+import styled from 'styled-components';
+import { useQuery } from '@apollo/react-hooks';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { MESSAGES_QUERY } from '../../queries/MessagesQueries';
+import { RoomIdContext } from '../../contexts/RoomIdContext';
 // components
-import { Chip } from "@material-ui/core";
-import MessageInput from "./MessageInput";
-import Loading from "../Loading";
-import InfiniteScroll from "react-infinite-scroller";
-import MessageItem from "./MessageItem";
-import { ROOM_QUERY } from "../../queries/RoomQueries";
-import { markAllRead } from "../../service/Messages";
-import { PUB_NUB_CONNECTION_STATE_QUERY } from "../../queries/LocalStateQueries";
+import { Chip } from '@material-ui/core';
+import MessageInput from './MessageInput';
+import Loading from '../Loading';
+import InfiniteScroll from 'react-infinite-scroller';
+import MessageItem from './MessageItem';
+import { ROOM_QUERY } from '../../queries/RoomQueries';
+import { markAllRead } from '../../service/Messages';
+import { PUB_NUB_CONNECTION_STATE_QUERY } from '../../queries/LocalStateQueries';
 
 const Container = styled.div`
   grid-area: messages;
@@ -112,7 +112,7 @@ const MessageContainer = () => {
     if (!eomRef.current || !isAtBottom) {
       return;
     }
-    eomRef.current.scrollIntoView({ behavior: "auto" });
+    eomRef.current.scrollIntoView({ behavior: 'auto' });
   };
 
   useEffect(() => {
@@ -219,10 +219,10 @@ const MessageContainer = () => {
             // There _may_ be a better way to do this, but this works. I tried using the `element` prop of the
             // InfiniteScroller, but it doesn't work with styled components for some reason.
             style={{
-              minHeight: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-              flexDirection: "column"
+              minHeight: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              flexDirection: 'column'
             }}
           >
             {!hasMore && <Beginning key={0} label="Beginning of chat" />}
@@ -238,11 +238,11 @@ const MessageContainer = () => {
                       <Chip
                         label={
                           roomData.room.qtyUnread +
-                          " unread message" +
-                          (roomData.room.qtyUnread > 1 ? "s" : "")
+                          ' unread message' +
+                          (roomData.room.qtyUnread > 1 ? 's' : '')
                         }
                         style={{
-                          marginBottom: "5px"
+                          marginBottom: '5px'
                         }}
                       />
                     </UnreadInfo>

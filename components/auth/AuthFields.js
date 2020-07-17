@@ -1,19 +1,24 @@
-import PropTypes from "prop-types";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { auth, firebase } from "../../config/firebase";
-import { isEmailValid, isPasswordOk } from "./validation";
-import { StyledTextField } from "../material/StyledTextField";
-import StyledAppBar from "../material/StyledAppBar";
-import StyledTabs from "../material/StyledTabs";
-import StyledTab from "../material/StyledTab";
-import TabPanel from "../TabPanel";
-import { Divider, InputAdornment } from "@material-ui/core";
-import { BigButton } from "../styles/Button";
-import styled from "styled-components";
-import {FIELD_REQUIRED, INVALID_EMAIL, INVALID_PHONE, PASSWORD_NOT_STRONG} from "./messages";
+import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { auth, firebase } from '../../config/firebase';
+import { isEmailValid, isPasswordOk } from './validation';
+import { StyledTextField } from '../material/StyledTextField';
+import StyledAppBar from '../material/StyledAppBar';
+import StyledTabs from '../material/StyledTabs';
+import StyledTab from '../material/StyledTab';
+import TabPanel from '../TabPanel';
+import { Divider, InputAdornment } from '@material-ui/core';
+import { BigButton } from '../styles/Button';
+import styled from 'styled-components';
+import {
+  FIELD_REQUIRED,
+  INVALID_EMAIL,
+  INVALID_PHONE,
+  PASSWORD_NOT_STRONG
+} from './messages';
 
-export const MODE_SIGN_UP = "signup";
+export const MODE_SIGN_UP = 'signup';
 export const MODE_LOG_IN = 'login';
 
 const SignupWrapper = styled.div`
@@ -43,24 +48,24 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
   const isLogIn = mode === MODE_LOG_IN;
   const router = useRouter();
   const [state, setState] = useState({
-      email: "",
-      password: "",
-      phone: ""
+      email: '',
+      password: '',
+      phone: ''
     }),
     [captchaPass, setCaptchaPass] = useState(false),
     [recaptcha, setRecaptcha] = useState(null),
     [processing, setProcessing] = useState(false),
     [activeTab, setActiveTab] = useState(TAB_EMAIL),
     [errors, setErrors] = useState({
-      email: "",
-      pass: "",
-      phone: ""
+      email: '',
+      pass: '',
+      phone: ''
     }),
     clearErrors = () => {
       setErrors({
-        email: "",
-        pass: "",
-        phone: ""
+        email: '',
+        pass: '',
+        phone: ''
       });
     };
 
@@ -70,12 +75,12 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       return;
     }
 
-    const re = new firebase.auth.RecaptchaVerifier("recaptcha-container", {
-      size: "normal",
+    const re = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      size: 'normal',
       callback: () => {
         setCaptchaPass(true);
       },
-      "expired-callback": () => {
+      'expired-callback': () => {
         setCaptchaPass(false);
       }
     });
@@ -91,16 +96,16 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
   };
 
   const handlePhoneChange = e => {
-    let value = e.target.value.replace(/\D/g, "");
+    let value = e.target.value.replace(/\D/g, '');
 
-    if (value[0] === "1") {
+    if (value[0] === '1') {
       // Format US numbers nicely.
       const parts = value.match(/(.)(.{0,3})(.{0,3})(.{0,4})/);
 
       // Splice off the full match. Join with space. Trim trailing space.
       value = parts
         .splice(1)
-        .join(" ")
+        .join(' ')
         .trim();
     }
 
@@ -135,7 +140,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       } else if (isSignUp && !isPasswordOk(state.password)) {
         setErrors({
           ...errors,
-          pass: PASSWORD_NOT_STRONG,
+          pass: PASSWORD_NOT_STRONG
         });
         return;
       }
@@ -143,7 +148,10 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       try {
         setProcessing(true);
         if (isSignUp) {
-          await auth.createUserWithEmailAndPassword(state.email, state.password);
+          await auth.createUserWithEmailAndPassword(
+            state.email,
+            state.password
+          );
         } else if (isLogIn) {
           await auth.signInWithEmailAndPassword(state.email, state.password);
         }
@@ -158,29 +166,27 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
             displayName: name
           });
         } catch (e) {
-          console.log("Error updating profile name.", e);
+          console.log('Error updating profile name.', e);
         }
       }
 
-      let target = "/";
+      let target = '/';
       if (router.query.target) {
         target = decodeURIComponent(router.query.target);
       }
       await router.push(target);
     } else if (activeTab === TAB_PHONE) {
       if (!state.phone) {
-        setErrors({ ...errors, phone: "\n" + FIELD_REQUIRED });
+        setErrors({ ...errors, phone: '\n' + FIELD_REQUIRED });
         return;
       }
       try {
         setProcessing(true);
         const confirmationResult = await auth.signInWithPhoneNumber(
-          "+" + state.phone.replace(/\s/g, ""),
+          '+' + state.phone.replace(/\s/g, ''),
           recaptcha
         );
-        let url = `/auth/phone-confirm?verificationId=${
-          confirmationResult.verificationId
-        }`;
+        let url = `/auth/phone-confirm?verificationId=${confirmationResult.verificationId}`;
         if (name) {
           url = `${url}&name=${encodeURIComponent(name)}`;
         }
@@ -191,7 +197,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       } catch (e) {
         setErrors({
           ...errors,
-          phone: "\n" + INVALID_PHONE
+          phone: '\n' + INVALID_PHONE
         });
         setProcessing(false);
         return;
@@ -199,13 +205,13 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     }
   };
 
-  let submitLabel = "submit";
+  let submitLabel = 'submit';
   switch (mode) {
     case MODE_SIGN_UP:
-      submitLabel = "Sign up";
+      submitLabel = 'Sign up';
       break;
     case MODE_LOG_IN:
-      submitLabel = "Login";
+      submitLabel = 'Login';
       break;
   }
 

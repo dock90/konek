@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import { ChatOutlined } from "@material-ui/icons";
-import BaseAction from "./BaseAction";
+import PropTypes from 'prop-types';
+import { ChatOutlined } from '@material-ui/icons';
+import BaseAction from './BaseAction';
 
 const MessageAction = ({ roomId, children, type }) => (
   <BaseAction

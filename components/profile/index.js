@@ -1,14 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 // components
-import PersonalInformation from "./PersonalInformation";
-import Notifications from "./Notifications";
-import TabPanel from "../TabPanel";
-import StyledAppBar from "../material/StyledAppBar";
-import StyledTabs from "../material/StyledTabs";
-import StyledTab from "../material/StyledTab";
-import LoginInformation from "./LoginInformation";
+import PersonalInformation from './PersonalInformation';
+import Notifications from './Notifications';
+import TabPanel from '../TabPanel';
+import StyledAppBar from '../material/StyledAppBar';
+import StyledTabs from '../material/StyledTabs';
+import StyledTab from '../material/StyledTab';
+import LoginInformation from './LoginInformation';
 
 // styles
 const Container = styled.div`

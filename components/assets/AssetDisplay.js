@@ -1,24 +1,24 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Image, Video } from "cloudinary-react";
-import cloudinary from "cloudinary-core";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Image, Video } from 'cloudinary-react';
+import cloudinary from 'cloudinary-core';
 import {
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   Paper
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   Close,
   CloudDownload,
   Videocam,
   PlayArrow,
   Pause
-} from "@material-ui/icons";
-import { useContext, useState } from "react";
-import { MeContext } from "../../contexts/MeContext";
-import { BaseIconButton } from "../styles/IconButton";
+} from '@material-ui/icons';
+import { useContext, useState } from 'react';
+import { MeContext } from '../../contexts/MeContext';
+import { BaseIconButton } from '../styles/IconButton';
 
 const Container = styled(Paper)`
   // So the image respects the rounded borders of the Paper.
@@ -119,15 +119,15 @@ const AssetDisplay = ({
       const url = core.url(asset.publicId, {});
 
       const a = new Audio(url);
-      a.preload = "auto";
+      a.preload = 'auto';
 
-      a.addEventListener("ended", () => {
+      a.addEventListener('ended', () => {
         setPlaying(STATE_NONE);
       });
-      a.addEventListener("canplaythrough", () => {
+      a.addEventListener('canplaythrough', () => {
         a.play();
       });
-      a.addEventListener("play", () => {
+      a.addEventListener('play', () => {
         setPlaying(STATE_PLAYING);
       });
 
@@ -137,7 +137,7 @@ const AssetDisplay = ({
 
   let thumb = null;
   switch (asset.resourceType) {
-    case "video":
+    case 'video':
       if (asset.isAudio) {
         let icon;
         if (playing === STATE_LOADING) {
@@ -154,7 +154,7 @@ const AssetDisplay = ({
         );
         break;
       }
-    case "image":
+    case 'image':
       thumb = (
         <ThumbItem>
           <ThumbWrapper>
@@ -169,7 +169,7 @@ const AssetDisplay = ({
               quality="auto"
               onClick={() => toggleIsOpen(true)}
             />
-            {asset.resourceType === "video" && (
+            {asset.resourceType === 'video' && (
               <PlayIcon>
                 <Videocam fontSize="inherit" />
               </PlayIcon>
@@ -178,7 +178,7 @@ const AssetDisplay = ({
         </ThumbItem>
       );
       break;
-    case "raw":
+    case 'raw':
       const core = new cloudinary.Cloudinary({
           cloud_name: cloudinaryInfo.cloudName,
           resource_type: asset.resourceType
@@ -218,7 +218,7 @@ const AssetDisplay = ({
           </BaseIconButton>
         </DialogActions>
         <Content>
-          {(asset.resourceType === "image" && (
+          {(asset.resourceType === 'image' && (
             <ImageView
               publicId={asset.publicId}
               cloudName={cloudinaryInfo.cloudName}

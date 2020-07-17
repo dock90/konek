@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import { IconButton, TextField, MenuItem } from "@material-ui/core";
-import { Add, Delete } from "@material-ui/icons";
-import { BaseButton } from "../styles/Button";
+import PropTypes from 'prop-types';
+import { IconButton, TextField, MenuItem } from '@material-ui/core';
+import { Add, Delete } from '@material-ui/icons';
+import { BaseButton } from '../styles/Button';
 
 const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
-  value = value || [{ groupId: "", roleId: "" }];
+  value = value || [{ groupId: '', roleId: '' }];
 
   const handleUpdate = (e, key) => {
     value[key][e.target.name] = e.target.value;
@@ -21,7 +21,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
   };
 
   const addGroup = () => {
-    value.push({ groupId: "", roleId: "" });
+    value.push({ groupId: '', roleId: '' });
     onChange(value);
   };
 
@@ -36,7 +36,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
                 name="groupId"
                 value={cg.groupId}
                 onChange={e => handleUpdate(e, k)}
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 disabled={disabled}
               >
                 {groups.map(g => (
@@ -52,7 +52,7 @@ const ContactNewGroups = ({ onChange, value, groups, roles, disabled }) => {
                 name="roleId"
                 value={cg.roleId}
                 onChange={e => handleUpdate(e, k)}
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 disabled={disabled}
               >
                 {roles.map(r => (

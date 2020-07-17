@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { useState } from "react";
-import { BaseButton } from "../styles/Button";
-import { Add } from "@material-ui/icons";
-import NoteEdit from "./NoteEdit";
+import styled from 'styled-components';
+import { useState } from 'react';
+import { BaseButton } from '../styles/Button';
+import { Add } from '@material-ui/icons';
+import NoteEdit from './NoteEdit';
 
 const Actions = styled.div`
   display: flex;

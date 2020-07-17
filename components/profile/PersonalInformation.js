@@ -1,20 +1,20 @@
-import styled from "styled-components";
-import { useContext, useState } from "react";
-import { useMutation } from "react-apollo";
-import { MeContext } from "../../contexts/MeContext";
-import { auth } from "../../config/firebase";
-import { hasEmailLogin, hasPhoneLogin } from "./helpers";
+import styled from 'styled-components';
+import { useContext, useState } from 'react';
+import { useMutation } from 'react-apollo';
+import { MeContext } from '../../contexts/MeContext';
+import { auth } from '../../config/firebase';
+import { hasEmailLogin, hasPhoneLogin } from './helpers';
 // material
-import { Card, CardContent, Grid } from "@material-ui/core";
+import { Card, CardContent, Grid } from '@material-ui/core';
 // graphql
-import { UPDATE_ME_MUTATION } from "../../queries/MeQueries";
+import { UPDATE_ME_MUTATION } from '../../queries/MeQueries';
 // styles
-import { BaseButton } from "../styles/Button";
-import { H4 } from "../styles/Typography";
-import AvatarUpload from "../assets/AvatarUpload";
-import Loading from "../Loading";
-import GridInputs from "../contact/GridInputs";
-import { StyledTextField } from "../material/StyledTextField";
+import { BaseButton } from '../styles/Button';
+import { H4 } from '../styles/Typography';
+import AvatarUpload from '../assets/AvatarUpload';
+import Loading from '../Loading';
+import GridInputs from '../contact/GridInputs';
+import { StyledTextField } from '../material/StyledTextField';
 
 const DetailTextField = styled(StyledTextField)`
   && {
@@ -87,9 +87,9 @@ const PersonalInformation = ({ style }) => {
       if (email && fbUser.email !== email) {
         try {
           await fbUser.updateEmail(email);
-          console.log("FB User Email Update Success - ", email);
+          console.log('FB User Email Update Success - ', email);
         } catch (e) {
-          console.log("FB User Email Update Fail");
+          console.log('FB User Email Update Fail');
           console.log(e);
           return;
         }
@@ -106,7 +106,7 @@ const PersonalInformation = ({ style }) => {
           displayName: name
         });
       } catch (e) {
-        console.log("FB User name update fail");
+        console.log('FB User name update fail');
         console.log(e);
       }
     }
@@ -144,16 +144,16 @@ const PersonalInformation = ({ style }) => {
                 label="Name"
                 required
                 disabled={mutationLoading}
-                value={profile.name || ""}
+                value={profile.name || ''}
                 onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange("emails", v)}
+                onChange={v => handleGridChange('emails', v)}
                 columns={[
-                  { label: "Email", name: "email" },
-                  { label: "Label", name: "label" }
+                  { label: 'Email', name: 'email' },
+                  { label: 'Label', name: 'label' }
                 ]}
                 value={profile.emails || []}
                 disabled={mutationLoading}
@@ -162,10 +162,10 @@ const PersonalInformation = ({ style }) => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange("phones", v)}
+                onChange={v => handleGridChange('phones', v)}
                 columns={[
-                  { label: "Phone Number", name: "number", required: true },
-                  { label: "Label", name: "label" }
+                  { label: 'Phone Number', name: 'number', required: true },
+                  { label: 'Label', name: 'label' }
                 ]}
                 value={profile.phones || []}
                 disabled={mutationLoading}
@@ -177,7 +177,7 @@ const PersonalInformation = ({ style }) => {
                 id="city"
                 name="city"
                 label="City"
-                value={profile.city || ""}
+                value={profile.city || ''}
                 onChange={handleChange}
                 disabled={mutationLoading}
               />
@@ -185,14 +185,14 @@ const PersonalInformation = ({ style }) => {
                 id="state"
                 name="state"
                 label="State"
-                value={profile.state || ""}
+                value={profile.state || ''}
                 onChange={handleChange}
                 disabled={mutationLoading}
               />
               <DetailTextField
                 id="postalCode"
                 name="postalCode"
-                value={profile.postalCode || ""}
+                value={profile.postalCode || ''}
                 onChange={handleChange}
                 label="Postal Code"
                 disabled={mutationLoading}
@@ -202,7 +202,7 @@ const PersonalInformation = ({ style }) => {
               <DetailTextField
                 id="country"
                 name="country"
-                value={profile.country || ""}
+                value={profile.country || ''}
                 onChange={handleChange}
                 label="Country"
                 disabled={mutationLoading}
@@ -210,7 +210,7 @@ const PersonalInformation = ({ style }) => {
               <DetailTextField
                 id="language"
                 name="language"
-                value={profile.language || ""}
+                value={profile.language || ''}
                 onChange={handleChange}
                 label="Primary Language"
                 disabled={mutationLoading}

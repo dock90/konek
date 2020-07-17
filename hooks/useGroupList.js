@@ -1,7 +1,7 @@
-import { useQuery } from "@apollo/react-hooks";
-import { GROUPS_QUERY } from "../queries/GroupQueries";
-import { useMemo } from "react";
-import { hierarchyLabel } from "../components/groups/hierarchyLabel";
+import { useQuery } from '@apollo/react-hooks';
+import { GROUPS_QUERY } from '../queries/GroupQueries';
+import { useMemo } from 'react';
+import { hierarchyLabel } from '../components/groups/hierarchyLabel';
 
 /**
  * @param options {{manageOnly: boolean, excludeGroupId: string | undefined, includeGroupName: boolean | undefined}}
@@ -13,7 +13,7 @@ import { hierarchyLabel } from "../components/groups/hierarchyLabel";
  */
 export function useGroupList(options) {
   if (options.manageOnly === undefined) {
-    throw new Error("`manageOnly` is required.");
+    throw new Error('`manageOnly` is required.');
   }
   const manageOnly = options.manageOnly,
     excludeGroupId = options.excludeGroupId,
@@ -48,7 +48,7 @@ export function useGroupList(options) {
         groupId: group.groupId,
         name: group.name,
         hierarchy: hierarchyLabel(group, data.groups, includeGroupName),
-        group: group,
+        group: group
       });
     }
 

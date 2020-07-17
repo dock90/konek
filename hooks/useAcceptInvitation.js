@@ -1,6 +1,6 @@
-import { useMutation } from "@apollo/react-hooks";
-import { ACCEPT_INVITATION_MUTATION } from "../queries/InvitationQueries";
-import { ROOMS_QUERY } from "../queries/RoomQueries";
+import { useMutation } from '@apollo/react-hooks';
+import { ACCEPT_INVITATION_MUTATION } from '../queries/InvitationQueries';
+import { ROOMS_QUERY } from '../queries/RoomQueries';
 
 export function useAcceptInvitation() {
   return useMutation(ACCEPT_INVITATION_MUTATION, {

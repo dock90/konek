@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import { Edit, Delete } from "@material-ui/icons";
-import { Button } from "@material-ui/core";
-import { useMemo, useState } from "react";
-import { EditMembership } from "./dialogs/EditMembership";
-import RemoveMembership from "./dialogs/RemoveMembership";
+import { Edit, Delete } from '@material-ui/icons';
+import { Button } from '@material-ui/core';
+import { useMemo, useState } from 'react';
+import { EditMembership } from './dialogs/EditMembership';
+import RemoveMembership from './dialogs/RemoveMembership';
 
 const Hierarchy = styled.div`
   font-size: 0.8em;
@@ -17,7 +17,13 @@ const ActionContainer = styled.div`
   display: flex;
 `;
 
-const ContactGroupEdit = ({ contactGroup, roles, groups, contactId, disabled }) => {
+const ContactGroupEdit = ({
+  contactGroup,
+  roles,
+  groups,
+  contactId,
+  disabled
+}) => {
   const [isEditing, setIsEditing] = useState(false),
     [isDeleting, setIsDeleting] = useState(false);
 
@@ -53,10 +59,18 @@ const ContactGroupEdit = ({ contactGroup, roles, groups, contactId, disabled }) 
       {group.group.canManage && (
         <td>
           <ActionContainer>
-            <Button onClick={handleOpenEdit} style={{ minWidth: 0 }} disabled={disabled}>
+            <Button
+              onClick={handleOpenEdit}
+              style={{ minWidth: 0 }}
+              disabled={disabled}
+            >
               <Edit />
             </Button>
-            <Button onClick={handleOpenDelete} style={{ minWidth: 0 }} disabled={disabled}>
+            <Button
+              onClick={handleOpenDelete}
+              style={{ minWidth: 0 }}
+              disabled={disabled}
+            >
               <Delete />
             </Button>
           </ActionContainer>

@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import { ContactContext } from "../../contexts/ContactContext";
-import ProfileInfo from "./summary/ProfileInfo";
-import { Invitation } from "./summary/Invitation";
-import EntryList from "./EntryList";
+import { useContext } from 'react';
+import { ContactContext } from '../../contexts/ContactContext';
+import ProfileInfo from './summary/ProfileInfo';
+import { Invitation } from './summary/Invitation';
+import EntryList from './EntryList';
 
 const Summary = () => {
   const { profile, pinnedEntries } = useContext(ContactContext);

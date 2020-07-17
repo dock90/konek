@@ -1,5 +1,5 @@
-import { client } from "../config/apollo";
-import { SIGN_ARGS_MUTATION } from "../queries/AssetQueries";
+import { client } from '../config/apollo';
+import { SIGN_ARGS_MUTATION } from '../queries/AssetQueries';
 
 let isLoaded = false;
 
@@ -15,9 +15,9 @@ async function initWidget(config) {
   }
   if (!isLoaded) {
     const promise = new Promise(resolve => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
 
       script.onload = () => {
         resolve();
@@ -42,7 +42,7 @@ export async function getWidget(config, callback) {
 
   return cloudinary.createUploadWidget(
     {
-      sources: ["local", "url", "camera"],
+      sources: ['local', 'url', 'camera'],
       cropping: false,
       ...config,
       cloudName: config.cloudName,
@@ -64,7 +64,7 @@ export async function getWidget(config, callback) {
 
 export function destroy(widget) {}
 
-export const RESOURCE_TYPE_AUDIO = "video";
+export const RESOURCE_TYPE_AUDIO = 'video';
 
 export async function uploadFile(config, file) {
   await initWidget(config);
@@ -77,7 +77,7 @@ export async function uploadFile(config, file) {
 
   if (config.tags) {
     if (config.tags.length > 0) {
-      params.tags = config.tags.join(",");
+      params.tags = config.tags.join(',');
     }
   }
 
@@ -87,19 +87,19 @@ export async function uploadFile(config, file) {
   });
 
   const data = new FormData();
-  data.append("timestamp", params.timestamp);
-  data.append("api_key", config.apiKey);
-  data.append("file", file);
-  data.append("signature", signed.data.signUpload);
-  data.append("folder", config.folder);
+  data.append('timestamp', params.timestamp);
+  data.append('api_key', config.apiKey);
+  data.append('file', file);
+  data.append('signature', signed.data.signUpload);
+  data.append('folder', config.folder);
   if (params.tags) {
-    data.append("tags", params.tags);
+    data.append('tags', params.tags);
   }
 
   const url = `https://api.cloudinary.com/v1_1/${config.cloudName}/${config.resourceType}/upload`;
 
   const response = await fetch(url, {
-      method: "post",
+      method: 'post',
       body: data
     }),
     resData = await response.json();

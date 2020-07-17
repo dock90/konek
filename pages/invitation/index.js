@@ -1,8 +1,8 @@
-import Layout from "../../components/Layout";
-import AcceptInvitation from "../../components/invitation/AcceptInvitation";
-import { H2 } from "../../components/styles/Typography";
-import { useRouter } from "next/router";
-import { ContentContainer } from "../../components/styles/PageStyles";
+import Layout from '../../components/Layout';
+import AcceptInvitation from '../../components/invitation/AcceptInvitation';
+import { H2 } from '../../components/styles/Typography';
+import { useRouter } from 'next/router';
+import { ContentContainer } from '../../components/styles/PageStyles';
 
 const Invitation = () => {
   const router = useRouter();

@@ -1,9 +1,9 @@
-import React from "react";
-import App from "next/app";
-import { ApolloProvider } from "react-apollo";
-import Page from "../components/Page";
-import { client } from "../config/apollo";
-import "../config/pubnub";
+import React from 'react';
+import App from 'next/app';
+import { ApolloProvider } from 'react-apollo';
+import Page from '../components/Page';
+import { client } from '../config/apollo';
+import '../config/pubnub';
 
 class CRM extends App {
   static async getInitialProps({ Component, ctx }) {

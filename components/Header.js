@@ -1,14 +1,14 @@
-import PropTypes from "prop-types";
-import Router from "next/router";
-import styled from "styled-components";
-import {auth} from "../config/firebase";
+import PropTypes from 'prop-types';
+import Router from 'next/router';
+import styled from 'styled-components';
+import { auth } from '../config/firebase';
 // material
-import {Input, Menu, NotificationsOutlined} from "@material-ui/icons";
-import {Badge, Hidden, IconButton} from "@material-ui/core";
+import { Input, Menu, NotificationsOutlined } from '@material-ui/icons';
+import { Badge, Hidden, IconButton } from '@material-ui/core';
 // components
-import Search from "./search";
-import {BaseButton} from "./styles/Button";
-import {Logo} from "./styles/Logo";
+import Search from './search';
+import { BaseButton } from './styles/Button';
+import { Logo } from './styles/Logo';
 
 // styles
 const MenuToggle = styled.div`
@@ -42,11 +42,11 @@ const Header = ({ drawerToggle }) => {
     auth
       .signOut()
       .then(() => {
-        console.log("User Signed Out");
-        Router.push("/auth/login");
+        console.log('User Signed Out');
+        Router.push('/auth/login');
       })
       .catch(error => {
-        console.log("There was an error signing out: ", error);
+        console.log('There was an error signing out: ', error);
       });
   };
 
@@ -64,11 +64,13 @@ const Header = ({ drawerToggle }) => {
       </Branding>
       <Actions>
         <Search />
-        {false && <IconButton color="inherit">
-          <Badge variant="dot">
-            <NotificationsOutlined />
-          </Badge>
-        </IconButton>}
+        {false && (
+          <IconButton color="inherit">
+            <Badge variant="dot">
+              <NotificationsOutlined />
+            </Badge>
+          </IconButton>
+        )}
         <BaseButton color="inherit" onClick={handleLogout}>
           <Input />
           &nbsp;Sign out

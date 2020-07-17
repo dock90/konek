@@ -1,6 +1,6 @@
-import Layout from "../../../components/Layout";
-import ContactOverview from "../../../components/contact/ContactOverview";
-import { ContentContainer } from "../../../components/styles/PageStyles";
+import Layout from '../../../components/Layout';
+import ContactOverview from '../../../components/contact/ContactOverview';
+import { ContentContainer } from '../../../components/styles/PageStyles';
 
 const Contact = ({ query }) => (
   <Layout>

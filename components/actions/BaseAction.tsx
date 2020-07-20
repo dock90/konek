@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -10,14 +11,30 @@ const Content = styled(Paper)`
   font-size: 0.9em;
 `;
 
-export const ACTION_TYPE_ICON = 'icon';
-export const ACTION_TYPE_BUTTON = 'button';
+export enum ActionType {
+  icon = 'icon',
+  button = 'button',
+}
 
-const BaseAction = ({ href, as, children, icon, type }) => {
+interface Props {
+  href: string;
+  as?: string;
+  children?: React.ReactNode;
+  icon: React.ReactNode;
+  type?: ActionType;
+}
+
+const BaseAction: React.FC<Props> = ({
+  href,
+  as,
+  children,
+  icon,
+  type = ActionType.icon,
+}) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
-  if (type === ACTION_TYPE_BUTTON) {
+  if (type === ActionType.button) {
     return (
       <span>
         <Link href={href} as={as} passHref={true}>
@@ -50,15 +67,15 @@ const BaseAction = ({ href, as, children, icon, type }) => {
 };
 
 export default BaseAction;
-
-BaseAction.propTypes = {
-  type: PropTypes.string,
-  icon: PropTypes.element,
-  as: PropTypes.any,
-  children: PropTypes.array,
-  href: PropTypes.any,
-};
-
-BaseAction.defaults = {
-  type: ACTION_TYPE_ICON,
-};
+//
+// BaseAction.propTypes = {
+//   type: PropTypes.string,
+//   icon: PropTypes.element,
+//   as: PropTypes.any,
+//   children: PropTypes.array,
+//   href: PropTypes.any,
+// };
+//
+// BaseAction.defaults = {
+//   type: ACTION_TYPE_ICON,
+// };

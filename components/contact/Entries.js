@@ -21,7 +21,7 @@ const NoneFound = styled.div.attrs(() => ({
   text-align: center;
   font-size: 1.3em;
   font-style: italic;
-  color: ${(props) => props.grayer};
+  color: ${props => props.grayer};
   margin-top: 15px;
 `;
 
@@ -36,7 +36,7 @@ const Entries = ({ type, header }) => {
       {header}
       {(() => {
         if (loading) return <Loading />;
-        if (error) return <p>{error}</p>;
+        if (error) return <p>{error.toString()}</p>;
         return data.entries.data.length > 0 ? (
           <EntryList entries={data.entries} />
         ) : (

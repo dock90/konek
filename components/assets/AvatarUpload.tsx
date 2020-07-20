@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import { Avatar } from '@material-ui/core';
+import React, { SyntheticEvent } from 'react';
 import { Edit } from '@material-ui/icons';
 import FileUpload from './FileUpload';
 import styled from 'styled-components';
 import { useState } from 'react';
 import AvatarPicture from './AvatarPicture';
+import { AssetFields } from '../../queries/types/AssetFields';
 
 const EditIcon = styled.div`
   position: absolute;
@@ -46,7 +46,16 @@ const Container = styled.a`
   }
 `;
 
-const AvatarUpload = ({
+interface Props {
+  avatarType: string;
+  folder: string;
+  size: number;
+  picture?: AssetFields;
+  onSuccess?: () => void;
+  disabled?: boolean;
+}
+
+const AvatarUpload: React.FC<Props> = ({
   size,
   picture,
   onSuccess,
@@ -56,7 +65,7 @@ const AvatarUpload = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  const openUploader = (e) => {
+  const openUploader = (e: SyntheticEvent): void => {
     e.preventDefault();
     if (disabled) {
       return;
@@ -70,9 +79,8 @@ const AvatarUpload = ({
   };
 
   return (
-    <Container href="#" onClick={openUploader} size={size} disabled={disabled}>
+    <Container href="#" onClick={openUploader}>
       <FileUpload
-        folderId="avatar"
         open={open}
         onClose={closeUploader}
         tags={['avatar', avatarType]}
@@ -89,27 +97,6 @@ const AvatarUpload = ({
       )}
     </Container>
   );
-};
-
-AvatarUpload.propTypes = {
-  /**
-   * Size in pixels to show the avatar.
-   */
-  size: PropTypes.number,
-  picture: PropTypes.shape({
-    format: PropTypes.string,
-    publicId: PropTypes.string,
-    resourceType: PropTypes.string,
-    type: PropTypes.string,
-  }),
-  /**
-   * Will be something like "contact", "profile" or "group".
-   * This value will be included in the files's tags.
-   */
-  avatarType: PropTypes.string.isRequired,
-  folder: PropTypes.string.isRequired,
-  onSuccess: PropTypes.func,
-  disabled: PropTypes.bool,
 };
 
 export default AvatarUpload;

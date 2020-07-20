@@ -1,3 +1,4 @@
+import React, { ChangeEvent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { IconButton } from '@material-ui/core';
@@ -9,28 +10,49 @@ const Table = styled.table`
   width: 100%;
   margin-bottom: 10px;
   td {
-    width: ${(props) => Math.round(100 / props.cols)}%;
+    width: ${(props: { cols: number }) => Math.round(100 / props.cols)}%;
   }
 `;
 
-const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
-  const addRow = () => {
-    const row = {};
+interface ValueInterface extends Record<string, string | null | undefined> {
+  label?: string | null;
+}
+
+interface Props {
+  value: Array<ValueInterface>;
+  onChange: (newVal: Array<ValueInterface>) => void;
+  columns: Array<{ label: string; name: string; required?: boolean }>;
+  rowOneDisabled?: boolean;
+  disabled?: boolean;
+}
+
+const GridInputs: React.FC<Props> = ({
+  value,
+  onChange,
+  columns,
+  rowOneDisabled,
+  disabled,
+}) => {
+  const createRow = (): Record<string, string> => {
+    const row: Record<string, string> = {};
     for (const col of columns) {
       row[col.name] = '';
     }
-    value.push(row);
+    return row;
   };
 
-  const handleChange = (rowKey) => (e) => {
+  const handleChange = (rowKey: number) => (
+    e: ChangeEvent<HTMLInputElement>,
+  ): void => {
     value[rowKey][e.target.name] = e.target.value;
     onChange(value);
   };
   const handleAddRow = () => {
-    addRow();
+    const row = createRow();
+    value.push(row);
     onChange(value);
   };
-  const handleRemoveRow = (rowId) => () => {
+  const handleRemoveRow = (rowId: number) => () => {
     value.splice(rowId, 1);
     onChange(value);
   };
@@ -39,7 +61,12 @@ const GridInputs = ({ value, onChange, columns, rowOneDisabled, disabled }) => {
     value = [];
   }
   if (value.length === 0) {
-    addRow();
+    // addRow();
+    const row: Record<string, string> = {};
+    for (const col of columns) {
+      row[col.name] = '';
+    }
+    value = [createRow()];
   }
 
   return (

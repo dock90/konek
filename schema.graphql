@@ -129,10 +129,25 @@ type Group {
   defaultRole: Role
   description: String
   groupId: ID!
+  "Group invitation codes created for this groups."
+  invitations: [GroupInvitation!]!
   members: [Member!]!
   name: String!
   picture: Asset
   roomId: ID!
+}
+
+"Invitation code to a specific group that allows a profile to join a group."
+type GroupInvitation {
+  active: Boolean!
+  "The code the user will use."
+  code: String!
+  createdAt: DateTime!
+  "Admin-visible description of the invitation code's purpose"
+  description: String
+  group: Group!
+  groupInvitationId: ID!
+  role: Role!
 }
 
 type Me {
@@ -193,6 +208,8 @@ type Mutation {
   createConversation(input: CreateConversationInput!): Conversation!
   "Creates a new Group."
   createGroup(input: CreateGroupInput!): Group
+  "Creates a new invitation code."
+  createGroupInvitation(input: CreateGroupInvitationInput!): GroupInvitation!
   createNote(input: CreateNoteInput!): Note!
   "Creates a new tag."
   createTag(input: CreateTagInput!): Tag
@@ -212,6 +229,7 @@ type Mutation {
   updateContactGroup(input: UpdateContactGroupInput!): Contact!
   updateConversation(input: UpdateConversationInput!): Conversation
   updateGroup(input: UpdateGroupInput!): Group
+  updateGroupInvitation(input: UpdateGroupInvitationInput!): GroupInvitation!
   updateMe(input: UpdateMeInput!): Me!
   updateNote(input: UpdateNoteInput!): Note
   "Updates an existing tag."
@@ -313,6 +331,10 @@ type Query {
   ): EntryList!
   entry(entryId: ID!): EntryTypeInterface
   group(groupId: ID!): Group!
+  groupInvitations(
+    "If inactive invitation codes should be included in the results or not."
+    includeInactive: Boolean = false
+  ): [GroupInvitation!]!
   groups: [Group!]!
   me: Me!
   member(input: MemberType!): Member!
@@ -490,6 +512,16 @@ input CreateGroupInput {
   picture: AssetInput
 }
 
+input CreateGroupInvitationInput {
+  active: Boolean = true
+  "Invitation code"
+  code: String!
+  "Admin visible description of the code's purpose"
+  description: String
+  groupId: String!
+  roleId: String!
+}
+
 input CreateNoteInput {
   access: EntryAccessType = PRIVATE
   assets: [NoteAssetInput!]
@@ -520,7 +552,8 @@ input GenerateInvitationCodeInput {
 }
 
 input MemberType {
-  memberId: ID!
+  "Member ID in the room, only required for group rooms."
+  memberId: ID
   roomId: ID!
 }
 
@@ -620,6 +653,16 @@ input UpdateGroupInput {
   "The group to assign as parent."
   parentGroupId: ID
   picture: AssetInput
+}
+
+input UpdateGroupInvitationInput {
+  active: Boolean
+  "Invitation code"
+  code: String
+  "Admin visible description of the code's purpose"
+  description: String
+  groupInvitationId: ID!
+  roleId: String
 }
 
 input UpdateMeInput {

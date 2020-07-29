@@ -87,7 +87,7 @@ function reducer(state, action) {
   return state;
 }
 
-const MessageInput = props => {
+const MessageInput = (props) => {
   const [state, dispatch] = useReducer(reducer, {
     input: '',
     asset: null,
@@ -150,13 +150,13 @@ const MessageInput = props => {
     // TODO: This should delete the asset from Cloudinary also...
     dispatch({ type: ASSET_REMOVE });
   }
-  function actionMouseDown(e) {
+  function actionMouseDown() {
     if (!state.allowRecord) {
       return;
     }
     dispatch({ type: RECORD_START });
   }
-  function actionMouseUp(e) {
+  function actionMouseUp() {
     if (!state.recorder) {
       return;
     }
@@ -169,7 +169,7 @@ const MessageInput = props => {
         return;
       }
       dispatch({ type: SEND_MESSAGE });
-      state.recorder.getFile().then(async file => {
+      state.recorder.getFile().then(async (file) => {
         state.recorder.destroy();
 
         const upload = await uploadFile(

@@ -24,11 +24,11 @@ const PhoneConfirm = ({ verificationId }) => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSetCode = e => {
+  const handleSetCode = (e) => {
     setCode(e.target.value);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
     try {

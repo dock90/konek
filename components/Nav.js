@@ -70,7 +70,7 @@ const Nav = ({ children }) => {
     }
 
     setQtyUnread(qty);
-  }, [loading, roomsData]);
+  }, [loading, roomsData, roomsError]);
 
   return (
     <Container>

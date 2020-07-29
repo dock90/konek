@@ -32,7 +32,7 @@ const FileUpload = ({
     return () => {
       onClose();
     };
-  }, [open, widget]);
+  }, [open, widget, onClose]);
 
   if (!widget && !loading) {
     setLoading(true);

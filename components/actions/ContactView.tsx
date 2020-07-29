@@ -1,14 +1,19 @@
+import React from 'react';
 import BaseAction from './BaseAction';
 import { PersonOutlined } from '@material-ui/icons';
 
-const ContactView = ({ contactId, name }) => {
+interface Props {
+  contactId: string;
+  name: string;
+}
+
+const ContactView: React.FC<Props> = ({ contactId, name }) => {
   return (
     <BaseAction
       href={'/contacts/[id]'}
       as={`/contacts/${contactId}`}
       icon={<PersonOutlined />}
-      children={`View ${name}`}
-    />
+    >{`View ${name}`}</BaseAction>
   );
 };
 

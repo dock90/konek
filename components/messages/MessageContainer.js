@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useQuery } from '@apollo/client';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { MESSAGES_QUERY } from '../../queries/MessagesQueries';
 import { RoomIdContext } from '../../contexts/RoomIdContext';
 // components
@@ -103,27 +103,27 @@ const MessageContainer = () => {
     }
     // If we have the focus and the data changed, mark all messages read.
     markAllRead(roomId, true);
-  }, [data, hasFocus]);
+  }, [data, hasFocus, roomId]);
 
   // This is a hidden div at the bottom of the message list that we use to scroll to. A bit simpler than
   // trying to scroll to the most recent message div or something.
   const eomRef = useRef();
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     if (!eomRef.current || !isAtBottom) {
       return;
     }
     eomRef.current.scrollIntoView({ behavior: 'auto' });
-  };
+  }, [eomRef, isAtBottom]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [data, isAtBottom]);
+  }, [data, isAtBottom, scrollToBottom]);
 
   useEffect(() => {
     // Scroll to the bottom whenever we switch rooms.
     setIsAtBottom(true);
     scrollToBottom();
-  }, [roomId]);
+  }, [roomId, scrollToBottom]);
 
   if (!roomId) {
     return (

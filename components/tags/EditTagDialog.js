@@ -74,7 +74,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     setHasChange(true);
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     let { name, value } = e.target;
 
     if (name === 'hidden') {
@@ -88,7 +88,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     });
   };
 
-  const handleColorChange = color => {
+  const handleColorChange = (color) => {
     setHasChange(true);
     setTagState({
       ...tagState,

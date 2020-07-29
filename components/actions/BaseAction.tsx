@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRef, useState } from 'react';

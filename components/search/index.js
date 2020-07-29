@@ -40,7 +40,7 @@ const Search = () => {
 
   const client = algoliaSearch(algoliaInfo.appId, algoliaInfo.searchKey);
 
-  const handleOpen = (e) => {
+  const handleOpen = () => {
     setIsOpen(true);
   };
   const handleClose = () => {

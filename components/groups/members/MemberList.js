@@ -43,7 +43,7 @@ const MemberList = ({ groupId }) => {
     }
     setAdmins(admins);
     setMembers(members);
-  }, [loading, data]);
+  }, [loading, data, error]);
 
   if (loading) {
     return <Loading />;

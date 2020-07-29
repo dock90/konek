@@ -37,7 +37,7 @@ const PersonalInformation = ({ style }) => {
     return <Loading />;
   }
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setProfile({
       ...profile,
@@ -60,7 +60,7 @@ const PersonalInformation = ({ style }) => {
     });
   };
 
-  const handleUpload = async info => {
+  const handleUpload = async (info) => {
     await updateMeMutation({
       variables: {
         picture: {
@@ -77,7 +77,7 @@ const PersonalInformation = ({ style }) => {
 
   const fbUser = auth.currentUser;
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { emails, phones, name } = profileChanged;
 
@@ -150,7 +150,7 @@ const PersonalInformation = ({ style }) => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange('emails', v)}
+                onChange={(v) => handleGridChange('emails', v)}
                 columns={[
                   { label: 'Email', name: 'email' },
                   { label: 'Label', name: 'label' },
@@ -162,7 +162,7 @@ const PersonalInformation = ({ style }) => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <GridInputs
-                onChange={v => handleGridChange('phones', v)}
+                onChange={(v) => handleGridChange('phones', v)}
                 columns={[
                   { label: 'Phone Number', name: 'number', required: true },
                   { label: 'Label', name: 'label' },

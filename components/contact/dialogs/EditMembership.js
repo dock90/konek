@@ -35,7 +35,7 @@ export const EditMembership = ({
     setError('');
     onClose();
   };
-  const selectRole = e => {
+  const selectRole = (e) => {
     setCurrentRole(e.target.value);
   };
   const handleSave = async () => {
@@ -56,7 +56,7 @@ export const EditMembership = ({
         e.networkError.result.errors
       ) {
         // Probably access denied.
-        setError(e.networkError.result.errors.map(e => e.message).join('\n'));
+        setError(e.networkError.result.errors.map((e) => e.message).join('\n'));
       }
       setIsSaving(false);
       setCurrentRole(contactGroup.role.roleId);
@@ -67,7 +67,7 @@ export const EditMembership = ({
   };
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Edit "{group.name}" membership</DialogTitle>
+      <DialogTitle>Edit &quot;{group.name}&quot; membership</DialogTitle>
       <DialogContent>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <TextField
@@ -76,7 +76,7 @@ export const EditMembership = ({
           value={currentRole}
           onChange={selectRole}
         >
-          {roles.map(r => (
+          {roles.map((r) => (
             <MenuItem key={r.roleId} value={r.roleId}>
               {r.name}
             </MenuItem>

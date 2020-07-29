@@ -11,7 +11,7 @@ import {
   UPDATE_CONTACT_MUTATION,
 } from '../../queries/ContactQueries';
 // material
-import { Grid, TextField, Button, Paper } from '@material-ui/core';
+import { Grid, TextField, Paper } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 // components
 import styled from 'styled-components';
@@ -102,7 +102,7 @@ const ContactEdit = ({ id }) => {
       return;
     }
     setContact(data.contact);
-  }, [loading, data]);
+  }, [loading, data, updatedFields]);
 
   if (loading || groupsLoading || rolesLoading || !contact) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
@@ -341,7 +341,7 @@ const ContactEdit = ({ id }) => {
                             <td> </td>
                             <td colSpan={2}>
                               <BaseButton
-                                onClick={(e) => setOpenAddGroup(true)}
+                                onClick={() => setOpenAddGroup(true)}
                                 disabled={saving}
                               >
                                 <Add /> Add Group

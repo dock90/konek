@@ -43,7 +43,7 @@ const LoginInformation = () => {
   const resetError = () => {
       setError({ email: '', noMatch: '', invalidPassword: '' });
     },
-    resetLoginInfo = newEmail => {
+    resetLoginInfo = (newEmail) => {
       setLoginInfo({
         email: newEmail || email,
         curPass: '',
@@ -55,7 +55,7 @@ const LoginInformation = () => {
     hasNewPassword = !!(loginInfo.pass || loginInfo.newPass),
     hasNewEmail = loginInfo.email !== email;
 
-  const handleLoginInfoChange = e => {
+  const handleLoginInfoChange = (e) => {
     const { name, value } = e.target;
     const newState = { ...loginInfo, [name]: value };
     if (name === 'email' && hasNewPassword) {
@@ -71,7 +71,7 @@ const LoginInformation = () => {
     resetError();
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const fbUser = auth.currentUser;
 

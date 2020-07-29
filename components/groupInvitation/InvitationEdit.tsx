@@ -18,7 +18,7 @@ import {
 } from '../../queries/types/GroupInvitationUpdateMutation';
 import { TextField } from '../styles/TextField';
 import { BaseButton } from '../styles/Button';
-import { ApolloError, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GROUP_QUERY, GROUPS_QUERY } from '../../queries/GroupQueries';
 import { GroupsQuery } from '../../queries/types/GroupsQuery';
 import { ROLES_QUERY } from '../../queries/RoleQueries';
@@ -28,14 +28,6 @@ import {
   CREATE_GROUP_INVITE_MUTATION,
   UPDATE_GROUP_INVITATION_MUTATION,
 } from '../../queries/GroupInvitationQueries';
-import {
-  GroupCreateMutation,
-  GroupCreateMutationVariables,
-} from '../../queries/types/GroupCreateMutation';
-import {
-  GroupUpdateMutation,
-  GroupUpdateMutationVariables,
-} from '../../queries/types/GroupUpdateMutation';
 import {
   GroupInvitationCreateMutation,
   GroupInvitationCreateMutationVariables,

@@ -22,7 +22,7 @@ export function hierarchyLabel(
   }
 
   for (const ancestor of group.ancestors) {
-    const ancestorGroup = groupList.find(g => g.groupId === ancestor.groupId);
+    const ancestorGroup = groupList.find((g) => g.groupId === ancestor.groupId);
     if (ancestorGroup) {
       names.push(ancestorGroup.name);
     }

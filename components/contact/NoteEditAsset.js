@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useContext } from 'react';
-import { Image } from 'cloudinary-react';
 import { DeleteButton } from '../styles/Button';
-import { TextField, Paper } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import AssetDisplay from '../assets/AssetDisplay';
 
@@ -66,7 +64,7 @@ const NoteEditAsset = ({ asset, onChange }) => {
 
 NoteEditAsset.propTypes = {
   asset: PropTypes.object,
-  onClose: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default NoteEditAsset;

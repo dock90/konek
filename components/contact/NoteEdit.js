@@ -25,7 +25,6 @@ import NoteEditAssets from './NoteEditAssets';
 import { ContactContext } from '../../contexts/ContactContext';
 import { VCentered } from '../styles/LayoutStyles';
 import { CONTACT_QUERY } from '../../queries/ContactQueries';
-import { resolveFieldValueOrError } from 'graphql/execution/execute';
 
 // styles
 const Container = styled.div`
@@ -93,7 +92,7 @@ const NoteEdit = ({ note, setEdit }) => {
         ? note.createdBy.isMe
         : true;
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setNoteState({
       ...noteState,
@@ -128,21 +127,21 @@ const NoteEdit = ({ note, setEdit }) => {
     });
   };
 
-  const handleTagsChange = tags => {
+  const handleTagsChange = (tags) => {
     setNoteState({ ...noteState, tags });
     setChanged({ ...changed, tags });
   };
 
-  const handleAssetsChange = assets => {
+  const handleAssetsChange = (assets) => {
     setNoteState({ ...noteState, assets });
     setChanged({ ...changed, assets });
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     let tags = [];
     if (changed.tags !== undefined) {
-      tags = changed.tags.map(t => t.tagId);
+      tags = changed.tags.map((t) => t.tagId);
     }
 
     if (isNew) {

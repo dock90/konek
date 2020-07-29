@@ -26,7 +26,7 @@ export function ContactInformation({ info, fullWidth }) {
       {hasAddressInfo && (
         <Grid item xs={12} sm={6} md={fullWidth ? 6 : 4} lg={fullWidth ? 6 : 3}>
           {info.fbProfile && (
-            <a href={info.fbProfile} target="_blank">
+            <a href={info.fbProfile} target="_blank" rel="noopener noreferrer">
               <Facebook /> {info.fbProfile}
             </a>
           )}

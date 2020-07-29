@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Tabs } from '@material-ui/core';
 
-const StyledTabs = styled(Tabs).attrs((props) => ({
+const StyledTabs = styled(Tabs).attrs(() => ({
   centered: true,
 }))`
   && {

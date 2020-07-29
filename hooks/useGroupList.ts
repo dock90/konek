@@ -42,7 +42,7 @@ export function useGroupList(options: Options): GroupListResults {
       return res;
     }
     for (const group of data.groups) {
-      if (options.manageOnly && !group.canManage) {
+      if (manageOnly && !group.canManage) {
         // Skip group
         continue;
       }

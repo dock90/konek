@@ -55,7 +55,7 @@ const TagsEdit = () => {
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
-  const handleEditClick = (e) => {
+  const handleEditClick = () => {
     setTargetEl(null);
     toggleDialogOpen(true);
   };

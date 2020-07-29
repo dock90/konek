@@ -20,10 +20,6 @@ const Item = styled(Paper)`
 const NoteEditAssets = ({ assets, onChange }) => {
   const { assetFolderId } = useContext(ContactContext);
   const [uploadOpen, toggleUpload] = useState(false);
-  const handleAddFile = (e) => {
-    e.preventDefault();
-    onChange([...(assets || []), {}]);
-  };
 
   const handleChange = (key) => (asset) => {
     const items = [...assets];

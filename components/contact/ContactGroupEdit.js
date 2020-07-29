@@ -29,10 +29,10 @@ const ContactGroupEdit = ({
 
   const role = useMemo(() => {
       return roles.find((r) => r.roleId === contactGroup.role.roleId);
-    }, [contactGroup]),
+    }, [contactGroup, roles]),
     group = useMemo(() => {
       return groups.find((g) => g.groupId === contactGroup.group.groupId);
-    }, [contactGroup]);
+    }, [contactGroup, groups]);
 
   const handleOpenEdit = () => {
     setIsEditing(true);

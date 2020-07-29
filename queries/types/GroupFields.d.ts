@@ -29,6 +29,27 @@ export interface GroupFields_picture {
   isAudio: boolean;
 }
 
+export interface GroupFields_invitations_role {
+  __typename: "Role";
+  roleId: string;
+  name: string;
+}
+
+export interface GroupFields_invitations {
+  __typename: "GroupInvitation";
+  groupInvitationId: string;
+  /**
+   * The code the user will use.
+   */
+  code: string;
+  /**
+   * Admin-visible description of the invitation code's purpose
+   */
+  description: string | null;
+  active: boolean;
+  role: GroupFields_invitations_role;
+}
+
 export interface GroupFields {
   __typename: "Group";
   groupId: string;
@@ -48,4 +69,8 @@ export interface GroupFields {
    */
   ancestors: GroupFields_ancestors[] | null;
   picture: GroupFields_picture | null;
+  /**
+   * Group invitation codes created for this groups.
+   */
+  invitations: GroupFields_invitations[];
 }

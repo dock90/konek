@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import TextField from '@material-ui/core/TextField';
+import { TextField as BaseTextField } from '@material-ui/core';
 
-export const StyledTextField = styled(TextField).attrs({
+export const TextField = styled(BaseTextField).attrs({
   variant: 'outlined',
 })`
   width: 100%;

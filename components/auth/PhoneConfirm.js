@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { firebase, auth } from '../../config/firebase';
 import { H1 } from '../styles/Typography';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import { useState } from 'react';
 import { BigButton } from '../styles/Button';
 import { useRouter } from 'next/router';
@@ -24,11 +24,11 @@ const PhoneConfirm = ({ verificationId }) => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSetCode = (e) => {
+  const handleSetCode = e => {
     setCode(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setProcessing(true);
     try {
@@ -67,7 +67,7 @@ const PhoneConfirm = ({ verificationId }) => {
         <p>
           A verification code will be sent to your phone. Please enter it below.
         </p>
-        <StyledTextField
+        <TextField
           label="Verification Code"
           name="code"
           margin="normal"

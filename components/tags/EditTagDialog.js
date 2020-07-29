@@ -20,7 +20,7 @@ import {
 import { Save, Cancel, Check } from '@material-ui/icons';
 import { SketchPicker } from 'react-color';
 import { BaseButton } from '../styles/Button';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import { BaseIconButton } from '../styles/IconButton';
 import TagItem from './TagItem';
 import { FlexContainer } from '../styles/LayoutStyles';
@@ -74,7 +74,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     setHasChange(true);
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     let { name, value } = e.target;
 
     if (name === 'hidden') {
@@ -88,7 +88,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
     });
   };
 
-  const handleColorChange = (color) => {
+  const handleColorChange = color => {
     setHasChange(true);
     setTagState({
       ...tagState,
@@ -128,7 +128,7 @@ const EditTagDialog = ({ tag, open, onClose }) => {
       </DialogTitle>
       <DialogContent>
         <FieldWrapper>
-          <StyledTextField
+          <TextField
             name="name"
             label="Name"
             value={tagState.name || ''}

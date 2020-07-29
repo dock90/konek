@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { ROLE_FIELDS } from './RoleQueries';
 import { MEMBER_FIELDS } from './MemberQueries';
 import { ASSET_FIELDS } from './AssetQueries';
+import { GROUP_INVITATION_FIELDS } from './GroupInvitationQueries';
 
 const GROUP_FIELDS = gql`
   fragment GroupFields on Group {
@@ -20,9 +21,13 @@ const GROUP_FIELDS = gql`
     picture {
       ...AssetFields
     }
+    invitations {
+      ...GroupInvitation
+    }
   }
   ${ROLE_FIELDS}
   ${ASSET_FIELDS}
+  ${GROUP_INVITATION_FIELDS}
 `;
 
 export const GROUP_MEMBERS_QUERY = gql`

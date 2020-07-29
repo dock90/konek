@@ -9,7 +9,7 @@ import { Card, CardContent, Grid } from '@material-ui/core';
 import { BaseButton } from '../styles/Button';
 import { auth, firebase } from '../../config/firebase';
 import { H4 } from '../styles/Typography';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import { hasEmailLogin } from './helpers';
 import { isEmailValid, isPasswordOk } from '../auth/validation';
 import {
@@ -43,7 +43,7 @@ const LoginInformation = () => {
   const resetError = () => {
       setError({ email: '', noMatch: '', invalidPassword: '' });
     },
-    resetLoginInfo = (newEmail) => {
+    resetLoginInfo = newEmail => {
       setLoginInfo({
         email: newEmail || email,
         curPass: '',
@@ -55,7 +55,7 @@ const LoginInformation = () => {
     hasNewPassword = !!(loginInfo.pass || loginInfo.newPass),
     hasNewEmail = loginInfo.email !== email;
 
-  const handleLoginInfoChange = (e) => {
+  const handleLoginInfoChange = e => {
     const { name, value } = e.target;
     const newState = { ...loginInfo, [name]: value };
     if (name === 'email' && hasNewPassword) {
@@ -71,7 +71,7 @@ const LoginInformation = () => {
     resetError();
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const fbUser = auth.currentUser;
 
@@ -177,7 +177,7 @@ const LoginInformation = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <StyledTextField
+              <TextField
                 label="Login Email"
                 name="email"
                 value={loginInfo.email}
@@ -188,7 +188,7 @@ const LoginInformation = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <StyledTextField
+              <TextField
                 label={hasPwLogin ? 'Current Password' : 'New Password'}
                 name="curPass"
                 onChange={handleLoginInfoChange}
@@ -203,7 +203,7 @@ const LoginInformation = () => {
             {hasPwLogin && (
               <>
                 <Grid item xs={12} sm={6} md={4}>
-                  <StyledTextField
+                  <TextField
                     label="New Password"
                     name="pass"
                     onChange={handleLoginInfoChange}
@@ -216,7 +216,7 @@ const LoginInformation = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                  <StyledTextField
+                  <TextField
                     label="Repeat Password"
                     name="newPass"
                     onChange={handleLoginInfoChange}

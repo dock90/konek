@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
-// queries
 import { UPDATE_CONTACT_GROUP } from '../../../queries/ContactQueries';
-// components
 import {
   Dialog,
   DialogActions,
@@ -37,7 +35,7 @@ export const EditMembership = ({
     setError('');
     onClose();
   };
-  const selectRole = (e) => {
+  const selectRole = e => {
     setCurrentRole(e.target.value);
   };
   const handleSave = async () => {
@@ -58,7 +56,7 @@ export const EditMembership = ({
         e.networkError.result.errors
       ) {
         // Probably access denied.
-        setError(e.networkError.result.errors.map((e) => e.message).join('\n'));
+        setError(e.networkError.result.errors.map(e => e.message).join('\n'));
       }
       setIsSaving(false);
       setCurrentRole(contactGroup.role.roleId);
@@ -78,7 +76,7 @@ export const EditMembership = ({
           value={currentRole}
           onChange={selectRole}
         >
-          {roles.map((r) => (
+          {roles.map(r => (
             <MenuItem key={r.roleId} value={r.roleId}>
               {r.name}
             </MenuItem>

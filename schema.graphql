@@ -66,6 +66,8 @@ type Contact {
   ): EntryList!
   fbProfile: String
   gender: Gender
+  "The group invitation that created this contact"
+  groupInvitation: GroupInvitation
   groups: [ContactGroup!]!
   invitationCode: String
   language: String
@@ -83,6 +85,7 @@ type Contact {
 
 type ContactGroup {
   group: Group!
+  invitation: GroupInvitation
   memberId: String!
   role: Role!
 }
@@ -518,8 +521,8 @@ input CreateGroupInvitationInput {
   code: String!
   "Admin visible description of the code's purpose"
   description: String
-  groupId: String!
-  roleId: String!
+  groupId: ID!
+  roleId: ID!
 }
 
 input CreateNoteInput {
@@ -662,7 +665,7 @@ input UpdateGroupInvitationInput {
   "Admin visible description of the code's purpose"
   description: String
   groupInvitationId: ID!
-  roleId: String
+  roleId: ID
 }
 
 input UpdateMeInput {

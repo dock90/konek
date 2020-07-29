@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { IconButton } from '@material-ui/core';
 import { Add, Delete } from '@material-ui/icons';
 import { BaseButton } from '../styles/Button';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 
 const Table = styled.table`
   width: 100%;
@@ -79,7 +79,7 @@ const GridInputs: React.FC<Props> = ({
                 {rowOneDisabled && rowKey === 0 ? (
                   val[col.name]
                 ) : (
-                  <StyledTextField
+                  <TextField
                     label={`${col.label} ${rowKey + 1}`}
                     name={col.name}
                     value={val[col.name] || ''}

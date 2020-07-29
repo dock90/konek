@@ -8,7 +8,7 @@ import { TAGS_QUERY } from '../../queries/TagQueries';
 import { useState } from 'react';
 import styled from 'styled-components';
 import TagItem from './TagItem';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import EditTagDialog, { NewTag } from './EditTagDialog';
 
 const filter = createFilterOptions();
@@ -92,7 +92,7 @@ const TagSelector = ({ value, onChange, variant }) => {
         filterSelectedOptions={true}
         loading={loading}
         renderInput={params => (
-          <StyledTextField {...params} label="Tags" variant={variant} />
+          <TextField {...params} label="Tags" variant={variant} />
         )}
         renderOption={t => <TagItem tag={t} />}
         renderTags={(value, getTagProps) =>

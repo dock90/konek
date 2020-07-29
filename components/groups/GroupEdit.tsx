@@ -1,10 +1,8 @@
+import React, { ChangeEvent, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery } from '@apollo/client';
-
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-// queries
 import {
   GROUP_UPDATE_MUTATION,
   GROUP_QUERY,
@@ -12,8 +10,6 @@ import {
   GROUPS_QUERY,
 } from '../../queries/GroupQueries';
 import { ROLES_QUERY } from '../../queries/RoleQueries';
-
-// components
 import {
   Grid,
   Card,
@@ -21,6 +17,7 @@ import {
   TextField,
   MenuItem,
 } from '@material-ui/core';
+import { Edit, Add } from '@material-ui/icons';
 import GroupItem from './GroupItem';
 import Loading from '../Loading';
 import { H1, H4 } from '../styles/Typography';
@@ -28,6 +25,15 @@ import GroupDetails from './Details';
 import { useGroupList } from '../../hooks/useGroupList';
 import AvatarUpload from '../assets/AvatarUpload';
 import { BaseButton } from '../styles/Button';
+import { RolesQuery } from '../../queries/types/RolesQuery';
+import {
+  GroupQuery,
+  GroupQuery_group,
+  GroupQuery_group_picture,
+  GroupQueryVariables,
+} from '../../queries/types/GroupQuery';
+import { FlexContainerRow } from '../styles/LayoutStyles';
+import InvitationEdit from '../groupInvitation/InvitationEdit';
 
 const Header = styled.div`
   display: flex;
@@ -39,15 +45,24 @@ const GroupH4 = styled(H4)`
   margin-bottom: 15px;
 `;
 
-export default ({ groupId }) => {
+interface Props {
+  groupId: string;
+}
+
+const GroupEdit: React.FC<Props> = ({ groupId }) => {
   const isNew = groupId === 'new';
 
   const router = useRouter();
-  const { loading, data } = useQuery(GROUP_QUERY, {
-    variables: { groupId },
-    skip: isNew,
-  });
-  const { loading: rolesLoading, data: rolesData } = useQuery(ROLES_QUERY);
+  const { loading, data } = useQuery<GroupQuery, GroupQueryVariables>(
+    GROUP_QUERY,
+    {
+      variables: { groupId },
+      skip: isNew,
+    },
+  );
+  const { loading: rolesLoading, data: rolesData } = useQuery<RolesQuery>(
+    ROLES_QUERY,
+  );
   const { loading: groupsLoading, data: manageGroups, groups } = useGroupList({
     manageOnly: true,
     excludeGroupId: isNew ? false : groupId,
@@ -59,21 +74,23 @@ export default ({ groupId }) => {
     refetchQueries: [{ query: GROUPS_QUERY }],
   });
 
-  const [group, setGroup] = useState({
+  type GroupStateType = GroupQuery_group & {
+    defaultRoleId: string;
+    parentGroupId: string;
+  };
+  const [group, setGroup] = useState<GroupStateType>({
     name: '',
     description: '',
     defaultRoleId: '',
     parentGroupId: '',
-  });
+    picture: null,
+  } as GroupStateType);
   const [updatedGroup, setUpdatedGroup] = useState({});
+  const [newInvite, setNewInvite] = useState(false);
   const [editMode, setEditMode] = useState(isNew);
 
   useEffect(() => {
     if (data && data.group && manageGroups) {
-      if (data.group.description === null) {
-        // React doesn't like null values
-        data.group.description = '';
-      }
       const defaultRoleId = data.group.defaultRole
         ? data.group.defaultRole.roleId
         : '';
@@ -99,7 +116,7 @@ export default ({ groupId }) => {
   }
 
   const required = [];
-  let editRowOneWidth = 5;
+  let editRowOneWidth: 3 | 5 = 5;
   if (isNew) {
     required.push(...['name', 'defaultRoleId', 'parentGroupId']);
     editRowOneWidth = 3;
@@ -107,7 +124,7 @@ export default ({ groupId }) => {
     editRowOneWidth = 3;
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (Object.keys(updatedGroup).length === 0) {
@@ -137,7 +154,7 @@ export default ({ groupId }) => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setGroup({
@@ -151,13 +168,13 @@ export default ({ groupId }) => {
     });
   };
 
-  const updateAvatar = async (info) => {
+  const updateAvatar = async (info: Record<string, string>) => {
     const picture = {
       format: info.format,
       publicId: info.public_id,
       resourceType: info.resource_type,
       type: info.type,
-    };
+    } as GroupQuery_group_picture;
 
     setGroup({
       ...group,
@@ -184,7 +201,23 @@ export default ({ groupId }) => {
       <Header>
         <H1>{!editMode ? '' : isNew ? 'New' : 'Edit'} Group</H1>
         {!editMode && !isNew && (
-          <BaseButton onClick={() => setEditMode(true)}>Edit Group</BaseButton>
+          <FlexContainerRow>
+            <BaseButton onClick={() => setNewInvite(true)}>
+              <Add />
+              &nbsp;Create Invitation Code
+            </BaseButton>
+            <InvitationEdit
+              open={newInvite}
+              onClose={() => {
+                setNewInvite(false);
+              }}
+              groupId={groupId}
+            />
+            <BaseButton onClick={() => setEditMode(true)}>
+              <Edit />
+              &nbsp;Edit Group
+            </BaseButton>
+          </FlexContainerRow>
         )}
       </Header>
       <form onSubmit={handleSubmit}>
@@ -231,11 +264,12 @@ export default ({ groupId }) => {
                         variant="outlined"
                         style={{ width: '100%' }}
                       >
-                        {rolesData.roles.map((r) => (
-                          <MenuItem key={r.roleId} value={r.roleId}>
-                            {r.name}
-                          </MenuItem>
-                        ))}
+                        {rolesData &&
+                          rolesData.roles.map((r) => (
+                            <MenuItem key={r.roleId} value={r.roleId}>
+                              {r.name}
+                            </MenuItem>
+                          ))}
                       </TextField>
                     </Grid>
                     {(group.parentGroupId ||
@@ -284,3 +318,5 @@ export default ({ groupId }) => {
     </div>
   );
 };
+
+export default GroupEdit;

@@ -2,32 +2,47 @@ import { useQuery } from '@apollo/client';
 import { GROUPS_QUERY } from '../queries/GroupQueries';
 import { useMemo } from 'react';
 import { hierarchyLabel } from '../components/groups/hierarchyLabel';
+import { GroupsQuery, GroupsQuery_groups } from '../queries/types/GroupsQuery';
 
-/**
- * @param options {{manageOnly: boolean, excludeGroupId: string | undefined, includeGroupName: boolean | undefined}}
- * @return {{data: Array<{
- *  groupId: string,
- *  name: string,
- *  hierarchy: string,
- * }>, loading: boolean, groups: Array<{}>}}
- */
-export function useGroupList(options) {
+interface Options {
+  manageOnly: boolean;
+  excludeGroupId?: boolean | string;
+  includeGroupName: boolean;
+}
+
+interface GroupListResults {
+  loading: boolean;
+  data: Array<GroupItem>;
+  groups: Array<GroupsQuery_groups>;
+}
+
+interface GroupItem {
+  groupId: string;
+  name: string;
+  hierarchy: string;
+  group: GroupsQuery_groups;
+}
+
+export function useGroupList(options: Options): GroupListResults {
   if (options.manageOnly === undefined) {
     throw new Error('`manageOnly` is required.');
   }
   const manageOnly = options.manageOnly,
     excludeGroupId = options.excludeGroupId,
-    includeGroupName = !!options.includeGroupName;
+    includeGroupName = options.includeGroupName;
 
-  const { loading, data } = useQuery(GROUPS_QUERY);
+  const { loading, data } = useQuery<GroupsQuery>(GROUPS_QUERY);
 
   const result = useMemo(() => {
     if (loading) {
       return [];
     }
-    const res = [];
+    const res: Array<GroupItem> = [];
+    if (!data) {
+      return res;
+    }
     for (const group of data.groups) {
-      if (manageOnly && !group.canManage) {
+      if (options.manageOnly && !group.canManage) {
         // Skip group
         continue;
       }
@@ -68,6 +83,6 @@ export function useGroupList(options) {
   return {
     loading,
     data: result,
-    groups: loading ? [] : data.groups,
+    groups: loading || !data ? [] : data.groups,
   };
 }

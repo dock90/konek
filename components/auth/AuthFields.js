@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { auth, firebase } from '../../config/firebase';
 import { isEmailValid, isPasswordOk } from './validation';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import StyledAppBar from '../material/StyledAppBar';
 import StyledTabs from '../material/StyledTabs';
 import StyledTab from '../material/StyledTab';
@@ -95,7 +95,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     clearErrors();
   };
 
-  const handlePhoneChange = (e) => {
+  const handlePhoneChange = e => {
     let value = e.target.value.replace(/\D/g, '');
 
     if (value[0] === '1') {
@@ -103,13 +103,16 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       const parts = value.match(/(.)(.{0,3})(.{0,3})(.{0,4})/);
 
       // Splice off the full match. Join with space. Trim trailing space.
-      value = parts.splice(1).join(' ').trim();
+      value = parts
+        .splice(1)
+        .join(' ')
+        .trim();
     }
 
     setState({ ...state, phone: value });
   };
 
-  const handleFieldChange = (e) => {
+  const handleFieldChange = e => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
     clearErrors();
@@ -120,7 +123,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
     allowSubmit = allowSubmit && captchaPass;
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (activeTab === TAB_EMAIL) {
       if (!state.email) {
@@ -223,7 +226,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
       </StyledAppBar>
       <TabPanel value={activeTab} index={TAB_EMAIL}>
         <SignupWrapper>
-          <StyledTextField
+          <TextField
             name="email"
             type="email"
             label="Email"
@@ -235,7 +238,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
             error={!!errors.email}
             helperText={errors.email}
           />
-          <StyledTextField
+          <TextField
             name="password"
             label="Password"
             margin="normal"
@@ -255,7 +258,7 @@ const AuthFields = ({ mode, valid, name, prefix, infix, suffix }) => {
             You will be sent an SMS for verification purposes. Standard rates
             will apply.
           </p>
-          <StyledTextField
+          <TextField
             name="phone"
             label="Phone Number"
             margin="normal"

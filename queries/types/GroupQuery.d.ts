@@ -29,6 +29,27 @@ export interface GroupQuery_group_picture {
   isAudio: boolean;
 }
 
+export interface GroupQuery_group_invitations_role {
+  __typename: "Role";
+  roleId: string;
+  name: string;
+}
+
+export interface GroupQuery_group_invitations {
+  __typename: "GroupInvitation";
+  groupInvitationId: string;
+  /**
+   * The code the user will use.
+   */
+  code: string;
+  /**
+   * Admin-visible description of the invitation code's purpose
+   */
+  description: string | null;
+  active: boolean;
+  role: GroupQuery_group_invitations_role;
+}
+
 export interface GroupQuery_group {
   __typename: "Group";
   groupId: string;
@@ -48,6 +69,10 @@ export interface GroupQuery_group {
    */
   ancestors: GroupQuery_group_ancestors[] | null;
   picture: GroupQuery_group_picture | null;
+  /**
+   * Group invitation codes created for this groups.
+   */
+  invitations: GroupQuery_group_invitations[];
 }
 
 export interface GroupQuery {

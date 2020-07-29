@@ -50,8 +50,8 @@ interface Props {
   avatarType: string;
   folder: string;
   size: number;
-  picture?: AssetFields;
-  onSuccess?: () => void;
+  picture?: Partial<AssetFields> | null;
+  onSuccess?: (info: Record<string, string>) => unknown;
   disabled?: boolean;
 }
 

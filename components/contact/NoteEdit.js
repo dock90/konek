@@ -12,7 +12,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 import { BaseButton } from '../styles/Button';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import { Save } from '@material-ui/icons';
 // gql
 import {
@@ -93,7 +93,7 @@ const NoteEdit = ({ note, setEdit }) => {
         ? note.createdBy.isMe
         : true;
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
     setNoteState({
       ...noteState,
@@ -128,21 +128,21 @@ const NoteEdit = ({ note, setEdit }) => {
     });
   };
 
-  const handleTagsChange = (tags) => {
+  const handleTagsChange = tags => {
     setNoteState({ ...noteState, tags });
     setChanged({ ...changed, tags });
   };
 
-  const handleAssetsChange = (assets) => {
+  const handleAssetsChange = assets => {
     setNoteState({ ...noteState, assets });
     setChanged({ ...changed, assets });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     let tags = [];
     if (changed.tags !== undefined) {
-      tags = changed.tags.map((t) => t.tagId);
+      tags = changed.tags.map(t => t.tagId);
     }
 
     if (isNew) {
@@ -169,7 +169,7 @@ const NoteEdit = ({ note, setEdit }) => {
         >
           <Card>
             <Title>
-              <StyledTextField
+              <TextField
                 id="title"
                 name="title"
                 label="Title"
@@ -214,7 +214,7 @@ const NoteEdit = ({ note, setEdit }) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledTextField
+                  <TextField
                     id="message"
                     name="message"
                     label="Message"

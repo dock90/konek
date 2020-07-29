@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 // components
 import { H1, H5 } from '../styles/Typography';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import { BigButton } from '../styles/Button';
 import { useState } from 'react';
 import { auth } from '../../config/firebase';
@@ -20,7 +20,7 @@ const ResetPass = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = e => {
     setEmail(e.target.value);
   };
 
@@ -38,7 +38,7 @@ const ResetPass = () => {
     <ResetPassWrapper>
       <H1>Reset Password</H1>
       <H5>Forgot your password? No problem!</H5>
-      <StyledTextField
+      <TextField
         label="Email"
         name="email"
         margin="normal"

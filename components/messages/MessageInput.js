@@ -6,7 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 import { Send, Image, Delete, Mic, Adjust } from '@material-ui/icons';
 import { sendMessage } from '../../service/Messages';
 import { BaseIconButton } from '../styles/IconButton';
-import { StyledTextField } from '../material/StyledTextField';
+import { TextField } from '../styles/TextField';
 import FileUpload from '../assets/FileUpload';
 import { FlexContainer } from '../styles/LayoutStyles';
 import AssetDisplay from '../assets/AssetDisplay';
@@ -87,7 +87,7 @@ function reducer(state, action) {
   return state;
 }
 
-const MessageInput = (props) => {
+const MessageInput = props => {
   const [state, dispatch] = useReducer(reducer, {
     input: '',
     asset: null,
@@ -169,7 +169,7 @@ const MessageInput = (props) => {
         return;
       }
       dispatch({ type: SEND_MESSAGE });
-      state.recorder.getFile().then(async (file) => {
+      state.recorder.getFile().then(async file => {
         state.recorder.destroy();
 
         const upload = await uploadFile(
@@ -225,7 +225,7 @@ const MessageInput = (props) => {
           maxFiles={1}
           tags={['message']}
         />
-        <StyledTextField
+        <TextField
           placeholder="Message..."
           value={state.input}
           onKeyPress={handleKeyPress}

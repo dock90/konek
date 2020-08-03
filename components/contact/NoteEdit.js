@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
-// material
 import {
   Grid,
   Card,
@@ -14,7 +13,6 @@ import {
 import { BaseButton } from '../styles/Button';
 import { TextField } from '../styles/TextField';
 import { Save } from '@material-ui/icons';
-// gql
 import {
   UPDATE_NOTE_MUTATION,
   CREATE_NOTE_MUTATION,

@@ -89,13 +89,14 @@ export async function addMessage(messageId, roomId, body, authorId, asset) {
 
   if (roomInfo.memberId !== authorId) {
     // We aren't the sender, so we want to update the qty unread.
-    roomInfo.qtyUnread++;
-
     client.writeFragment({
       id: roomId,
       fragment: ROOM_FIELDS,
       fragmentName: 'RoomFields',
-      data: roomInfo,
+      data: {
+        ...roomInfo,
+        qtyUnread: roomInfo.qtyUnread + 1,
+      },
     });
   }
 
@@ -198,10 +199,11 @@ export async function markAllRead(roomId, updateServer) {
 
   const messageId = messages.data[0].messageId;
 
-  roomInfo.qtyUnread = 0;
-  roomInfo.readThrough = messageId;
-
-  writeRoomInfo(roomId, roomInfo);
+  writeRoomInfo(roomId, {
+    ...roomInfo,
+    qtyUnread: 0,
+    readThrough: messageId,
+  });
 
   if (!updateServer) {
     return;

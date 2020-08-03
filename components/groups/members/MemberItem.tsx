@@ -1,7 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 import MessageAction from '../../actions/MessageAction';
 import ContactView from '../../actions/ContactView';
 import AvatarPicture from '../../assets/AvatarPicture';
+import { GroupMembersQuery_group_members } from '../../../queries/types/GroupMembersQuery';
 
 const Container = styled.div`
   display: flex;
@@ -24,7 +26,11 @@ const Actions = styled.div`
   }
 `;
 
-const MemberItem = ({ member }) => {
+interface Props {
+  member: GroupMembersQuery_group_members;
+}
+
+const MemberItem: React.FC<Props> = ({ member }) => {
   return (
     <Container>
       <Overview>
@@ -35,7 +41,7 @@ const MemberItem = ({ member }) => {
         />
         <div>
           <div>{member.name}</div>
-          <div>{member.role.name}</div>
+          {member.role && <div>{member.role.name}</div>}
         </div>
       </Overview>
       <Actions>

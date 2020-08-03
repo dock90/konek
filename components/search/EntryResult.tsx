@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -12,7 +13,16 @@ const TypeLabel = styled.span`
   color: darkgray;
 `;
 
-const ContactResult = ({ hit }) => {
+interface Props {
+  hit: {
+    contactId: string;
+    objectID: string;
+    type: string;
+    contact: string;
+  };
+}
+
+const ContactResult: React.FC<Props> = ({ hit }) => {
   return (
     <Link
       href={'/contacts/[id]'}

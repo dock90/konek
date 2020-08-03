@@ -20,7 +20,9 @@ export const ResultContainer = styled(Paper)`
   }
 `;
 
-export const ResultTitle = styled.div`
+export const ResultTitle = styled.div<{
+  direction: 'column' | 'row' | undefined;
+}>`
   display: flex;
   font-size: 1.5rem;
   flex-direction: ${(props) => (props.direction ? props.direction : 'row')};

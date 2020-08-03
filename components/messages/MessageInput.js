@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useReducer } from 'react';
+import { useCallback, useContext, useReducer } from 'react';
 import { RoomIdContext } from '../../contexts/RoomIdContext';
 // components
 import { CircularProgress } from '@material-ui/core';
@@ -130,9 +130,9 @@ const MessageInput = (props) => {
   function handleOpenAttach() {
     dispatch({ type: ATTACH_OPEN });
   }
-  function handleAttachClose() {
+  const handleAttachClose = useCallback(() => {
     dispatch({ type: ATTACH_CLOSE });
-  }
+  }, []);
   function attachSuccess(info) {
     dispatch({
       type: ASSET_ADD,

@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
 import { client } from '../config/apollo';
 import '../config/pubnub';
+import { BugsnagErrorBoundary } from '../config/BugSnag';
 
 class CRM extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -19,11 +20,13 @@ class CRM extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <ApolloProvider client={client}>
-        <Page>
-          <Component {...pageProps} />
-        </Page>
-      </ApolloProvider>
+      <BugsnagErrorBoundary>
+        <ApolloProvider client={client}>
+          <Page>
+            <Component {...pageProps} />
+          </Page>
+        </ApolloProvider>
+      </BugsnagErrorBoundary>
     );
   }
 }

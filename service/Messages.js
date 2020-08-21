@@ -54,13 +54,14 @@ export async function sendMessage(roomId, body, asset) {
         fragmentName: 'RoomFields',
       });
 
-      roomInfo.readThrough = data.sendMessage.messageId;
-
       proxy.writeFragment({
         id: roomId,
         fragment: ROOM_FIELDS,
         fragmentName: 'RoomFields',
-        data: roomInfo,
+        data: {
+          ...roomInfo,
+          readThrough: data.sendMessage.messageId,
+        },
       });
     },
   });

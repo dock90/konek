@@ -3,7 +3,7 @@ import App from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
 import { client } from '../config/apollo';
-import '../config/pubnub';
+import '../config/PubNub';
 import { BugsnagErrorBoundary } from '../config/BugSnag';
 
 class CRM extends App {
